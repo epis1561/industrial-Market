@@ -215,6 +215,11 @@ main { overflow: auto; }
 .prod-item .item-txt-wrap { width: calc( 100% - 120px ); position: relative; }
 .prod-item .item-txt-wrap * { line-height: 1.25; }
 .prod-item .label { display: inline-block; font-size: 12px; font-weight: normal; padding: 0 4px; height: 20px; line-height: 20px; background: #2f83f7; color: #fff; border-radius: 2px; }
+
+.prod-item .label0 {}
+.prod-item .label1 {}
+.prod-item .label2 {}
+
 .prod-item .title { font-size: 14px; margin-bottom: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc( 100% - 28px ); }
 .prod-item .sub-txt-group { gap: 10px; margin-bottom: 12px; }
 .prod-item .sub-txt { font-size: 12px; color: #aeaeae; position: relative; }

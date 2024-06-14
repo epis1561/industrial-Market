@@ -40,20 +40,6 @@ export default {
         }
     },
 
-    beforeMount() {
-
-        if(/WEBVIEW/.test(navigator.userAgent))
-            localStorage.setItem("webview", "true");
-
-        if(this.$route.query.WEBVIEW == 1)
-            localStorage.setItem("webview", "true");
-
-        let webview = localStorage.getItem("webview");
-
-        if(!webview)
-            return this.$router.push("/intro");
-    },
-
     mounted() {
 
         if(this.$route.path !== "/admin/login" && (!this.$auth.user || !this.$auth.user.data.admin))

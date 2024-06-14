@@ -15,16 +15,16 @@ export default {
             {property: 'og:title', content: '체리뷰'},
             {charset: 'utf-8'},
             {name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'},
-            {hid: 'description', name: 'description', content: '초대형 체험단플랫폼 체리뷰 1차 사전가입'},
-            {property: 'og:description', content: '초대형 체험단플랫폼 체리뷰 1차 사전가입'},
+            {hid: 'description', name: 'description', content: ''},
+            {property: 'og:description', content: ''},
             {name: 'format-detection', content: 'telephone=no'},
 
             {name: 'naver-site-verification', content: ''},
             {name: 'google-site-verification', content: ''},
 
             {property: 'og:image', content: '/images/kakao-img.png'},
-            {property: 'keywords', content: '체리뷰, cherivu, 초대형 체험단플랫폼, 인풀루언서, 체험단'},
-            {property: 'og:url', content: 'https://cherivu.co.kr'},
+            {property: 'keywords', content: ''},
+            {property: 'og:url', content: ''},
             /*
 
             {property: 'og:site_name', content: '우리뷰 | 우리가 만드는 모든 리뷰 우리뷰'},

@@ -89,6 +89,7 @@
 
         <pagination :meta="items.meta" @paginate="(page) => {form.page = page; filter()}" />
 
+
     </div>
 </template>
 <script>

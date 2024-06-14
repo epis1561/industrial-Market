@@ -92,42 +92,10 @@ export default {
 
         },
 
-        getCategories(){
-            this.$store.commit("setLoading", true);
 
-            this.$axios.get("/api/categories")
-                    .then(response => {
-                        this.$store.commit("setCategories", response.data);
-                    });
-        },
 
-        getBanners(){
-            this.$store.commit("setLoading", true);
-
-            this.$axios.get("/api/banners")
-                    .then(response => {
-                        this.$store.commit("setBanners", response.data);
-                    });
-        },
     },
-
-    beforeMount() {
-
-        if(/WEBVIEW/.test(navigator.userAgent))
-            localStorage.setItem("webview", "true");
-
-        if(this.$route.query.WEBVIEW == 1)
-            localStorage.setItem("webview", "true");
-
-        let webview = localStorage.getItem("webview");
-
-        if(!webview)
-            return this.$router.push("/intro");
-    },
-
     mounted() {
-        this.getBanners();
-        this.getCategories();
      /*   this.$store.dispatch("getCenterTypes");
       //아래처럼 푸시id 가져오는 구문 사용(웹페이지가 로딩되자마자 가져오는 방법사용)
 
