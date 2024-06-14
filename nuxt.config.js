@@ -3,7 +3,7 @@ let baseUrl = process.env.NODE_ENV === "production" ? "https://api.cherivu.co.kr
 export default {
     target: "client",
     server: {
-        port: 3002
+        port: 3022
     },
     ssr: false,
     head: {
