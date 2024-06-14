@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=0" />
+<title>산업마켓</title>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="css/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="css/common.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
+<body>
+    <div id="wrap">
+
+        <!-- header Start -->
+        <header id="header" class="sub-header">
+            <div id="search"></div> <!-- 검색창 -->
+            <div class="container col-group">
+                <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
+                    <img src="images/icon_prev.png" alt="">
+                </a>
+                <h2 class="title">
+                    등록하기
+                </h2>
+            </div>
+        </header>
+        <!-- header End -->
+
+        <main class="subpage create">
+            <div class="container">
+                <div class="form-wrap row-group">
+                    <div class="form-item">
+                        <div class="item-user">
+                            <div class="file-upload-wrap col-group">
+                                <input class="form-input" type="file" id="list_file" multiple="" accept="image/*">
+                                <label class="file-upload-btn" htmlfor="list_file">
+                                    <i class="icon"></i>
+                                    0/10
+                                </label>
+
+                                <div class="file-preview-scroll-wrap">
+                                    <div class="file-preview-wrap col-group">
+                                        <div class="file-preview">
+                                            <img class="file-preview-img" src="images/biz_program_01.png">
+                                            <i class="xi-close"></i>
+                                            <div class="file-preview-label">
+                                                대표
+                                            </div>
+                                        </div>
+                                        <div class="file-preview">
+                                            <img class="file-preview-img" src="images/main_banner.png">
+                                            <i class="xi-close"></i>
+                                            <div class="file-preview-label">
+                                                대표
+                                            </div>
+                                        </div>
+                                        <div class="file-preview">
+                                            <img class="file-preview-img" src="images/index_banner_01.png">
+                                            <i class="xi-close"></i>
+                                            <div class="file-preview-label">
+                                                대표
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item row-group">
+                        <div class="item-default">
+                            카테고리
+                        </div>
+                    </div>
+                    <div class="form-item row-group">
+                        <div class="item-default">
+                            제목
+                        </div>
+                        <div class="item-user">
+                            <input type="text" class="form-input" placeholder="제목을 입력해주세요">
+                        </div>
+                    </div>
+                    <div class="form-item row-group">
+                        <div class="item-default">
+                            가격
+                        </div>
+                        <div class="item-user row-group">
+                            <div class="form-input-wrap col-group">
+                                <input type="text" class="form-input" placeholder="가격을 입력해주세요">
+                                <p class="sticker">만원</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item row-group">
+                        <div class="item-default">
+                            상품설명
+                        </div>
+                        <div class="item-user">
+                            <div class="form-textarea-wrap">
+                                <textarea name="" id="" class="form-textarea" placeholder="브랜드, 모델명, 구매 시기, 하자 유무 등 상품 설명을 최대
+                                한 자세히 적어주세요.
+                                작성된 문의 내용은 검색 포털에 노출됩니다. 
+                                개인 정보는 작성 내용에 기재하시면 안됩니다."> </textarea>
+                                <p class="sticker">
+                                    <span>0</span> / 2000
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item row-group">
+                        <div class="item-default">
+                            거래 희망 장소
+                        </div>
+                        <div class="item-user">
+                            <div class="form-input-wrap relative">
+                                <input type="text" class="form-input modal_addr_btn" placeholder="위치 선택" readonly>
+                                <i class="sticker"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item row-group">
+                        <div class="item-default">
+                            키워드(선택)
+                            <p class="guide-txt">
+                                키워드가 2개 이상인 경우 컴마(,)로 구분하여 입력해 주세요. <br>
+                                예) 각가공, 밀링, 머시닝가공, 백색 아노다이
+                            </p>
+                        </div>
+                        <div class="item-user">
+                            <input type="text" class="form-input" placeholder="컴마(,)로 구분 / 최대 15자 / 5개까지 등록가능">
+                        </div>
+                    </div>
+                    <div class="form-footer col-group">
+                        <button class="form-footer-btn submit-btn disable"> <!-- 필수 입력란 모두 입력시 disable 클래스 삭제 -->
+                            상품 등록
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 거래희망장소 클릭 시 나타나는 팝업 -->
+        <div class="modal-container modal_addr">
+            <div class="modal-wrap">
+                <i class="xi-close close-btn"></i>
+                <div class="modal-title-wrap">
+                    <p class="modal-title">
+                        거래 희망 장소
+                    </p>
+                    <p class="modal-sub-title">
+                        지도를 움직여 장소를 선택하세요
+                    </p>
+                </div>
+
+                <div class="map-wrap">
+                    <div id="map"></div> <!-- 구글지도 변경 필요 -->
+                </div>
+
+                <div class="modal-footer col-group">
+                    <button class="modal-footer-btn submit-btn">
+                        선택 완료
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- //거래희망장소 클릭 시 나타나는 팝업 -->
+
+        <!-- 선택 완료 시 나타나는 select -->
+        <div class="modal-container modal_addr_select">
+            <div class="modal-select-wrap modal-wrap">
+                <div class="modal-title-wrap">
+                    <h3 class="modal-title">선택한 곳의 장소명을 입력해주세요</h3>
+                    <p class="modal-sub-title">
+                        예) 강남역 1번 출구, 교보타워 앞
+                    </p>
+                </div>
+                
+                <input type="text" class="form-input" placeholder="예) 강남역 1번 출구, 교보타워 앞">
+           
+
+                <div class="modal-footer col-group">
+                    <button class="modal-footer-btn submit-btn close-btn">
+                        거래 장소 등록
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+        <!-- //선택 완료 시 나타나는 select -->
+    </div>
+</body>
+
+<script src="js/jquery.js"></script>
+<script src="js/script.js"></script>
+<script src="js/swiper.min.js"></script>
+<!-- kakao map -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=281361348e3a3da90dd0fd6a1321532b"></script>
+<script>
+    //거래희망장소 클릭 시 팝업 열림
+    $('.modal_addr_btn').click(function () {
+        $('.modal_addr').addClass('active');
+
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+            mapOption = {
+                center: new kakao.maps.LatLng(37.54699, 127.09598), // 지도의 중심좌표
+                level: 4 // 지도의 확대 레벨
+            };
+
+        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+        var imageSrc = '/images/icon_marker.png', // 마커이미지의 주소입니다    
+            imageSize = new kakao.maps.Size(40, 52), // 마커이미지의 크기입니다
+            imageOption = { offset: new kakao.maps.Point(20, 52) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+            markerPosition = new kakao.maps.LatLng(37.54699, 127.09598); // 마커가 표시될 위치입니다
+
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            position: markerPosition,
+            image: markerImage // 마커이미지 설정 
+        });
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        marker.setMap(map);  
+
+        // 지도에 클릭 이벤트를 등록합니다
+        // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+        kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+
+            // 클릭한 위도, 경도 정보를 가져옵니다 
+            var latlng = mouseEvent.latLng;
+
+            // 마커 위치를 클릭한 위치로 옮깁니다
+            marker.setPosition(latlng);
+
+        });
+    });
+
+    //거래희망장소 - 선택완료 시 팝업 열림
+    $('.modal_addr .submit-btn').click(function () {
+        $('.modal_addr_select').addClass('active');
+    });
+
+    //modal 닫힘
+    $('.modal-container .close-btn').click(function () {
+        $('.modal-container').removeClass('active');
+    });
+
+    $('.modal-container').click(function (e) {
+        if (e.target === this) {
+            $(".modal-container").removeClass('active');
+        }
+    });
+</script>
+
+</html>

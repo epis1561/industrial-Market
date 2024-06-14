@@ -1,0 +1,23 @@
+<div class="reservationHeader">
+  <img
+    class="logo-left"
+    src="http://seoul.go.kr/seoulgnb/images/seoul-logo-mobile.png"
+  />
+  <img
+    class="logo-img"
+    src="images/logo-center_1.png"
+    alt="서울디지털동행플라자"
+  />
+  <img id="clickableImage" class="logout" src="../images/logout.png" />
+  <img id="clickableImage" class="hamburger" src="../images/alarm.png" />
+</div>
+
+<script>
+  // 이미지 클릭 이벤트 핸들러
+  document
+    .getElementById("clickableImage")
+    .addEventListener("click", function () {
+      // 화면 전환 또는 다른 작업을 수행하는 코드 추가
+      window.location.href = "../alarm.html"; // 예시로 외부 링크로 이동
+    });
+</script>

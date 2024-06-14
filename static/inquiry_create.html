@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=0" />
+<title>산업마켓</title>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="css/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="css/common.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
+<body>
+    <div id="wrap">
+
+        <!-- header Start -->
+        <header id="header" class="sub-header">
+            <div id="search"></div> <!-- 검색창 -->
+            <div class="container col-group">
+                <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
+                    <img src="images/icon_prev.png" alt="">
+                </a>
+                <h2 class="title">
+                    1:1 문의
+                </h2>
+            </div>
+        </header>
+        <!-- header End -->
+
+        <main class="subpage">
+            <div class="top-tab-wrap col-group">
+                <a href="inquiry.html" class="tab-item">
+                    문의 목록
+                </a>
+                <a href="inquiry_create.html" class="tab-item active">
+                    문의하기
+                </a>
+            </div>
+            <div class="container">
+                
+                <div class="form-wrap row-group">
+                    <div class="form-item row-group">
+                        <div class="item-default">제목</div>
+                        <div class="item-user">
+                            <input type="text" class="form-input" placeholder="제목을 입력하세요">
+                        </div>
+                    </div>
+                    <div class="form-item row-group">
+                        <div class="item-default">문의내용</div>
+                        <div class="item-user">
+                            <div class="form-textarea-wrap">
+                                <textarea name="" id="" class="form-textarea"></textarea>
+                                <p class="sticker">
+                                    <span>0</span> / 1000
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <div class="item-user">
+                            <div class="file-upload-wrap col-group">
+                                <input class="form-input" type="file" id="list_file" multiple="" accept="image/*">
+                                <label class="file-upload-btn" htmlfor="list_file">
+                                    <i class="icon"></i>
+                                    0/5
+                                </label>
+
+                                <div class="file-preview-scroll-wrap">
+                                    <div class="file-preview-wrap col-group">
+                                        <div class="file-preview">
+                                            <img class="file-preview-img" src="images/biz_program_01.png">
+                                            <i class="xi-close"></i>
+                                            <div class="file-preview-label">
+                                                대표
+                                            </div>
+                                        </div>
+                                        <div class="file-preview">
+                                            <img class="file-preview-img" src="images/main_banner.png">
+                                            <i class="xi-close"></i>
+                                            <div class="file-preview-label">
+                                                대표
+                                            </div>
+                                        </div>
+                                        <div class="file-preview">
+                                            <img class="file-preview-img" src="images/index_banner_01.png">
+                                            <i class="xi-close"></i>
+                                            <div class="file-preview-label">
+                                                대표
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="inquiry-guide-group row-group">
+                        <p class="inquiry-guide-txt">
+                            상담에 필요한 정보 외 개인정보를 포함하지 않도록 주의해주세요.
+                        </p>
+                        <p class="inquiry-guide-txt">
+                            비방/욕설/명예훼손성 게시글 및 관련 없는 광고글 등 부적절한 게시글 등록 시 게시글이 삭제 조치 될 수 있습니다.
+                        </p>
+                        <p class="inquiry-guide-txt">
+                            자주 묻는 질문을 확인하면 답변을 빨리 받을 수 있어요.
+                        </p>
+                    </div>
+                    <div class="form-footer">
+                        <button class="form-footer-btn submit-btn">
+                            문의등록
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- gnb Start -->
+        <div id="gnb"></div>
+        <!-- gnb End -->
+    </div>
+</body>
+
+<script src="js/jquery.js"></script>
+<script src="js/script.js"></script>
+<script src="js/swiper.min.js"></script>
+
+</html>

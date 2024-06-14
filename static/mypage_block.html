@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=0" />
+<title>산업마켓</title>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="css/swiper.min.css">
+<link rel="stylesheet" type="text/css" href="css/common.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
+<body>
+    <div id="wrap">
+
+        <!-- header Start -->
+        <header id="header" class="sub-header">
+            <div id="search"></div> <!-- 검색창 -->
+            <div class="container col-group">
+                <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
+                    <img src="images/icon_prev.png" alt="">
+                </a>
+                <h2 class="title">
+                    차단 사용자 관리
+                </h2>
+            </div>
+        </header>
+        <!-- header End -->
+
+        <main class="subpage">
+            <div class="container">
+                <div class="user-list">
+                    <div class="user-item col-group">
+                        <div class="item-img">
+                            <img src="" alt="">
+                        </div>
+                        <div class="item-title">
+                            에이치에이치컴퍼니
+                        </div>
+                        <button class="block-btn">
+                            차단해제
+                        </button>
+                    </div>
+                    <div class="user-item col-group">
+                        <div class="item-img">
+                            <img src="" alt="">
+                        </div>
+                        <div class="item-title">
+                            에이치에이치컴퍼니
+                        </div>
+                        <button class="block-btn">
+                            차단해제
+                        </button>
+                    </div>
+                    <div class="user-item col-group">
+                        <div class="item-img">
+                            <img src="" alt="">
+                        </div>
+                        <div class="item-title">
+                            에이치에이치컴퍼니
+                        </div>
+                        <button class="block-btn">
+                            차단해제
+                        </button>
+                    </div>
+                    <div class="user-item col-group">
+                        <div class="item-img">
+                            <img src="" alt="">
+                        </div>
+                        <div class="item-title">
+                            에이치에이치컴퍼니
+                        </div>
+                        <button class="block-btn">
+                            차단해제
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- gnb Start -->
+        <div id="gnb"></div>
+        <!-- gnb End -->
+
+        <!-- 차단해제 버튼 클릭 시 팝업 -->
+        <div class="modal-notice-txt">
+            에이치에이치컴퍼니님이 차단 해제되었습니다.
+        </div>
+
+    </div>
+</body>
+
+<script src="js/jquery.js"></script>
+<script src="js/script.js"></script>
+<script src="js/swiper.min.js"></script>
+<script>
+    //차단해제 버튼 클릭 시 팝업 열림
+    $('.block-btn').click(function () {
+        $('.modal-notice-txt').addClass('active');
+
+        // 2초 후에 active 클래스를 삭제
+        setTimeout(function () {
+            $('.modal-notice-txt').removeClass('active');
+        }, 2000);
+    });
+</script>
+</html>
