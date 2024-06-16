@@ -23,16 +23,12 @@
         <main class="index">
             <div class="cate-wrap">
                 <div class="cate-list col-group">
-
-                    <a href="products.html" class="cate-item active" v-for="item in productsCategories.data" @click.prevent="checkId(item.id)">
-                        {{ item.title }}
-                    </a>
-
+                  <nuxt-link :to="`/products/${item.id}`"  class="cate-item active" v-for="item in productsCategories.data" >{{ item.title }}</nuxt-link>
                 </div>
             </div>
             <div class="container">
                 <div class="prod-list">
-                    <ProductList :item="item" v-for="item in products.data" :key="item.id"></ProductList>
+                    <Product :item="item" v-for="item in products.data" :key="item.id"></Product>
                 </div>
             </div>
         </main>
@@ -220,7 +216,9 @@
             </div>
 
         </div>
+
     </div>
+
     </body>
 </template>
 <style>
@@ -264,18 +262,19 @@ export default {
             }).then(response => {
                 console.log(response.data);
                 this.products = response.data;
+
             })
         },
         getProductCategories(){
             this.$axios.get("/api/productCategories",{
+
                 prams:this.form.data(),
             }).then(response => {
+
                 this.productsCategories = response.data;
             })
         },
-        checkId(num){
-            this.form.product_category_id = num;
-        }
+
     },
 
     computed: {

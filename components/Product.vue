@@ -1,7 +1,7 @@
 <template>
     <nuxt-link to="" class="prod-item col-group">
         <div class="item-img">
-            <img :src="item.img.url" alt="">
+<!--            <img :src="item.img.url" alt="">-->
         </div>
         <div class="item-txt-wrap">
             <p class="title">
@@ -56,7 +56,6 @@ export default {
     },
 
     mounted() {
-        this.$route.query.product_category_id;
     }
 }
 </script>
