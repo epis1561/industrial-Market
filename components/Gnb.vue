@@ -35,11 +35,10 @@
   </div>
 
 </template>
-<style>
-
-</style>
 <script>
+import Form from "../utils/Form";
 export default {
+  props: ["item"],
 
   data(){
     return {
@@ -52,6 +51,10 @@ export default {
   },
 
   computed: {
+
+  },
+
+  watch: {
 
   },
 

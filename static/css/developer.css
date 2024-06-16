@@ -37,3 +37,19 @@ form input{
     background-color: #fff;
     margin-bottom: 15px;
 }
+
+.prod-item .label{
+
+}
+
+.prod-item .label1{
+    display: inline-block; font-size: 12px; font-weight: normal; padding: 0 4px; height: 20px; line-height: 20px;color: #fff; border-radius: 2px;   background-color: #484848;
+/*찾습니다*/
+}
+
+.prod-item .label2{
+    display: inline-block; font-size: 12px; font-weight: normal; padding: 0 4px; height: 20px; line-height: 20px;color: #fff; border-radius: 2px;   background-color: #FFD500;
+    color: #000;
+/*    나눔*/
+}
+

@@ -34,7 +34,7 @@
         </main>
 
         <!-- gnb Start -->
-        <div id="gnb"></div>
+        <div id="gnb"><Gnb></Gnb></div>
         <!-- gnb End -->
 
         <div class="modal-container local_select_1">
@@ -270,7 +270,6 @@ export default {
 
                 prams:this.form.data(),
             }).then(response => {
-
                 this.productsCategories = response.data;
             })
         },

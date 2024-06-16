@@ -16,7 +16,11 @@
                 </p>
             </div>
             <div class="price">
-                <p class="label">
+                <p :class="{
+      'label': item.type === 0,
+      'label1': item.type === 1,
+      'label2': item.type === 2
+    }">
                     {{ item.format_type }}
                 </p>
                 {{ item.format_price }}
@@ -41,6 +45,14 @@
 <script>
 export default {
     props: ["item"],
+  head(){
+    return {
+      link: [
+        {rel: 'stylesheet', href: '/css/developer.css'},
+
+      ],
+    }
+  },
     data(){
         return {
 
