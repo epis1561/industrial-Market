@@ -1,7 +1,7 @@
 <template>
     <nuxt-link to="" class="prod-item col-group">
         <div class="item-img">
-<!--            <img :src="item.img.url" alt="">-->
+            <img :src="item.img ? item.img.url : ''" alt="">
         </div>
         <div class="item-txt-wrap">
             <p class="title">
@@ -16,11 +16,7 @@
                 </p>
             </div>
             <div class="price">
-                <p :class="{
-      'label': item.type === 0,
-      'label1': item.type === 1,
-      'label2': item.type === 2
-    }">
+                <p :class="'label label' + item.type">
                     {{ item.format_type }}
                 </p>
                 {{ item.format_price }}

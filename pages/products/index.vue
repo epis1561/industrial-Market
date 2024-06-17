@@ -23,199 +23,26 @@
         <main class="index">
             <div class="cate-wrap">
                 <div class="cate-list col-group">
-                  <nuxt-link :to="`/products/${item.id}`"  class="cate-item active" v-for="item in productsCategories.data" >{{ item.title }}</nuxt-link>
+                    <a href="" class="cate-item active" @click.prevent="">전체보기</a>
+                    <nuxt-link :to="`/categories/${item.id}`" class="cate-item" v-for="item in productsCategories.data">
+                        {{ item.title }}
+                    </nuxt-link>
                 </div>
             </div>
             <div class="container">
                 <div class="prod-list">
-                    <Product :item="item" v-for="item in products.data" :key="item.id"></Product>
+                    <product :item="item" v-for="item in products.data" :key="item.id"/>
                 </div>
             </div>
         </main>
 
         <!-- gnb Start -->
-        <div id="gnb"><Gnb></Gnb></div>
+        <div id="gnb">
+            <gnb />
+        </div>
         <!-- gnb End -->
 
-        <div class="modal-container local_select_1">
-            <div class="modal-select-wrap modal-wrap">
-                <i class="close-btn"></i>
-                <div class="modal-title-wrap center">
-                    <h3 class="modal-title">지역</h3>
-                </div>
-
-                <div class="form-label-wrap row-group">
-                    <label for="type_1">
-                        <input type="radio" class="form-radio" id="type_1" name="type">
-                        <div class="checked-item col-group">
-                            <div class="icon">
-                                <i class="xi-check"></i>
-                            </div>
-                            <p class="txt">
-                                전국
-                            </p>
-                        </div>
-                    </label>
-                    <label for="type_2">
-                        <input type="radio" class="form-radio" id="type_2" name="type">
-                        <div class="checked-item col-group">
-                            <div class="icon">
-                                <i class="xi-check"></i>
-                            </div>
-                            <p class="txt">
-                                현 위치로 보기
-                            </p>
-                        </div>
-                    </label>
-                    <label for="type_3">
-                        <input type="radio" class="form-radio" id="type_3" name="type">
-                        <div class="checked-item col-group">
-                            <div class="icon">
-                                <i class="xi-check"></i>
-                            </div>
-                            <p class="txt">
-                                경기도
-                            </p>
-                        </div>
-                    </label>
-                </div>
-
-                <div class="modal-footer col-group">
-                    <button class="modal-footer-btn local_select_btn_2">
-                        지역선택
-                    </button>
-                    <button class="modal-footer-btn submit-btn">
-                        상품보기
-                    </button>
-                </div>
-            </div>
-
-        </div>
-        <!-- //지역 필터 선택 시 나타나는 select -->
-
-        <!-- 지역 필터 선택 시 나타나는 select -->
-        <div class="modal-container local_select_2">
-            <div class="modal-select-wrap modal-wrap">
-                <i class="close-btn"></i>
-                <div class="modal-title-wrap center">
-                    <h3 class="modal-title">지역</h3>
-                </div>
-
-                <div class="modal-scroll-wrap">
-                    <div class="form-label-wrap row-group">
-                        <label for="type_1">
-                            <input type="radio" class="form-radio" id="type_1" name="type">
-                            <div class="checked-item col-group">
-                                <div class="icon">
-                                    <i class="xi-check"></i>
-                                </div>
-                                <p class="txt">
-                                    서울특별시
-                                </p>
-                            </div>
-                        </label>
-                        <label for="type_2">
-                            <input type="radio" class="form-radio" id="type_2" name="type">
-                            <div class="checked-item col-group">
-                                <div class="icon">
-                                    <i class="xi-check"></i>
-                                </div>
-                                <p class="txt">
-                                    부산광역시
-                                </p>
-                            </div>
-                        </label>
-                        <label for="type_3">
-                            <input type="radio" class="form-radio" id="type_3" name="type">
-                            <div class="checked-item col-group">
-                                <div class="icon">
-                                    <i class="xi-check"></i>
-                                </div>
-                                <p class="txt">
-                                    대구광역시
-                                </p>
-                            </div>
-                        </label>
-                        <label for="type_4">
-                            <input type="radio" class="form-radio" id="type_3" name="type">
-                            <div class="checked-item col-group">
-                                <div class="icon">
-                                    <i class="xi-check"></i>
-                                </div>
-                                <p class="txt">
-                                    인천광역시
-                                </p>
-                            </div>
-                        </label>
-                        <label for="type_5">
-                            <input type="radio" class="form-radio" id="type_3" name="type">
-                            <div class="checked-item col-group">
-                                <div class="icon">
-                                    <i class="xi-check"></i>
-                                </div>
-                                <p class="txt">
-                                    광주광역시
-                                </p>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-
-
-                <div class="modal-footer col-group">
-                    <button class="modal-footer-btn submit-btn close-btn">
-                        지역선택
-                    </button>
-                </div>
-            </div>
-
-        </div>
-        <!-- //지역 필터 선택 시 나타나는 select -->
-
-        <!-- 정렬 필터 선택 시 나타나는 select -->
-        <div class="modal-container align_select">
-            <div class="modal-select-wrap modal-wrap">
-                <i class="close-btn"></i>
-                <div class="modal-title-wrap center">
-                    <h3 class="modal-title">정렬</h3>
-                </div>
-
-                <div class="modal-scroll-wrap">
-                    <div class="form-label-wrap row-group">
-                        <label for="type_1">
-                            <input type="radio" class="form-radio" id="type_1" name="type">
-                            <div class="checked-item col-group">
-                                <div class="icon">
-                                    <i class="xi-check"></i>
-                                </div>
-                                <p class="txt">
-                                    최신순
-                                </p>
-                            </div>
-                        </label>
-                        <label for="type_2">
-                            <input type="radio" class="form-radio" id="type_2" name="type">
-                            <div class="checked-item col-group">
-                                <div class="icon">
-                                    <i class="xi-check"></i>
-                                </div>
-                                <p class="txt">
-                                    인기순
-                                </p>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-
-
-                <div class="modal-footer col-group">
-                    <button class="modal-footer-btn submit-btn close-btn">
-                        상품보기
-                    </button>
-                </div>
-            </div>
-
-        </div>
+<!--        <infinite-scroll :target-class="'.index'" @scroll="(page) => {form.page = page; getProducts(true)}" />-->
 
     </div>
 
@@ -230,24 +57,28 @@ import Form from "@/utils/Form";
 
 export default {
 
-
+    load: false,
     data() {
         return {
             form: new Form(this.$axios, {
-                page:1,
-                product_category_id:"",
+                page: 1,
+                product_category_id: "",
                 location_id: "",
                 order_by: "",
                 word: "",
-                user_id:"",
+                user_id: "",
                 state_transaction: "",
-                random:"",
+                random: "",
             }),
 
-            products:{
+            products: {
                 data: [],
+                meta: {
+                    current_page: 1,
+                    last_page: 10,
+                }
             },
-            productsCategories:{
+            productsCategories: {
                 data: [],
             },
 
@@ -256,34 +87,53 @@ export default {
     },
 
     methods: {
-        getProduct(){
-            this.$axios.get("/api/products",{
-                prams:this.form.data(),
+        getProducts(loadMore) {
+            this.$axios.get("/api/products", {
+                params: this.form.data(),
             }).then(response => {
-                console.log(response.data);
-                this.products = response.data;
+                if (loadMore)
+                    return this.products.data = [...this.products.data, ...response.data.data];
 
+                return this.products = response.data;
             })
         },
-        getProductCategories(){
-            this.$axios.get("/api/productCategories",{
-
-                prams:this.form.data(),
+        getProductCategories() {
+            this.$axios.get("/api/productCategories", {
+                params: this.form.data(),
             }).then(response => {
                 this.productsCategories = response.data;
             })
         },
+        loadMore() {
+            var scrollTop = $('.index').scrollTop();
 
+            var innerHeight = $('.index').innerHeight();
+
+            var scrollHeight = $('.index').prop('scrollHeight');
+            console.log(this.form.page)
+            if (scrollTop + innerHeight >= scrollHeight - 250) {
+                this.load = true;
+
+                if(this.form.page < this.products.meta.last_page) {
+                    this.form.page += 1;
+                    return this.getProducts(this.load);
+                };
+
+            }
+        },
     },
 
-    computed: {
-
-
-    },
+    computed: {},
 
     mounted() {
-        this.getProduct();
+
+        this.getProducts();
         this.getProductCategories();
-    }
+
+        setTimeout(() => {
+            $('.index').scroll(this.loadMore);
+        }, 350);
+    },
+
 };
 </script>

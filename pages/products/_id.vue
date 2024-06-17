@@ -1,36 +1,39 @@
 <template>
   <body>
-  <div id="wrap">
+  <div id="wrap" class="subpage">
 
     <!-- header Start -->
-    <header id="header" class="index-header">
-      <div class="container col-group">
-        <h1 class="logo">
-          <img src="/images/LOGO.png" alt="">
-        </h1>
-        <div class="header-menu-wrap col-group">
-          <button class="header-menu search-btn">
-            <img src="/images/icon_search.png" alt="">
-          </button>
-          <a href="notification.html" class="header-menu active"> <!-- 알림 갯수 1개 이상일 때 active 클래스 추가 -->
-            <img src="/images/icon_bell.png" alt="">
-          </a>
-        </div>
-      </div>
-    </header>
+      <header id="header" class="sub-header">
+          <div id="search"></div> <!-- 검색창 -->
+          <div class="container col-group">
+              <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
+                  <img src="/images/icon_prev.png" alt="">
+              </a>
+              <h2 class="title">
+                  중고기계
+              </h2>
+              <button class="sub-header-btn search-btn">
+                  <img src="/images/icon_search.png" alt="">
+              </button>
+          </div>
+      </header>
     <!-- header End -->
 
     <main class="index">
       <div class="cate-wrap">
-        <div class="cate-list col-group">
-          <nuxt-link :to="`/products/${item.id}`"  class="cate-item active" v-for="item in productsCategories.data">{{ item.title }}</nuxt-link>
 
-
-        </div>
       </div>
       <div class="container">
+          <div class="top-filter-wrap col-group">
+              <button class="filter-item local_select_btn">
+                  전국 <i></i>
+              </button>
+              <button class="filter-item align_select_btn">
+                  최신순 <i></i>
+              </button>
+          </div>
         <div class="prod-list">
-          <Product :item="item" v-for="item in products.data" :key="item.id"></Product>
+          <product :item="product" v-for="product in products.data" :key="product.id" />
         </div>
       </div>
     </main>
@@ -260,11 +263,13 @@ export default {
 
   methods: {
     getItem() {
-        this.$axios.get("/api/products/"+this.$route.params.id, {
+        this.$axios.get("/api/products", {
+            params: {
+                product_category_id:5
+            },
         }).then(response => {
           // 백엔드에서 나는 요청을 이렇게 보내는것뿐이고, 여기에따른 필터링 및 요구에 따른 데이터전송은 백엔드쪽아닌가??? 그래서안뜨는거아닌가???
           this.products = response.data
-
         })
     },
 
@@ -287,7 +292,8 @@ export default {
   },
 
   mounted() {
-    this.getItem();
+      this.form.product_category_id = this.$route.params.id;
+    this.getProducts();
     this.getProductCategories();
     this.getConsole();
   }

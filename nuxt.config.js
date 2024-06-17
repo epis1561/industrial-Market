@@ -89,6 +89,7 @@ export default {
     modules: [
         "@nuxtjs/axios",
         "@nuxtjs/auth-next",
+        "nuxt-lodash",
     ],
 
     axios: {
@@ -146,6 +147,10 @@ export default {
             }
         }
     },
-
+script:[
+    {
+        type:'text/javascript', src:'/js/jquery.js'
+    }
+]
 
 }
