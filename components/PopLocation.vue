@@ -3,13 +3,14 @@
         <div class="modal-select-wrap modal-wrap">
             <i class="close-btn"></i>
             <div class="modal-title-wrap center">
+
                 <h3 class="modal-title">지역</h3>
             </div>
 
             <div class="modal-scroll-wrap">
                 <div class="form-label-wrap row-group">
-                    <label :for="'type_' + item.id":item="item" v-for="item in locations.data" :key="item.id">
-                        <input type="radio" class="form-radio" :value="item.id" id="type_locations.id" name="type">
+                    <label :for="'type_' + item.id" v-for="item in location" :key="item.id">
+                        <input type="radio" class="form-radio" :value="item.id" :id="'type_' + item.id" name="type" v-model="selectedLocation" @click="getTitle(item.title)">
                         <div class="checked-item col-group">
                             <div class="icon">
                                 <i class="xi-check"></i>
@@ -24,7 +25,7 @@
 
 
             <div class="modal-footer col-group">
-                <button class="modal-footer-btn submit-btn close-btn">
+                <button class="modal-footer-btn submit-btn close-btn" @click="sendLocation()">
                     지역선택
                 </button>
             </div>
@@ -39,6 +40,7 @@
 import Form from "@/utils/Form";
 
 export default {
+    props:["location"],
     head(){
         return {
             script: [
@@ -51,22 +53,21 @@ export default {
     },
     data(){
         return {
+    selectedLocation:null,
+    selectedLocationTitle:null,
 
-
-            locations:{
-                data:[],
-            },
         }
     },
 
     methods: {
-        getLocations() {
-            this.$axios.get("/api/locations", {
 
-            }).then(response => {
-                return this.locations = response.data;
-            })
+        sendLocation(){
+            this.$emit("sendLocate",this.selectedLocation);
         },
+        getTitle(title){
+            this.selectedLocationTitle = title;
+            this.$emit("sendLocateTitle",this.selectedLocationTitle);
+        }
     },
 
     computed: {
@@ -74,7 +75,7 @@ export default {
     },
 
     mounted() {
-        this.getLocations()
+
     }
 }
 </script>

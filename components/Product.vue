@@ -1,5 +1,5 @@
 <template>
-    <nuxt-link to="" class="prod-item col-group">
+    <nuxt-link :to="`/products/${item.id}`" class="prod-item col-group">
         <div class="item-img">
             <img :src="item.img ? item.img.url : ''" alt="">
         </div>

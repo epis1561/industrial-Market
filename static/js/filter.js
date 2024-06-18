@@ -5,6 +5,7 @@ $('.local_select_btn').click(function () {
 
 //팝업 내 '지역선택' 클릭 시 팝업 열림
 $('.local_select_btn_2').click(function () {
+    $('.local_select_1').removeClass('active');
     $('.local_select_2').addClass('active');
 });
 

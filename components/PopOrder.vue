@@ -8,8 +8,8 @@
 
             <div class="modal-scroll-wrap">
                 <div class="form-label-wrap row-group">
-                    <label for="type_1">
-                        <input type="radio" class="form-radio" id="type_1" name="type">
+                    <label for="type_create">
+                        <input type="radio" class="form-radio" id="type_create" name="type_order" value="created_at"v-model="order_by">
                         <div class="checked-item col-group">
                             <div class="icon">
                                 <i class="xi-check"></i>
@@ -19,8 +19,8 @@
                             </p>
                         </div>
                     </label>
-                    <label for="type_2">
-                        <input type="radio" class="form-radio" id="type_2" name="type">
+                    <label for="type_like">
+                        <input type="radio" class="form-radio" id="type_like" name="type_order" value="count_like"v-model="order_by">
                         <div class="checked-item col-group">
                             <div class="icon">
                                 <i class="xi-check"></i>
@@ -35,7 +35,7 @@
 
 
             <div class="modal-footer col-group">
-                <button class="modal-footer-btn submit-btn close-btn">
+                <button class="modal-footer-btn submit-btn close-btn" @click="sendOrder()">
                     상품보기
                 </button>
             </div>
@@ -48,6 +48,7 @@
 </style>
 <script>
 export default {
+
     head(){
         return {
             script: [
@@ -60,12 +61,14 @@ export default {
     },
     data(){
         return {
-
+order_by:null,
         }
     },
 
     methods: {
-
+        sendOrder(){
+            this.$emit("sendOrder",this.order_by);
+        },
     },
 
     computed: {

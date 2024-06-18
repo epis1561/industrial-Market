@@ -53,4 +53,11 @@ form input{
     color: #000;
 /*    나눔*/
 }
+#map{
+    min-height: 200px !important;
+}
+
+.product-detail-section .map-wrap{
+    min-height:200px !important;
+}
 
