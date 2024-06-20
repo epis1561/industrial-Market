@@ -20,6 +20,10 @@ export const state = () => ({
     push_token: null,
     webview: false,
 
+    productCategories: {
+        data: [],
+        meta: {},
+    }
 })
 
 export const mutations = {
@@ -74,6 +78,10 @@ export const mutations = {
 
     setCategories(state, data){
         state.categories = data;
+    },
+
+    setProductCategories(state, data){
+        state.productCategories = data;
     }
 }
 

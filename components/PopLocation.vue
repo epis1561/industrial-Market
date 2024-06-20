@@ -10,7 +10,8 @@
             <div class="modal-scroll-wrap">
                 <div class="form-label-wrap row-group">
                     <label :for="'type_' + item.id" v-for="item in location" :key="item.id">
-                        <input type="radio" class="form-radio" :value="item.id" :id="'type_' + item.id" name="type" v-model="selectedLocation" @click="getTitle(item.title)">
+<!--                        <input type="radio" class="form-radio" :value="item.id" :id="'type_' + item.id" name="type" v-model="selectedLocation" @click="getTitle(item.title)">-->
+                        <input type="radio" class="form-radio" :value="item.id" :id="'type_' + item.id" name="type" v-model="id">
                         <div class="checked-item col-group">
                             <div class="icon">
                                 <i class="xi-check"></i>
@@ -25,7 +26,7 @@
 
 
             <div class="modal-footer col-group">
-                <button class="modal-footer-btn submit-btn close-btn" @click="sendLocation()">
+                <button class="modal-footer-btn submit-btn close-btn" @click="change">
                     지역선택
                 </button>
             </div>
@@ -53,21 +54,20 @@ export default {
     },
     data(){
         return {
-    selectedLocation:null,
-    selectedLocationTitle:null,
-
+            id: "",
         }
     },
 
     methods: {
-
-        sendLocation(){
-            this.$emit("sendLocate",this.selectedLocation);
+        change(){
+            this.$emit("change",this.id);
         },
-        getTitle(title){
-            this.selectedLocationTitle = title;
-            this.$emit("sendLocateTitle",this.selectedLocationTitle);
-        }
+        // getTitle(title){
+        //     this.selectedLocationTitle = title;
+        //     console.log(this.selectedLocationTitle);
+        //     // this.$emit("sendLocateTitle",this.selectedLocationTitle);
+        // }
+
     },
 
     computed: {

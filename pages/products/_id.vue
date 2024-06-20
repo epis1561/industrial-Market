@@ -328,7 +328,7 @@
                       7,200만원
                   </div>
                   <a href="chat_detail.html" class="chat-btn"><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
-                      <img src="images/icon_chat_white.png" alt="" class="icon">
+                      <img src="/images/icon_chat_white.png" alt="" class="icon">
                       채팅하기
                   </a>
 
@@ -558,7 +558,7 @@ export default{
       }),
 
         product:{
-          data:{},
+          data:[],
         }
 
     }

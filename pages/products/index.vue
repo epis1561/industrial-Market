@@ -9,9 +9,7 @@
                     <img src="/images/LOGO.png" alt="">
                 </h1>
                 <div class="header-menu-wrap col-group">
-                    <button class="header-menu search-btn">
-                        <img src="/images/icon_search.png" alt="">
-                    </button>
+                    <nuxt-link to="/searches" class="sub-header-btn search-btn"> <img src="/images/icon_search.png" alt=""></nuxt-link>
                     <a href="notification.html" class="header-menu active"> <!-- 알림 갯수 1개 이상일 때 active 클래스 추가 -->
                         <img src="/images/icon_bell.png" alt="">
                     </a>
@@ -24,7 +22,7 @@
             <div class="cate-wrap">
                 <div class="cate-list col-group">
                     <a href="" class="cate-item active" @click.prevent="">전체보기</a>
-                    <nuxt-link :to="`/categories/${item.id}`" class="cate-item" v-for="item in productsCategories.data">
+                    <nuxt-link :to="`/productCategories/${item.id}`" class="cate-item" v-for="item in this.productCategories.data">
                         {{ item.title }}
                     </nuxt-link>
                 </div>
@@ -78,10 +76,6 @@ export default {
                     last_page: 10,
                 }
             },
-            productsCategories: {
-                data: [],
-            },
-
         }
 
     },
@@ -95,13 +89,6 @@ export default {
                     return this.products.data = [...this.products.data, ...response.data.data];
 
                 return this.products = response.data;
-            })
-        },
-        getProductCategories() {
-            this.$axios.get("/api/productCategories", {
-                params: this.form.data(),
-            }).then(response => {
-                this.productsCategories = response.data;
             })
         },
         loadMore() {
@@ -124,12 +111,16 @@ export default {
 
     },
 
-    computed: {},
+    computed: {
+        productCategories(){
+            return this.$store.state.productCategories;
+        }
+    },
 
     mounted() {
-
+        this.form.word = this.$route.query.word;
         this.getProducts();
-        this.getProductCategories();
+
 
         setTimeout(() => {
             $('.index').scroll(this.loadMore);

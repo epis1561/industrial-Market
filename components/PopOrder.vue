@@ -67,7 +67,7 @@ order_by:null,
 
     methods: {
         sendOrder(){
-            this.$emit("sendOrder",this.order_by);
+            this.$emit("change",this.order_by);
         },
     },
 

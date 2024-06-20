@@ -8,7 +8,7 @@
 
             <div class="form-label-wrap row-group">
                 <label for="type_all">
-                    <input type="radio" class="form-radio" id="type_all" name="type_all">
+                    <input type="radio" class="form-radio" id="type_all" name="type_all" value=null v-model="location">
                     <div class="checked-item col-group">
                         <div class="icon">
                             <i class="xi-check"></i>
@@ -48,7 +48,7 @@
                 <button class="modal-footer-btn local_select_btn_2">
                     지역선택
                 </button>
-                <button class="modal-footer-btn submit-btn" @click="sendLocate()">
+                <button class="modal-footer-btn submit-btn close-btn" @click="change()">
                     상품보기
                 </button>
             </div>
@@ -76,13 +76,13 @@ export default {
     },
     data(){
         return {
-location:null,
+location_id:"",
         }
     },
 
     methods: {
-sendLocate(){
-    this.$emit("sendLocate", this.location);
+change(){
+    this.$emit("change", this.location_id);
 }
     },
 

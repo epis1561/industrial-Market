@@ -5,7 +5,6 @@
 
             <label class="m-btn" :for="id">
                 <i class="xi-plus"></i>
-
                 사진 등록
             </label>
         </div>
