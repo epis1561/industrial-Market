@@ -4,7 +4,7 @@
   <div id="wrap">
 
       <!-- header Start -->
-      <header id="header" class="detail-header">
+      <header id="header" class="detail-header" v-if="product">
           <div class="container col-group">
               <div class="sub-header-btn-wrap col-group">
                   <a href="javascript:window.history.back();" class="sub-header-btn prev-btn"></a>
@@ -13,8 +13,8 @@
               </div>
               <div class="sub-header-btn-wrap col-group">
                   <button class="sub-header-btn share-btn"></button>
-                  <button class="sub-header-btn report-btn"></button><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
-                  <button class="sub-header-btn more-btn"><!-- 본인의 상품 확인 시 보이는 버튼 -->
+                  <button class="sub-header-btn report-btn" @click="isReport=true"></button><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
+                  <button class="sub-header-btn more-btn" v-if="user.id == product.user.id" @click="isMore=true"><!-- 본인의 상품 확인 시 보이는 버튼 -->
                       <i class="icon"></i>
                   </button>
               </div>
@@ -22,13 +22,13 @@
       </header>
       <!-- header End -->
 
-      <main class="products_detail">
+      <main class="products_detail" v-if="product">
           <div class="detail-img-wrap">
               <div class="swiper detail-img-slide">
                   <div class="swiper-wrapper">
-                      <div class="swiper-slide" v-for="item in product.data.imgs" :key="item.id">
+                      <div class="swiper-slide" v-for="img in product.imgs" :key="img.id">
                           <div class="img-container">
-                              <img :src="item.url ? item.url : ''" />
+                              <img :src="img.url ? img.url : ''" />
                           </div>
                       </div>
 
@@ -53,41 +53,41 @@
                       <div class="detail-sub-title-wrap col-group">
                           <div class="detail-sub-title-group col-group">
                               <p class="detail-sub-title">
-<!--                      {{this.product.data.productCategory.title}}-->
+                            {{product.productCategory.title}}
                               </p>
                               <p class="detail-sub-title">
-                                  05.09 14:00
+                                  {{ product.format_created_at }}
                               </p>
                           </div>
                           <div class="prod-btn-wrap col-group">
                               <div class="prod-btn col-group">
                                   <img src="/images/icon_view_gray.png" alt="" class="icon">
-                                  <p class="txt">{{ this.product.data.count_view }}</p>
+                                  <p class="txt">{{ product.count_view }}</p>
                               </div>
                               <div class="prod-btn col-group">
                                   <img src="/images/icon_chat_gray.png" alt="" class="icon">
-                                  <p class="txt">{{ this.product.data.count_chat }}</p>
+                                  <p class="txt">{{ product.count_chat }}</p>
                               </div>
                               <div class="prod-btn col-group">
                                   <img src="/images/icon_like_gray.png" alt="" class="icon">
-                                  <p class="txt">{{ this.product.data.count_like }}</p>
+                                  <p class="txt">{{ product.count_like }}</p>
                               </div>
                           </div>
                       </div>
                       <h2 class="detail-title">
-                          {{product.data.title}}
+                          {{product.title}}
                           <div class="label">
-                              {{ product.data.format_state }}
+                              {{ product.format_state }}
                           </div>
-                          <div class="label hide"> <!-- 숨김 -->
+                          <div class="label hide" v-if="product.hide==1"> <!-- 숨김 -->
                               숨김
                           </div>
                       </h2>
                       <p class="detail-txt">
-                          <editor-content :description="this.product.data.description" />
+                          <editor-content :description="this.product.description" />
                       </p>
                       <div class="detail-prod-list col-group">
-                          <div class="detail-prod-item" v-for="item in this.product.data.keywords" :key="item.id">
+                          <div class="detail-prod-item" v-for="item in this.product.keywords" :key="item.id">
                               {{ item.title }}
                           </div>
                       </div>
@@ -95,7 +95,7 @@
                   <h4 class="product-detail-title col-group">
                       희망 거래 장소
                       <a href="" class="more-btn col-group">
-<!--                         {{ this.product.data.location.format_title }} <i></i>-->
+                         {{ product.location.format_title }} <i></i>
                       </a>
                   </h4>
                   <div class="map-wrap">
@@ -109,78 +109,35 @@
               <!-- 다른 유저의 상품 확인 시 보이는 섹션 -->
               <div class="product-detail-section container">
                   <div class="detail-profile-wrap col-group">
-                      <button class="like-btn"></button>
+                      <button class="like-btn" :class="{'active':product.user.like==1}" @click="toggleLike(product.user,'User')"></button>
                       <div class="profile-img">
                           <img src="" alt="">
                       </div>
                       <div class="txt-wrap row-group">
                           <p class="title">
-                              에이치에이치컴퍼니
+                            {{ product.user.nickname || product.user.name}}
                           </p>
                           <p class="txt">
-                              서울시 은평구
+                              {{ product.address }}
                           </p>
                       </div>
                   </div>
 
                   <div class="prod-list prod-half-list col-group">
-                      <a href="product_detail.html" class="prod-item row-group">
+                      <nuxt-link :to="`/products/${otherItem.id}`" class="prod-item row-group" v-if="index < 4" v-for="(otherItem,index) in otherProducts.data" key="randomItem.id">
                           <div class="item-img">
-                              <img src="" alt="">
+                              <img :src="otherItem.img.url ? otherItem.img.url : ''" />
                           </div>
                           <div class="item-txt-wrap">
                               <p class="title">
-                                  두산 8인치 CNC선반
+                                  {{ otherItem.title }}
                               </p>
                               <div class="price">
-                                  <p class="label">
-                                      삽니다
-                                  </p>
-                                  7,200만원
+
+                                  {{ otherItem.format_price }}
                               </div>
                           </div>
-                      </a>
-                      <a href="product_detail.html" class="prod-item row-group">
-                          <div class="item-img">
-                              <img src="" alt="">
-                          </div>
-                          <div class="item-txt-wrap">
-                              <p class="title">
-                                  두산 8인치 CNC선반
-                              </p>
-                              <div class="price">
-                                  <p class="label">
-                                      나눔
-                                  </p>
-                              </div>
-                          </div>
-                      </a>
-                      <a href="product_detail.html" class="prod-item row-group">
-                          <div class="item-img">
-                              <img src="" alt="">
-                          </div>
-                          <div class="item-txt-wrap">
-                              <p class="title">
-                                  두산 8인치 CNC선반
-                              </p>
-                              <div class="price">
-                                  7,200만원
-                              </div>
-                          </div>
-                      </a>
-                      <a href="product_detail.html" class="prod-item row-group">
-                          <div class="item-img">
-                              <img src="" alt="">
-                          </div>
-                          <div class="item-txt-wrap">
-                              <p class="title">
-                                  두산 8인치 CNC선반
-                              </p>
-                              <div class="price">
-                                  7,200만원
-                              </div>
-                          </div>
-                      </a>
+                      </nuxt-link>
                   </div>
               </div>
 
@@ -188,139 +145,57 @@
                   <h4 class="product-detail-title">
                       이런 상품은 어떠세요?
                   </h4>
-                  <div class="prod-list prod-half-list col-group">
-                      <a href="product_detail.html" class="prod-item row-group">
+                  <div class="prod-list prod-half-list col-group" v-if="randomProducts">
+                     <nuxt-link :to="`/products/${randomItem.id}`" class="prod-item row-group" v-if="index < 4" v-for="(randomItem,index) in randomProducts.data" key="randomItem.id">
                           <div class="item-img">
-                              <img src="" alt="">
+                              <img :src="randomItem.img.url ? randomItem.img.url : ''" />
                           </div>
                           <div class="item-txt-wrap">
                               <p class="title">
-                                  두산 8인치 CNC선반
+                                  {{ randomItem.title }}
                               </p>
                               <div class="price">
                                   <p class="label">
-                                      삽니다
+                                      {{ randomItem.format_type }}
                                   </p>
-                                  7,200만원
+                                  {{ randomItem.format_price }}
                               </div>
                           </div>
-                      </a>
-                      <a href="product_detail.html" class="prod-item row-group">
-                          <div class="item-img">
-                              <img src="" alt="">
-                          </div>
-                          <div class="item-txt-wrap">
-                              <p class="title">
-                                  두산 8인치 CNC선반
-                              </p>
-                              <div class="price">
-                                  <p class="label">
-                                      나눔
-                                  </p>
-                              </div>
-                          </div>
-                      </a>
-                      <a href="product_detail.html" class="prod-item row-group">
-                          <div class="item-img">
-                              <img src="" alt="">
-                          </div>
-                          <div class="item-txt-wrap">
-                              <p class="title">
-                                  두산 8인치 CNC선반
-                              </p>
-                              <div class="price">
-                                  7,200만원
-                              </div>
-                          </div>
-                      </a>
-                      <a href="product_detail.html" class="prod-item row-group">
-                          <div class="item-img">
-                              <img src="" alt="">
-                          </div>
-                          <div class="item-txt-wrap">
-                              <p class="title">
-                                  두산 8인치 CNC선반
-                              </p>
-                              <div class="price">
-                                  7,200만원
-                              </div>
-                          </div>
-                      </a>
+                     </nuxt-link>
                   </div>
               </div>
               <!-- //다른 유저의 상품 확인 시 보이는 섹션 -->
 
               <!-- 본인의 상품 확인 시 보이는 섹션 -->
-              <div class="product-detail-section container">
-                  <h4 class="product-detail-title">
-                      내가 등록한 상품과 비슷한 상품이에요
-                  </h4>
-                  <div class="prod-list prod-half-list col-group">
-                      <a href="product_detail.html" class="prod-item row-group">
-                          <div class="item-img">
-                              <img src="" alt="">
-                          </div>
-                          <div class="item-txt-wrap">
-                              <p class="title">
-                                  두산 8인치 CNC선반
-                              </p>
-                              <div class="price">
-                                  <p class="label">
-                                      삽니다
-                                  </p>
-                                  7,200만원
-                              </div>
-                          </div>
-                      </a>
-                      <a href="product_detail.html" class="prod-item row-group">
-                          <div class="item-img">
-                              <img src="" alt="">
-                          </div>
-                          <div class="item-txt-wrap">
-                              <p class="title">
-                                  두산 8인치 CNC선반
-                              </p>
-                              <div class="price">
-                                  <p class="label">
-                                      나눔
-                                  </p>
-                              </div>
-                          </div>
-                      </a>
-                      <a href="product_detail.html" class="prod-item row-group">
-                          <div class="item-img">
-                              <img src="" alt="">
-                          </div>
-                          <div class="item-txt-wrap">
-                              <p class="title">
-                                  두산 8인치 CNC선반
-                              </p>
-                              <div class="price">
-                                  7,200만원
-                              </div>
-                          </div>
-                      </a>
-                      <a href="product_detail.html" class="prod-item row-group">
-                          <div class="item-img">
-                              <img src="" alt="">
-                          </div>
-                          <div class="item-txt-wrap">
-                              <p class="title">
-                                  두산 8인치 CNC선반
-                              </p>
-                              <div class="price">
-                                  7,200만원
-                              </div>
-                          </div>
-                      </a>
-                  </div>
-              </div>
+<!--              <div class="product-detail-section container">-->
+<!--                  <h4 class="product-detail-title">-->
+<!--                      내가 등록한 상품과 비슷한 상품이에요-->
+<!--                  </h4>-->
+<!--                  <div class="prod-list prod-half-list col-group">-->
+<!--                      <nuxt-link :to="`/products/${similarProduct.id}`" class="prod-item row-group" v-for="similarProduct in similarProducts.data" :key="similarProduct.id">-->
+<!--                          <div class="item-img">-->
+<!--                              <img :src="similarProduct.img.url ? similarProduct.img.url : ''" />-->
+<!--                          </div>-->
+<!--                          <div class="item-txt-wrap">-->
+<!--                              <p class="title">-->
+<!--                                  {{ similarProduct.title }}-->
+<!--                              </p>-->
+<!--                              <div class="price">-->
+<!--                                  <p class="label">-->
+<!--                                      {{ similarProduct.format_type }}-->
+<!--                                  </p>-->
+<!--                                  {{ similarProduct.price }}-->
+<!--                              </div>-->
+<!--                          </div>-->
+<!--                      </nuxt-link>-->
+<!--                  </div>-->
+<!--              </div>-->
               <!-- //본인의 상품 확인 시 보이는 섹션 -->
           </div>
 
           <div class="detail-footer-wrap">
               <div class="container col-group">
-                  <button class="like-btn"></button>
+                  <button class="like-btn" :class="{'active':product.like==1}" @click="toggleLike(product, 'Product')"></button>
                   <div class="price">
                       <p class="label buy"> <!-- 삽니다 상태에서 buy 클래스 -->
                           삽니다
@@ -370,9 +245,9 @@
       </div>
 
       <!-- 신고하기 버튼 클릭시 나타나는 팝업 -->
-      <div class="modal-container modal_report">
+      <div class="modal-container modal_report" :class="{'active':isReport}">
           <div class="modal-wrap">
-              <i class="xi-close close-btn"></i>
+              <i class="xi-close close-btn" @click="isReport=false"></i>
               <div class="modal-title-wrap border">
                   <p class="modal-title">
                       신고하기
@@ -456,7 +331,7 @@
       </div>
 
       <!-- 헤더 버튼 클릭시 나타나는 팝업 -->
-      <div class="modal-container modal_chat">
+      <div class="modal-container modal_chat" :class="{'active': isMore}">
           <div class="modal-select-wrap modal-wrap">
 
               <div class="chat-more-option-wrap row-group">
@@ -488,7 +363,7 @@
 
 
               <div class="modal-footer col-group">
-                  <button class="modal-footer-btn close-btn">
+                  <button class="modal-footer-btn close-btn" @click="isMore=false">
                       취소
                   </button>
               </div>
@@ -532,32 +407,33 @@
 import Form from "@/utils/Form";
 
 export default{
-    head(){
-        return {
-            script: [
-                {src: '/js/runswiper.js'},
-                {src: '/js/swiper.min.js'},
-                {src: '/js/script.js'},
 
-                {src: 'https://polyfill.io/v3/polyfill.min.js?features=default'},
-                {src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyARMsRvnUWWb34RBAYXvBtuoAu9prdpsus&callback=initMap'},
-                {src: '/js/map.js'},
-            ],
-            link: [
-                {rel: 'stylesheet', href: '/css/developer.css'},
-
-            ],
-        }
-    },
 
   data() {
 
     return {
       form: new Form(this.$axios, {
-
+          user_id:"",
+          product_category_id : "",
+          likeable_id:"",
+          likeable_type:"",
       }),
+        isReport:false,
+        isMore:false,
+        product: null,
+        products:{
+            data:[],
+            meta: {
 
-        product:{
+            }
+        },
+        randomProducts:{
+          data:[],
+        },
+        similarProducts:{
+          data:[],
+        },
+        otherProducts:{
           data:[],
         }
 
@@ -573,21 +449,188 @@ export default{
           this.$axios.get("/api/products/"+ this.$route.params.id, {
 
           }).then(response => {
-              console.log(response.data);
+              console.log(this.$auth.user.data.id);
+              console.log(response.data.data);
+              this.product = response.data.data;
+              // this.form.product_category_id = response.data.data.product_category_id;
+              this.form.user_id = response.data.data.user.id;
+              this.form.likeable_id = response.data.data.like;
+              // this.getSimilarProducts();
+              this.getOtherProducts();
+              this.getMap();
 
-              return this.product = response.data;
+              this.$nextTick(() => {
+                  this.initSwiper();
+              });
+          })
+      },
+      initSwiper(){
+          var swiper = new Swiper(".detail-img-slide", {
+              loop: true,
+              autoplay : {  // 자동 슬라이드 설정 , 비 활성화 시 false
+                  delay : 3000,   // 시간 설정
+                  disableOnInteraction : false,  // false로 설정하면 스와이프 후 자동 재생이 비활성화 되지 않음
+              },
+              pagination: {
+                  el: '.detail-img-pagination',
+              },
+          });
+
+//swiper 내 이미지 클릭시 팝업 열림
+          $('.detail-img-slide .swiper-slide').click(function(){
+              $('.modal_slide').addClass('active');
+              var slide_popup = new Swiper(".slide_popup", {
+                  loop: true,
+                  pagination: {
+                      el: '.slide-popup-pagination',
+                  },
+              });
+          });
+      },
+
+      getRandomProducts() {
+          this.$axios.get("/api/products/", {
+              params: {
+                  random: 1,
+              },
+          }).then(response => {
+              this.randomProducts = response.data;
+          })
+      },
+      getOtherProducts() {
+          this.$axios.get("/api/products/", {
+              params: this.form.data(),
+          }).then(response => {
+              this.otherProducts = response.data;
+          })
+      },
+      // getSimilarProducts() {
+      //     this.$axios.get("/api/products/", {
+      //         params: this.form.data(),
+      //     }).then(response => {
+      //         console.log(response.data);
+      //         this.similarProducts = response.data;
+      //     })
+      // },
+      getProducts(loadMore) {
+          this.$store.commit("setLoading", true);
+
+          this.$axios.get("/api/products", {
+          }).then(response => {
+              if (loadMore)
+
+                  return this.products.data = [...this.products.data, ...response.data.data];
+
+              return this.products = response.data;
           })
       },
 
+      loadMore() {
+          var scrollTop = $('.index').scrollTop();
+
+          var innerHeight = $('.index').innerHeight();
+
+          var scrollHeight = $('.index').prop('scrollHeight');
+
+          if (scrollTop + innerHeight >= scrollHeight - 250) {
+
+              this.load = true;
+              if(this.form.page < this.products.meta.last_page) {
+                  this.form.page += 1;
+                  return this.getProducts(this.load);
+              };
+
+          }
+      },
+      async getMap() {
+          const getlat = this.product.lat;
+          const getlon = this.product.lon;
+          // Wait for Google Maps API to be ready
+          await new Promise((resolve) => {
+              const checkReady = setInterval(() => {
+                  if (typeof google === 'object' && typeof google.maps === 'object') {
+                      clearInterval(checkReady);
+                      resolve();
+                  }
+              }, 100);
+
+          });
+
+          // Initialize and add the map
+          const map = new google.maps.Map(document.getElementById("map"), {
+              zoom: 10,
+              center: { lat: getlat, lng: getlon }, // Initial position
+              mapId: "DEMO_MAP_ID",
+          });
+
+          // Add a marker
+          new google.maps.Marker({
+              position: { lat: getlat, lng: getlon },
+              map,
+              title: "Marker Title",
+          });
+      },
+      toggleLike(data,type){
+          if(type=="Product"){
+              if(data.like == 0) {
+                  this.form.likeable_type = data.id;
+                  this.form.likeable_type = type;
+
+                  this.form.post("/api/likes").then(response => {
+                  this.product.like= 1;
+                  })
+              }
+              else{
+                  this.form.likeable_type = data.id;
+                  this.form.likeable_type = type;
+
+                  this.form.delete("/api/likes").then(response => {
+                      this.product.like= 0;
+                  })
+              }
+          }
+          if(type=="User"){
+              if(data.like == 0) {
+                  this.form.likeable_type = data.id;
+                  this.form.likeable_type = type;
+
+                  this.form.post("/api/likes").then(response => {
+                      this.product.user.like= 1;
+                  })
+              }
+              else{
+                  this.form.likeable_type = data.id;
+                  this.form.likeable_type = type;
+
+                  this.form.delete("/api/likes").then(response => {
+                      this.product.user.like= 0;
+                  })
+              }
+          }
+
+      },
+\
+
+      clickMore(){
+          this.isMore=true;
+          console.log(this.isReport);
+      },
   },
 
   computed: {
-
-
+        getName(){
+            return this.products.data.find(data => data.user.id = this.product.user.id);
+        },
+      user(){
+            return this.$auth.user.data;
+      }
   },
 
   mounted() {
-        this.getProduct()
+      this.getProduct();
+      // this.form.user_id = this.product.data.user_id;
+      this.getProducts();
+      this.getRandomProducts();
   }
 };
 </script>

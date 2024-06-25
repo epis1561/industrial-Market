@@ -35,6 +35,7 @@ export default {
         script: [
             {src: "//code.jquery.com/jquery-1.12.4.js"},
             {src: "/js/swiper.min.js"},
+            {src: "/js/script.js"},
             {src: "/js/common.js"},
             {src: "//cdn.iamport.kr/v1/iamport.js"},
             {src: "//unpkg.com/aos@2.3.1/dist/aos.js"},
