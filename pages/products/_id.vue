@@ -13,7 +13,7 @@
               </div>
               <div class="sub-header-btn-wrap col-group">
                   <button class="sub-header-btn share-btn"></button>
-                  <button class="sub-header-btn report-btn" @click="isReport=true"></button><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
+                  <button class="sub-header-btn report-btn" @click="isReport=true" v-if="user.id != product.user.id"></button><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
                   <button class="sub-header-btn more-btn" v-if="user.id == product.user.id" @click="isMore=true"><!-- 본인의 상품 확인 시 보이는 버튼 -->
                       <i class="icon"></i>
                   </button>
@@ -26,7 +26,7 @@
           <div class="detail-img-wrap">
               <div class="swiper detail-img-slide">
                   <div class="swiper-wrapper">
-                      <div class="swiper-slide" v-for="img in product.imgs" :key="img.id">
+                      <div class="swiper-slide" v-for="img in product.imgs" :key="img.id" @click="isImg=true">
                           <div class="img-container">
                               <img :src="img.url ? img.url : ''" />
                           </div>
@@ -76,12 +76,10 @@
                       </div>
                       <h2 class="detail-title">
                           {{product.title}}
-                          <div class="label">
+                          <div :class="'label' + product.state">
                               {{ product.format_state }}
                           </div>
-                          <div class="label hide" v-if="product.hide==1"> <!-- 숨김 -->
-                              숨김
-                          </div>
+
                       </h2>
                       <p class="detail-txt">
                           <editor-content :description="this.product.description" />
@@ -124,7 +122,7 @@
                   </div>
 
                   <div class="prod-list prod-half-list col-group">
-                      <nuxt-link :to="`/products/${otherItem.id}`" class="prod-item row-group" v-if="index < 4" v-for="(otherItem,index) in otherProducts.data" key="randomItem.id">
+                      <nuxt-link :to="`/products/${otherItem.id}`" class="prod-item row-group" v-if="index < 4" v-for="(otherItem,index) in otherProducts.data" :key="otherItem.id">
                           <div class="item-img">
                               <img :src="otherItem.img.url ? otherItem.img.url : ''" />
                           </div>
@@ -146,7 +144,7 @@
                       이런 상품은 어떠세요?
                   </h4>
                   <div class="prod-list prod-half-list col-group" v-if="randomProducts">
-                     <nuxt-link :to="`/products/${randomItem.id}`" class="prod-item row-group" v-if="index < 4" v-for="(randomItem,index) in randomProducts.data" key="randomItem.id">
+                     <nuxt-link :to="`/products/${randomItem.id}`" class="prod-item row-group" v-if="index < 4" v-for="(randomItem,index) in randomProducts.data" :key="randomItem.id">
                           <div class="item-img">
                               <img :src="randomItem.img.url ? randomItem.img.url : ''" />
                           </div>
@@ -155,9 +153,6 @@
                                   {{ randomItem.title }}
                               </p>
                               <div class="price">
-                                  <p class="label">
-                                      {{ randomItem.format_type }}
-                                  </p>
                                   {{ randomItem.format_price }}
                               </div>
                           </div>
@@ -182,7 +177,7 @@
 <!--                              </p>-->
 <!--                              <div class="price">-->
 <!--                                  <p class="label">-->
-<!--                                      {{ similarProduct.format_type }}-->
+<!--                                      {{ similarProduct.format_state }}-->
 <!--                                  </p>-->
 <!--                                  {{ similarProduct.price }}-->
 <!--                              </div>-->
@@ -197,10 +192,13 @@
               <div class="container col-group">
                   <button class="like-btn" :class="{'active':product.like==1}" @click="toggleLike(product, 'Product')"></button>
                   <div class="price">
-                      <p class="label buy"> <!-- 삽니다 상태에서 buy 클래스 -->
-                          삽니다
+                      <p :class="'label label' + product.type"> <!-- 삽니다 상태에서 buy 클래스 -->
+                          {{ product.format_short_type }}
                       </p>
-                      7,200만원
+                      <p :class="'label label' + product.type"> <!-- 삽니다 상태에서 buy 클래스 -->
+                          {{ product.format_type }}
+                      </p>
+                      {{ product.format_price }}
                   </div>
                   <a href="chat_detail.html" class="chat-btn"><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
                       <img src="/images/icon_chat_white.png" alt="" class="icon">
@@ -218,25 +216,13 @@
       </main>
 
       <!-- 이미지 슬라이드 클릭시 나타나는 팝업 -->
-      <div class="modal-container modal_slide">
+      <div class="modal-container modal_slide" :class="{active:isImg}" v-if="product">
           <div class="modal-wrap modal-slide-wrap">
-              <i class="xi-close close-btn"></i>
+              <i class="xi-close close-btn" @click="isImg=false"></i>
               <div class="swiper slide_popup">
                   <div class="swiper-wrapper">
-                      <div class="swiper-slide">
-                          <img src="/images/index_banner_01.png" />
-                      </div>
-                      <div class="swiper-slide">
-                          <img src="/images/biz_program_01.png" />
-                      </div>
-                      <div class="swiper-slide">
-                          <img src="/images/biz_program_02.png" />
-                      </div>
-                      <div class="swiper-slide">
-                          <img src="/images/main_banner.png" />
-                      </div>
-                      <div class="swiper-slide">
-                          <img src="/images/biz_program_03.png" />
+                      <div class="swiper-slide" v-for="img in product.imgs" :key="img.id">
+                          <img :src="img.url ? img.url : ''" />
                       </div>
                   </div>
                   <div class="swiper-pagination slide-popup-pagination"></div>
@@ -259,103 +245,65 @@
 
               <div class="form-item row-group">
                   <div class="form-label-wrap row-group">
-                      <label for="type_1">
-                          <input type="radio" class="form-radio" id="type_1" name="type">
+                      <label :for="'type_'+reportCategory.id" v-for="reportCategory in ReportCategories.data" :key="reportCategory.id">
+                          <input type="radio" class="form-radio" :id="'type_'+reportCategory.id" :value="reportCategory.id" name="type" v-model="reportForm.report_category_id" @click="enable(reportCategory.id)">
                           <div class="checked-item col-group">
                               <div class="icon">
                                   <i class="xi-check"></i>
                               </div>
                               <p class="txt">
-                                  허위 내용
+                                  {{ reportCategory.title }}
                               </p>
                           </div>
-                      </label>
-                      <label for="type_2">
-                          <input type="radio" class="form-radio" id="type_2" name="type">
-                          <div class="checked-item col-group">
-                              <div class="icon">
-                                  <i class="xi-check"></i>
-                              </div>
-                              <p class="txt">
-                                  동일 내용 반복 게시 (도배)
-                              </p>
+                          <div class="checked-item row-group" v-if="reportCategory.id==5">
+                              <input type="text"  class="form-input" :class="{ 'disable': isDisabled }" :disabled="isDisabled" placeholder="간단한 사유 입력" v-model="reportForm.description">
                           </div>
                       </label>
-                      <label for="type_3">
-                          <input type="radio" class="form-radio" id="type_3" name="type">
-                          <div class="checked-item col-group">
-                              <div class="icon">
-                                  <i class="xi-check"></i>
-                              </div>
-                              <p class="txt">
-                                  음란 / 선정성 / 비방
-                              </p>
-                          </div>
-                      </label>
-                      <label for="type_4">
-                          <input type="radio" class="form-radio" id="type_4" name="type">
-                          <div class="checked-item col-group">
-                              <div class="icon">
-                                  <i class="xi-check"></i>
-                              </div>
-                              <p class="txt">
-                                  광고/홍보
-                              </p>
-                          </div>
-                      </label>
-                      <label for="type_5">
-                          <input type="radio" class="form-radio" id="type_5" name="type">
-                          <div class="checked-item col-group">
-                              <div class="icon">
-                                  <i class="xi-check"></i>
-                              </div>
-                              <div class="txt-wrap row-group">
-                                  <p class="txt">
-                                      기타
-                                  </p>
-                                  <!-- 기타 선택 시 input 활성화 (disable 클래스 삭제) -->
-                                  <input type="text" class="form-input disable" disabled="" placeholder="간단한 사유 입력">
-                              </div>
 
-                          </div>
-                      </label>
                   </div>
               </div>
 
               <div class="modal-footer col-group">
-                  <button class="modal-footer-btn submit-btn">
+                  <button class="modal-footer-btn submit-btn" @click="submitReport(product.id,'Product')">
                       신고하기
                   </button>
               </div>
           </div>
       </div>
 
+
       <!-- 헤더 버튼 클릭시 나타나는 팝업 -->
-      <div class="modal-container modal_chat" :class="{'active': isMore}">
+      <div class="modal-container modal_chat" :class="{'active': isMore}" v-if="product">
           <div class="modal-select-wrap modal-wrap">
 
               <div class="chat-more-option-wrap row-group">
-                  <button class="chat-more-option col-group">
-                      <i class="icon"></i>
-                      나눔중
+                  <button class="chat-more-option col-group" v-if="product.state_transaction!=0" @click.prevent="changeTransaction(0)">
+                      <i class="icon"></i>
+                      {{ product.format_short_type }}대기
                   </button>
-                  <button class="chat-more-option col-group trans-btn">
+                  <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1" @click.prevent="changeTransaction(1)">
                       <i class="icon"></i>
                       거래중
                   </button>
-                  <a href="buyer_select.html" class="chat-more-option col-group trans-btn">
-                      <i class="icon"></i>
-                      나눔완료
+                  <a href="buyer_select.html" class="chat-more-option col-group trans-btn"v-if="product.state_transaction!=2" @click.prevent="changeTransaction(2)">
+                      <i class="icon"></i>
+                      {{ product.format_short_type }}완료
                   </a>
-                  <button class="chat-more-option col-group">
+                  <button class="chat-more-option col-group" @click="hideTransaction(product.hide)" v-if="product.hide==0">
                       <i class="icon"></i>
                       숨기기
+                  </button>
+                  <button class="chat-more-option col-group" @click="hideTransaction(product.hide)" v-if="product.hide==1">
+                      <i class="icon">
+                          <i class="xi-eye"></i>
+                      </i>
+                      숨기지않기
                   </button>
                   <button class="chat-more-option col-group">
                       <i class="icon"></i>
                       게시글 수정
                   </button>
-                  <button class="chat-more-option col-group red">
+                  <button class="chat-more-option col-group red" @click="remove()">
                       <i class="icon red"></i>
                       삭제
                   </button>
@@ -417,26 +365,56 @@ export default{
           product_category_id : "",
           likeable_id:"",
           likeable_type:"",
+          page:1,
+          state_transaction:"",
+          hide:"",
       }),
+        reportForm : new Form(this.$axios,{
+            reportable_id:"",
+            reportable_type:"",
+            report_category_id:"",
+            description:"",
+        }),
+        isDisabled: true,
         isReport:false,
         isMore:false,
+        isImg:false,
         product: null,
         products:{
             data:[],
             meta: {
-
+                current_page: 1,
+                last_page: 10,
             }
         },
         randomProducts:{
           data:[],
+            meta: {
+                current_page: 1,
+                last_page: 10,
+            }
         },
         similarProducts:{
           data:[],
+            meta: {
+                current_page: 1,
+                last_page: 10,
+            }
         },
         otherProducts:{
           data:[],
+            meta: {
+                current_page: 1,
+                last_page: 10,
+            }
+        },
+        ReportCategories:{
+          data:[],
+            meta: {
+                current_page: 1,
+                last_page: 10,
+            }
         }
-
     }
 
   },
@@ -449,7 +427,6 @@ export default{
           this.$axios.get("/api/products/"+ this.$route.params.id, {
 
           }).then(response => {
-              console.log(this.$auth.user.data.id);
               console.log(response.data.data);
               this.product = response.data.data;
               // this.form.product_category_id = response.data.data.product_category_id;
@@ -461,6 +438,7 @@ export default{
 
               this.$nextTick(() => {
                   this.initSwiper();
+                  this.detailSwiper();
               });
           })
       },
@@ -474,20 +452,17 @@ export default{
               pagination: {
                   el: '.detail-img-pagination',
               },
-          });
-
-//swiper 내 이미지 클릭시 팝업 열림
-          $('.detail-img-slide .swiper-slide').click(function(){
-              $('.modal_slide').addClass('active');
-              var slide_popup = new Swiper(".slide_popup", {
-                  loop: true,
-                  pagination: {
-                      el: '.slide-popup-pagination',
-                  },
-              });
+          }
+          )
+      },
+      detailSwiper(){
+          var slide_popup = new Swiper(".slide_popup", {
+              loop: true,
+              pagination: {
+                  el: '.slide-popup-pagination',
+              },
           });
       },
-
       getRandomProducts() {
           this.$axios.get("/api/products/", {
               params: {
@@ -545,6 +520,7 @@ export default{
       async getMap() {
           const getlat = this.product.lat;
           const getlon = this.product.lon;
+
           // Wait for Google Maps API to be ready
           await new Promise((resolve) => {
               const checkReady = setInterval(() => {
@@ -609,18 +585,69 @@ export default{
           }
 
       },
-\
-
       clickMore(){
           this.isMore=true;
           console.log(this.isReport);
       },
+      getReportCategories(){
+          this.$axios.get("/api/reportCategories", {
+              params: this.form.data(),
+          }).then(response => {
+              console.log(response.data);
+              this.ReportCategories = response.data;
+          })
+      },
+      enable(num){
+          if (num === 5) {
+              this.isDisabled = false;  // 5번째 카테고리일 때만 입력 상자를 활성화
+          } else {
+              this.isDisabled = true;   // 그 외의 경우에는 입력 상자를 비활성화
+          }
+      },
+      submitReport(id,type){
+          this.reportForm.reportable_id = id;
+          this.reportForm.reportable_type = type;
+
+          this.reportForm.post("/api/reports").then(response => {
+
+          })
+      },
+      changeTransaction(num){
+          this.isMore=false;
+          this.form.state_transaction = num;
+          this.form.patch("/api/products/updateStateTransaction/"+ this.$route.params.id).then(response => {
+              console.log(response.data);
+              this.product = response.data;
+          })
+      },
+      hideTransaction(num){
+          this.isMore=false;
+          if(num==1){
+              this.form.hide=0;
+          }
+          else{
+              this.form.hide=1;
+          }
+          this.form.patch("/api/products/updateHide/"+ this.$route.params.id, {
+
+          }).then(response => {
+              console.log(response.data.data);
+              this.product = response.data;
+          })
+      },
+
+      remove() {
+          this.form.delete("/api/products/" + this.$route.params.id, {
+
+          }).then(response => {
+              return this.$router.push("/products");
+          })
+      }
+
   },
 
   computed: {
-        getName(){
-            return this.products.data.find(data => data.user.id = this.product.user.id);
-        },
+
       user(){
             return this.$auth.user.data;
       }
@@ -631,6 +658,7 @@ export default{
       // this.form.user_id = this.product.data.user_id;
       this.getProducts();
       this.getRandomProducts();
+      this.getReportCategories();
   }
 };
 </script>

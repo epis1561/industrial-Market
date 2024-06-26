@@ -53,6 +53,7 @@ form input{
     color: #000;
 /*    나눔*/
 }
+
 #map{
     min-height: 200px !important;
 }
@@ -61,3 +62,6 @@ form input{
     min-height:200px !important;
 }
 
+.detail-img-wrap{
+    cursor: pointer;
+}
