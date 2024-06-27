@@ -73,6 +73,7 @@
 .modal-wrap { background: #fff; width: 100%; max-width: 768px; left: 50%; transform: translateX(-50%); height: 100%; padding: 24px 16px; position: absolute; }
 .modal-wrap::-webkit-scrollbar { display: none; }
 .close-btn { position: absolute; font-size: 24px; cursor: pointer; top: 24px; right: 24px; z-index: 9; }
+.modal-scroll-container .modal-scroll-wrap { width: 100%; }
 .modal-scroll-wrap { max-height: 60vh; overflow: auto; }
 .modal-title-wrap { margin-bottom: 24px; }
 .modal-title-wrap.border { padding-bottom: 24px; border-bottom: 1px solid #c4c4c4; }
@@ -83,7 +84,7 @@
 .modal-footer { align-items: center; margin-top: 40px; gap: 8px; justify-content: center; }
 .modal-footer-btn { height: 52px; border-radius: 4px; text-align: center; line-height: 50px; font-size: 16px; font-weight: 500; color: #202020; background: #fff; border: 1px solid #202020; padding: 0 24px; }
 .modal-footer-btn.close-btn { position: static; font-size: 16px; background: #aeaeae; color: #fff; border: 1px solid #aeaeae; }
-.modal-footer-btn.submit-btn { background: #202020; color: #fff; border: 1px solid #202020; }
+.modal-footer-btn.submit-btn { background: #044aba; color: #fff; border: 1px solid #044aba; }
 .modal-footer-btn.submit-btn.disable { background: #aeaeae; border: 1px solid #aeaeae; }
 
 .modal-alert { border: 2px solid #e4e4e4; height: auto; width: calc( 100% - 80px ); padding: 24px 16px 20px; max-width: 480px; text-align: center; border-radius: 16px; left: 50%; right: unset; top: 50%; bottom: unset; transform: translate(-50%, -50%); }
@@ -678,3 +679,11 @@ main { overflow: auto; }
 .notification-item .item-txt .txt { font-size: 12px; color: #aeaeae; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .notification-item .item-txt .title { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .notification-item .item-txt .date { font-size: 10px; color: #aeaeae; margin-top: 4px; }
+
+/* 지역 선택 팝업 */
+.local_select_2 .modal-wrap { padding-left: 0; padding-right: 0; }
+.local_select_2 .modal-scroll-wrap { overflow: unset; padding: 16px; padding-top: 0; }
+.local_select_2 .form-label-wrap { height: 100%; overflow: auto; padding-top: 12px; }
+.local_select_2 .modal-footer { width: calc( 100% - 32px ); margin: 0 auto; }
+.local_select_2 .local-select-group-2 { position: relative; }
+.local_select_2 .local-select-group-2::after { content: ''; display: block; position: absolute; width: calc( 100% + 16px ); left: 0; top: 0; height: calc( 100% + 84px ); background: #f5f5f5; z-index: -1; }
