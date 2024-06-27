@@ -101,7 +101,7 @@
 .modal-select-wrap .modal-footer-btn { min-width: 128px; }
 .modal-select-wrap .modal-footer-btn.submit-btn { width: 100%; }
 
-.modal-notice-txt { position: fixed; bottom: 48px; width: calc( 100% - 32px ); max-width: 480px; left: 50%; transform: translateX(-50%); z-index: 99999; padding: 12px 16px; font-size: 14px; font-weight: 500; text-align: center; line-height: 1.25; background: #000; border-radius: 4px; color: #fff; opacity: 0; display: none; transform: .2s; }
+.modal-notice-txt { position: fixed; top: 50%; width: calc( 100% - 32px ); max-width: 480px; left: 50%; transform: translate(-50%, -50%); z-index: 99999; padding: 12px 16px; font-size: 14px; font-weight: 500; text-align: center; line-height: 1.25; background: #000; border-radius: 4px; color: #fff; opacity: 0; display: none; transform: .2s; }
 .modal-notice-txt.active { display: block; animation: fadeInOut 2s forwards; }
 @keyframes fadeInOut { 
   0%, 99% { opacity: 0; }
