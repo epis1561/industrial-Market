@@ -1,5 +1,5 @@
 <template>
-    <nuxt-link :to="`/products/${item.id}`"class="chat-item col-group">
+    <nuxt-link :to="`/chattting/${item.id}`"class="chat-item col-group">
         <div class="profile-img">
             <img :src="chatting.img.url ? chatting.img.url : ''" />
         </div>
@@ -44,7 +44,15 @@ export default {
     },
 
     computed: {
+        targetUser(){
 
+            if(this.chattings.data.owner.id === this.$auth.user.data.id){
+                return this.chattings.data.asker;
+            }
+            else if(this.chattings.data.asker.id === this.$auth.user.data.id){
+                return this.chattings.data.owner;
+            }
+        },
     },
 
     mounted() {

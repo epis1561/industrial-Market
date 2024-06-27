@@ -93,15 +93,7 @@ export default{
     },
 
     computed: {
-        targetUser(){
 
-            // if(this.chattings.data.owner.id === this.$auth.user.data.id){
-            //     return this.chattings.data.asker;
-            // }
-            // else if(this.chattings.data.asker.id === this.$auth.user.data.id){
-            //     return this.chattings.data.owner;
-            // }
-        },
     },
 
     mounted() {
