@@ -29,11 +29,8 @@
 
                 <div class="login-header">
                     <h2 class="title">
-                        로그인
+                        회원가입
                     </h2>
-                    <p class="txt">
-                        이메일은 필수입력 정보입니다.
-                    </p>
                 </div>
                 
                 <div class="form-wrap row-group">
@@ -55,24 +52,62 @@
                     </div>
                     <div class="form-item row-group">
                         <div class="item-default">
-                            닉네임
+                            닉네임(필수)
                         </div>
                         <div class="item-user">
-                            <input type="text" class="form-input" placeholder="닉네임 입력(선택)">
+                            <input type="text" class="form-input" placeholder="닉네임 입력(필수)">
                         </div>
                     </div>
                     <div class="form-item row-group">
                         <div class="item-default">
-                            이메일
+                            이메일(필수)
                         </div>
                         <div class="item-user">
                             <input type="text" class="form-input" placeholder="이메일 입력(필수)">
+                            <p class="guide-txt">
+                                사용하시는 이메일 주소로 입력해 주세요. <br>
+                                거래정보, 혜택 및 이벤트 정보를 보내드립니다.
+                            </p>
                         </div>
+                    </div>
+                    <div class="form-item row-group">
+                        <div class="item-default">
+                            활동지역(필수)
+                        </div>
+                        <div class="item-user">
+                            <div class="form-input-wrap col-group">
+                                <select name="" id="" class="form-input form-select">
+                                    <option value="광역시/도"></option>
+                                </select>
+                                <select name="" id="" class="form-input form-select">
+                                    <option value="시/군/구"></option>
+                                </select>
+                            </div>
+                            <p class="guide-txt">
+                                활동 지역의 물품이 우선 노출됩니다.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="area-setting-label col-group">
+                        <label for="type_1">
+                            <input type="checkbox" class="form-checkbox" id="type_1" name="type">
+                            <div class="checked-item col-group">
+                                <div class="icon">
+                                    <i class="xi-check"></i>
+                                </div>
+                                <p class="txt">
+                                    현재 위치로 설정
+                                </p>
+                            </div>
+                        </label>
+                        <p class="area-txt">
+                            불광제1동
+                        </p>
                     </div>
                 </div>
 
                 <div class="form-footer">
-                    <a href="" class="form-footer-btn submit-btn">다음</a>
+                    <a href="index.html" class="form-footer-btn submit-btn">로그인</a>
                 </div>
             </div>
         </main>
