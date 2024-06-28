@@ -2,7 +2,7 @@
     <div :class="`m-input-images type01 ${hide ? 'hide' : ''}`">
         <div class="m-input" v-if="!onlyShow">
             <input type="file" :id="id" @change="changeFile" accept="image/*" :multiple="multiple" capture="camera" v-if="camera">
-            <input type="file" :id="id" @change="changeFile" accept="image/*" :multiple="multiple" v-else>
+            <input type="file" :id="id" @change="changeFile" accept="image/*" :multiple="multiple" v-else >
 
 <!--            <label class="m-btn" :for="id">-->
 <!--                <i class="xi-plus"></i>-->
@@ -13,6 +13,9 @@
         <div class="m-files-wrap" v-if="defaultFiles.length > 0 || files.length > 0">
             <div class="m-files">
                 <div class="m-file-wrap" v-for="(file, index) in defaultFiles" :key="index">
+                    <div class="file-preview-label">
+                        대표
+                    </div>
                     <div class="m-file" :style="`background-image:url(${file.url})`">
                         <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(file, index)" type="button">
                             <i class="xi-close"></i>
@@ -21,6 +24,9 @@
                 </div>
 
                 <div class="m-file-wrap" v-for="(file, index) in files" :key="index">
+                    <div class="file-preview-label">
+                        대표
+                    </div>
                     <div class="m-file" :style="`background-image:url(${file.url})`">
                         <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(file, index)" type="button">
                             <i class="xi-close"></i>
@@ -125,6 +131,9 @@ export default {
         maxWidth: {
             default: 1920
         },
+        canAdd: {
+            default: false
+        },
         /*maxHeight: {
             default: 2000,
         }*/
@@ -147,7 +156,7 @@ export default {
             let length = event.target.files.length;
             let countResize = 0;
 
-            if(!this.multiple) {
+            if(!this.multiple || !this.canAdd) {
                 this.files = [];
                 this.defaultFiles = [];
             }

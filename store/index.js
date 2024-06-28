@@ -23,6 +23,11 @@ export const state = () => ({
     productCategories: {
         data: [],
         meta: {},
+    },
+
+    coords: {
+        x: "",
+        y: "",
     }
 })
 
@@ -82,22 +87,28 @@ export const mutations = {
 
     setProductCategories(state, data){
         state.productCategories = data;
+    },
+
+    setCoords(state, data){
+        state.coords = data;
     }
 }
 
 export const actions = {
-    async getBanners({commit}, data){
-        this.$axios.get("/api/banners")
-            .then(response => {
-                commit("setBanners", response.data);
-            });
-    },
+    async getCoords({commit}) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    let y = position.coords.latitude || "37.5179681611717";
+                    let x = position.coords.longitude || "127.047059839521";
 
-    async getCategories({commit}, data){
-        this.$axios.get("/api/categories")
-            .then(response => {
-                commit("setCategories", response.data);
-            });
+                    commit("setCoords", {y,x});
+                },
+                (error) => {
+                    console.error(error.message);
+                }
+            );
+        }
     }
 }
 

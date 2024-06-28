@@ -41,7 +41,7 @@ export default {
             {src: "//unpkg.com/aos@2.3.1/dist/aos.js"},
             /*{src: "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"},*/
             /*{src: "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=5e85237532da8edfc3cc9905f1abdd8c&libraries=services"},*/
-            {src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyARMsRvnUWWb34RBAYXvBtuoAu9prdpsus"},
+            { src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyAizhdiKHgvGGkE03NGus5vTQ23D_D-agc" },
             {src: "/js/datepicker.min.js"},
             {src: "//www.gstatic.com/charts/loader.js"},
             {src: "//gcore.jsdelivr.net/npm/chart.js"},

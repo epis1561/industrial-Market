@@ -101,6 +101,7 @@ export default {
     },
     mounted() {
         this.getProductCategories();
+        this.$store.dispatch("getCoords");
      /*   this.$store.dispatch("getCenterTypes");
       //아래처럼 푸시id 가져오는 구문 사용(웹페이지가 로딩되자마자 가져오는 방법사용)
 

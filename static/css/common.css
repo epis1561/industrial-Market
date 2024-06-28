@@ -194,3 +194,19 @@ i { font-family: 'xeicon'; font-style: normal; }
 .detail-header .setting-btn { background-image: url(../images/icon_setting_white.png); }
 .detail-header.active .setting-btn { background-image: url(../images/icon_setting.png); }
 .detail-header.active .sub-header-btn i { color: #202020; }
+
+.form-item.row-group .categorybuttons{
+    display: flex;
+    gap: 8px;
+}
+.form-item.row-group .categorybuttons button{
+    border: 1px solid #E4E4E4;
+    border-radius: 18px;
+    font-size: 13px;
+    color: #202020;
+    padding: 5px 10px;
+}
+.form-item.row-group .categorybuttons .category.active{
+    background-color: #484848;
+    color: #fff;
+}
