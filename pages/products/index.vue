@@ -114,7 +114,8 @@ export default {
         },
         scroll(){
             $('.index').scroll(this.loadMore);
-        }
+        },
+
 
     },
 

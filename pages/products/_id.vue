@@ -13,7 +13,7 @@
               </div>
               <div class="sub-header-btn-wrap col-group">
                   <button class="sub-header-btn share-btn"></button>
-                  <button class="sub-header-btn report-btn" @click="isReport=true" v-if="user.id != product.user.id"></button><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
+                  <button class="sub-header-btn report-btn" @click="isReport=true" ></button><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
                   <button class="sub-header-btn more-btn" v-if="user.id == product.user.id" @click="isMore=true"><!-- 본인의 상품 확인 시 보이는 버튼 -->
                       <i class="icon"></i>
                   </button>
@@ -281,7 +281,8 @@
                       <i class="icon"></i>
                       {{ product.format_short_type }}대기
                   </button>
-                  <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1" @click.prevent="changeTransaction(1)">
+                  <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1" @click="isTrade=true">
+
                       <i class="icon"></i>
                       거래중
                   </button>
@@ -321,7 +322,7 @@
       <!-- //헤더 버튼 클릭시 나타나는 팝업 -->
 
       <!-- 거래중 버튼 클릭 시 팝업 -->
-      <div class="modal-container modal_trans">
+      <div class="modal-container modal_trans" :class="{'active':isTrade}">
           <div class="modal-wrap modal-alert">
               <div class="modal-title-wrap">
                   <i class="icon blue"></i>
@@ -333,10 +334,10 @@
               </p>
 
               <div class="modal-footer col-group">
-                  <button class="modal-footer-btn close-btn">
+                  <button class="modal-footer-btn close-btn" @click="isTrade=false">
                       취소
                   </button>
-                  <button class="modal-footer-btn submit-btn">
+                  <button class="modal-footer-btn submit-btn" @click.prevent="changeTransaction(1)">
                       변경하기
                   </button>
               </div>
@@ -380,6 +381,7 @@ export default{
         isMore:false,
         isImg:false,
         product: null,
+        isTrade: false,
         products:{
             data:[],
             meta: {
@@ -614,6 +616,7 @@ export default{
       },
       changeTransaction(num){
           this.isMore=false;
+          this.isTrade=false;
           this.form.state_transaction = num;
           this.form.patch("/api/products/updateStateTransaction/"+ this.$route.params.id).then(response => {
               console.log(response.data);

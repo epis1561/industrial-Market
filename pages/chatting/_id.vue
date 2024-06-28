@@ -130,7 +130,7 @@
                         <i class="icon"></i>
                         신고하기
                     </button>
-                    <button class="chat-more-option col-group modal_notice_btn">
+                    <button class="chat-more-option col-group modal_notice_btn" @click="changeAlarm">
                         <i class="icon"></i>
                         알림끄기
                     </button>
@@ -215,9 +215,8 @@
         <!-- //신고하기 버튼 클릭시 나타나는 팝업 -->
 
         <!-- 알림끄기/켜기 버튼 클릭 시 팝업 -->
-        <div class="modal-notice-txt">
-            채팅 알람이 꺼졌습니다.
-            <!-- 채팅 알람이 켜졌습니다. -->
+        <div class="modal-notice-txt" :class="{'active': alarmForm.alarm == 1}">
+           {{ alarmText }}
         </div>
 
         <!-- 채팅 이미지 버튼 클릭시 나타나는 팝업 -->
@@ -276,6 +275,11 @@ export default {
 
                     }
             ),
+            alarmForm: new Form(
+              this.$axios,{
+                  alarm:0,
+                    }
+            ),
             chat: null,
             isNull: false,
             isMore: false,
@@ -287,6 +291,7 @@ export default {
             isOut: false,
             isReport: false,
             reportable_type : "Chat",
+            alarmText:"채팅 알람이 꺼졌습니다.",
             messages: {
                 data: [],
                 meta: {
@@ -305,6 +310,7 @@ export default {
             this.$axios.get("/api/chats/" + this.$route.params.id, {}).then(response => {
                 this.chat = response.data.data;
                 console.log(this.chat);
+
 
             })
         },
@@ -355,8 +361,24 @@ export default {
         },
         leave(){
             this.$router.back();
-        }
-
+        },
+        changeAlarm(){
+            if(this.alarmForm.alarm == 0){
+                this.alarmForm.alarm = 1;
+                this.alarmText = "채팅 알람이 켜졌습니다.";
+            }
+            else if(this.alarmForm.alarm ==1){
+                this.alarmForm.alarm = 0;
+                this.alarmText = "채팅 알람이 꺼졌습니다.";
+            }
+            console.log(this.alarmForm.alarm);
+            console.log(this.alarmText);
+            this.alarmForm.patch("/api/chats/"+ this.$route.params.id).then(response => {
+                console.log('성공했습니다');
+                this.chat = response.data;
+                console.log(this.chat);
+            })
+        },
     },
 
     computed: {

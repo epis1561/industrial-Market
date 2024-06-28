@@ -92,8 +92,10 @@ export default{
             this.$store.commit("setLoading",true);
             this.$axios.get("/api/chats", {
                 params: this.form.data(),
+
             }).then(response => {
                 console.log(response.data);
+                console.log("이거",this.$auth.user.data);
                 if(loadMore) {
 
                     this.chattings.data = [...this.chattings.data, ...response.data.data];
@@ -210,7 +212,8 @@ export default{
                 this.Null=false;
                 return this.getAskChat();
             }
-        }
+        },
+
     },
 
     computed: {
