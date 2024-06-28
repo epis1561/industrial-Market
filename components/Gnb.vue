@@ -1,18 +1,18 @@
 <template>
   <div class="container">
     <div class="gnb-wrap col-group">
-      <a href="index.html" class="gnb-item">
+      <nuxt-link to="/" class="gnb-item">
         <img src="/images/icon_home.png" alt="" class="icon">
         <p class="txt">
           홈
         </p>
-      </a>
-      <a href="chatting.html" class="gnb-item">
+      </nuxt-link>
+        <nuxt-link to="/chatting" class="gnb-item">
         <img src="/images/icon_chat.png" alt="" class="icon">
         <p class="txt">
           채팅
         </p>
-      </a>
+        </nuxt-link>
       <a href="create.html" class="gnb-item">
         <img src="/images/icon_submit.png" alt="" class="icon">
         <p class="txt">

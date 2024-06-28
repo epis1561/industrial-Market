@@ -1,19 +1,22 @@
 <template>
-    <nuxt-link :to="`/chattting/${item.id}`"class="chat-item col-group">
+    <nuxt-link :to="`/chatting/${item.id}`"class="chat-item col-group">
         <div class="profile-img">
-            <img :src="chatting.img.url ? chatting.img.url : ''" />
+            <img :src="targetUser.img.url ? targetUser.img.url : ''" />
         </div>
         <div class="item-txt-wrap row-group">
             <div class="title-group col-group">
                 <p class="name">
-                    {{ chatting.name }}
+                    {{ targetUser.name }}
                 </p>
                 <p class="date">
-                    {{ chattings.data.format_created_at }}
+                    {{ item.latestMessage.format_created_at }}
                 </p>
             </div>
-            <p class="txt">
-                {{ chatting.latestMessage.description }}
+            <p class="txt" v-if="item.latestMessage.length!=0">
+                {{ item.latestMessage.description }}
+            </p>
+            <p class="txt" v-if="item.latestMessage.length==0">
+                메시지가 없습니다.
             </p>
         </div>
     </nuxt-link>
@@ -46,16 +49,17 @@ export default {
     computed: {
         targetUser(){
 
-            if(this.chattings.data.owner.id === this.$auth.user.data.id){
-                return this.chattings.data.asker;
+            if(this.item.owner && this.item.owner.id == this.$auth.user.data.id){
+                return this.item.asker;
             }
-            else if(this.chattings.data.asker.id === this.$auth.user.data.id){
-                return this.chattings.data.owner;
+            else if(this.item.asker && this.item.asker.id == this.$auth.user.data.id){
+                return this.item.owner;
             }
         },
     },
 
     mounted() {
+
     }
 }
 </script>

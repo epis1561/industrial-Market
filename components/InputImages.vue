@@ -1,12 +1,13 @@
 <template>
-    <div class="m-input-images type01">
+    <div :class="`m-input-images type01 ${hide ? 'hide' : ''}`">
         <div class="m-input" v-if="!onlyShow">
-            <input type="file" :id="id" @change="changeFile" accept="image/*" :multiple="multiple">
+            <input type="file" :id="id" @change="changeFile" accept="image/*" :multiple="multiple" capture="camera" v-if="camera">
+            <input type="file" :id="id" @change="changeFile" accept="image/*" :multiple="multiple" v-else>
 
-            <label class="m-btn" :for="id">
-                <i class="xi-plus"></i>
-                사진 등록
-            </label>
+<!--            <label class="m-btn" :for="id">-->
+<!--                <i class="xi-plus"></i>-->
+<!--                사진 등록-->
+<!--            </label>-->
         </div>
 
         <div class="m-files-wrap" v-if="defaultFiles.length > 0 || files.length > 0">
@@ -14,7 +15,7 @@
                 <div class="m-file-wrap" v-for="(file, index) in defaultFiles" :key="index">
                     <div class="m-file" :style="`background-image:url(${file.url})`">
                         <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(file, index)" type="button">
-                            <i class="xi-trash-o"></i>
+                            <i class="xi-close"></i>
                         </button>
                     </div>
                 </div>
@@ -22,7 +23,7 @@
                 <div class="m-file-wrap" v-for="(file, index) in files" :key="index">
                     <div class="m-file" :style="`background-image:url(${file.url})`">
                         <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(file, index)" type="button">
-                            <i class="xi-trash-o"></i>
+                            <i class="xi-close"></i>
                         </button>
                     </div>
                 </div>
@@ -31,6 +32,10 @@
     </div>
 </template>
 <style>
+.m-input-images.type01.hide {
+    position: absolute; left:-50000000px;
+    opacity:0;
+}
 .m-input-images.type01 {
     display: flex; width:100%;
 }
@@ -69,16 +74,16 @@
     padding:4px;
 }
 .m-input-images.type01 .m-file {
+    border-radius: 4px;
     width:110px; height:110px;
     position:relative;
     background-size:cover; background-position: center center;
     border:1px solid #e1e1e1;
 }
 .m-input-images.type01 .m-file .m-btn-remove {
-    width: 20px; height:20px;
-    position: absolute; top:10px; right:10px;
+    width: auto; height:auto;
+    position: absolute; top:0px; right:0px;
     border-radius:5px;
-    background-color:red;
     box-shadow:0px 3px 6px rgba(0,0,0,0.16);
 }
 .m-input-images.type01 .m-file .m-btn-remove i {
@@ -92,6 +97,12 @@ export default {
             default() {
                 return []
             }
+        },
+        hide : {
+            default: false,
+        },
+        camera: {
+            default: false,
         },
         required: {
             default: true

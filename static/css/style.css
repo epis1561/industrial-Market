@@ -216,9 +216,7 @@ main { overflow: auto; }
 .prod-item .item-txt-wrap * { line-height: 1.25; }
 .prod-item .label { display: inline-block; font-size: 12px; font-weight: normal; padding: 0 4px; height: 20px; line-height: 20px; background: #2f83f7; color: #fff; border-radius: 2px; }
 
-.prod-item .label0 {}
-.prod-item .label1 {}
-.prod-item .label2 {}
+
 
 .prod-item .title { font-size: 14px; margin-bottom: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc( 100% - 28px ); }
 .prod-item .sub-txt-group { gap: 10px; margin-bottom: 12px; }
@@ -405,7 +403,8 @@ main { overflow: auto; }
 .file-preview-label { font-size: 10px; color: #fff; width: 32px; height: 18px; line-height: 18px; text-align: center; background: #2f83f7; position: absolute; top: 0; left: 0; display: none; }
 .file-preview:first-child .file-preview-label { display: block; }
 .file-preview-img { height: 100%; object-fit: cover; object-position: center; }
-.file-preview-wrap .xi-close { display: block; width: 16px; height: 16px; font-size: 10px; text-align: center; line-height: 16px; background: #484848; color: #fff; position: absolute; top: 0; right: 0; cursor: pointer; }
+.file-preview-wrap .xi-close {
+  border-radius: 2px; display: block; width: 16px; height: 16px; font-size: 10px; text-align: center; line-height: 16px; background: #484848; color: #fff; position: absolute; top: 0; right: 0; cursor: pointer; }
 
 .modal_addr .modal-wrap { padding-left: 0; padding-right: 0; }
 .modal_addr .modal-title-wrap { padding-left: 16px; padding-right: 16px; margin-bottom: 0; padding-bottom: 24px; }

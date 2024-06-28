@@ -73,7 +73,7 @@ export default {
                 data: [],
                 meta: {
                     current_page: 1,
-                    last_page: 10,
+                    last_page: "",
                 }
             },
         }
@@ -97,17 +97,24 @@ export default {
             var innerHeight = $('.index').innerHeight();
 
             var scrollHeight = $('.index').prop('scrollHeight');
+            if (this.load || this.form.page >= this.products.meta.last_page) {
+                return;
+            }
             console.log(this.form.page)
-            if (scrollTop + innerHeight >= scrollHeight - 250) {
-                this.load = true;
+            if (scrollTop + innerHeight >= scrollHeight - 200) {
 
                 if(this.form.page < this.products.meta.last_page) {
+                    this.load = true;
                     this.form.page += 1;
+                    this.$store.commit("setLoading",true);
                     return this.getProducts(this.load);
                 };
 
             }
         },
+        scroll(){
+            $('.index').scroll(this.loadMore);
+        }
 
     },
 
@@ -120,11 +127,7 @@ export default {
     mounted() {
         this.form.word = this.$route.query.word;
         this.getProducts();
-
-
-        setTimeout(() => {
-            $('.index').scroll(this.loadMore);
-        }, 350);
+        this.scroll();
     },
 
 };

@@ -26,11 +26,11 @@ i { font-family: 'xeicon'; font-style: normal; }
 
 
 }
-form{
+.login-form form{
     padding: 150px;
     background-color: #e8e8e8;
 }
-form input{
+.login-form form input{
     width: 200px;
     height: 30px;
     line-height: 30px;
@@ -42,15 +42,15 @@ form input{
 
 }
 
-.prod-item  .label1{
-    color: #fff;
-    background-color: #484848;
+.prod-item .label1{
+    color: #fff !important;
+    background-color: #484848 !important;
 /*찾습니다*/
 }
 
 .prod-item .label2{
-    background-color: #FFD500;
-    color: #000;
+    background-color: #FFD500 !important;
+    color: #000 !important;
 /*    나눔*/
 }
 
@@ -64,4 +64,10 @@ form input{
 
 .detail-img-wrap{
     cursor: pointer;
+}
+.top-label-wrap .label-item{
+    cursor: pointer;
+}
+.chat-prod .label .label1{
+
 }
