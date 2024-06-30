@@ -303,6 +303,7 @@ export default {
                 zoom: 10,
                 center: {lat: getlat, lng: getlon}, // Initial position
                 mapId: "DEMO_MAP_ID",
+                disableDefaultUI: true,
             });
 
             // Add a marker

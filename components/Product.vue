@@ -9,7 +9,7 @@
             </p>
             <div class="sub-txt-group col-group">
                 <p class="sub-txt">
-                    {{ item.format_title }}
+                    {{ locate }}
                 </p>
                 <p class="sub-txt">
                     {{ item.format_created_at }}
@@ -60,7 +60,21 @@ export default {
     },
 
     computed: {
+        locate(){
+            let locations= [this.item.city,this.item.county,this.item.town,this.item.town2];
 
+            let items=[];
+
+            for(let i = 0; i<locations.length; i++){
+                if(items.length==2)
+                    return items.join(' ');
+
+                if(locations[i])
+                    items.push(locations[i]);
+            }
+
+            return items.join(' ');
+        }
     },
 
     mounted() {

@@ -158,10 +158,8 @@ export default{
             }).then(response => {
                 console.log(response.data);
                 if(loadMore) {
-
                     this.chattings.data = [...this.chattings.data, ...response.data.data];
                     this.load = false;
-
                 }
                 else{
 

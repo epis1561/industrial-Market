@@ -24,7 +24,14 @@ export const state = () => ({
         data: [],
         meta: {},
     },
-
+    noticeCategories:{
+        data:[],
+        meta:{},
+    },
+    faqCategories:{
+        data:[],
+        meta:{},
+    },
     coords: {
         x: "",
         y: "",
@@ -88,7 +95,12 @@ export const mutations = {
     setProductCategories(state, data){
         state.productCategories = data;
     },
-
+    setNoticeCategories(state, data){
+        state.noticeCategories = data;
+    },
+    setFaqCategories(state, data){
+        state.faqCategories = data;
+    },
     setCoords(state, data){
         state.coords = data;
     }

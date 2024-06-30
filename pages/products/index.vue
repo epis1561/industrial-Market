@@ -22,7 +22,7 @@
             <div class="cate-wrap">
                 <div class="cate-list col-group">
                     <a href="" class="cate-item active" @click.prevent="">전체보기</a>
-                    <nuxt-link :to="`/productCategories/${item.id}`" class="cate-item" v-for="item in this.productCategories.data">
+                    <nuxt-link :to="`/productCategories/${item.id}`" class="cate-item" v-for="item in this.productCategories.data" :key="item.id">
                         {{ item.title }}
                     </nuxt-link>
                 </div>
@@ -82,12 +82,14 @@ export default {
 
     methods: {
         getProducts(loadMore) {
+
             this.$axios.get("/api/products", {
                 params: this.form.data(),
             }).then(response => {
-                if (loadMore)
+                if (loadMore) {
+                    this.load = false;
                     return this.products.data = [...this.products.data, ...response.data.data];
-
+                }
                 return this.products = response.data;
             })
         },
@@ -100,7 +102,7 @@ export default {
             if (this.load || this.form.page >= this.products.meta.last_page) {
                 return;
             }
-            console.log(this.form.page)
+
             if (scrollTop + innerHeight >= scrollHeight - 200) {
 
                 if(this.form.page < this.products.meta.last_page) {
@@ -126,7 +128,7 @@ export default {
     },
 
     mounted() {
-        this.form.word = this.$route.query.word;
+
         this.getProducts();
         this.scroll();
     },

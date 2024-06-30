@@ -7,7 +7,7 @@
                     홈
                 </p>
             </nuxt-link>
-            <nuxt-link to="/chatting" class="gnb-item">
+            <nuxt-link to="/chats" class="gnb-item">
                 <div class="rela">
                     <div class="chat-num" v-if="$auth.user.data.count_unread_message <= 0">{{ $auth.user.data.count_unread_message }}</div>
                     <img src="/images/icon_chat.png" alt="" class="icon">

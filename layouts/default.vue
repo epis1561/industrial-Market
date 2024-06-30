@@ -98,9 +98,24 @@ export default {
                     });
         },
 
+        getNoticeCategories(){
+            this.$axios.get("/api/noticeCategories")
+                    .then(response => {
+                        this.$store.commit("setNoticeCategories", response.data);
+                    });
+        },
+
+        getFaqCategories(){
+            this.$axios.get("/api/faqCategories")
+                    .then(response => {
+                        this.$store.commit("setFaqCategories", response.data);
+                    });
+        },
     },
     mounted() {
         this.getProductCategories();
+        this.getNoticeCategories();
+        this.getFaqCategories();
         this.$store.dispatch("getCoords");
      /*   this.$store.dispatch("getCenterTypes");
       //아래처럼 푸시id 가져오는 구문 사용(웹페이지가 로딩되자마자 가져오는 방법사용)
