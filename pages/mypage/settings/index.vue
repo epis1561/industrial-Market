@@ -1,23 +1,14 @@
-<!DOCTYPE html>
-<html lang="ko">
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=0" />
-<title>산업마켓</title>
-<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-<link rel="stylesheet" href="css/swiper.min.css">
-<link rel="stylesheet" type="text/css" href="css/common.css">
-<link rel="stylesheet" type="text/css" href="css/style.css">
+<template>
 
-<body>
+    <body>
     <div id="wrap">
-       <!-- header Start -->
-       <header id="header" class="sub-header">
+
+        <!-- header Start -->
+        <header id="header" class="sub-header">
             <div id="search"></div> <!-- 검색창 -->
             <div class="container col-group">
                 <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
-                    <img src="images/icon_prev.png" alt="">
+                    <img src="/images/icon_prev.png" alt="">
                 </a>
                 <h2 class="title">
                     설정
@@ -33,14 +24,14 @@
                         알림
                     </p>
                     <div class="mypage-menu-list row-group">
-                        <a href="mypage_notification.html" class="mypage-menu-item col-group">
+                        <nuxt-link to="/mypage/settings/notification" class="mypage-menu-item col-group">
                             <p class="title">
                                 알림설정
                             </p>
                             <div class="more-btn col-group">
                                 <i class="icon"></i>
                             </div>
-                        </a>
+                        </nuxt-link>
                     </div>
                 </div>
                 <div class="mypage-menu-wrap">
@@ -137,18 +128,46 @@
                     </div>
                 </div>
             </div>
-           
+
         </main>
 
         <!-- gnb Start -->
         <div id="gnb">
-
+            <gnb/>
         </div>
         <!-- gnb End -->
     </div>
-</body>
+    </body>
 
-<script src="js/jquery.js"></script>
-<script src="js/script.js"></script>
-<script src="js/swiper.min.js"></script>
-</html>
+</template>
+<script>
+import Form from "@/utils/Form";
+export default {
+
+    data() {
+        return {
+            form: new Form(this.$axios, {
+
+            }),
+
+        };
+    },
+
+    methods: {
+
+    },
+
+    computed: {
+        user(){
+            return this.$auth.user.data;
+        }
+    },
+    watch: {
+
+    },
+    mounted() {
+
+
+    }
+}
+</script>

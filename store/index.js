@@ -1,76 +1,80 @@
 export const state = () => ({
-    domain : process.env.NODE_ENV === "production" ? "https://api.cherivu.co.kr" : "http://localhost:80",
+    domain: process.env.NODE_ENV === "production" ? "https://api.cherivu.co.kr" : "http://localhost:80",
     pop: null,
     modals: [],
     loading: false,
     intendedUrl: "",
     banners: {
         data: [],
-        meta: {
-
-        }
+        meta: {}
     },
     categories: {
         data: [],
-        meta: {
-
-        }
+        meta: {}
     },
-
-    push_token: null,
-    webview: false,
-
-    productCategories: {
+    notices: {
         data: [],
         meta: {},
+
+        },
+    events: {
+        data: [],
+        meta: {}
     },
-    noticeCategories:{
-        data:[],
-        meta:{},
-    },
-    faqCategories:{
-        data:[],
-        meta:{},
-    },
-    coords: {
-        x: "",
-        y: "",
-    }
-})
+        push_token: null,
+        webview: false,
+
+        productCategories: {
+            data: [],
+            meta: {},
+        },
+        noticeCategories: {
+            data: [],
+            meta: {},
+        },
+        faqCategories: {
+            data: [],
+            meta: {},
+        },
+        coords: {
+            x: "",
+            y: "",
+        }
+    })
 
 export const mutations = {
-  /*setToken (state) {
-    state.token = state;
-  },*/
+    /*setToken (state) {
+      state.token = state;
+    },*/
 
-    setActiveIntro(state, data){
+    setActiveIntro(state, data) {
         state.activeIntro = data
     },
-    setIntendedUrl (state, data){
+    setIntendedUrl(state, data) {
         state.intendedUrl = data
     },
-    setPop (state, data){
+    setPop(state, data) {
         state.pop = data;
     },
 
-    setModals (state, data) {
+    setModals(state, data) {
         state.modals = data;
     },
 
-    setPushToken (state, data){
+    setPushToken(state, data) {
         state.push_token = data;
     },
 
 
-    setWebview (state, data) {
+    setWebview(state, data) {
         state.webview = data;
     },
 
-    setLoading (state, data) {
+    setLoading(state, data) {
         state.loading = data;
     },
 
-    setReservationUuid(state, data){
+    setReservationUuid(state, data) {
         localStorage.setItem("reservation_uuid", data);
         state.reservation_uuid = data;
     },
@@ -84,24 +88,30 @@ export const mutations = {
         state.centerType = data;
     },
 
-    setBanners(state, data){
+    setBanners(state, data) {
         state.banners = data;
     },
 
-    setCategories(state, data){
+    setCategories(state, data) {
         state.categories = data;
     },
 
-    setProductCategories(state, data){
+    setProductCategories(state, data) {
         state.productCategories = data;
     },
-    setNoticeCategories(state, data){
+    setNotices(state, data) {
+        state.notices = data;
+    },
+    setEvents(state, data) {
+        state.events = data;
+    },
+    setNoticeCategories(state, data) {
         state.noticeCategories = data;
     },
-    setFaqCategories(state, data){
+    setFaqCategories(state, data) {
         state.faqCategories = data;
     },
-    setCoords(state, data){
+    setCoords(state, data) {
         state.coords = data;
     }
 }
@@ -114,7 +124,7 @@ export const actions = {
                     let y = position.coords.latitude || "37.5179681611717";
                     let x = position.coords.longitude || "127.047059839521";
 
-                    commit("setCoords", {y,x});
+                    commit("setCoords", {y, x});
                 },
                 (error) => {
                     console.error(error.message);

@@ -13,7 +13,7 @@
                 </div>
                 <div class="sub-header-btn-wrap col-group">
                     <button class="sub-header-btn share-btn"></button>
-                    <button class="sub-header-btn report-btn" @click="isReport=true"></button>
+                    <button class="sub-header-btn report-btn" @click="isReport=true" v-if="user.id != product.user.id"></button>
                     <!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
                     <button class="sub-header-btn more-btn" v-if="user.id == product.user.id" @click="isMore=true">
                         <!-- 본인의 상품 확인 시 보이는 버튼 -->
@@ -44,12 +44,12 @@
                     <div class="detail-txt-wrap">
 
                         <!-- 본인의 상품 확인 시 보이는 섹션 -->
-                        <!--                      <div class="detail-status-select col-group">-->
-                        <!--                          <div class="txt">-->
-                        <!--                              나눔완료-->
-                        <!--                          </div>-->
-                        <!--                          <i class="icon"></i>-->
-                        <!--                      </div>-->
+                                              <div class="detail-status-select col-group" v-if="this.$auth.user.data.id == product.user.id" @click="isSelect = true">
+                                                  <div class="txt">
+                                                      {{ product.format_state }}
+                                                  </div>
+                                                  <i class="icon"></i>
+                                              </div>
                         <!-- //본인의 상품 확인 시 보이는 섹션 -->
 
                         <div class="detail-sub-title-wrap col-group">
@@ -217,20 +217,16 @@
                         </p>
                         나눔합니다
                     </div>
-                    <a href="#" class="chat-btn" @click.prevent="storeChat" v-if="user.id != product.user.id"><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
+                    <nuxt-link :to="`/chats?product_id=${product.id}`" class="chat-btn" v-if="user.id != product.user.id"><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
                         <img src="/images/icon_chat_white.png" alt="" class="icon">
                         채팅하기
-                    </a>
-                    <nuxt-link :to="`/chats?product_id=${product.id}`" class="chat-btn" v-if="user.id == product.user.id"><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
-                        <img src="/images/icon_chat_white.png" alt="" class="icon">
-                        채팅 {{product.count_chat}}
                     </nuxt-link>
-                    <!-- 본인의 상품 확인 시 보이는 버튼
-                    <a href="chatting.html" class="chat-btn">
-                        <img src="images/icon_chat_white.png" alt="" class="icon">
-                        채팅 3
-                    </a>
-                     -->
+                    <!-- 본인의 상품 확인 시 보이는 버튼-->
+                    <nuxt-link :to="`/chats?product_id=${product.id}`" class="chat-btn" v-if="user.id == product.user.id">
+                        <img src="/images/icon_chat_white.png" alt="" class="icon">
+                        채팅{{product.count_chat}}
+                    </nuxt-link>
+
                 </div>
             </div>
         </main>
@@ -301,22 +297,22 @@
             <div class="modal-select-wrap modal-wrap">
 
                 <div class="chat-more-option-wrap row-group">
-                    <button class="chat-more-option col-group" v-if="product.state_transaction!=0"
-                            @click.prevent="changeTransaction(0)">
-                        <i class="icon"></i>
-                        {{ product.format_short_type }}대기
-                    </button>
-                    <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1"
-                            @click="isTrade=true">
+<!--                    <button class="chat-more-option col-group" v-if="product.state_transaction!=0"-->
+<!--                            @click.prevent="changeTransaction(0)">-->
+<!--                        <i class="icon"></i>-->
+<!--                        {{ product.format_short_type }}대기-->
+<!--                    </button>-->
+<!--                    <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1"-->
+<!--                            @click="isTrade=true">-->
 
-                        <i class="icon"></i>
-                        거래중
-                    </button>
-                    <a href="buyer_select.html" class="chat-more-option col-group trans-btn"
-                       v-if="product.state_transaction!=2" @click.prevent="changeTransaction(2)">
-                        <i class="icon"></i>
-                        {{ product.format_short_type }}완료
-                    </a>
+<!--                        <i class="icon"></i>-->
+<!--                        거래중-->
+<!--                    </button>-->
+<!--                    <a href="#" class="chat-more-option col-group trans-btn"-->
+<!--                       v-if="product.state_transaction!=2" @click.prevent="changeTransaction(2)">-->
+<!--                        <i class="icon"></i>-->
+<!--                        {{ product.format_short_type }}완료-->
+<!--                    </a>-->
                     <button class="chat-more-option col-group" @click="hideTransaction(product.hide)"
                             v-if="product.hide==0">
                         <i class="icon"></i>
@@ -349,7 +345,35 @@
 
         </div>
         <!-- //헤더 버튼 클릭시 나타나는 팝업 -->
+        <!--        셀렉트버튼 클릭시 나오는 팝업     -->
+        <div class="modal-container modal_chat modal_status" :class="{'active':isSelect}" v-if="product">
+            <div class="modal-select-wrap modal-wrap">
 
+                <div class="chat-more-option-wrap row-group">
+                    <button class="chat-more-option col-group" v-if="product.state_transaction!=0" @click.prevent="changeTransaction(0)">
+                        <i class="icon"></i>
+                        {{ product.format_short_type }}
+                    </button>
+                    <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1" @click="isTrade=true">
+                        <i class="icon"></i>
+                        거래중
+                    </button>
+                    <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2" @click.prevent="changeTransaction(2)">
+                        <i class="icon"></i>
+                        {{ product.format_short_type }}완료
+                    </a>
+                </div>
+
+
+                <div class="modal-footer col-group">
+                    <button class="modal-footer-btn close-btn" @click="isSelect = false">
+                        취소
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <!--        셀렉트버튼 클릭시 나오는 팝업     -->
         <!-- 거래중 버튼 클릭 시 팝업 -->
         <div class="modal-container modal_trans" :class="{'active':isTrade}">
             <div class="modal-wrap modal-alert">
@@ -428,6 +452,7 @@ export default {
             product: null,
             isTrade: false,
             showMap:false,
+            isSelect:false,
             products: {
                 data: [],
                 meta: {
@@ -475,7 +500,7 @@ export default {
 
 
                 this.product = response.data.data;
-                console.log(this.product);
+                console.log(this.product.state_transaction);
                 // this.form.product_category_id = response.data.data.product_category_id;
                 this.form.user_id = response.data.data.user.id;
                 this.form.likeable_id = response.data.data.like;

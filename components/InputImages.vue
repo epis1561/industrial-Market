@@ -158,6 +158,13 @@ export default {
 
             if(!this.multiple || !this.canAdd) {
                 this.files = [];
+
+                if(this.defaultFiles.length > 0) {
+                    this.remove_ids = [...this.remove_ids, ...this.defaultFiles.map(defaultFile => defaultFile.id)];
+
+                    this.$emit("removed", this.remove_ids);
+                };
+
                 this.defaultFiles = [];
             }
 

@@ -1,5 +1,5 @@
 <template>
-    <nuxt-link :to="`/chatting/${item.id}`"class="chat-item col-group">
+    <nuxt-link :to="`/chats/${item.id}`"class="chat-item col-group">
         <div class="profile-img">
             <img :src="targetUser.img.url ? targetUser.img.url : ''" />
         </div>

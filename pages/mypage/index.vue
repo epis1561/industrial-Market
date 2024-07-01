@@ -10,7 +10,7 @@
                     <a href="javascript:window.history.back();" class="sub-header-btn prev-btn"></a>
                 </div>
                 <div class="sub-header-btn-wrap col-group">
-                    <a href="mypage_settings.html" class="sub-header-btn setting-btn"></a>
+                    <nuxt-link to="/mypage/settings" class="sub-header-btn setting-btn"></nuxt-link>
                 </div>
             </div>
         </header>
@@ -21,7 +21,7 @@
                 <div class="product-detail-section user-detail-top">
                     <div class="user-profile-wrap">
                         <div class="profile-img">
-                            <img src="" alt="">
+                            <img :src="user.img ? user.img.url : ''" alt="">
                         </div>
                         <div class="title-wrap col-group">
                             <p class="title">
@@ -56,7 +56,7 @@
                             나의 활동
                         </p>
                         <div class="mypage-menu-list row-group">
-                            <a href="mypage_sales.html" class="mypage-menu-item col-group">
+                            <nuxt-link to="" class="mypage-menu-item col-group">
                                 <p class="title">
                                     판매 내역
                                 </p>
@@ -64,8 +64,8 @@
                                     <p class="num">{{ user.count_product_sell }}</p>
                                     <i class="icon"></i>
                                 </div>
-                            </a>
-                            <a href="mypage_purchase.html" class="mypage-menu-item col-group">
+                            </nuxt-link>
+                            <nuxt-link :to="`/buy?id=${user.id}`" class="mypage-menu-item col-group">
                                 <p class="title">
                                     구매 내역
                                 </p>
@@ -73,16 +73,16 @@
                                     <p class="num">{{ user.count_product_buy }}</p>
                                     <i class="icon"></i>
                                 </div>
-                            </a>
-                            <a href="mypage_area_setting.html" class="mypage-menu-item col-group">
+                            </nuxt-link>
+                            <nuxt-link to="" class="mypage-menu-item col-group">
                                 <p class="title">
                                     활동지역 설정
                                 </p>
                                 <div class="more-btn">
                                     <i class="icon"></i>
                                 </div>
-                            </a>
-                            <a href="mypage_review.html" class="mypage-menu-item col-group">
+                            </nuxt-link>
+                            <nuxt-link to="" class="mypage-menu-item col-group">
                                 <p class="title">
                                     받은 후기
                                 </p>
@@ -90,7 +90,7 @@
                                     <p class="num">10</p>
                                     <i class="icon"></i>
                                 </div>
-                            </a>
+                            </nuxt-link>
                         </div>
                     </div>
                     <div class="mypage-menu-wrap">
@@ -99,9 +99,9 @@
                         </p>
                         <div class="mypage-menu-list row-group">
                             <nuxt-link to="/events" class="mypage-menu-item col-group">
-                                <p class="title">
+                                <p class="title" @click="console">
                                     이벤트
-                                    <span class="badge">N</span>
+                                    <span class="badge" v-if="newEvents.data.length!=0 && newEvents.data[0].new == 1">N</span>
                                 </p>
                                 <div class="more-btn">
                                     <i class="icon"></i>
@@ -118,7 +118,7 @@
                             <nuxt-link to="/notices" class="mypage-menu-item col-group">
                                 <p class="title">
                                     공지사항
-                                    <span class="badge">N</span>
+                                    <span class="badge" v-if="newNotice.data.length!=0 && newNotice.data[0].new == 1">N</span>
                                 </p>
                                 <div class="more-btn">
                                     <i class="icon"></i>
@@ -148,7 +148,7 @@
 
 </template>
 <script>
-import Form from "../../utils/Form";
+import Form from "@/utils/Form";
 export default {
 
     data() {
@@ -167,7 +167,13 @@ export default {
     computed: {
             user(){
                 return this.$auth.user.data;
-            }
+            },
+        newNotice(){
+                return this.$store.state.notices;
+        },
+        newEvents(){
+            return this.$store.state.events;
+        },
     },
     watch: {
 

@@ -104,6 +104,17 @@ export default {
                         this.$store.commit("setNoticeCategories", response.data);
                     });
         },
+        getEvents(){
+            this.$axios.get("/api/events", {}).then(response => {
+                this.$store.commit("setEvents", response.data);
+            })
+        },
+        getNotices(){
+            this.$axios.get("/api/notices", {
+            }).then(response => {
+                this.$store.commit("setNotices", response.data);
+            })
+        },
 
         getFaqCategories(){
             this.$axios.get("/api/faqCategories")
@@ -116,6 +127,8 @@ export default {
         this.getProductCategories();
         this.getNoticeCategories();
         this.getFaqCategories();
+        this.getEvents();
+        this.getNotices();
         this.$store.dispatch("getCoords");
      /*   this.$store.dispatch("getCenterTypes");
       //아래처럼 푸시id 가져오는 구문 사용(웹페이지가 로딩되자마자 가져오는 방법사용)

@@ -33,7 +33,7 @@
             <div class="container">
 
                 <!-- 채팅 내역 0개 -->
-                <div class="null-txt chat-null-txt row-group" v-if="isNulll">
+                <div class="null-txt chat-null-txt row-group" v-if="chattings.data.length==0">
                     <i class="icon"></i>
                     채팅 내역이 없습니다.
                 </div>
@@ -79,7 +79,7 @@ export default{
 
                 },
             },
-            isNulll:false,
+
             isMy: "전체",
         }
 
@@ -107,15 +107,10 @@ export default{
                     this.chattings = response.data;
                     console.log(this.chattings);
                 }
-                this.isNull();
+
             })
         },
 
-        isNull(){
-            if(this.chattings.data.length==0){
-                this.isNulll=true;
-            }
-        },
 
         loadMore(){
             var scrollTop = $('.subpage').scrollTop();

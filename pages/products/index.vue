@@ -81,7 +81,7 @@ export default {
     },
 
     methods: {
-        getProducts(loadMore) {
+        getProducts(loadMore=false) {
 
             this.$axios.get("/api/products", {
                 params: this.form.data(),

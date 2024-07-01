@@ -1,0 +1,51 @@
+<template>
+    <div>
+    <div class="modal-notice-txt" :class="{'active':isAdd}" v-if="isAdd">
+        키워드 알림이 등록되었습니다.
+    </div>
+    <div class="modal-notice-txt" :class="{'active':isEnough}" v-if="isEnough">
+        최대 50개까지만 등록 가능합니다.
+    </div>
+    </div>
+</template>
+<style>
+
+</style>
+<script>
+export default {
+    props: ["isAdd","isEnough"],
+    head(){
+        return {
+            link: [
+                {rel: 'stylesheet', href: '/css/developer.css'},
+
+            ],
+        }
+    },
+    data(){
+        return {
+
+        }
+    },
+
+    methods: {
+
+    },
+
+    computed: {
+        targetUser(){
+
+            if(this.item.owner && this.item.owner.id == this.$auth.user.data.id){
+                return this.item.asker;
+            }
+            else if(this.item.asker && this.item.asker.id == this.$auth.user.data.id){
+                return this.item.owner;
+            }
+        },
+    },
+
+    mounted() {
+
+    }
+}
+</script>
