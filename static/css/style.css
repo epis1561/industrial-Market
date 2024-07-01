@@ -258,7 +258,7 @@ main { overflow: auto; }
 .prod-btn-wrap .prod-btn .txt { font-size: 13px; color: #aeaeae; }
 
 .like-btn { width: 24px; height: 24px; background-image: url(../images/icon_like_gray.png); background-repeat: no-repeat; background-size: contain; background-position: center; }
-.like-btn.active { background-image: url(../images/icon_like_active.png); }
+.like-btn.active { background-image: url(../images/icon_like_blue.png); }
 .prod-item .like-btn { position: absolute; top: 0; right: 0; }
 
 .prod-item .complete-box { position: absolute; left: 0; top: 0; right: 0; bottom: 0; text-align: center; line-height: 104px; background-color: rgba(0, 0, 0, 0.6); font-size: 14px; font-weight: 500; color: #fff; display: none; }

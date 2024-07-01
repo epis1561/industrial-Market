@@ -140,6 +140,7 @@ i { font-family: 'xeicon'; font-style: normal; }
     width: 100%; display: flex; flex-flow: column; justify-content: center; align-items: center; gap: 4px; }
 .gnb-item .icon { width: 20px; height: 20px; }
 .gnb-item .txt { font-size: 10px; font-weight: 500; }
+.gnb-item.active .txt { color: #044aba; }
 .gnb-item .rela{
     position: relative;
 }
