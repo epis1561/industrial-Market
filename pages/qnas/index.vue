@@ -103,7 +103,11 @@ export default {
                 page: 1,
             }),
             qnas: {
-                data: []
+                data: [],
+                meta:{
+                    current_page:1,
+                    last_page:1,
+                }
             },
 
             loading: false,

@@ -5,11 +5,14 @@
 </template>
 <script>
 import Form from "../utils/Form";
+
 export default {
-    props: ["loading", "meta", "targetContents", "targetScroll"],
-    data(){
+    props: ["form", "loading", "meta", "targetContents", "targetScroll"],
+    data() {
         return {
-            page:1,
+            page: 1,
+            finish: false,
+            prevForm: this.form.data(),
         }
     },
 
@@ -25,13 +28,22 @@ export default {
 
             let self = this;
 
-            console.log(scrollEnd);
+            console.log(this.finish);
 
-            if (this.page < this.meta.last_page) {
-                if (scrollEnd && !this.loading) {
-                    this.page += 1;
+            if (!this.finish) {
+                if(!this.loading){
+                    console.log(this.finish, this.page, this.meta.last_page);
+                    if (this.page >= this.meta.last_page) {
+                        console.log("끝남");
 
-                    this.$emit("paginate", this.page);
+                        return this.finish = true;
+                    }
+
+                    if (scrollEnd) {
+                        this.page += 1;
+
+                        this.$emit("paginate", this.page);
+                    }
                 }
 
                 setTimeout(function () {
@@ -41,12 +53,35 @@ export default {
         },
     },
 
-    computed: {
-
-    },
+    computed: {},
 
     watch: {
+        "form": {
+            deep: true,
+            handler() {
+                console.log(this.form.meta);
+                console.log(this.form.links);
+                let prev = {
+                    ...this.prevForm,
+                    page: null
+                }
 
+                let current = {
+                    ...this.form.data(),
+                    page: null
+                }
+
+                this.prevForm = this.form.data();
+
+                if (this.finish && prev != current) {
+                    this.page = 1;
+
+                    this.finish = false;
+
+                    this.loadMore();
+                }
+            }
+        }
     },
 
     mounted() {
@@ -66,9 +101,7 @@ export default {
 
         const scrollListElement = document.querySelector(this.targetContents);
 
-
-            observer.observe(scrollListElement);
-
+        observer.observe(scrollListElement);
 
         this.loadMore();
     }

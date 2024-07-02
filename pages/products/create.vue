@@ -29,8 +29,9 @@
 
                                 <div class="file-preview-scroll-wrap">
                                     <div class="file-preview-wrap col-group">
-                                        <input-images :multiple="true" @change="(data) => {form.imgs = data;}" v-if="activeFiles"/>
+                                        <input-images :multiple="true" @change="(data) => {form.imgs = data;}" v-if="activeFiles" :default="product ? product.imgs:[]"/>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -245,7 +246,7 @@ export default {
                 city: "",
                 county: "",
                 town: "",
-                town2: "",
+                village: "",
                 address_detail: "",
                 product_category_id: "",
                 title:"",
@@ -260,8 +261,8 @@ export default {
                 real_country:"",
                 real_city:"",
                 real_county:"",
-                real_town:"",
-                real_town2:"",
+                realTown:"",
+                realVillage:"",
                 offer_price:0,
             }),
             mapNull: false,
@@ -274,20 +275,34 @@ export default {
             getTown:"",
             getTown2:"",
             getCountry:"",
+            product:null,
+            load:false,
         }
 
     },
 
     methods: {
-
-
         async getMap() {
-            let getlat = this.$store.state.coords.y;
-            let getlon = this.$store.state.coords.x;
+            if(this.$route.query.id){
+                var getlat = this.product.lat;
+                var getlon = this.product.lon;
+                this.form.lat = this.product.lat;
+                this.form.lon = this.product.lon;
+                console.log(getlat);
+                console.log(getlon);
+                console.log(this.form.lat);
+                console.log(this.form.lon);
+            }
+            else{
+                var getlat = this.$store.state.coords.y;
+                var getlon = this.$store.state.coords.x;
+
+                this.form.lat = this.$store.state.coords.y;
+                this.form.lon = this.$store.state.coords.x;
+            }
             this.form.real_lat=this.$store.state.coords.y;
             this.form.real_lon=this.$store.state.coords.x;
-            this.form.lat = this.$store.state.coords.y;
-            this.form.lon = this.$store.state.coords.x
+
             // Wait for Google Maps API to be ready
             await new Promise((resolve) => {
                 const checkReady = setInterval(() => {
@@ -471,40 +486,73 @@ export default {
                 this.form.city = "";
                 this.form.county = "";
                 this.form.town = "";
-                this.form.town2 = "";
+                this.form.village = "";
                 this.form.country = "";
             } else {
                 this.form.city = city;
                 this.form.county = county;
                 this.form.town = town;
-                this.form.town2 = town2;
+                this.form.village = town2;
                 this.form.country = country;
                 this.detailMap = true;
+
             }
-            console.log(this.form.country)
-            console.log(this.form.city)
-            console.log(this.form.county)
-            console.log(this.form.town)
-            console.log(this.form.town2)
+
         },
         closeMap(){
             this.isMap=false;
             this.detailMap=false;
-            this.form.city = this.getCity;
-            this.form.county = this.getCounty;
-            this.form.town = this.getTown;
-            this.form.town2 = this.getTown2;
-            this.form.country = this.getCountry;
+
+        },
+        getProduct(){
+            this.$store.commit("setLoading", true);
+
+            this.$axios.get("api/products/" + this.$route.query.id,{})
+                    .then(response => {
+                        this.product = response.data.data;
+                        console.log(this.product);
+                        this.form.title = this.product.title;
+                        this.form.product_category_id = this.product.product_category_id;
+                        this.form.type = this.product.type;
+                        this.form.price = this.product.price;
+                        this.form.description = this.product.description;
+                        this.form.address_detail = this.product.address_detail;
+                        this.form.keywords_origin = this.product.keywords_origin;
+                        this.form.city = this.product.city.title;
+                        this.form.county = this.product.county.title;
+                        this.form.town = this.product.town.title;
+                        this.form.village = this.product.village;
+                        this.form.country = this.product.country;
+                        this.form.imgs = this.product.imgs;
+                        this.form.real_county = this.product.realCounty.title;
+                        this.form.real_country = this.product.real_country.title;
+                        this.form.real_city = this.product.real_city
+                        this.getMap();
+                        this.load=true;
+                        this.activeFiles=true;
+                    })
         },
         store(){
-            this.form.price = this.form.price * 10000;
-            this.$store.commit("setLoading",true);
-            this.form.post("/api/products").then(response => {
-                this.form.price = this.form.price / 10000;
-                console.log('성공');
-                console.log(this.form.price)
-                this.$router.back();
-            })
+            console.log(this.form)
+            if(this.$route.query.id) {
+                return this.form.patch("/api/products/" + this.$route.query.id)
+
+            .then(response => {
+
+                    this.$router.push("/products");
+                });
+            }
+            else{
+                this.form.price = this.form.price * 10000;
+                this.$store.commit("setLoading",true);
+                this.form.post("/api/products").then(response => {
+                    this.form.price = this.form.price / 10000;
+                    console.log('성공');
+                    console.log(this.form.price)
+                    this.$router.back();
+                })
+            }
+
         },
         offer(){
             if(this.form.offer_price==0){
@@ -516,13 +564,14 @@ export default {
                 console.log(this.form.offer_price);
             }
 
-        }
+        },
+
 
     },
 
     computed: {
         checkInputAll(){
-            let exceptColumns = ["town", "town2","keywords_origin","real_town","real_town2"];
+            let exceptColumns = ["town", "village","keywords_origin","realTown","realVillage"];
 
             let keys = Object.keys(this.form.data());
 
@@ -558,21 +607,23 @@ export default {
             return this.$store.state.productCategories;
         },
 
+
         fullAddress(){
             let result = "";
 
-            if(this.form.city || this.form.county || this.form.town || this.form.town2) {
+            if(this.form.city || this.form.county || this.form.town || this.form.village) {
                 if(this.form.city)
                     result += this.form.city;
-
+                console.log(result);
                 if(this.form.county)
                     result += ` ${this.form.county}`;
-
+                console.log(result);
                 if(this.form.town)
                     result += ` ${this.form.town}`;
-
-                if(this.form.town2)
-                    result += ` ${this.form.town2}`;
+                console.log(result);
+                if(this.form.village)
+                    result += ` ${this.form.village}`;
+                console.log(result);
                 return result;
             }
 
@@ -602,6 +653,11 @@ export default {
         setTimeout(function () {
             self.getMap();
         }, 2000)
+        if(this.$route.query.id){
+            return this.getProduct();
+
+            return this.load = true;
+        }
     },
 
 };

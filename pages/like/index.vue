@@ -41,9 +41,9 @@
         </main>
 
         <!-- gnb Start -->
-        <div id="gnb">
-            <gnb/>
-        </div>
+
+            <gnb :like="isLike"/>
+
         <!-- gnb End -->
     </div>
     </body>
@@ -82,6 +82,7 @@ export default {
             },
 
             type: 'product',
+            isLike:true,
         }
 
     },

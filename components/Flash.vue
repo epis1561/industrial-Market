@@ -6,6 +6,9 @@
     <div class="modal-notice-txt" :class="{'active':isEnough}" v-if="isEnough">
         최대 50개까지만 등록 가능합니다.
     </div>
+        <div class="modal-notice-txt" :class="{'active':isname}" v-if="isname">
+            {{ name }}님이 차단 해제되었습니다.
+        </div>
     </div>
 </template>
 <style>
@@ -13,7 +16,7 @@
 </style>
 <script>
 export default {
-    props: ["isAdd","isEnough"],
+    props: ["isAdd","isEnough","name","isname"],
     head(){
         return {
             link: [

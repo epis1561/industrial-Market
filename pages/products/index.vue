@@ -1,5 +1,5 @@
 <template>
-    <body>
+
     <div id="wrap">
 
         <!-- header Start -->
@@ -35,16 +35,15 @@
         </main>
 
         <!-- gnb Start -->
-        <div id="gnb">
-            <gnb />
-        </div>
+
+            <gnb :home="isHome" />
+
         <!-- gnb End -->
 
 <!--        <infinite-scroll :target-class="'.index'" @scroll="(page) => {form.page = page; getProducts(true)}" />-->
 
     </div>
 
-    </body>
 </template>
 <style>
 
@@ -74,8 +73,10 @@ export default {
                 meta: {
                     current_page: 1,
                     last_page: "",
-                }
+                },
+
             },
+            isHome:true,
         }
 
     },

@@ -46,7 +46,8 @@
 
 
         <!-- gnb Start -->
-        <gnb></gnb>
+
+        <gnb chat="isChat"></gnb>
         <!-- gnb End -->
     </div>
 
@@ -81,6 +82,7 @@ export default{
             },
 
             isMy: "전체",
+            isChat:true,
         }
 
     },

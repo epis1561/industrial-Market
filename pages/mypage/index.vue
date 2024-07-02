@@ -99,7 +99,7 @@
                         </p>
                         <div class="mypage-menu-list row-group">
                             <nuxt-link to="/events" class="mypage-menu-item col-group">
-                                <p class="title" @click="console">
+                                <p class="title">
                                     이벤트
                                     <span class="badge" v-if="newEvents.data.length!=0 && newEvents.data[0].new == 1">N</span>
                                 </p>
@@ -139,9 +139,9 @@
         </main>
 
         <!-- gnb Start -->
-        <div id="gnb">
-            <gnb/>
-        </div>
+
+            <gnb :my="isMy" />
+
         <!-- gnb End -->
     </div>
     </body>
@@ -156,7 +156,7 @@ export default {
             form: new Form(this.$axios, {
 
             }),
-
+            isMy:true,
         };
     },
 

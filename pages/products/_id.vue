@@ -217,7 +217,7 @@
                         </p>
                         나눔합니다
                     </div>
-                    <nuxt-link :to="`/chats?product_id=${product.id}`" class="chat-btn" v-if="user.id != product.user.id"><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
+                    <nuxt-link :to="`/chats/${product.id}`" class="chat-btn" v-if="user.id != product.user.id"><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
                         <img src="/images/icon_chat_white.png" alt="" class="icon">
                         채팅하기
                     </nuxt-link>
@@ -325,7 +325,7 @@
                         </i>
                         숨기지않기
                     </button>
-                    <button class="chat-more-option col-group">
+                    <button class="chat-more-option col-group" @click="store(product.id)">
                         <i class="icon"></i>
                         게시글 수정
                     </button>
@@ -500,12 +500,12 @@ export default {
 
 
                 this.product = response.data.data;
-                console.log(this.product.state_transaction);
+                console.log(this.product);
                 // this.form.product_category_id = response.data.data.product_category_id;
                 this.form.user_id = response.data.data.user.id;
                 this.form.likeable_id = response.data.data.like;
                 // this.getSimilarProducts();
-                this.getOtherProducts();+
+                this.getOtherProducts();
                 this.getMap();
                 this.getMap2();
                 this.$nextTick(() => {
@@ -739,6 +739,9 @@ export default {
             this.form.delete("/api/products/" + this.$route.params.id, {}).then(response => {
                 return this.$router.push("/products");
             })
+        },
+        store(id){
+            this.$router.push(`/products/create?id=${id}`)
         },
         storeChat(){
             this.form.product_id = this.product.id;

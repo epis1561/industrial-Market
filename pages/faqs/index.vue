@@ -75,8 +75,8 @@ export default {
             faqs:{
                 data:[],
                 meta:{
-                    current_page: 1,
-                    last_page: "",
+                    current_page:1,
+                    last_page:1,
                 }
             },
             load:false,
