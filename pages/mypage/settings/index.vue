@@ -1,6 +1,6 @@
 <template>
 
-    <body>
+
     <div id="wrap">
 
         <!-- header Start -->
@@ -24,7 +24,7 @@
                         알림
                     </p>
                     <div class="mypage-menu-list row-group">
-                        <nuxt-link to="/mypage/settings/notification" class="mypage-menu-item col-group">
+                        <nuxt-link to="/users/editAlarm" class="mypage-menu-item col-group">
                             <p class="title">
                                 알림설정
                             </p>
@@ -39,23 +39,23 @@
                         계정
                     </p>
                     <div class="mypage-menu-list row-group">
-                        <a href="mypage_profile.html" class="mypage-menu-item col-group">
+                        <nuxt-link to="/users/editProfile" class="mypage-menu-item col-group">
                             <p class="title">
                                 프로필 수정
                             </p>
                             <div class="more-btn col-group">
                                 <i class="icon"></i>
                             </div>
-                        </a>
-                        <a href="mypage_account.html" class="mypage-menu-item col-group">
+                        </nuxt-link>
+                        <nuxt-link to="/users/editAccount" class="mypage-menu-item col-group">
                             <p class="title">
                                 계정 정보 수정
                             </p>
                             <div class="more-btn col-group">
                                 <i class="icon"></i>
                             </div>
-                        </a>
-                        <a href="" class="mypage-menu-item col-group">
+                        </nuxt-link>
+                        <a href="#" class="mypage-menu-item col-group" @click.prevent="logout">
                             <p class="title">
                                 로그아웃
                             </p>
@@ -78,14 +78,14 @@
                         사용자 설정
                     </p>
                     <div class="mypage-menu-list row-group">
-                        <a href="mypage_block.html" class="mypage-menu-item col-group">
+                        <nuxt-link to="/mypage/blocks" class="mypage-menu-item col-group">
                             <p class="title">
                                 차단 사용자 관리
                             </p>
                             <div class="more-btn col-group">
                                 <i class="icon"></i>
                             </div>
-                        </a>
+                        </nuxt-link>
                         <a href="mypage_keywords.html" class="mypage-menu-item col-group">
                             <p class="title">
                                 관심 키워드 설정
@@ -132,12 +132,12 @@
         </main>
 
         <!-- gnb Start -->
-        <div id="gnb">
-            <gnb/>
-        </div>
+
+            <gnb :mypage="isMy"/>
+
         <!-- gnb End -->
     </div>
-    </body>
+
 
 </template>
 <script>
@@ -149,12 +149,15 @@ export default {
             form: new Form(this.$axios, {
 
             }),
-
+            isMy:true,
         };
     },
 
     methods: {
-
+                logout(){
+                    this.$auth.logout();
+                    this.$router.push("/login")
+                }
     },
 
     computed: {

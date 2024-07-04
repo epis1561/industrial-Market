@@ -1,13 +1,13 @@
 <template>
-        <a href="user_detail.html" class="user-item col-group">
+        <nuxt-link :to="`/users/${likeuser.likeable.id}`" class="user-item col-group">
             <button class="like-btn active"></button>
             <div class="item-img">
-                <img src="" alt="">
+                <img :src="likeuser.likeable.img ? likeuser.likeable.img.url:''" alt="">
             </div>
             <div class="item-title">
-                에이치에이치컴퍼니
+                {{ likeuser.likeable.nickname || likeuser.likeable.name }}
             </div>
-        </a>
+        </nuxt-link>
 
 </template>
 <style>
@@ -15,7 +15,7 @@
 </style>
 <script>
 export default {
-    props:["likeUser"],
+    props:["likeuser"],
     data(){
         return {
             locateName:[],
@@ -35,7 +35,7 @@ console(){
         },
 
         locate(){
-            let locations= [this.likeable.city,this.likeable.county,this.likeable.town,this.likeable.town2];
+            let locations= [this.likeable.city,this.likeable.county,this.likeable.town,this.likeable.village];
 
             let items=[];
 

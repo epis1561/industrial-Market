@@ -45,18 +45,10 @@ export default {
     }
   },
   methods: {
-    login(){
-      console.log(this.form.email);
-      console.log(this.form.password);
-      this.$auth.loginWith('laravelSanctum', {
-        data: this.form.data()
-      }).then(response => {
-        this.$router.push('/products');
-      }).catch(error => {
-        alert('테스트 키 : seller@naver.com')
-        this.$router.push('/');
-      });
-    },
+   goProduct() {
+       this.$router.push("/products")
+   }
+
 
 
 
@@ -67,6 +59,7 @@ export default {
   },
 
   mounted() {
+       this.goProduct();
   }
 }
 </script>

@@ -345,8 +345,8 @@ export default {
                     this.form.real_town2 = component.long_name;
                     this.getTown2 = component.long_name;
                 } else if (types.includes("country")) {
-                    this.form.real_country = component.short_name.toLowerCase();
-                    this.getCountry = component.short_name.toLowerCase();
+                    this.form.real_country = component.short_name.toUpperCase();
+                    this.getCountry = component.short_name.toUpperCase();
                 }
             });
 
@@ -374,7 +374,7 @@ export default {
                     } else if (types.includes("sublocality_level_3") || types.includes("sublocality_level_4")) {
                         this.getTown2 = component.long_name;
                     } else if (types.includes("country")) {
-                        this.getCountry = component.short_name.toLowerCase();
+                        this.getCountry = component.short_name.toUpperCase();
                     }
                 });
             });
@@ -400,7 +400,7 @@ export default {
                     this.getTown2 = component.long_name;
                 } else if (types.includes("country")) {
 
-                    this.getCountry = component.short_name.toLowerCase();
+                    this.getCountry = component.short_name.toUpperCase();
                 }
             });
             // Add event listener for marker dragend
@@ -439,7 +439,7 @@ export default {
                     this.getTown2 = component.long_name;
                 } else if (types.includes("country")) {
 
-                    this.getCountry = component.short_name.toLowerCase();
+                    this.getCountry = component.short_name.toUpperCase();
                 }
             });
             function reverseGeocode(latitude, longitude) {
@@ -477,7 +477,7 @@ export default {
                 } else if (types.includes("sublocality_level_3") || types.includes("sublocality_level_4")) {
                     town2 = component.long_name;
                 } else if (types.includes("country")) {
-                    country = component.short_name.toLowerCase();
+                    country = component.short_name.toUpperCase();
                 }
             });
             // Use the extracted address components

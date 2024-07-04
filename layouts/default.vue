@@ -56,6 +56,10 @@ export default {
             form: new Form(this.$axios,{
                 push_token: "",
             }),
+            mannerForm: new Form(this.$axios,{
+                type:"",
+                user_id:this.$auth.user.data.id,
+            })
 
         }
     },
@@ -115,12 +119,38 @@ export default {
                 this.$store.commit("setNotices", response.data);
             })
         },
-
+        getCities(){
+            this.$axios.get("/api/cities", {
+            }).then(response => {
+                this.$store.commit("setCities", response.data);
+            })
+        },
         getFaqCategories(){
             this.$axios.get("/api/faqCategories")
                     .then(response => {
                         this.$store.commit("setFaqCategories", response.data);
                     });
+        },
+        getUserLocation(){
+
+        },
+        getGoodManners(){
+            this.mannerForm.type = 1
+            this.$axios.get("/api/manners",{
+                params: this.mannerForm.data(),
+            }).then(response => {
+
+                this.$store.commit("setGoodManners",response.data);
+            })
+        },
+        getBadManners(){
+            this.mannerForm.type = 0
+            this.$axios.get("/api/manners",{
+                params: this.mannerForm.data(),
+            }).then(response => {
+
+                this.$store.commit("setBadManners",response.data);
+            })
         },
     },
     mounted() {
@@ -129,6 +159,9 @@ export default {
         this.getFaqCategories();
         this.getEvents();
         this.getNotices();
+        this.getCities();
+        this.getGoodManners();
+        this.getBadManners();
         this.$store.dispatch("getCoords");
      /*   this.$store.dispatch("getCenterTypes");
       //아래처럼 푸시id 가져오는 구문 사용(웹페이지가 로딩되자마자 가져오는 방법사용)

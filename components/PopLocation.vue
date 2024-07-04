@@ -1,37 +1,54 @@
 <template>
-    <div class="modal-container local_select_2">
-        <div class="modal-select-wrap modal-wrap">
-            <i class="close-btn"></i>
-            <div class="modal-title-wrap center">
+    <div>
+        <div class="modal-container local_select_2 active">
+            <div class="modal-select-wrap modal-wrap">
+                <i class="close-btn"></i>
+                <div class="modal-title-wrap center">
+                    <h3 class="modal-title">지역</h3>
+                </div>
 
-                <h3 class="modal-title">지역</h3>
-            </div>
-
-            <div class="modal-scroll-wrap">
-                <div class="form-label-wrap row-group">
-                    <label :for="'type_' + item.id" v-for="item in location" :key="item.id">
-<!--                        <input type="radio" class="form-radio" :value="item.id" :id="'type_' + item.id" name="type" v-model="selectedLocation" @click="getTitle(item.title)">-->
-                        <input type="radio" class="form-radio" :value="item.id" :id="'type_' + item.id" name="type" v-model="id">
-                        <div class="checked-item col-group">
-                            <div class="icon">
-                                <i class="xi-check"></i>
-                            </div>
-                            <p class="txt">
-                                {{ item.title }}
-                            </p>
+                <div class="modal-scroll-container col-group">
+                    <div class="modal-scroll-wrap local-select-group-1">
+                        <div class="form-label-wrap row-group">
+                            <label :for="`type_${city.id}`" v-for="city in cities.data" :key="city.id">
+                                <input type="radio" class="form-radio" :value="city.id" :id="`type_${city.id}`" name="type" @click="selectCity(city)">
+                                <div class="checked-item col-group">
+                                    <div class="icon">
+                                        <i class="xi-check"></i>
+                                    </div>
+                                    <p class="txt">
+                                        {{ city.title }}
+                                    </p>
+                                </div>
+                            </label>
                         </div>
-                    </label>
+                    </div>
+                    <div class="modal-scroll-wrap local-select-group-2" v-if="selectedCity">
+                        <div class="form-label-wrap row-group">
+                            <label :for="`county_${county.id}`" v-for="county in selectedCity.counties" :key="county.id">
+                                <input type="radio" class="form-radio" :value="county.id" :id="`county_${county.id}`" name="county" @click="selectCounty(county.id,county.title)">
+                                <div class="checked-item col-group">
+                                    <div class="icon">
+                                        <i class="xi-check"></i>
+                                    </div>
+                                    <p class="txt">
+                                        {{ county.title }}
+                                    </p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer col-group">
+                    <button class="modal-footer-btn submit-btn close-btn" @click="send">
+                        지역선택
+                    </button>
                 </div>
             </div>
 
-
-            <div class="modal-footer col-group">
-                <button class="modal-footer-btn submit-btn close-btn" @click="change">
-                    지역선택
-                </button>
-            </div>
         </div>
-
     </div>
 </template>
 <style>
@@ -41,8 +58,8 @@
 import Form from "@/utils/Form";
 
 export default {
-    props:["location"],
-    head(){
+    props: [],
+    head() {
         return {
             script: [
                 {
@@ -50,27 +67,41 @@ export default {
                     defer: true
                 },
             ],
+
         }
     },
-    data(){
+    data() {
         return {
-            id: "",
+            selectedCity:null,
+            selectCityName:"",
+            countyId:"",
+            countyName:"",
         }
     },
 
     methods: {
-        change(){
-            this.$emit("change",this.id);
+        close() {
+            this.$emit('close');
         },
-        // getTitle(title){
-        //     this.selectedLocationTitle = title;
-        //     console.log(this.selectedLocationTitle);
-        //     // this.$emit("sendLocateTitle",this.selectedLocationTitle);
-        // }
+        send() {
+            this.$emit('close');
+            this.$emit('locate',this.selectCityName,this.countyId,this.countyName);
+        },
+        selectCity(city){
+            this.selectedCity = city;
 
+            this.selectCityName = city.title;
+        },
+        selectCounty(id,name){
+            this.countyId = id;
+            this.countyName = name;
+        }
     },
 
     computed: {
+        cities() {
+            return this.$store.state.cities;
+        },
 
     },
 

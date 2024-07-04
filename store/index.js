@@ -16,31 +16,43 @@ export const state = () => ({
         data: [],
         meta: {},
 
-        },
+    },
     events: {
         data: [],
         meta: {}
     },
-        push_token: null,
-        webview: false,
+    push_token: null,
+    webview: false,
 
-        productCategories: {
-            data: [],
-            meta: {},
-        },
-        noticeCategories: {
-            data: [],
-            meta: {},
-        },
-        faqCategories: {
-            data: [],
-            meta: {},
-        },
-        coords: {
-            x: "",
-            y: "",
-        }
-    })
+    productCategories: {
+        data: [],
+        meta: {},
+    },
+    noticeCategories: {
+        data: [],
+        meta: {},
+    },
+    faqCategories: {
+        data: [],
+        meta: {},
+    },
+    cities: {
+        data: [],
+        meta: {},
+    },
+    coords: {
+        x: "",
+        y: "",
+    },
+    goodManners:{
+        data:[],
+        meta:{},
+    },
+    badManners:{
+        data:[],
+        meta:{},
+    },
+})
 
 export const mutations = {
     /*setToken (state) {
@@ -102,6 +114,9 @@ export const mutations = {
     setNotices(state, data) {
         state.notices = data;
     },
+    setCities(state, data) {
+        state.cities = data;
+    },
     setEvents(state, data) {
         state.events = data;
     },
@@ -110,6 +125,12 @@ export const mutations = {
     },
     setFaqCategories(state, data) {
         state.faqCategories = data;
+    },
+    setGoodManners(state, data) {
+        state.goodManners = data;
+    },
+    setBadManners(state, data) {
+        state.badManners = data;
     },
     setCoords(state, data) {
         state.coords = data;

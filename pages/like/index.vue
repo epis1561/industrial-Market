@@ -34,7 +34,7 @@
 
             <div class="container" v-if="type=='user'">
                 <div class="user-list">
-                    <like-user :product="likeUser.likeable" v-for="likeUser in likeUsers.data" :key="likeUser.id"/>
+                    <like-user :likeuser="likeUser" v-for="likeUser in likeUsers.data" :key="likeUser.id"/>
                 </div>
             </div>
 

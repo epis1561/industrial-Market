@@ -1,11 +1,8 @@
 <template>
-    <div class="user-update-box mb-32 mb-lg-20">
-        <div class="user-image" :style="`background-image:url(${url});`">
-
-        </div>
-        <label :for="id">
+    <div class="form-item">
+        <label :for="id" class="profile-img" :style="`background-image:url(${url});`">
             <input type="file" name="file" :id="id" @change="changeFile" accept="image/*">
-            <span>사진변경</span>
+            <i class="icon"></i>
         </label>
     </div>
 </template>
@@ -72,7 +69,9 @@ export default {
                         countResize++;
 
                         if(length === countResize)
-                            self.$emit("change", self.files[0]);
+                            self.$emit("change", [{
+                                file:result
+                            }]);
 
                         return result;
                     };
@@ -138,6 +137,7 @@ export default {
                 return URL.createObjectURL(this.files[0]);
 
             if(this.default)
+                console.log(this.default.url);
                 return this.default.url;
 
             return "";

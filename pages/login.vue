@@ -4,8 +4,8 @@
         <form @submit.prevent="login">
             <div class="inputs">
                 <div class="input-text">
-                    <input type="text" placeholder="아이디를 입력해주세요." v-model="form.ids">
-                    <error :form="form" name="ids" />
+                    <input type="text" placeholder="아이디를 입력해주세요." v-model="form.email">
+                    <error :form="form" name="email" />
                 </div>
                 <div class="input-text">
                     <input type="password" placeholder="비밀번호를 입력해주세요." v-model="form.password">
@@ -18,18 +18,24 @@
     </div>
 </template>
 <style>
-.space-box {min-height:100vh;}
+
 </style>
 <script>
-import Form from "../utils/Form";
-export default {
-    link: [
-        {rel: 'stylesheet', href: '/css/developer.css'},
 
-    ],
-    layout: "empty",
+import Form from "@/utils/Form";
+
+export default {
     name: 'Login',
     auth: "guest",
+    layout: "empty",
+    head(){
+        return {
+            link: [
+                {rel: 'stylesheet', href: '/css/developer.css'},
+
+            ],
+        }
+    },
     data(){
         return {
             form : new Form(this.$axios, {
@@ -40,32 +46,21 @@ export default {
     },
     methods: {
         login(){
-            // this.form.push_token = this.$store.state.push_token;
-
-            this.$store.commit("setLoading", true);
-
+            console.log(this.form.email);
+            console.log(this.form.password);
             this.$auth.loginWith('laravelSanctum', {
                 data: this.form.data()
             }).then(response => {
-                if(this.$store.state.intendedUrl) {
-                    this.$store.commit("setIntendedUrl", null);
-
-                    return this.$router.push(this.$store.state.intendedUrl);
-                }
-
-                return this.$router.push("/");
+                this.$router.push('/products');
             }).catch(error => {
-                // this.form.onFail(error.response.data);
+                this.form.onFail(error.response.data);
+                alert('테스트 키 : seller@naver.com')
+                this.$router.push('/');
             });
         },
 
-        ready(message = '심사준비중입니다.'){
-            return alert(message);
-        },
 
-        clearLetter(){
-            this.form.contact = this.form.contact.replace("-", "");
-        }
+
     },
 
     computed: {

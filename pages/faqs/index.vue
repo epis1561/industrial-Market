@@ -87,7 +87,6 @@ export default {
 
     methods: {
         getFaqs(loadMore) {
-            console.log(this.form.page);
             this.$store.commit("setLoading",true);
             this.$axios.get("/api/faqs", {
                 params: this.form.data(),
@@ -96,7 +95,7 @@ export default {
                     this.load = false;
                     return this.faqs.data = [...this.faqs.data, ...response.data.data]
                     }
-                console.log(this.faqs);
+
                 this.faqs = response.data;
                 console.log(this.faqs);
             })

@@ -140,7 +140,7 @@
 
         <!-- gnb Start -->
 
-            <gnb :my="isMy" />
+            <gnb :mypage="isMy" />
 
         <!-- gnb End -->
     </div>

@@ -59,7 +59,7 @@
 
                         <div class="item-btn-wrap col-group">
                             <div class="item-btn-group col-group">
-                                <nuxt-link to="" class="item-btn active" v-if="!product.reviewSend">후기 보내기</nuxt-link>
+                                <nuxt-link :to="`/review/create/?id=${product.id}`" class="item-btn active" v-if="!product.reviewSend">후기 보내기</nuxt-link>
                                 <nuxt-link to="" class="item-btn" v-if="product.reviewReceive">받은 후기</nuxt-link>
                                 <nuxt-link to="" class="item-btn" v-if="product.reviewSend">보낸 후기</nuxt-link>
                             </div>
@@ -150,7 +150,7 @@ export default {
 
                     this.products = response.data;
                    console.log(this.products.data);
-                   console.log(this.products.meta);
+                   console.log(this.$auth.user.data);
                 })
             },
         deleteProduct(num){

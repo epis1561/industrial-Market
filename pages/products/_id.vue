@@ -352,7 +352,7 @@
                 <div class="chat-more-option-wrap row-group">
                     <button class="chat-more-option col-group" v-if="product.state_transaction!=0" @click.prevent="changeTransaction(0)">
                         <i class="icon"></i>
-                        {{ product.format_short_type }}
+                        {{ product.format_short_type }}중
                     </button>
                     <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1" @click="isTrade=true">
                         <i class="icon"></i>
@@ -457,35 +457,35 @@ export default {
                 data: [],
                 meta: {
                     current_page: 1,
-                    last_page: 10,
+                    last_page: 1,
                 }
             },
             randomProducts: {
                 data: [],
                 meta: {
                     current_page: 1,
-                    last_page: 10,
+                    last_page: 1,
                 }
             },
             similarProducts: {
                 data: [],
                 meta: {
                     current_page: 1,
-                    last_page: 10,
+                    last_page: 1,
                 }
             },
             otherProducts: {
                 data: [],
                 meta: {
                     current_page: 1,
-                    last_page: 10,
+                    last_page: 1,
                 }
             },
             ReportCategories: {
                 data: [],
                 meta: {
                     current_page: 1,
-                    last_page: 10,
+                    last_page: 1,
                 }
             }
         }
@@ -713,13 +713,17 @@ export default {
 
             })
         },
-        changeTransaction(num) {
+        changeTransaction(stateTransaction) {
             this.isMore = false;
             this.isTrade = false;
-            this.form.state_transaction = num;
+            this.form.state_transaction = stateTransaction;
+            if(stateTransaction ==2){
+                return this.$router.push(`/mypage/products/buyer_select/?id=${this.product.id}`);
+            }
             this.form.patch("/api/products/updateStateTransaction/" + this.$route.params.id).then(response => {
                 console.log(response.data);
                 this.product = response.data;
+
             })
         },
         hideTransaction(num) {

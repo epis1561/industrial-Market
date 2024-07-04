@@ -54,7 +54,6 @@
 .m-input-images.type01 .m-input .m-btn {
     display: flex;
     flex-flow: column;
-    justify-content: center;
     gap: 8px;
     width: 110px;
     height: 110px;
