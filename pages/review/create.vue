@@ -25,9 +25,10 @@
                         <p class="title">
                             {{ product.title }}
                         </p>
-                        <p class="title buyer">
+                        <p class="title buyer" >
                            거래한회원
-                            <span>{{ product.user.nickname || product.user.name }}</span>
+                            <span v-if="$auth.user.data.id != product.buyer.id">{{ product.buyer.nickname || product.buyer.name }}</span>
+                            <span v-if="$auth.user.data.id == product.buyer.id">{{ product.user.nickname || product.user.name }}</span>
                         </p>
                     </div>
                 </div>
@@ -35,9 +36,13 @@
             <div class="container row-group">
                 <div class="review-create-wrap">
                     <div class="review-title-wrap row-group">
-                        <h3 class="title">
+                        <h3 class="title" v-if="$auth.user.data.id != product.buyer.id">
                             {{ this.$auth.user.data.nickname || this.$auth.user.data.name }}님, <br>
-                            초코송이님과의 거래 어떠셨어요?
+                            {{ product.buyer.nickname || product.buyer.name }}님과의 거래 어떠셨어요?
+                        </h3>
+                        <h3 class="title" v-if="$auth.user.data.id == product.buyer.id">
+                            {{ this.$auth.user.data.nickname || this.$auth.user.data.name }}님, <br>
+                            {{ product.user.nickname || product.user.name }}님과의 거래 어떠셨어요?
                         </h3>
                         <p class="txt">
                             거래 선호도는 나만 볼 수 있어요.
@@ -192,7 +197,6 @@ export default {
     watch: {},
     mounted() {
         this.getProduct();
-        console.log(this.$auth.user.data);
     }
 }
 </script>

@@ -183,7 +183,7 @@
                                       내가 등록한 상품과 비슷한 상품이에요
                                   </h4>
                                   <div class="prod-list prod-half-list col-group" v-if="similarProducts">
-                                      <nuxt-link :to="`/products/${similarProduct.id}`" class="prod-item row-group" v-for="similarProduct in similarProducts.data" :key="similarProduct.id">
+                                      <nuxt-link :to="`/products/${similarProduct.id}`" class="prod-item row-group" v-for="(similarProduct,index) in similarProducts.data" :key="similarProduct.id" v-if="index < 4">
                                           <div class="item-img">
                                               <img :src="similarProduct.img.url ? similarProduct.img.url : ''" />
                                           </div>

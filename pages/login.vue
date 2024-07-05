@@ -26,6 +26,7 @@
                         </p>
                     </a>
                     <a :href="`${this.$store.state.domain}/openLoginPop/google`" class="sns-login-item google" @click.prevent="ready">
+
                         <img src="/images/icon_google.png" alt="" class="icon">
                         <p class="txt">
                             Google 계정으로 로그인

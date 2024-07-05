@@ -65,6 +65,7 @@ export default {
                         let result = self.resize(images[index]);
 
                         self.files.push(result);
+                        self.files.push(result);
 
                         countResize++;
 
@@ -133,14 +134,13 @@ export default {
 
     computed: {
         url() {
-            if(this.files[0])
+            if (this.files.length > 0) {
                 return URL.createObjectURL(this.files[0]);
-
-            if(this.default)
-                console.log(this.default.url);
+            } else if (this.default && this.default.url) {
                 return this.default.url;
-
-            return "";
+            } else {
+                return "";
+            }
         }
     }
 }

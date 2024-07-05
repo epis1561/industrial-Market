@@ -1,21 +1,21 @@
 <template>
     <div id="wrap">
-<!--        <pops />-->
+        <!--        <pops />-->
 
-        <loading v-if="$store.state.loading" />
+        <loading v-if="$store.state.loading"/>
 
-        <pop />
+        <pop/>
 
         <!-- 헤더 -->
-        <header-vue />
+        <header-vue/>
 
         <!-- 페이지마다 바뀔 영역 -->
         <div class="wrap-inner">
-            <Nuxt />
+            <Nuxt/>
         </div>
 
         <!-- 푸터 -->
-        <footer-vue />
+        <footer-vue/>
     </div>
 
 </template>
@@ -23,6 +23,7 @@
 .page-enter-active, .page-leave-active {
     transition: opacity .3s ease-in-out;
 }
+
 .page-enter, .page-leave-active {
     opacity: 0;
 }
@@ -32,127 +33,150 @@ import HeaderVue from "../components/HeaderVue";
 import FooterVue from "../components/FooterVue";
 import TopNavs from "../components/TopNavs.vue";
 import Form from "@/utils/Form";
+
 export default {
     head() {
         return {
             script: [
-         /*       {
-                    hid: 'google-analytics',
-                    src: 'https://www.googletagmanager.com/gtag/js?id=GTM-NNSD2QJX',
-                    defer: true
-                },
-                {
-                    hid: 'gtm-script',
-                    src: 'https://www.googletagmanager.com/gtm.js?id=GTM-NNSD2QJX',
-                    defer: true
-                }*/
+                /*       {
+                           hid: 'google-analytics',
+                           src: 'https://www.googletagmanager.com/gtag/js?id=GTM-NNSD2QJX',
+                           defer: true
+                       },
+                       {
+                           hid: 'gtm-script',
+                           src: 'https://www.googletagmanager.com/gtm.js?id=GTM-NNSD2QJX',
+                           defer: true
+                       }*/
             ],
         }
     },
 
-    data(){
+    data() {
         return {
             timer: null,
-            form: new Form(this.$axios,{
+            form: new Form(this.$axios, {
                 push_token: "",
             }),
-            mannerForm: new Form(this.$axios,{
-                type:"",
+            mannerForm: new Form(this.$axios, {
+                type: "",
                 // user_id:this.$auth.user.data.id,
+            }),
+            locationForm: new Form(this.$axios, {
+                lat: "",
+                lon: "",
+                country: "",
+                city: "",
+                county: "",
+                town: "",
+                village: "",
             })
-
         }
     },
 
-    components: {
+    components: {},
 
-    },
+    computed: {},
 
-    computed:{
-
-    },
-
-    methods:{
-        getPushToken(){
+    methods: {
+        getPushToken() {
             let self = this;
 
-            webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify({"action": "getpushid","callback": "get_pushid"}));
+            webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify({
+                "action": "getpushid",
+                "callback": "get_pushid"
+            }));
 
             this.$store.commit("setPushToken", localStorage.getItem('pushid'));
 
-            if(this.$store.state.push_token) {
+            if (this.$store.state.push_token) {
 
                 this.form.push_token = this.$store.state.push_token;
 
-                if(this.$auth.user){
+                if (this.$auth.user) {
                     this.form.patch("/api/users/updatePushToken")
-                        .then(response => {
-                            clearInterval(self.timer);
-                            this.$auth.fetchUser();
-                        })
+                            .then(response => {
+                                clearInterval(self.timer);
+                                this.$auth.fetchUser();
+                            })
                 }
             }
 
         },
 
-        getProductCategories(){
+        getProductCategories() {
             this.$axios.get("/api/productCategories")
                     .then(response => {
                         this.$store.commit("setProductCategories", response.data);
                     });
         },
 
-        getNoticeCategories(){
+        getNoticeCategories() {
             this.$axios.get("/api/noticeCategories")
                     .then(response => {
                         this.$store.commit("setNoticeCategories", response.data);
                     });
         },
-        getEvents(){
+
+        getEvents() {
             this.$axios.get("/api/events", {}).then(response => {
                 this.$store.commit("setEvents", response.data);
             })
         },
-        getNotices(){
-            this.$axios.get("/api/notices", {
-            }).then(response => {
+
+        getNotices() {
+            this.$axios.get("/api/notices", {}).then(response => {
                 this.$store.commit("setNotices", response.data);
             })
         },
-        getCities(){
-            this.$axios.get("/api/cities", {
-            }).then(response => {
+        getCities() {
+            this.$axios.get("/api/cities", {}).then(response => {
                 this.$store.commit("setCities", response.data);
             })
         },
-        getFaqCategories(){
+        getFaqCategories() {
             this.$axios.get("/api/faqCategories")
                     .then(response => {
                         this.$store.commit("setFaqCategories", response.data);
                     });
         },
-        getUserLocation(){
-
-        },
-        getGoodManners(){
+        getGoodManners() {
             this.mannerForm.type = 1
-            this.$axios.get("/api/manners",{
+            this.$axios.get("/api/manners", {
                 params: this.mannerForm.data(),
             }).then(response => {
 
-                this.$store.commit("setGoodManners",response.data);
+                this.$store.commit("setGoodManners", response.data);
             })
         },
-        getBadManners(){
+        getBadManners() {
             this.mannerForm.type = 0
-            this.$axios.get("/api/manners",{
+            this.$axios.get("/api/manners", {
                 params: this.mannerForm.data(),
             }).then(response => {
-
-                this.$store.commit("setBadManners",response.data);
+                this.$store.commit("setBadManners", response.data);
             })
         },
+        updateLocation(){
+            this.locationForm.set(this.$store.state.location);
+
+            this.locationForm.patch("/api/users/updateLocation")
+                    .then(response => {
+                        this.$auth.fetchUser();
+                    })
+        }
     },
+
+    watch: {
+        "$store.state.location": {
+            deep: true,
+            handler(){
+                if(this.$store.state.location)
+                    this.updateLocation();
+            }
+        }
+    },
+
     mounted() {
         this.getProductCategories();
         this.getNoticeCategories();
@@ -162,17 +186,18 @@ export default {
         this.getCities();
         this.getGoodManners();
         this.getBadManners();
+
         this.$store.dispatch("getCoords");
-     /*   this.$store.dispatch("getCenterTypes");
-      //아래처럼 푸시id 가져오는 구문 사용(웹페이지가 로딩되자마자 가져오는 방법사용)
+        /*   this.$store.dispatch("getCenterTypes");
+         //아래처럼 푸시id 가져오는 구문 사용(웹페이지가 로딩되자마자 가져오는 방법사용)
 
-        let self = this;
+           let self = this;
 
-        if(!this.$store.state.push_token){
-            this.timer = setInterval(() => {
-                self.getPushToken();
-            }, 3000)
-        }*/
+           if(!this.$store.state.push_token){
+               this.timer = setInterval(() => {
+                   self.getPushToken();
+               }, 3000)
+           }*/
 
 
     }

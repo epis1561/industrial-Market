@@ -20,12 +20,12 @@
             <div class="container">
                 <div class="form-wrap row-group">
 
-                    <input-avatar :multiple="0" @change="(data) => {form.img = data;}" :default="user.img ? user.img:''"/>
+                    <input-avatar :multiple="0" @change="(data) => {form.img = data;}" :default="user.img ? { url: user.img } : { url: '/images/profile_null.png' }"/>
 
                     <div class="form-item row-group">
-                        <div class="item-default">닉네임</div>
+                        <div class="item-default" @click="console">닉네임</div>
                         <div class="item-user">
-                            <input type="text" class="form-input" :value="user.nickname">
+                            <input type="text" class="form-input" v-model="form.nickname">
                         </div>
                     </div>
                     <div class="form-footer">
@@ -44,7 +44,7 @@ export default {
     data() {
         return {
             form: new Form(this.$axios, {
-                nickname:"12312321",
+                nickname:this.$auth.user.data.nickname,
                 img:[],
             }),
 
@@ -62,6 +62,9 @@ export default {
                         this.$auth.fetchUser();
                         this.$router.back();
                     });
+        },
+        console(){
+            console.log(this.user);
         }
     },
 

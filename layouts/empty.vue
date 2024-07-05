@@ -22,7 +22,11 @@ export default {
     },
 
     methods:{
-
+        getCities() {
+            this.$axios.get("/api/cities", {}).then(response => {
+                this.$store.commit("setCities", response.data);
+            })
+        },
     },
 
     beforeMount() {
@@ -30,6 +34,8 @@ export default {
     },
 
     mounted() {
+        this.$store.dispatch("getCoords");
+        this.getCities();
 
     }
 }

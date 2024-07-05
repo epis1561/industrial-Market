@@ -6,7 +6,7 @@
             <div id="search"></div> <!-- 검색창 -->
             <div class="container col-group">
                 <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
-                    <img src="images/icon_prev.png" alt="">
+                    <img src="/images/icon_prev.png" alt="">
                 </a>
                 <h2 class="title">
                     구매 내역
@@ -39,9 +39,7 @@
                                     </p>
                                 </div>
                                 <div class="price">
-                                    <p class="label">
-                                        {{ product.format_type }}
-                                    </p>
+
                                     {{ product.format_price }}
                                 </div>
                                 <div class="prod-btn-wrap col-group">
@@ -59,9 +57,9 @@
 
                         <div class="item-btn-wrap col-group">
                             <div class="item-btn-group col-group">
-                                <nuxt-link :to="`/review/create/?id=${product.id}`" class="item-btn active" v-if="!product.reviewSend">후기 보내기</nuxt-link>
-                                <nuxt-link to="" class="item-btn" v-if="product.reviewReceive">받은 후기</nuxt-link>
-                                <nuxt-link to="" class="item-btn" v-if="product.reviewSend">보낸 후기</nuxt-link>
+                                <nuxt-link :to="`/review/create/?id=${product.id}`" class="item-btn active" v-if="!product.reviewSend && product.state_transaction == 2">후기 보내기</nuxt-link>
+                                <nuxt-link :to="`/review/${product.reviewReceive.id}`" class="item-btn" v-if="product.reviewReceive && product.state_transaction == 2">받은 후기</nuxt-link>
+                                <nuxt-link :to="`/review/${product.reviewSend.id}`" class="item-btn" v-if="product.reviewSend && product.state_transaction == 2">보낸 후기</nuxt-link>
                             </div>
                             <button class="item-btn more-btn" @click="deleteProduct(product.id)">
                                 <i></i>
@@ -120,9 +118,16 @@ export default {
             form: new Form(this.$axios, {
                 page: 1,
                 archive:0,
+                buyer_id:"",
+                state_transaction:"",
+                hide:"",
             }),
             products:{
-                data:[]
+                data:[],
+                meta:{
+                    current_page:1,
+                    last_page:1,
+                }
             },
             loading:false,
             isDelete:false,
@@ -133,10 +138,10 @@ export default {
     methods: {
             getProducts(loadMore = false){
                 this.loading = true;
-
                 this.$store.commit("setLoading", true);
-
-                this.$axios.get("/api/products/indexByBuy",{
+                this.form.buyer_id=this.$auth.user.data.id;
+                this.form.state_transaction = 2;
+                this.$axios.get("/api/products/",{
                     params: this.form.data(),
                 }).then(response => {
                     this.loading = false;
@@ -151,6 +156,7 @@ export default {
                     this.products = response.data;
                    console.log(this.products.data);
                    console.log(this.$auth.user.data);
+                   console.log(this.products.meta);
                 })
             },
         deleteProduct(num){

@@ -52,6 +52,10 @@ export const state = () => ({
         data:[],
         meta:{},
     },
+    location:{
+
+
+    },
 })
 
 export const mutations = {
@@ -134,6 +138,9 @@ export const mutations = {
     },
     setCoords(state, data) {
         state.coords = data;
+    },
+    setLocation(state,data){
+        state.location = data;
     }
 }
 
@@ -141,11 +148,61 @@ export const actions = {
     async getCoords({commit}) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                (position) => {
+                async (position) => {
                     let y = position.coords.latitude || "37.5179681611717";
                     let x = position.coords.longitude || "127.047059839521";
 
                     commit("setCoords", {y, x});
+
+                    let self = this;
+
+                    let location = {
+                        lat: y,
+                        lon: x,
+                        country: "",
+                        city: "",
+                        county: "",
+                        town: "",
+                        village: "",
+                    }
+
+                    function reverseGeocode(latitude, longitude) {
+                        return new Promise((resolve, reject) => {
+                            const geocoder = new google.maps.Geocoder();
+                            geocoder.geocode({location: {lat: latitude, lng: longitude}}, (results, status) => {
+                                if (status === "OK") {
+                                    if (results[0]) {
+                                        resolve(results[0]);
+                                    } else {
+                                        reject("No results found");
+                                    }
+                                } else {
+                                    reject("Geocoder failed due to: " + status);
+                                }
+                            });
+                        });
+                    }
+
+                    const geocodeResult = await reverseGeocode(location.lat, location.lon);
+
+                    let address = geocodeResult.address_components;
+
+                    address.forEach(component => {
+                        const types = component.types;
+                        if (types.includes("administrative_area_level_1")) {
+                            location.city = component.long_name;
+                        } else if (types.includes("locality") || types.includes("sublocality_level_1")) {
+                            location.county = component.long_name;
+                        } else if (types.includes("sublocality_level_2")) {
+                            location.town = component.long_name;
+                        } else if (types.includes("sublocality_level_3") || types.includes("sublocality_level_4")) {
+                            location.village = component.long_name;
+                        } else if (types.includes("country")) {
+                            location.country = component.short_name.toUpperCase();
+                        }
+                    });
+
+                    commit("setLocation", location);
                 },
                 (error) => {
                     console.error(error.message);

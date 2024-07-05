@@ -105,12 +105,7 @@ export default {
         }
     }, */
     auth: {
-        redirect: {
-            login: "/login",
-            callback: '/login',
-            logout: "/login",
-            // home: '/'
-        },
+        redirect: false,
         strategies: {
             laravelSanctum: {
                 provider: 'laravel/sanctum',
