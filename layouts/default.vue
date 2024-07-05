@@ -58,7 +58,7 @@ export default {
             }),
             mannerForm: new Form(this.$axios,{
                 type:"",
-                user_id:this.$auth.user.data.id,
+                // user_id:this.$auth.user.data.id,
             })
 
         }

@@ -154,6 +154,8 @@
 .sns-login-item.kakao .txt { color: #371d1e; }
 .sns-login-item.apple { background: #000000; }
 .sns-login-item.apple .txt { color: #fff; }
+.sns-login-item.google { background: #fff; border:1px solid #E4E4E4; }
+.sns-login-item.google .txt { color: #000; }
 
 .subpage.login { height: calc( 100vh - 60px ); }
 .login .container { min-height: 100%; padding-bottom: 24px; }

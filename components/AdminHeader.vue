@@ -110,7 +110,7 @@
 
                 <div class="header-btm">
                     <p class="copy-txt">
-                        Copyright 2024 체리뷰 <br>
+                        Copyright 2024 산업마켓 <br>
                         All rights reserved
                     </p>
                     <a href="#" class="logout-btn" @click.prevent="logout">

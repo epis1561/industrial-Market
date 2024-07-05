@@ -1,304 +1,148 @@
 <template>
-    <div class="subpage">
-        <div class="login join">
-            <div class="login-wrap">
-                <div class="container">
-                    <div class="join-tab-list col-group">
-                        <a href="#" :class="`join-tab ${form.type === 'INFLUENCER' ? 'active' : ''}`" @click.prevent="form.type = 'INFLUENCER'">
-                            체험단 회원가입
-                        </a>
-                        <a href="#" :class="`join-tab ${form.type === 'COMPANY' ? 'active' : ''}`" @click.prevent="form.type = 'COMPANY'">
-                            광고주 회원가입
-                        </a>
-                    </div>
+    <div id="wrap">
 
-                    <div class="login-form-list row-group">
-                        <template v-if="form.type === 'INFLUENCER'">
-                            <div class="form-input-wrap">
-                                <input-images @change="data => form.img = data" />
-                                <error :form="form" name="img" />
-                                <p class="guide-txt">
-                                    프로필 이미지를 등록해주세요.
-                                </p>
-                            </div>
+        <!-- header Start -->
+        <header id="header" class="sub-header">
+            <div class="container col-group">
+                <a href="#" class="sub-header-btn prev-btn" @click.prevent="$router.back">
+                    <img src="images/icon_prev.png" alt="">
+                </a>
+            </div>
+        </header>
+        <!-- header End -->
 
-                            <div class="form-input-wrap">
-                                <input type="text" class="form-input" placeholder="이메일" v-model="form.email">
-                                <error :form="form" name="email" />
-                            </div>
+        <main class="subpage login">
 
-                            <div class="form-input-wrap">
-                                <input type="password" class="form-input" placeholder="비밀번호" v-model="form.password">
-                                <p class="guide-txt">
-                                    비밀번호는 8자리 이상, 영문과 숫자 조합으로 입력해주세요.
-                                </p>
-                            </div>
+            <div class="container row-group">
 
-                            <div class="form-input-wrap">
-                                <input type="password" class="form-input" placeholder="비밀번호 확인" v-model="form.password_confirmation">
-                                <error :form="form" name="password" />
-                                <error :form="form" name="password_confirmation" />
-                            </div>
+                <div class="login-header">
+                    <h2 class="title">
+                        회원가입
+                    </h2>
+                </div>
 
-                            <div class="form-input-wrap">
-                                <input-verify-number @verified="data => form.contact = data" />
-
-                                <error :form="form" name="contact" />
-                                <!--                            <input type="number" class="form-input" placeholder="연락처">
-
-                                                            &lt;!&ndash; input 입력시 활성화 - active 클래스 추가 &ndash;&gt;
-                                                            <button class="form-input-btn">
-                                                                인증번호
-                                                            </button>-->
-                            </div>
-
-                            <div class="form-input-wrap">
-                                <input type="text" class="form-input" placeholder="닉네임" v-model="form.nickname" @input="clearLetter('nickname')">
-                                <error :form="form" name="nickname" />
-                            </div>
-                        </template>
-
-                        <template v-else>
-
-
-                            <div class="login-form-item row-group">
-                                <p class="login-form-title">
-                                    기본정보
-                                </p>
-                                <div class="form-input-wrap">
-                                    <input type="text" class="form-input" placeholder="이메일" v-model="form.email">
-                                    <error :form="form" name="email" />
-                                </div>
-
-                                <div class="form-input-wrap">
-                                    <input type="password" class="form-input" placeholder="비밀번호" v-model="form.password">
-                                    <p class="guide-txt">
-                                        비밀번호는 8자리 이상, 영문과 숫자 조합으로 입력해주세요.
-                                    </p>
-                                </div>
-
-                                <div class="form-input-wrap">
-                                    <input type="password" class="form-input" placeholder="비밀번호 확인" v-model="form.password_confirmation">
-                                    <error :form="form" name="password" />
-                                    <error :form="form" name="password_confirmation" />
-                                </div>
-                            </div>
-                            <div class="login-form-item row-group">
-                                <p class="login-form-title">
-                                    기업정보
-                                </p>
-                                <div class="form-input-wrap">
-                                    <input type="text" class="form-input" placeholder="기업형태" v-model="form.company_type">
-                                    <error :form="form" name="company_type" />
-                                </div>
-
-                                <div class="form-input-wrap">
-                                    <input type="number" class="form-input" placeholder="사업자 등록번호 ( - 하이픈 제외 )" v-model="form.company_business_number">
-                                    <error :form="form" name="company_business_number" />
-                                </div>
-
-                                <input type="text" class="form-input " placeholder="회사명" v-model="form.company_title" @input="clearLetter('company_title')">
-                                <error :form="form" name="company_title" />
-
-                                <input type="text" class="form-input " placeholder="대표자 명" v-model="form.company_president" @input="clearLetter('company_president')">
-                                <error :form="form" name="company_president" />
-                            </div>
-                            <div class="login-form-item row-group">
-                                <p class="login-form-title">
-                                    담당자 정보
-                                </p>
-                                <input type="text" class="form-input" placeholder="담당자 명" v-model="form.name" @input="clearLetter('name')">
-                                <error :form="form" name="name" />
-
-                                <div class="form-input-wrap">
-                                    <input-verify-number @verified="data => form.contact = data" />
-
-                                    <error :form="form" name="contact" />
-                                </div>
-                            </div>
-                        </template>
-
-                        <div class="join-agree-wrap row-group">
-                            <label for="" @click.prevent="agreeAll">
-                                <input type="checkbox" class="form-checkbox" id="" disabled checked v-if="isAgreeAll">
-                                <input type="checkbox" class="form-checkbox" id="" disabled v-else>
-                                <div class="checked-item checked-item-all col-group">
-                                    <div class="icon">
-                                        <i class="xi-check"></i>
-                                    </div>
-                                    <p class="txt">
-                                        전체동의
-                                    </p>
-                                </div>
-                            </label>
-                            <div class="join-agree-item col-group">
-                                <label for="agree_1">
-                                    <input type="checkbox" class="form-checkbox" id="agree_1" v-model="agree1">
-                                    <div class="checked-item col-group">
-                                        <div class="icon">
-                                            <i class="xi-check"></i>
-                                        </div>
-                                        <p class="txt">
-                                            [필수] 서비스 이용약관에 동의합니다.
-                                        </p>
-                                    </div>
-                                </label>
-                                <nuxt-link to="/contents/servicePolicy" class="more-btn">
-                                    자세히 보기
-                                </nuxt-link>
-                            </div>
-                            <label for="agree_2">
-                                <input type="checkbox" class="form-checkbox" id="agree_2" v-model="agree2">
-                                <div class="checked-item col-group">
-                                    <div class="icon">
-                                        <i class="xi-check"></i>
-                                    </div>
-                                    <p class="txt">
-                                        [필수] 만 14세 이상입니다.
-                                    </p>
-                                </div>
-                            </label>
-                            <div class="join-agree-item col-group">
-                                <label for="agree_3">
-                                    <input type="checkbox" class="form-checkbox" id="agree_3" v-model="agree3">
-                                    <div class="checked-item col-group">
-                                        <div class="icon">
-                                            <i class="xi-check"></i>
-                                        </div>
-                                        <p class="txt">
-                                            [필수] 개인정보 수집 및 이용에 동의합니다.
-                                        </p>
-                                    </div>
-                                </label>
-                                <nuxt-link to="/contents/privacyPolicy" class="more-btn">
-                                    자세히 보기
-                                </nuxt-link>
-                            </div>
-                            <div class="join-agree-item col-group">
-                                <label for="agree_5">
-                                    <input type="checkbox" class="form-checkbox" id="agree_5" v-model="form.agree_promotion_email">
-                                    <div class="checked-item checked-item-sub col-group">
-                                        <div class="icon">
-                                            <i class="xi-check"></i>
-                                        </div>
-                                        <p class="txt">
-                                            [선택] 이메일 수신 동의
-                                        </p>
-                                    </div>
-                                </label>
-                                <nuxt-link to="/contents/privacyPolicy" class="more-btn">
-                                    자세히 보기
-                                </nuxt-link>
-                            </div>
-                            <div class="join-agree-item col-group">
-                                <label for="agree_6">
-                                    <input type="checkbox" class="form-checkbox" id="agree_6" v-model="form.agree_promotion_sms">
-                                    <div class="checked-item checked-item-sub col-group">
-                                        <div class="icon">
-                                            <i class="xi-check"></i>
-                                        </div>
-                                        <p class="txt">
-                                            [선택] SNS 수신 동의
-                                        </p>
-                                    </div>
-                                </label>
-                                <nuxt-link to="/contents/privacyPolicy" class="more-btn">
-                                    자세히 보기
-                                </nuxt-link>
-                            </div>
+                <div class="form-wrap row-group">
+                    <!-- 추후 본인인증 시 이름과 연락처는 readonly여야함 -->
+                    <div class="form-item row-group">
+                        <div class="item-default">
+                            이름
                         </div>
-
-                        <!-- <button type="button" class="login-btn">
-                            회원가입
-                        </button> -->
-                        <a href="#" class="login-btn" @click.prevent="store">
-                            회원가입
-                        </a>
+                        <div class="item-user">
+                            <input type="text" class="form-input">
+                        </div>
                     </div>
-
-                    <!--
-                    <div class="sns-login">
-                        <div class="login-title-wrap">
-                            <p class="sub-title">
-                                간편 로그인이 필요하신가요?
-                            </p>
-                            <p class="title">
-                                <strong>SNS 계정 회원가입</strong>
+                    <div class="form-item row-group">
+                        <div class="item-default">
+                            연락처
+                        </div>
+                        <div class="item-user">
+                            <input type="text" class="form-input">
+                        </div>
+                    </div>
+                    <div class="form-item row-group">
+                        <div class="item-default">
+                            닉네임(필수)
+                        </div>
+                        <div class="item-user">
+                            <input type="text" class="form-input" placeholder="닉네임 입력(필수)">
+                        </div>
+                    </div>
+                    <div class="form-item row-group">
+                        <div class="item-default">
+                            이메일(필수)
+                        </div>
+                        <div class="item-user">
+                            <input type="text" class="form-input" placeholder="이메일 입력(필수)">
+                            <p class="guide-txt">
+                                사용하시는 이메일 주소로 입력해 주세요. <br>
+                                거래정보, 혜택 및 이벤트 정보를 보내드립니다.
                             </p>
                         </div>
-                        <div class="sns-login-list col-group">
-                            <button type="button" class="sns-login-btn" @click.prevent="ready">
-                                <img src="/images/sns_login_kakao.png" alt="">
-                            </button>
-                            <button type="button" class="sns-login-btn" @click.prevent="ready">
-                                <img src="/images/sns_login_naver.png" alt="">
-                            </button>
-                            <button type="button" class="sns-login-btn" @click.prevent="ready">
-                                <img src="/images/sns_login_facebook.png" alt="">
-                            </button>
-                            <button type="button" class="sns-login-btn" @click.prevent="ready">
-                                <img src="/images/sns_login_apple.png" alt="">
-                            </button>
-                            <button type="button" class="sns-login-btn" @click.prevent="ready">
-                                <img src="/images/sns_login_google.png" alt="">
-                            </button>
+                    </div>
+                    <div class="form-item row-group">
+                        <div class="item-default">
+                            활동지역(필수)
+                        </div>
+                        <div class="item-user">
+                            <div class="form-input-wrap col-group">
+                                <select name="" id="" class="form-input form-select">
+                                    <option value="광역시/도"></option>
+                                </select>
+                                <select name="" id="" class="form-input form-select">
+                                    <option value="시/군/구"></option>
+                                </select>
+                            </div>
+                            <p class="guide-txt">
+                                활동 지역의 물품이 우선 노출됩니다.
+                            </p>
                         </div>
                     </div>
-                    -->
+                    <div class="area-setting-label col-group">
+                        <label for="type_1">
+                            <input type="checkbox" class="form-checkbox" id="type_1" name="type">
+                            <div class="checked-item col-group">
+                                <div class="icon">
+                                    <i class="xi-check"></i>
+                                </div>
+                                <p class="txt">
+                                    현재 위치로 설정
+                                </p>
+                            </div>
+                        </label>
+                        <p class="area-txt">
+                            불광제1동
+                        </p>
+                    </div>
+                </div>
 
+                <div class="form-footer">
+                    <a href="#" class="form-footer-btn submit-btn" @click.prevent="store">로그인</a>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 </template>
 <script>
 import Form from "../../utils/Form";
-export default {
 
+export default {
+    layout: "empty",
     data() {
         return {
             form: new Form(this.$axios, {
-                type: this.$route.query.type || 'INFLUENCER',
-                email: "",
-                nickname: "",
-                password: "",
-                password_confirmation: "",
-                contact: "",
-                img: [],
+                social_id: "",
+                social_platform: "",
 
-                company_type:"",
-                company_business_number:"",
-                company_title:"",
-                company_president:"",
 
-                agree_promotion_email: "",
-                agree_promotion_sms: "",
+                country: "테스트",
+
+                name: "테스트",
+                contact: "테스트",
+                email: "테스트@naver.com",
+                nickname: "테스트",
+
+                city: "테스트",
+                county: "테스트",
+                town: "테스트",
+                village: "테스트",
+                lat: "테스트",
+                lon: "테스트",
+
+                active_county_id: 1,
             }),
-
-            agree1: "",
-            agree2: "",
-            agree3: "",
         };
     },
 
     methods: {
-        clearLetter(name){
-          this.form[name] = this.form[name].replace(/[^a-zA-Z0-9]/g, '');
+        clearLetter(name) {
+            this.form[name] = this.form[name].replace(/[^a-zA-Z0-9]/g, '');
 
-          if (this.form[name].length > 20) {
-            this.form[name] = this.form[name].substring(0, 20);
-          }
+            if (this.form[name].length > 20) {
+                this.form[name] = this.form[name].substring(0, 20);
+            }
         },
 
-        agreeAll(){
-            this.form.agree_promotion_email = 1;
-            this.form.agree_promotion_sms = 1;
-            this.agree1 = 1;
-            this.agree2 = 1;
-            this.agree3 = 1;
-        },
-
-        store(){
+        store() {
             this.$store.commit("setLoading", true);
             this.form.post("/api/users")
                     .then(response => {
@@ -306,13 +150,9 @@ export default {
 
                         this.$auth.loginWith('laravelSanctum', {
                             data: {
-                                email: this.form.email,
-                                password: this.form.password,
+                                token: response.data,
                             }
                         }).then(response => {
-                            if(this.form.type === "INFLUENCER")
-                                return this.$router.push("/users/updateCategories");
-
                             return this.$router.push("/");
                         }).catch(error => {
                             this.form.onFail(error.response.data);
@@ -320,22 +160,32 @@ export default {
                     })
         },
 
-        ready(message = '심사준비중입니다.'){
+        ready(message = '심사준비중입니다.') {
             return alert(message);
         },
     },
 
     computed: {
-        isAgreeAll(){
-            return this.agree1 && this.agree2 && this.agree3 && this.form.agree_promotion_email && this.form.agree_promotion_sms;
-        },
-    },
-    watch: {
 
     },
+    watch: {},
     mounted() {
+        if(this.$route.query.socialUser)
+            this.socialUser = JSON.parse(this.$route.query.socialUser);
 
+        if(this.socialUser) {
+            if (this.socialUser.id)
+                this.form.social_id = this.socialUser.id;
 
+            if (this.socialUser.platform)
+                this.form.social_platform = this.socialUser.platform;
+
+            if (this.socialUser.nickname)
+                this.form.nickname = this.socialUser.nickname;
+
+            if (this.socialUser.email)
+                this.form.email = this.socialUser.email;
+        }
     }
 }
 </script>

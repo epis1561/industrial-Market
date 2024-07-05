@@ -1,9 +1,9 @@
 <template>
-    <div id="main"></div>
+
 </template>
 <script>
 export default {
-    auth: "guest",
+    layout: "empty",
 
     data(){
         return {
@@ -19,7 +19,7 @@ export default {
                 push_token : pushToken
             }
         }).then(response => {
-
+            return this.$router.push("/");
         }).catch((e) => {
             alert("소셜로그인에 실패하였습니다. 잠시 후 재시도해주세요.");
 

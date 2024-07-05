@@ -91,8 +91,6 @@ export default {
         let pushToken = localStorage.getItem("push_token");
 
         if(this.$route.query.token){
-            this.$store.commit("setLoading", true);
-
             this.$auth.loginWith('laravelSanctum', {
                 data: {
                     token: this.$route.query.token,

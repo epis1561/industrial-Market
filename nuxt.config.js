@@ -7,12 +7,12 @@ export default {
     },
     ssr: false,
     head: {
-        title: '체리뷰',
+        title: '산업마켓',
         htmlAttrs: {
             lang: 'ko'
         },
         meta: [
-            {property: 'og:title', content: '체리뷰'},
+            {property: 'og:title', content: '산업마켓'},
             {charset: 'utf-8'},
             {name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'},
             {hid: 'description', name: 'description', content: ''},
