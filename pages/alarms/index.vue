@@ -11,7 +11,7 @@
                 <h2 class="title">
                     알림
                 </h2>
-                <nuxt-link to="/mypage/settings/notification" class="sub-header-btn">
+                <nuxt-link to="/users/editAlarm" class="sub-header-btn">
                     <img src="/images/icon_setting.png" alt="" v-if="form.category==0">
                     <img src="/images/icon_setting.png" alt="" v-if="form.category==1">
                 </nuxt-link>
@@ -100,6 +100,7 @@ export default {
                 params: this.form.data(),
             }).then(response => {
                 this.$auth.fetchUser();
+
                 this.loading = false;
 
                 if (loadMore) {

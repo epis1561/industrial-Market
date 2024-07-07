@@ -52,7 +52,9 @@
     </div>
 </template>
 <style>
-
+.modal-scroll-container .modal-scroll-wrap{
+    width:50%;
+}
 </style>
 <script>
 import Form from "@/utils/Form";
@@ -76,6 +78,7 @@ export default {
             selectCityName:"",
             countyId:"",
             countyName:"",
+            selectedCounty: "",
         }
     },
 
@@ -85,12 +88,17 @@ export default {
         },
         send() {
             this.$emit('close');
+            if(this.selectedCounty){
+            this.$emit("change", this.selectedCounty);
+
+            }
         },
         selectCity(city){
             this.selectedCity = city;
+            console.log(this.selectedCity);
         },
         selectCounty(county){
-            this.$emit("change", county);
+            this.selectedCounty = county;
         }
     },
 

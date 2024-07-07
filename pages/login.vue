@@ -25,7 +25,8 @@
                             카카오 계정으로 로그인
                         </p>
                     </a>
-                    <a :href="`${this.$store.state.domain}/openLoginPop/google`" class="sns-login-item google" @click.prevent="ready">
+                    <a :href="`${this.$store.state.domain}/openLoginPop/google`" class="sns-login-item google">
+<!--                         @click.prevent="ready"-->
 
                         <img src="/images/icon_google.png" alt="" class="icon">
                         <p class="txt">
@@ -107,6 +108,18 @@ export default {
                 return this.$router.push("/");
             })
         }
+        navigator.geolocation.getCurrentPosition(
+                position => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    // 사용자의 정확한 위치 정보(latitude, longitude 등)을 얻을 수 있음
+                    console.log('성공');
+                },
+                error => {
+                    console.error('Error fetching geolocation', error);
+                    // 위치 정보를 가져오지 못했을 때 처리할 로직
+                }
+        );
     }
 }
 </script>

@@ -12,14 +12,21 @@
                 <h2 class="title">
                     {{ targetUser.name }}
                 </h2>
-                <button class="sub-header-btn more-btn" @click="isMore = true">
-                    <i></i>
-                </button>
+                <div class="header-menu-wrap col-group">
+                    <a :href="`tel:${safeContact}`" class="sub-header-btn" v-if="this.chat && this.chat.product.state_transaction == 1">
+                        <i class="xi-call"></i>
+                    </a>
+                    <button class="sub-header-btn more-btn" style="margin-left:5px;" @click="isMore = true">
+                        <i></i>
+                    </button>
+                </div>
+
+
             </div>
         </header>
         <!-- header End -->
 
-        <main class="subpage" v-if="chat!=null">
+        <main class="subpage area-chats" v-if="chat!=null">
             <div class="chat-prod prod-item">
                 <div class="container col-group">
                     <div class="item-img">
@@ -49,71 +56,63 @@
             </div>
 
             <div class="message-wrap container" v-else-if="isNull==false && messages">
-                <div class="chat-area" v-for="(message,index) in messages.data" :key="message.id">
+                <div class="chat-area">
                     <div class="message-group">
-                        <div class="date-check" v-if="index == 0 || messages.data[index].format_created_at != messages.data[index - 1 ].format_created_at">
-                            {{ message.format_created_at }}
-                        </div>
+                        <template v-for="(message,index) in messages.data">
+                            <div class="date-check" v-if="index == 0 || messages.data[index].format_created_at != messages.data[index - 1 ].format_created_at">
+                                {{ message.format_created_at }}
+                            </div>
 
-                        <div class="new-message-group row-group">
-                            <div class="new-message-box send col-group" v-if="$auth.user.data.id == message.user.id">
-                                <div class="profile-img">
-                                    <img :src="message.user.img ? message.user.img.url : ''"/>
-                                </div>
-                                <div class="new-message col-group">
-                                    <div class="new-message-txt">
-                                        <p class="txt">
-                                            {{ message.description }}
-                                        </p>
-                                    </div>
-                                    <div class="message-time">
-                                        {{ message.format_short_created_at }}
+                            <div class="new-message-group row-group" :key="message.id">
+                                <div :class="`new-message-box col-group ${user.id != message.user.id ? 'receive' : 'send'}`">
+                                    <div class="new-message-box-inner">
+                                        <div class="new-message-image" v-if="message.imgs.length>0">
+                                            <img :src="img.url ? img.url : ''" v-for="img in message.imgs" :key="img.id"/>
+                                        </div>
+
+                                        <div class="new-message-box-content">
+                                            <div class="profile-img">
+                                                <img :src="message.user.img ? message.user.img.url : ''"/>
+                                            </div>
+                                            <div class="new-message col-group">
+                                                <div class="new-message-txt" v-if="message.description">
+                                                    <p class="txt">
+                                                        {{ message.description }}
+                                                    </p>
+                                                </div>
+                                                <div class="message-time">
+                                                    {{ message.format_short_created_at }}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="new-message-group row-group">
-                            <div class="new-message-box receive col-group" v-if="$auth.user.data.id != message.user.id">
-                                <div class="profile-img">
-                                    <img :src="message.user.img ? message.user.img.url : ''"/>
-                                </div>
-                                <div class="new-message col-group">
-                                    <div class="new-message-txt">
-                                        <p class="txt">
-                                            {{ message.description }}
-                                        </p>
-                                    </div>
-                                    <div class="message-time">
-                                        {{ message.format_short_created_at }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </template>
                     </div>
                 </div>
             </div>
 
             <div class="chat-footer">
                 <!-- 사진 한장 이상 첨부 시 -->
-                <div class="file-preview-scroll-wrap">
+                <div class="file-preview-scroll-wrap"  v-if="activeFiles || activeCamera">
                     <div class="file-preview-wrap col-group">
-                        <input-images :multiple="true" v-if="activeFiles"
-                                      @change="(data) => {form.imgs = data; activeCamera = false;}"/>
-                        <input-images v-if="activeCamera" id="camera" :camera="true"
-                                      @change="(data) => {form.imgs = data; activeFiles = false;}"/>
+                        <input-images :multiple="true" v-if="activeFiles" @change="(data) => {form.imgs = data; activeCamera = false;}"/>
+                        <input-images v-if="activeCamera" id="camera" :camera="true" @change="(data) => {form.imgs = data; activeFiles = false;}"/>
                     </div>
                 </div>
                 <!-- //사진 한장 이상 첨부 시 -->
-                <form class="container col-group" @submit.prevent="storeMessage">
+                <div class="container col-group">
                     <button class="chat-footer-btn image-btn" @click="isImg=true">
                         <img src="/images/icon_picture.png" alt="">
                     </button>
+                    <form @submit.prevent="storeMessage" class="submitForm">
                     <textarea class="chat-textarea" placeholder="메세지 보내기" v-model="form.description"></textarea>
                     <button class="chat-footer-btn send-btn">
                         <i></i>
                     </button>
-                </form>
+                    </form>
+                </div>
             </div>
         </main>
 
@@ -249,7 +248,15 @@
     </body>
 </template>
 <style>
-
+.chat-item .date{
+    width: auto;
+}
+.submitForm{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
 </style>
 <script>
 
@@ -298,7 +305,9 @@ export default {
                     current_page: 1,
                     last_page: 1,
                 }
-            }
+            },
+            safeContact:"",
+
         }
 
     },
@@ -309,7 +318,6 @@ export default {
             this.$store.commit("setLoading",true);
             this.$axios.get("/api/chats/" + this.$route.params.id, {}).then(response => {
                 this.chat = response.data.data;
-                console.log(this.chat);
 
 
             })
@@ -327,12 +335,18 @@ export default {
         },
         storeMessage() {
             this.$store.commit("setLoading",true);
-            this.form.post("/api/messages", {
-                params: this.form.data(),
-            }).then(response => {
+            console.log(this.form.imgs);
+            this.scrollEnd();
+            this.form.post("/api/messages")
+                    .then(response => {
 
+                        console.log(response);
                 this.form.description = "";
                 this.form.imgs = [];
+
+                this.activeCamera = false;
+                this.activeFiles = false;
+
                 $('.m-files-wrap').hide();
             })
         },
@@ -371,14 +385,26 @@ export default {
                 this.alarmForm.alarm = 0;
                 this.alarmText = "채팅 알람이 꺼졌습니다.";
             }
-            console.log(this.alarmForm.alarm);
-            console.log(this.alarmText);
+
             this.alarmForm.patch("/api/chats/"+ this.$route.params.id).then(response => {
-                console.log('성공했습니다');
+
                 this.chat = response.data;
-                console.log(this.chat);
+
             })
         },
+        contact(){
+            this.$axios.get("/api/users/getContactSafe",{
+                params: this.form.data(),
+            }).then(response => {
+                this.safeContact = response.data.data.contact_safe;
+                console.log(this.safeContact);
+            })
+        },
+        scrollEnd(){
+            var subpage = document.querySelector('.subpage');
+            console.log(subpage.scrollHeight);
+            subpage.scrollTop = subpage.scrollHeight;
+        }
     },
 
     computed: {
@@ -393,14 +419,24 @@ export default {
             }
         },
 
+        user(){
+            return this.$auth.user.data;
+        }
     },
     watch: {
+"safeContact":{
+    handler(){
+        this.scrollEnd();
+    }
+}
 
     },
     mounted() {
+        this.$auth.fetchUser();
         this.getChat();
         this.getMessage();
         this.checkNull();
+        this.contact();
     }
 };
 </script>

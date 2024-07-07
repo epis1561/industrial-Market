@@ -1,4 +1,4 @@
-<template>
+ <template>
     <nuxt-link :to="`/products/${item.id}`" class="prod-item col-group">
         <div class="item-img">
             <img :src="item.img ? item.img.url : ''" alt="">
@@ -8,8 +8,11 @@
                 {{ item.title }}
             </p>
             <div class="sub-txt-group col-group">
-                <p class="sub-txt">
-                    {{ locate }}
+                <p class="sub-txt" v-if="item.city.title === item.county.title">
+                    {{item.city.title}}
+                </p>
+                <p class="sub-txt" v-else>
+                    {{item.city.title}} {{ item.county.title }}
                 </p>
                 <p class="sub-txt">
                     {{ item.format_created_at }}
@@ -76,6 +79,7 @@ export default {
             return items.join(' ');
         }
     },
+
 
     mounted() {
     }

@@ -33,7 +33,7 @@
             <div class="container">
 
                 <!-- 채팅 내역 0개 -->
-                <div class="null-txt chat-null-txt row-group" v-if="chattings.data.length==0">
+                <div class="null-txt chat-null-txt row-group" v-if="chattings && chattings.data.length==0">
                     <i class="icon"></i>
                     채팅 내역이 없습니다.
                 </div>
@@ -92,6 +92,10 @@ export default{
     methods: {
         getChattings(loadMore){
             this.$store.commit("setLoading",true);
+            if(this.$route.query.product_id){
+                this.form.product_id = this.$route.query.product_id;
+            }
+            console.log(this.form.product_id);
             this.$axios.get("/api/chats", {
                 params: this.form.data(),
 
@@ -150,6 +154,7 @@ export default{
         },
         getMyChat(loadMore){
             this.$store.commit("setLoading",true);
+            console.log('내가올린글')
             this.$axios.get("/api/chats/indexByOwner", {
                 params: this.form.data(),
             }).then(response => {
@@ -163,10 +168,11 @@ export default{
                     this.chattings = response.data;
 
                 }
-                this.isNull();
+
             })
         },
         getAskChat(loadMore){
+            console.log('내가문의한글')
             this.$store.commit("setLoading",true);
             this.$axios.get("/api/chats/indexByAsker", {
                 params: this.form.data(),
@@ -183,28 +189,27 @@ export default{
                     this.chattings = response.data;
 
                 }
-                this.isNull();
+
             })
         },
         changeMy(text){
             this.isMy= text;
-            console.log(this.isMy)
             if(this.isMy==='전체'){
                 this.load= false;
                 this.form.page=1;
-                this.Null=false;
+                this.chattings = "";
                 return this.getChattings();
             }
             else if(this.isMy==='내가올린글'){
                 this.load= false;
                 this.form.page=1;
-                this.Null=false;
+                this.chattings = "";
                 return this.getMyChat();
             }
             else{
                 this.load= false;
                 this.form.page=1;
-                this.Null=false;
+                this.chattings = "";
                 return this.getAskChat();
             }
         },

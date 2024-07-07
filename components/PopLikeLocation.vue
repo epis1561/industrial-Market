@@ -8,7 +8,7 @@
 
             <div class="form-label-wrap row-group">
                 <label for="type_all">
-                    <input type="radio" class="form-radio" id="type_all" name="type_all" value=null v-model="location">
+                    <input type="radio" class="form-radio" id="type_all" value="전국" name="city" v-model="selectedLocation">
                     <div class="checked-item col-group">
                         <div class="icon">
                             <i class="xi-check"></i>
@@ -18,37 +18,37 @@
                         </p>
                     </div>
                 </label>
-<!--                <label for="type_2">-->
-<!--                    <input type="radio" class="form-radio" value="1" id="type_2" name="type" v-model="this.location">-->
-<!--                    <div class="checked-item col-group">-->
-<!--                        <div class="icon">-->
-<!--                            <i class="xi-check"></i>-->
-<!--                        </div>-->
-<!--                        <p class="txt">-->
-<!--                            현 위치로 보기-->
-<!--                        </p>-->
-<!--                    </div>-->
-<!--                </label>-->
-<!--                <label for="type_3">-->
-<!--                    <input type="radio" class="form-radio" value="3" id="type_3" name="type" v-model="this.form.location_id">-->
-<!--                    <div class="checked-item col-group">-->
-<!--                        <div class="icon">-->
-<!--                            <i class="xi-check"></i>-->
-<!--                        </div>-->
-<!--                        <p class="txt">-->
-<!--                            경기도-->
-<!--                        </p>-->
-<!--                    </div>-->
-<!--                </label>-->
+                <label for="type_my">
+                    <input type="radio" class="form-radio" id="type_my" value="내위치" name="city" v-model="selectedLocation">
+                    <div class="checked-item col-group">
+                        <div class="icon">
+                            <i class="xi-check"></i>
+                        </div>
+                        <p class="txt">
+                            현 위치로 보기
+                        </p>
+                    </div>
+                </label>
+                <label for="type_prefer">
+                    <input type="radio" class="form-radio" id="type_prefer"  value="선호지역" name="city" v-model="selectedLocation">
+                    <div class="checked-item col-group">
+                        <div class="icon">
+                            <i class="xi-check"></i>
+                        </div>
+                        <p class="txt">
+                         {{ this.$auth.user.data.activeCounty.title}}
+                        </p>
+                    </div>
+                </label>
 
 <!--                선호지역부분 나중에 처리해야함        -->
             </div>
 
             <div class="modal-footer col-group">
-                <button class="modal-footer-btn local_select_btn_2">
+                <button class="modal-footer-btn local_select_btn_2" @click="detail">
                     지역선택
                 </button>
-                <button class="modal-footer-btn submit-btn close-btn" @click="change()">
+                <button class="modal-footer-btn submit-btn close-btn" @click="show">
                     상품보기
                 </button>
             </div>
@@ -64,30 +64,40 @@ import Form from "@/utils/Form";
 
 export default {
 
-    head(){
-        return {
-            script: [
-                {
-                    src: '/js/filter.js',
-                    defer: true
-                },
-            ],
-        }
-    },
+
     data(){
         return {
-location_id:"",
+            selectedLocation:"",
+
         }
     },
 
     methods: {
-change(){
-    this.$emit("change", this.location_id);
-}
+        show(){
+            if(this.selectedLocation=== "전국"){
+                this.$emit('showAll');
+            }
+            else if(this.selectedLocation === "내위치"){
+                this.$emit('showReal');
+            }
+            else if(this.selectedLocation === "선호지역"){
+                this.$emit('showPrefer');
+            }
+        },
+        detail(){
+       this.selectedLocation = "";
+       this.$emit('detail');
+
+        }
+
+
+
     },
 
     computed: {
-
+            user(){
+               return this.$auth.user.data;
+            }
     },
 
     mounted() {

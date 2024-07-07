@@ -11,8 +11,11 @@
                 {{ product.title }}
             </p>
             <div class="sub-txt-group col-group">
-                <p class="sub-txt">
-                    {{ locate }}
+                <p class="sub-txt" v-if = "product.city.title === product.county.title">
+                    {{ product.city.title }}
+                </p>
+                <p class="sub-txt" v-else>
+                  {{ product.city.title }} {{ product.county.title }}
                 </p>
                 <p class="sub-txt">
                     {{ product.format_created_at }}
@@ -24,14 +27,14 @@
                 </p>
                 {{ product.format_price }}
             </div>
-            <button class="like-btn active" @click.prevent.stop="deleteList"></button>
+            <button class="like-btn" @click.prevent.stop="remove" :class="{'active':isLike}"></button>
             <div class="prod-btn-wrap col-group">
                 <div class="prod-btn col-group">
-                    <img src="images/icon_chat_gray.png" alt="" class="icon">
+                    <img src="/images/icon_chat_gray.png" alt="" class="icon">
                     <p class="txt">{{ product.count_chat }}</p>
                 </div>
                 <div class="prod-btn col-group">
-                    <img src="images/icon_like_gray.png" alt="" class="icon">
+                    <img src="/images/icon_like_gray.png" alt="" class="icon">
                     <p class="txt">{{ product.count_like }}</p>
                 </div>
             </div>
@@ -53,13 +56,15 @@ export default {
                 likeable_type: "Product",
                 likeable_id :"",
             }),
-
+            isLike:true,
         }
     },
 
     methods: {
         remove(){
-            this.$emit('remove');
+            this.isLike=false;
+            this.$emit('removeProduct',);
+            console.log('에밋발동')
         }
 
     },
@@ -67,21 +72,7 @@ export default {
     computed: {
       
 
-        locate(){
-            let locations= [this.product.city,this.product.county,this.product.town,this.product.town2];
 
-            let items=[];
-
-            for(let i = 0; i<locations.length; i++){
-                if(items.length==2)
-                    return items.join(' ');
-
-                if(locations[i])
-                    items.push(locations[i]);
-            }
-
-            return items.join(' ');
-        }
     },
 
     mounted() {

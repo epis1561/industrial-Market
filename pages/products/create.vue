@@ -26,7 +26,7 @@
                                     <i class="icon"></i>
                                     {{ form.imgs.length }}/10
                                 </label>
-
+                                <error :form="form" name="imgs" v-if="form.imgs.length==0"/>
                                 <div class="file-preview-scroll-wrap">
                                     <div class="file-preview-wrap col-group">
                                         <input-images :multiple="true" @change="(data) => {form.imgs = data;}" v-if="activeFiles" :default="product ? product.imgs:[]"/>
@@ -41,10 +41,11 @@
                             카테고리
                         </div>
                         <div class="categorybuttons" v-if="productCategories">
-                            <button class="category":class="{'active':form.product_category_id == productCategory.id}"  v-for="productCategory in productCategories.data" :key="productCategory.id" @click="form.product_category_id = productCategory.id;">
+                            <button class="category" :class="{'active':form.product_category_id == productCategory.id}"  v-for="productCategory in productCategories.data" :key="productCategory.id" @click="form.product_category_id = productCategory.id;">
                                 {{ productCategory.title }}
                             </button>
                         </div>
+                        <div class="m-input-error" v-if="!form.product_category_id && nullCategory">카테고리를 선택해주세요.</div>
                     </div>
                     <div class="form-item row-group">
                         <div class="item-default">
@@ -52,6 +53,7 @@
                         </div>
                         <div class="item-user">
                             <input type="text" class="form-input" placeholder="제목을 입력해주세요" v-model="form.title">
+                            <error :form="form" name="title" />
                         </div>
                     </div>
                     <div class="form-item row-group">
@@ -65,16 +67,16 @@
                         </div>
                         <div class="item-user row-group">
                             <div class="form-input-wrap col-group">
-                                <input type="number" class="form-input" placeholder="가격을 입력해주세요" v-model="form.price" v-if="form.type == 2" disabled>
-                                <input type="number" class="form-input" placeholder="가격을 입력해주세요" v-model="form.price" v-else>
+                                <input type="number" class="form-input" placeholder="가격을 입력해주세요" v-model="price" v-if="form.type == 2" disabled>
+                                <input type="number" class="form-input" placeholder="가격을 입력해주세요" v-model="price" v-else>
                                 <p class="sticker">만원</p>
                             </div>
-
                             <div class="m-input-checkbox type01" v-if="form.type!=2">
                                 <input type="checkbox" id="check1">
                                 <label for="check1" @click="offer" >가격 제안 받기</label>
-                            </div>
 
+                            </div>
+                            <div class="m-input-error" v-if="!form.price && nullPrice && this.form.type !=2">가격을 입력해주세요.</div>
                         </div>
                     </div>
                     <div class="form-item row-group">
@@ -87,6 +89,7 @@
                                 <p class="sticker">
                                     <span>{{ form.description.length }}</span> / 2000
                                 </p>
+                                <error :form="form" name="description" />
                             </div>
                         </div>
                     </div>
@@ -98,6 +101,7 @@
                             <div class="form-input-wrap relative">
                                 <input type="text" class="form-input modal_addr_btn" placeholder="위치 선택" readonly
                                        @click="isMap=true" :value="fullAddress">
+                                <div class="m-input-error" v-if="!fullAddress && nullLocation">희망장소를 선택해주세요.</div>
                                 <i class="sticker" @click="isMap=true"></i>
                             </div>
                         </div>
@@ -277,6 +281,11 @@ export default {
             getCountry:"",
             product:null,
             load:false,
+            nullPrice:"",
+            nullCategory:"",
+            nullLocation:"",
+            nullType:"",
+            price:"",
         }
 
     },
@@ -514,14 +523,14 @@ export default {
                         this.form.title = this.product.title;
                         this.form.product_category_id = this.product.product_category_id;
                         this.form.type = this.product.type;
-                        this.form.price = this.product.price;
+                        this.price = this.product.price;
                         this.form.description = this.product.description;
                         this.form.address_detail = this.product.address_detail;
                         this.form.keywords_origin = this.product.keywords_origin;
                         this.form.city = this.product.city.title;
                         this.form.county = this.product.county.title;
                         this.form.town = this.product.town.title;
-                        this.form.village = this.product.village;
+                        this.form.village = this.product.village.title;
                         this.form.country = this.product.country;
                         this.form.imgs = this.product.imgs;
                         this.form.real_county = this.product.realCounty.title;
@@ -533,25 +542,30 @@ export default {
                     })
         },
         store(){
-            console.log(this.form)
             if(this.$route.query.id) {
+
+                this.$store.commit("setLoading",true);
                 return this.form.patch("/api/products/" + this.$route.query.id)
 
             .then(response => {
 
                     this.$router.push("/products");
-                });
+                }) .catch(error => {
+                            this.isError();
+                        });
             }
             else{
-                this.form.price = this.form.price * 10000;
                 this.$store.commit("setLoading",true);
                 this.form.post("/api/products").then(response => {
-                    this.form.price = this.form.price / 10000;
-                    console.log('성공');
-                    console.log(this.form.price)
+
                     this.$router.back();
-                })
+                }).then(response => {
+
+                }) .catch(error => {
+                    this.isError();
+                });
             }
+
 
         },
         offer(){
@@ -565,7 +579,25 @@ export default {
             }
 
         },
+        isError(){
+            let isNullCategory = !this.form.product_category_id;
+            let isNullPrice = !this.price;
+            let isNullLocation = !this.fullAddress;
+            let isNullType = !this.form.type;
 
+            if (isNullCategory) {
+                this.nullCategory = true;
+            }
+            if (isNullPrice) {
+                this.nullPrice = true;
+            }
+            if (isNullLocation) {
+                this.nullLocation = true;
+            }
+            if (isNullType) {
+                this.nullType = true;
+            }
+        }
 
     },
 
@@ -637,9 +669,19 @@ export default {
         "form.type": {
             handler(){
                 if(this.form.type == 2) {
-                    this.form.price = 0;
+                    this.price = 0;
                     this.form.offer_price = 0;
                 }
+            }
+        },
+        "price":{
+            handler(){
+                // if(this.price ==0){
+                //     this.form.type = 2
+                // }
+                // 값이 정수형인지 판단 후 정수형이면 * 10000
+                // getproduct쪽에서 price를 parseInt로 해서 정수형으로 변환해주기. 숫자인지를 확실히 하는것.
+                this.form.price = this.price * 10000;
             }
         },
 

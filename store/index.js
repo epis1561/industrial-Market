@@ -56,6 +56,11 @@ export const state = () => ({
 
 
     },
+    alarms:{
+        data:[],
+        meta:{},
+    },
+    price: 0,
 })
 
 export const mutations = {
@@ -141,6 +146,12 @@ export const mutations = {
     },
     setLocation(state,data){
         state.location = data;
+    },
+    setAlarms(state,data){
+        state.alarms = data;
+    },
+    setPrice(state,data){
+        state.price = data;
     }
 }
 
@@ -205,7 +216,7 @@ export const actions = {
                     commit("setLocation", location);
                 },
                 (error) => {
-                    console.error(error.message);
+                    console.error('권한을 허용해주세요');
                 }
             );
         }

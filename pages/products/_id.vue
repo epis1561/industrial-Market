@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="prod-btn col-group">
                                     <img src="/images/icon_like_gray.png" alt="" class="icon">
-                                    <p class="txt">{{ product.count_like }}</p>
+                                    <p class="txt">{{ count_like }}</p>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                 <div class="product-detail-section container">
                     <div class="detail-profile-wrap col-group">
                         <button class="like-btn" :class="{'active':product.user.like==1}"
-                                @click="toggleLike(product.user,'User')"></button>
+                                @click="toggleLike(product,'User')"></button>
                         <div class="profile-img">
                             <img src="" alt="">
                         </div>
@@ -217,14 +217,14 @@
                         </p>
                         나눔합니다
                     </div>
-                    <nuxt-link :to="`/chats/${product.id}`" class="chat-btn" v-if="user.id != product.user.id"><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
+                    <button type="button" class="chat-btn" @click.prevent="storeChat" v-if="user.id != product.user.id"><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
                         <img src="/images/icon_chat_white.png" alt="" class="icon">
                         채팅하기
-                    </nuxt-link>
+                    </button>
                     <!-- 본인의 상품 확인 시 보이는 버튼-->
                     <nuxt-link :to="`/chats?product_id=${product.id}`" class="chat-btn" v-if="user.id == product.user.id">
                         <img src="/images/icon_chat_white.png" alt="" class="icon">
-                        채팅{{product.count_chat}}
+                        채팅 {{product.count_chat}}
                     </nuxt-link>
 
                 </div>
@@ -350,7 +350,7 @@
             <div class="modal-select-wrap modal-wrap">
 
                 <div class="chat-more-option-wrap row-group">
-                    <button class="chat-more-option col-group" v-if="product.state_transaction!=0" @click.prevent="changeTransaction(0)">
+                    <button class="chat-more-option col-group" v-if="product.state_transaction!=0" @click.prevent="changeTransaction(0),isSelect = false"">
                         <i class="icon"></i>
                         {{ product.format_short_type }}중
                     </button>
@@ -358,7 +358,7 @@
                         <i class="icon"></i>
                         거래중
                     </button>
-                    <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2" @click.prevent="changeTransaction(2)">
+                    <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2" @click.prevent="changeTransaction(2),isSelect = false"" >
                         <i class="icon"></i>
                         {{ product.format_short_type }}완료
                     </a>
@@ -390,7 +390,7 @@
                     <button class="modal-footer-btn close-btn" @click="isTrade=false">
                         취소
                     </button>
-                    <button class="modal-footer-btn submit-btn" @click.prevent="changeTransaction(1)">
+                    <button class="modal-footer-btn submit-btn" @click.prevent="changeTransaction(1), isSelect = false">
                         변경하기
                     </button>
                 </div>
@@ -414,7 +414,7 @@
 import Form from "@/utils/Form";
 
 export default {
-
+    middleware:["user"],
 
     data() {
 
@@ -430,8 +430,9 @@ export default {
                 product_id:"",
             }),
             similarForm: new Form(this.$axios, {
-                user_id: this.$auth.user.data.id,
+                user_id: "",
                 product_category_id: "",
+                except_user_id : "",
                 likeable_id: "",
                 likeable_type: "",
                 page: 1,
@@ -446,6 +447,9 @@ export default {
                 description: "",
             }),
             isDisabled: true,
+            count_like : "",
+            isLikeProduct:"",
+            isLikeUser:"",
             isReport: false,
             isMore: false,
             isImg: false,
@@ -500,11 +504,16 @@ export default {
 
 
                 this.product = response.data.data;
-                console.log(this.product);
+
                 // this.form.product_category_id = response.data.data.product_category_id;
                 this.form.user_id = response.data.data.user.id;
                 this.form.likeable_id = response.data.data.like;
-                // this.getSimilarProducts();
+                this.count_like = response.data.data.count_like;
+                this.similarForm.product_category_id = response.data.data.product_category_id;
+                this.similarForm.except_user_id = response.data.data.user.id;
+                console.log( response.data.data.user.id);
+                console.log(this.similarForm.except_user_id);
+                this.getSimilarProducts();
                 this.getOtherProducts();
                 this.getMap();
                 this.getMap2();
@@ -541,13 +550,16 @@ export default {
                     random: 1,
                 },
             }).then(response => {
+
                 this.randomProducts = response.data;
             })
         },
         getOtherProducts() {
             this.$axios.get("/api/products/", {
                 params: this.form.data(),
+
             }).then(response => {
+
                 this.otherProducts = response.data;
             })
         },
@@ -555,7 +567,6 @@ export default {
             this.$axios.get("/api/products/", {
                 params: this.similarForm.data(),
             }).then(response => {
-                console.log(response.data);
                 this.similarProducts = response.data;
             })
         },
@@ -649,52 +660,73 @@ export default {
                 title: "Marker Title",
             });
         },
-        toggleLike(data, type) {
+        toggleLike(data,type) {
+
             if (type == "Product") {
+
                 if (data.like == 0) {
-                    this.form.likeable_type = data.id;
+                    this.product.like = 1;
+                    this.isLikeProduct = 1;
+                    this.form.likeable_id = data.id;
                     this.form.likeable_type = type;
 
-                    this.form.post("/api/likes").then(response => {
-                        this.product.like = 1;
-                    })
+                    this.form.post("/api/likes", {
+                        params: this.form.data()
+                    }).then(response => {
+
+                    });
                 } else {
-                    this.form.likeable_type = data.id;
+                    this.product.like = 0;
+                    this.isLikeProduct = 0;
+                    this.form.likeable_id = data.id;
                     this.form.likeable_type = type;
 
-                    this.form.delete("/api/likes").then(response => {
-                        this.product.like = 0;
-                    })
+                    this.form.delete("/api/likes",{
+                        params: this.form.data()
+                    }).then(response => {
+
+                    });
                 }
-            }
-            if (type == "User") {
-                if (data.like == 0) {
-                    this.form.likeable_type = data.id;
-                    this.form.likeable_type = type;
 
-                    this.form.post("/api/likes").then(response => {
-                        this.product.user.like = 1;
-                    })
-                } else {
-                    this.form.likeable_type = data.id;
-                    this.form.likeable_type = type;
-
-                    this.form.delete("/api/likes").then(response => {
-                        this.product.user.like = 0;
-                    })
-                }
             }
 
+           else if (type == "User") {
+                if (data.user.like == 0) {
+                    this.product.user.like = 1;
+                    this.isLikeUser = 1;
+                    this.form.likeable_id = this.product.user.id;
+                    console.log('유저id',this.form.likeable_id);
+                    this.form.likeable_type = type;
+
+                    this.form.post("/api/likes", {
+                        params: this.form.data()
+                    }).then(response => {
+
+                    });
+                } else {
+                    this.product.user.like = 0;
+                    this.isLikeUser = 0;
+                    this.form.likeable_id = this.product.user.id;
+                    console.log('유저id',this.form.likeable_id);
+                    this.form.likeable_type = type;
+
+                    this.form.delete("/api/likes", {
+                        params: this.form.data()
+                    }).then(response => {
+
+                    });
+                }
+            }
         },
         clickMore() {
             this.isMore = true;
-            console.log(this.isReport);
+
         },
         getReportCategories() {
             this.$axios.get("/api/reportCategories", {
                 params: this.form.data(),
             }).then(response => {
-                console.log(response.data);
+
                 this.ReportCategories = response.data;
             })
         },
@@ -721,7 +753,7 @@ export default {
                 return this.$router.push(`/mypage/products/buyer_select/?id=${this.product.id}`);
             }
             this.form.patch("/api/products/updateStateTransaction/" + this.$route.params.id).then(response => {
-                console.log(response.data);
+
                 this.product = response.data;
 
             })
@@ -734,7 +766,7 @@ export default {
                 this.form.hide = 1;
             }
             this.form.patch("/api/products/updateHide/" + this.$route.params.id, {}).then(response => {
-                console.log(response.data.data);
+
                 this.product = response.data;
             })
         },
@@ -748,10 +780,12 @@ export default {
             this.$router.push(`/products/create?id=${id}`)
         },
         storeChat(){
+            this.$store.commit("setLoading", true);
+
             this.form.product_id = this.product.id;
+
             this.form.post("/api/chats")
                     .then(response => {
-                        console.log(response.data);
                         {
                             this.$router.push(`/chats/${response.data.id}`);
                         //     남에꺼
@@ -786,13 +820,27 @@ export default {
 
 
     },
+watch:{
+    'isLikeProduct': function(newValue, oldValue) {
+        if (newValue === 1) {
+            this.count_like+=1;
+        } else {
+            if(this.count_like ===0){
+                return;
+            }
+            this.count_like-=1;
+        }
+    },
 
+
+},
     mounted() {
         this.getProduct();
         this.getProducts();
         this.getRandomProducts();
         this.getReportCategories();
         this.getSimilarProducts();
+
     }
 };
 </script>

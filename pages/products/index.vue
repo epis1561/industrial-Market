@@ -10,9 +10,9 @@
                 </h1>
                 <div class="header-menu-wrap col-group">
                     <nuxt-link to="/searches" class="sub-header-btn search-btn"> <img src="/images/icon_search.png" alt=""></nuxt-link>
-                    <a href="notification.html" class="header-menu active"> <!-- 알림 갯수 1개 이상일 때 active 클래스 추가 -->
+                    <nuxt-link to="/alarms" class="header-menu" :class="{'active':user.has_unread_alarm}"> <!-- 알림 갯수 1개 이상일 때 active 클래스 추가 -->
                         <img src="/images/icon_bell.png" alt="">
-                    </a>
+                    </nuxt-link>
                 </div>
             </div>
         </header>
@@ -54,6 +54,8 @@ import Form from "@/utils/Form";
 
 export default {
 
+    middleware:["user"],
+
     load: false,
     data() {
         return {
@@ -77,13 +79,18 @@ export default {
 
             },
             isHome:true,
+
         }
 
     },
 
     methods: {
         getProducts(loadMore=false) {
-
+            if(this.$route.query.word){
+                this.form.word =  this.$route.query.word;
+            }
+            console.log(this.$auth.user.data);
+            this.$store.commit("setLoading", true);
             this.$axios.get("/api/products", {
                 params: this.form.data(),
             }).then(response => {
@@ -91,7 +98,8 @@ export default {
                     this.load = false;
                     return this.products.data = [...this.products.data, ...response.data.data];
                 }
-                return this.products = response.data;
+                this.products = response.data;
+
             })
         },
         loadMore() {
@@ -119,17 +127,19 @@ export default {
             $('.index').scroll(this.loadMore);
         },
 
-
     },
 
     computed: {
         productCategories(){
             return this.$store.state.productCategories;
+        },
+
+        user(){
+            return this.$auth.user.data;
         }
     },
 
     mounted() {
-
         this.getProducts();
         this.scroll();
     },

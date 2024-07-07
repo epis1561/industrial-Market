@@ -28,8 +28,8 @@
         <main class="subpage">
             <div class="container">
                 <div class="top-filter-wrap col-group">
-                    <button class="filter-item local_select_btn" @sendLocateTitle="(seletedLocationTitle)=>{this.locationsTitle = selectedLocationTitle;}">
-                        {{ selectedLocation ? selectedLocation.title : '전국' }} <i></i>
+                    <button class="filter-item local_select_btn">
+                        {{ county_title ? county_title : '전국' }} <i></i>
                     </button>
                     <button class="filter-item align_select_btn" v-if="form.order_by=='created_at'">
                         최신순 <i></i>
@@ -45,13 +45,11 @@
         </main>
 
         <!-- gnb Start -->
-        <div id="gnb">
             <gnb />
-        </div>
         <!-- gnb End -->
         </div>
-    <pop-location :location="locations.data" @change="(data) => {form.location_id=data; getProducts()}" />
-    <pop-like-location  @change="(data)=> {form.location_id=data; getProducts(), console()}"  />
+    <pop-location :active="activeCities"  @change="showDetail" @detail="activeCities=true" @close="activeCities = false"/>
+    <pop-like-location  @showAll="showAll"  @showReal="showReal" @showPrefer="showPrefer"/>
     <pop-order @change="(data)=> {form.order_by=data; getProducts()}"/>
     </body>
 </template>
@@ -83,12 +81,13 @@ export default {
             form: new Form(this.$axios, {
                 page:1,
                 product_category_id: this.$route.query.product_category_id || "",
-                location_id: "",
+                county_id: "",
                 order_by: "created_at",
                 word: "",
                 user_id:"",
                 state_transaction: "",
                 random:"",
+                price:"",
             }),
 
             number:1,
@@ -102,19 +101,32 @@ export default {
             productsCategories: {
                 data: [],
             },
-
+            activeCities:false,
+            active_country : "",
+            active_city : "",
+            active_county : "",
+            county_title:"",
         }
 
     },
 
 
     methods: {
+        changeLocation(county){
+            this.active_country = county.country;
+            this.active_city = county.city.title;
+            this.active_county = county.title;
+        },
+
         getProducts(loadMore) {
+            if(this.$route.query.word){
+                this.form.word =  this.$route.query.word;
+            }
+            console.log(this.form.word);
             this.$store.commit("setLoading", true);
             this.$axios.get("/api/products", {
                 params: this.form.data(),
             }).then(response => {
-                console.log(response.data);
                 if (loadMore)
 
                     return this.products.data = [...this.products.data, ...response.data.data];
@@ -126,7 +138,6 @@ export default {
             this.$axios.get("/api/productCategories", {
                 params: this.form.data(),
             }).then(response => {
-                console.log(response.data);
                 this.productsCategories = response.data;
             })
         },
@@ -147,18 +158,39 @@ export default {
 
             }
         },
-        getLocations() {
-            this.$axios.get("/api/locations", {
-            }).then(response => {
-                return this.locations = response.data;
-            })
+        scroll(){
+            $('.index').scroll(this.loadMore);
         },
-console(){
-            console.log(this.form.location_id);
-},
+        showAll(){
+            this.form.county_id= "";
+            this.form.price = this.min_price;
+            this.county_title = "";
+            this.getProducts();
+        },
+        showReal(){
+            this.form.county_id = this.$auth.user.data.county.id;
+            this.form.price = "";
+            this.county_title = this.$auth.user.data.county.title;
+            this.getProducts();
+        },
+        showPrefer(){
+            this.form.county_id = this.$auth.user.data.activeCounty.id;
+            this.form.price = "";
+            this.county_title = this.$auth.user.data.activeCounty.title;
+            this.getProducts();
+        },
         back() {
             this.$router.back();
         },
+        showDetail(selectedCounty){
+            this.form.county_id = selectedCounty.id;
+            this.form.price = "";
+            this.county_title = selectedCounty.title;
+            this.getProducts();
+
+            this.activeCities = false;
+        }
+
     },
 
 
@@ -169,16 +201,21 @@ console(){
         selectedCategory(){
             return this.productsCategories.data.find(category => category.id == this.form.product_category_id);
         },
+        min_price(){
+            return this.$store.state.price;
+        },
+        location(){
+            return this.$store.state.location;
+        }
 
     },
 
     mounted() {
         this.form.word = this.$route.query.word;
+
         this.form.product_category_id = this.$route.params.id;
         this.getProducts();
-        this.getLocations();
         this.getProductCategories();
-
         setTimeout(() => {
             $('.index').scroll(this.loadMore);
         }, 350);

@@ -106,6 +106,7 @@
                 <div class="form-footer">
                     <a href="#" class="form-footer-btn submit-btn" @click.prevent="store">로그인</a>
                 </div>
+
             </div>
         </main>
     </div>
@@ -216,9 +217,7 @@ export default {
         ready(message = '심사준비중입니다.') {
             return alert(message);
         },
-        toggleCurrent(){
 
-        }
     },
 
     computed: {
@@ -247,6 +246,8 @@ export default {
             if (this.socialUser.email)
                 this.form.email = this.socialUser.email;
         }
+
+
 
     }
 }

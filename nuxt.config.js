@@ -43,6 +43,7 @@ export default {
             /*{src: "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=5e85237532da8edfc3cc9905f1abdd8c&libraries=services"},*/
             { src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyAizhdiKHgvGGkE03NGus5vTQ23D_D-agc" },
             {src: "/js/datepicker.min.js"},
+            {src: "/js/filter.js"},
             {src: "//www.gstatic.com/charts/loader.js"},
             {src: "//gcore.jsdelivr.net/npm/chart.js"},
             {src: "//cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"},
@@ -50,6 +51,7 @@ export default {
             {src: "//mattstow.com/experiment/responsive-image-maps/jquery.rwdImageMaps.min.js"},
             {src: "//dapi.kakao.com/v2/maps/sdk.js?appkey=80f9438ba9e9a5472e707e7c0dd96dd7&libraries=services&autoload=false"},
             {src: "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"},
+
             // {src: "/js/common.js"},
         ],
         link: [

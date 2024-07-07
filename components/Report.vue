@@ -73,7 +73,7 @@ props:["isReport","type","id"],
             this.$axios.get("/api/reportCategories", {
                 params: this.reportForm.data(),
             }).then(response => {
-                console.log(response.data);
+
                 this.reportCategories = response.data;
             })
         },

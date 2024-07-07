@@ -28,13 +28,13 @@
 
             <div class="container" v-if="type=='product'">
                 <div class="prod-list">
-                    <like-product @remove="remove(likeProduct.id)" :product="likeProduct.likeable" v-for="likeProduct in likeProducts.data" :key="likeProduct.id"/>
+                    <like-product @removeProduct="removeProduct(likeProduct.likeable.id)" :product="likeProduct.likeable" v-for="likeProduct in likeProducts.data" :key="likeProduct.id"/>
                 </div>
             </div>
 
             <div class="container" v-if="type=='user'">
                 <div class="user-list">
-                    <like-user :likeuser="likeUser" v-for="likeUser in likeUsers.data" :key="likeUser.id"/>
+                    <like-user :like-user="likeUser" v-for="likeUser in likeUsers.data" :key="likeUser.id"/>
                 </div>
             </div>
 
@@ -108,24 +108,26 @@ export default {
                 params: this.form.data(),
             }).then(response => {
                 this.likeProducts = response.data;
-                console.log('상품데이터', response.data);
+                console.log('상품데이터', response.data.data);
 
             })
         },
 
-        remove(id) {
+        removeProduct(id) {
+            console.log('삭제발동했습니다.');
             this.form.likeable_id = id;
-            this.form.likeable_type = "Product";
 
+            this.form.likeable_type = "Product";
+            console.log(this.form.likeable_id);
+            console.log(this.form.likeable_type);
             this.form.delete("/api/likes")
                     .then(response => {
+                        console.log('삭제성공')
                         this.likeProducts.data = this.likeProducts.data.filter(likeProduct => {
-                            if(likeProduct.id != id)
-                                return true;
-
-                            return false;
+                            return likeProduct.likeable.id !== id; // id가 다른 항목만 필터링
                         });
-                    });
+                    })
+
         },
 
     },

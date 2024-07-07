@@ -8,12 +8,12 @@
 
 
             <div class="search-input-wrap">
-                <div class="search-category" v-if="selectedCategory">
-                    {{ selectedCategory.title }}
+                <div class="search-category" v-if="productCategory">
+                    {{ productCategory.title }}
                     <i class="del-btn" @click="delCategory()"></i>
                 </div>
 
-                <input type="text" class="search-input" placeholder="검색어를 입력하세요." @submit.prevent="store()" v-model="form.title">
+                <input type="text" class="search-input" placeholder="검색어를 입력하세요." v-model="form.title">
 
                 <button class="btn-search">
                     <i class="xi-search"></i>
@@ -24,14 +24,14 @@
 
     <div class="search-section">
         <div class="search-section-title-wrap col-group">
-            <h3 class="search-section-title">
+            <h3 class="search-section-title" @click="console">
                 인기 검색
             </h3>
         </div>
 
         <div class="popular-search-wrap">
             <div class="popular-search-list col-group">
-                <div class="popular-search-item" v-for="popularItem in productCategories.data" :key="popularItem.id">
+                <div class="popular-search-item" v-for="popularItem in productCategories.data" :key="popularItem.id" @click="selectCategory(popularItem)">
                     {{ popularItem.title }}
                 </div>
             </div>
@@ -47,7 +47,7 @@
         </div>
 
         <div class="recent-search-list row-group">
-            <div class="recent-search-item col-group" v-for="latestSearch in latestSearches.data" key="latestSearch.id">
+            <div class="recent-search-item col-group" v-for="latestSearch in latestSearches.data" :key="latestSearch.id">
                 <p class="txt">
                     {{ latestSearch.title }}
                 </p>
@@ -98,6 +98,9 @@ export default {
                     last_page:1,
                 }
             },
+            productCategory:"",
+
+
         }
     },
 
@@ -110,6 +113,8 @@ export default {
             }).then(response => {
 
                 this.searches = response.data;
+                this.productCategory = this.selectedCategory;
+                console.log(this.productCategory)
             })
         },
         getLatestSearches() {
@@ -122,6 +127,7 @@ export default {
             })
         },
         store() {
+            console.log(this.form.title);
             this.$store.commit("setLoading", true);
 
             this.form.post("/api/searches/", {
@@ -159,13 +165,15 @@ export default {
             this.$router.back();
         },
         delCategory(){
-            this.form.product_category_id= null;
-            $('del-btn').hide()
+            this.productCategory = "";
+            this.form.product_category_id= "";
+            console.log(this.form.product_category_id);
         },
-        console(){
-            console.log(this.selectedCategory);
-        }
-
+        selectCategory(popularItem){
+            this.productCategory = popularItem;
+            this.form.product_category_id  =  popularItem.id;
+        },
+        console(){console.log(this.selectedCategory);}
     },
 
     computed: {
@@ -182,7 +190,6 @@ export default {
     mounted() {
         this.getSearches();
         this.getLatestSearches();
-        this.console()
     },
 
 };

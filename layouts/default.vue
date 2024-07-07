@@ -70,7 +70,10 @@ export default {
                 county: "",
                 town: "",
                 village: "",
-            })
+            }),
+            alarmForm: new Form(this.$axios, {
+                category:"",
+            }),
         }
     },
 
@@ -164,7 +167,16 @@ export default {
                     .then(response => {
                         this.$auth.fetchUser();
                     })
+        },
+        settingPrice(){
+            this.$axios.get("/api/settings",{
+
+            }).then(response => {
+                if(response.data.data.length > 0)
+                    this.$store.commit("setPrice", response.data.data[0].min_price_for_show);
+            })
         }
+
     },
 
     watch: {
@@ -186,7 +198,7 @@ export default {
         this.getCities();
         this.getGoodManners();
         this.getBadManners();
-
+        this.settingPrice();
         this.$store.dispatch("getCoords");
         /*   this.$store.dispatch("getCenterTypes");
          //아래처럼 푸시id 가져오는 구문 사용(웹페이지가 로딩되자마자 가져오는 방법사용)
