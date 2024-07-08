@@ -9,7 +9,7 @@
                 <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
                     <img src="/images/icon_prev.png" alt="">
                 </a>
-                <h2 class="title">
+                <h2 class="title" @click="console">
                     계정 정보 수정
                 </h2>
             </div>
@@ -20,7 +20,10 @@
             <div class="container">
                 <div class="form-wrap row-group">
                     <div class="form-item">
-                        <div class="sns-icon naver"></div>
+                        <div class="sns-icon kakao" v-if="user.social_platform == 'kakaoCustom'"></div>
+                        <div class="sns-icon naver" v-if="user.social_platform == 'naverCustom'"></div>
+                        <div class="sns-icon google" v-if="user.social_platform == 'google'"></div>
+                        <div class="sns-icon apple" v-if="user.social_platform == 'apple'"></div>
                     </div>
                     <div class="form-item row-group">
                         <div class="item-default">이름</div>
@@ -49,10 +52,10 @@
                             <div class="item-default">활동지역</div>
                             <div class="item-user col-group">
                                 <div name="" id="" class="select form-input form-input-half" @click.prevent.stop="activeCities = true, isLocationCurrent = false">
-                                    {{ active_city || '광역시/도' }}
+                                   {{ active_city ? active_city : user.activeCounty.city.title}}
                                 </div>
                                 <div name="" id="" class="select form-input form-input-half" @click.prevent.stop="activeCities = true, isLocationCurrent = false">
-                                    {{ active_county || '시/군/구' }}
+                                    {{ active_county ? active_county : user.activeCounty.title }}
                                 </div>
                             </div>
                             <p class="guide-txt">
@@ -64,7 +67,7 @@
                             <label for="type_0">
                                 <input type="checkbox" class="form-checkbox" id="type_0" name="type" v-model="isLocationCurrent" @change="defaultLocation">
                                 <div class="checked-item col-group">
-                                    <div class="icon" @click="defaultLocation">
+                                    <div class="icon">
                                         <i class="xi-check"></i>
                                     </div>
                                     <p class="txt">
@@ -147,6 +150,7 @@ export default {
             this.active_country = county.country;
             this.active_city = county.city.title;
             this.active_county = county.title;
+            this.form.county_id = county.id;
         },
         update() {
             this.$store.commit("setLoading", true);
@@ -171,6 +175,8 @@ export default {
                 this.active_country = this.location.country;
                 this.active_city = this.location.city;
                 this.active_county = this.location.county;
+                this.form.county_id = this.user.county.id;
+                console.log(this.form.county_id);
             } else {
                 this.active_country = "";  // 혹은 다른 초기화 값으로 설정
                 this.active_city = "";
@@ -209,6 +215,9 @@ export default {
                 title: "Marker Title",
             });
         },
+        console(){
+            console.log(this.user);
+        }
 
     },
 

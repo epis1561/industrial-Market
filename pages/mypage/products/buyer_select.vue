@@ -59,7 +59,7 @@
                                 {{ buyer.owner.nickname || buyer.owner.name }}
                             </p>
                             <p class="date">
-                                {{ buyer.format_created_at }}
+                                {{ buyer.updated_at }}
                             </p>
                         </div>
                         <p class="txt">
@@ -67,6 +67,7 @@
                         </p>
                     </div>
                 </label>
+
             </div>
 <!--            {{ buyer.asker.nickname || buyer.asker.name }}-->
 

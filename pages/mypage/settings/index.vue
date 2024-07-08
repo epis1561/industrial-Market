@@ -86,14 +86,14 @@
                                 <i class="icon"></i>
                             </div>
                         </nuxt-link>
-                        <a href="mypage_keywords.html" class="mypage-menu-item col-group">
+                        <nuxt-link to="/mypage/settings/keywords" class="mypage-menu-item col-group">
                             <p class="title">
                                 관심 키워드 설정
                             </p>
                             <div class="more-btn col-group">
                                 <i class="icon"></i>
                             </div>
-                        </a>
+                        </nuxt-link>
                     </div>
                 </div>
                 <div class="mypage-menu-wrap">

@@ -74,7 +74,7 @@
                                     <i class="icon"></i>
                                 </div>
                             </nuxt-link>
-                            <nuxt-link to="" class="mypage-menu-item col-group">
+                            <nuxt-link to="/users/editAccount" class="mypage-menu-item col-group">
                                 <p class="title">
                                     활동지역 설정
                                 </p>

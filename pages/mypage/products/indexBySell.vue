@@ -58,11 +58,11 @@
                                 <div class="prod-btn-wrap col-group">
                                     <div class="prod-btn col-group">
                                         <img src="/images/icon_chat_gray.png" alt="" class="icon">
-                                        <p class="txt">20</p>
+                                        <p class="txt">{{ product.count_chat }}</p>
                                     </div>
                                     <div class="prod-btn col-group">
                                         <img src="/images/icon_like_gray.png" alt="" class="icon">
-                                        <p class="txt">20</p>
+                                        <p class="txt">{{ product.count_like }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -75,13 +75,14 @@
                                 <nuxt-link :to="`/review/${product.reviewReceive.id}`" class="item-btn" v-if="product.reviewReceive && product.state_transaction == 2">받은 후기</nuxt-link>
                                 <nuxt-link :to="`/review/${product.reviewSend.id}`" class="item-btn" v-if="product.reviewSend && product.state_transaction == 2">보낸 후기</nuxt-link>
                             </div>
-                            <button class="item-btn more-btn" @click="deleteProduct(product.id)">
+                            <button class="item-btn more-btn" @click="isReport=true,product_id = product.id">
                                 <i></i>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+            <report :is-report="isReport" :type="reportable_type" :id="product_id" v-if="isReport" @created="leave"/>
         </main>
     </div>
 </template>
@@ -111,6 +112,9 @@ export default {
                 }
             },
             isTransaction:"",
+            isReport:false,
+            reportable_type : "Product",
+            product_id: "",
         };
     },
 
@@ -146,7 +150,9 @@ export default {
             this.isTransaction =2
             return this.getProducts();
         },
-
+        leave(){
+            this.$router.back();
+        },
         loadMore() {
             var scrollTop = $('.index').scrollTop();
 
@@ -168,6 +174,10 @@ export default {
                 ;
 
             }
+        },
+        deleteProduct(id) {
+
+
         },
 
     },

@@ -725,7 +725,8 @@ main { overflow: auto; }
 .sns-icon { width: 52px; height: 52px; border-radius: 4px; background-repeat: no-repeat; background-size: 20px; background-position: center; }
 .sns-icon.kakao { background-color: #fee500; background-image: url(../images/icon_kakao.svg); }
 .sns-icon.naver { background-color: #03c75a; background-image: url(../images/icon_naver.svg); }
-
+.sns-icon.google { background-color: #f9f9f9; background-image: url(../images/icon_google.png); }
+.sns-icon.apple { background-color: #434343 ; background-image: url(../images/icon_apple.png); }
 /* 마이페이지 - 회원탈퇴 */
 .withdrawal-wrap { height: 100%; padding-bottom: 24px; }
 .withdrawal-wrap .mypage-menu-container { min-height: unset; }
