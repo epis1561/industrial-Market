@@ -3,7 +3,7 @@ let baseUrl = process.env.NODE_ENV === "production" ? "https://api.industrialmar
 export default {
     target: "client",
     server: {
-        port: 3023
+        port: 3024
     },
     ssr: false,
     head: {
