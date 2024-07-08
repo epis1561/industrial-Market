@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
         {
-            name: 'dev.industrialmarket.biz',
+            name: 'industrialmarket.biz',
             script: './node_modules/nuxt/bin/nuxt.js',
             args: 'start',
             port: 3025, // yoru app port
