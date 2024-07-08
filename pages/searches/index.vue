@@ -194,6 +194,3 @@ export default {
 
 };
 </script>
-<head>
-<script src="/js/filter.js" defer></script>
-</head>

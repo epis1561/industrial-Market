@@ -49,16 +49,7 @@
 <script>
 export default {
 
-    head(){
-        return {
-            script: [
-                {
-                    src: '/js/filter.js',
-                    defer: true
-                },
-            ],
-        }
-    },
+
     data(){
         return {
 order_by:null,

@@ -63,17 +63,7 @@ import Form from "@/utils/Form";
 
 export default {
     middleware: ["user"],
-    head(){
-        return {
-            script: [
-                {
-                    src: '/js/filter.js',
-                    defer: true
-                },
-            ],
 
-        }
-    },
 
     data() {
 
@@ -223,6 +213,3 @@ export default {
 
 };
 </script>
-<head>
-<script src="/js/filter.js" defer></script>
-</head>

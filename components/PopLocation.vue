@@ -61,17 +61,7 @@ import Form from "@/utils/Form";
 
 export default {
     props: ["active"],
-    head() {
-        return {
-            script: [
-                {
-                    src: '/js/filter.js',
-                    defer: true
-                },
-            ],
 
-        }
-    },
     data() {
         return {
             selectedCity:null,
