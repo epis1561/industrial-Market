@@ -200,13 +200,11 @@ export default {
 
             this.form.post("/api/users")
                     .then(response => {
-                        console.log(response);
-
                         this.$store.commit("setLoading", true);
 
                         this.$auth.loginWith('laravelSanctum', {
                             data: {
-                                token: response,
+                                token: response.data,
                             }
                         }).then(response => {
                             return this.$router.push("/");
