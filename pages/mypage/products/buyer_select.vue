@@ -54,7 +54,6 @@
                     <div class="item-txt-wrap row-group">
                         <div class="title-group col-group">
                             <p class="name" v-if="buyer.asker.id != user.id">
-                                {{ buyer.asker.nickname || buyer.asker.name }}
                             </p>
                             <p class="name" v-if="buyer.owner.id != user.id">
                                 {{ buyer.owner.nickname || buyer.owner.name }}
@@ -69,6 +68,7 @@
                     </div>
                 </label>
             </div>
+<!--            {{ buyer.asker.nickname || buyer.asker.name }}-->
 
             <div class="buyer-select-footer">
                 <div class="container row-group">
@@ -307,7 +307,7 @@ export default {
                 this.$axios.get("/api/products/" + this.$route.query.id, {
                 }).then(response => {
                 this.product = response.data.data;
-                console.log(this.product);
+
                 });
             },
         getChats(){
@@ -316,7 +316,7 @@ export default {
                 params: this.form.data(),
             }).then(response => {
                this.chats = response.data;
-                console.log(this.chats);
+                console.log(this.chats.data);
             });
         },
         store(){
@@ -332,9 +332,7 @@ export default {
                 this.$router.push(`/products/${this.$route.query.id}`)
             })
         },
-        console(){
-                console.log(this.form.buyer_id);
-        }
+console(){console.log(this.form.buyer_id)}
 
     },
 

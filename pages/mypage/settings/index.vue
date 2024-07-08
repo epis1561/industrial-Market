@@ -63,14 +63,14 @@
                                 <i class="icon"></i>
                             </div>
                         </a>
-                        <a href="mypage_withdrawal.html" class="mypage-menu-item col-group">
+                        <nuxt-link to="/users/remove" class="mypage-menu-item col-group">
                             <p class="title">
                                 회원탈퇴
                             </p>
                             <div class="more-btn col-group">
                                 <i class="icon"></i>
                             </div>
-                        </a>
+                        </nuxt-link>
                     </div>
                 </div>
                 <div class="mypage-menu-wrap">
