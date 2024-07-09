@@ -412,8 +412,7 @@
 <script>
 
 import Form from "@/utils/Form";
-import VueClipboard from 'vue-clipboard2';
-Vue.use(VueClipboard);
+
 export default {
     middleware: ["user"],
 
