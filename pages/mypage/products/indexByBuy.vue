@@ -152,11 +152,9 @@ export default {
                         return this.products.meta = response.data.meta;
                     }
 
-
+                    console.log(response.data);
                     this.products = response.data;
-                   console.log(this.products.data);
-                   console.log(this.$auth.user.data);
-                   console.log(this.products.meta);
+
                 })
             },
         deleteProduct(num){

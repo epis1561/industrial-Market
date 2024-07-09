@@ -1,5 +1,5 @@
 <template>
-    <div class="modal-container align_select">
+    <div class="modal-container align_select" :class="{'active':active}">
         <div class="modal-select-wrap modal-wrap">
             <i class="close-btn"></i>
             <div class="modal-title-wrap center">
@@ -48,7 +48,7 @@
 </style>
 <script>
 export default {
-
+props:["active"],
 
     data(){
         return {

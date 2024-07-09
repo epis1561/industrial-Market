@@ -140,6 +140,9 @@ export default {
     mounted() {
         this.getLikeUser();
         this.getLikeProducts();
+        if(this.$route.query.type == 'User'){
+            this.type='user';
+        }
     },
 
 };

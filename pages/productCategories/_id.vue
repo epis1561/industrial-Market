@@ -28,13 +28,13 @@
         <main class="subpage">
             <div class="container">
                 <div class="top-filter-wrap col-group">
-                    <button class="filter-item local_select_btn">
+                    <button class="filter-item local_select_btn" @click="activeLikeLocate=true">
                         {{ county_title ? county_title : '전국' }} <i></i>
                     </button>
-                    <button class="filter-item align_select_btn" v-if="form.order_by=='created_at'">
+                    <button class="filter-item align_select_btn" v-if="form.order_by=='created_at'" @click="activeOrder=true">
                         최신순 <i></i>
                     </button>
-                    <button class="filter-item align_select_btn" v-if="form.order_by=='count_like'">
+                    <button class="filter-item align_select_btn" v-if="form.order_by=='count_like'" @click="activeOrder=true">
                         인기순 <i></i>
                     </button>
                 </div>
@@ -48,9 +48,9 @@
             <gnb />
         <!-- gnb End -->
         </div>
-    <pop-location :active="activeCities"  @change="showDetail" @detail="activeCities=true" @close="activeCities = false"/>
-    <pop-like-location  @showAll="showAll"  @showReal="showReal" @showPrefer="showPrefer"/>
-    <pop-order @change="(data)=> {form.order_by=data; getProducts()}"/>
+    <pop-location :active="activeCities"  @change="showDetail"  @close="activeCities = false"/>
+    <pop-like-location :active="activeLikeLocate" @close="activeLikeLocate=false" @showAll="showAll"  @showReal="showReal" @showPrefer="showPrefer" @detail="activeCities=true, activeLikeLocate=false"/>
+    <pop-order :active="activeOrder" @change="(data)=> {form.order_by=data; getProducts(), activeOrder=false}"/>
     </body>
 </template>
 <style>
@@ -96,6 +96,8 @@ export default {
             active_city : "",
             active_county : "",
             county_title:"",
+            activeOrder:false,
+            activeLikeLocate:false,
         }
 
     },

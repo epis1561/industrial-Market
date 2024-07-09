@@ -47,7 +47,7 @@
         </div>
 
         <div class="recent-search-list row-group">
-            <div class="recent-search-item col-group" v-for="latestSearch in latestSearches.data" :key="latestSearch.id">
+            <div class="recent-search-item col-group" v-for="latestSearch in latestSearches.data" :key="latestSearch.id" @click="form.title = latestSearch.title">
                 <p class="txt">
                     {{ latestSearch.title }}
                 </p>

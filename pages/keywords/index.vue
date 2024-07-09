@@ -47,7 +47,9 @@
                 </div>
             </div>
         </main>
+
         <infinite-scroll v-if="keywords.meta" :loading="loading" :form="form" :meta="keywords.meta" :target-contents="'.keyword-wrap'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getKeywords(true);}"  />
+
         <!-- gnb Start -->
         <div id="gnb">
             <gnb/>

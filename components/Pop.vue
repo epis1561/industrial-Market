@@ -22,9 +22,12 @@
     position: fixed; top:0; left:0;
     z-index:10;
     background-color:rgba(0,0,0,0.3);
+    opacity:1; visibility: unset;
 }
 .m-pop.type01 .modal-container {
-    display: block; height: 100vh; width: 100%; background: rgba(0,0,0,0.2); position: fixed; top: 0; right: 0; left: 0; bottom: 0;
+    display: block; height: 100vh; width: 100%;
+    position: fixed; top: 0; right: 0; left: 0; bottom: 0;
+    background: rgba(0,0,0,0.2);
 }
 .m-pop.type01 .modal-wrap {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);

@@ -81,7 +81,7 @@
 
         <!-- gnb Start -->
         <div id="gnb">
-            <gnb/>
+            <gnb :mypage="isMy"/>
         </div>
         <!-- gnb End -->
     </div>
@@ -111,7 +111,7 @@ export default {
             },
 
             loading: false,
-
+            isMy:true,
             loadFirst: true,
 
         }
