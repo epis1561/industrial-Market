@@ -335,7 +335,7 @@ export default {
 
             Pusher.logToConsole = true;
 
-            let key = process.env.NODE_ENV === "production" ? "c19fee6f12af5307e6b9" : "8cd7d1abc2ee7229e126";
+            let key = process.env.NODE_ENV === "production" ? "d3d926327900abbca288" : "8cd7d1abc2ee7229e126";
 
             var pusher = new Pusher(key, {
                 cluster: 'ap3'
