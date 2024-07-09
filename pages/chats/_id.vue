@@ -76,7 +76,7 @@
 
                                         <div class="new-message-box-content">
                                             <div class="profile-img">
-                                                <img :src="message.user.img ? message.user.img.url : ''"/>
+                                                <img :src="message.user.img ? message.user.img.url : ''" v-if="message.user.img" />
                                             </div>
                                             <div class="new-message col-group">
                                                 <div class="new-message-txt" v-if="message.description">
