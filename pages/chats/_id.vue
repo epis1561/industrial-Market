@@ -13,9 +13,10 @@
                     {{ targetUser.name }}
                 </h2>
                 <div class="header-menu-wrap col-group">
-                    <a :href="`tel:${safeContact}`" class="sub-header-btn" v-if="this.chat && this.chat.product.state_transaction == 1">
+                    <a href="#" class="sub-header-btn" v-if="this.chat && this.chat.product.state_transaction == 1" @click.prevent="getSafeContact">
                         <i class="xi-call"></i>
                     </a>
+                    <a href="" class="safe-contact" style="opacity:0.00001; position:absolute; left:-10000px; top:-100000px;"></a>
                     <button class="sub-header-btn more-btn" style="margin-left:5px;" @click="isMore = true">
                         <i></i>
                     </button>
@@ -68,8 +69,7 @@
                                 <div :class="`new-message-box col-group ${user.id != message.user.id ? 'receive' : 'send'}`">
                                     <div class="new-message-box-inner">
                                         <div class="new-message-image" v-if="message.imgs.length>0">
-                                            <img :src="img ? img.url : ''" v-for="img in message.imgs"
-                                                 :key="img.id"/>
+                                            <img :src="img ? img.url : ''" v-for="img in message.imgs" :key="img.id"/>
                                         </div>
 
                                         <div class="new-message-box-content">
@@ -99,10 +99,8 @@
                 <!-- 사진 한장 이상 첨부 시 -->
                 <div class="file-preview-scroll-wrap" v-if="activeFiles || activeCamera">
                     <div class="file-preview-wrap col-group">
-                        <input-images :multiple="true" v-if="activeFiles"
-                                      @change="(data) => {form.imgs = data; activeCamera = false;}"/>
-                        <input-images v-if="activeCamera" id="camera" :camera="true"
-                                      @change="(data) => {form.imgs = data; activeFiles = false;}"/>
+                        <input-images :multiple="true" v-if="activeFiles" @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }"/>
+                        <input-images v-if="activeCamera" id="camera" :camera="true" @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"/>
                     </div>
                 </div>
                 <!-- //사진 한장 이상 첨부 시 -->
@@ -120,134 +118,140 @@
             </div>
         </main>
 
-        <!-- 헤더 버튼 클릭시 나타나는 팝업 -->
-        <div class="modal-container modal_chat" :class="{'active':isMore}">
-            <div class="modal-select-wrap modal-wrap">
+        <template v-if="chat">
+            <!-- 헤더 버튼 클릭시 나타나는 팝업 -->
+            <div class="modal-container modal_chat" :class="{'active':isMore}">
+                <div class="modal-select-wrap modal-wrap">
 
-                <div class="chat-more-option-wrap row-group">
-                    <button class="chat-more-option col-group modal_block_btn" @click="isBlock=true">
-                        <i class="icon"></i>
-                        차단하기
-                    </button>
-                    <button class="chat-more-option col-group modal_report_btn" @click="isReport=true">
-                        <i class="icon"></i>
-                        신고하기
-                    </button>
-                    <button class="chat-more-option col-group modal_notice_btn" @click="changeAlarm">
-                        <i class="icon"></i>
-                        알림끄기
-                    </button>
-                    <!-- 알림끄기 상태일 때 나타나는 버튼
-                    <button class="chat-more-option col-group modal_notice_btn">
-                        <i class="icon"></i>
-                        알림켜기
-                    </button>
-                    -->
-                    <button class="chat-more-option col-group modal_leave_btn" @click="isOut=true">
-                        <i class="icon"></i>
-                        채팅방 나가기
-                    </button>
+                    <div class="chat-more-option-wrap row-group">
+                        <button class="chat-more-option col-group modal_block_btn" @click="isBlock=true">
+                            <i class="icon"></i>
+                            차단하기
+                        </button>
+                        <button class="chat-more-option col-group modal_report_btn" @click="isReport=true">
+                            <i class="icon"></i>
+                            신고하기
+                        </button>
+
+                        <template>
+                            <button class="chat-more-option col-group modal_notice_btn" @click="changeAlarm" v-if="chat.alarm == 1">
+                                <i class="icon"></i>
+                                알림끄기
+                            </button>
+                            <!-- 알림끄기 상태일 때 나타나는 버튼 -->
+                            <button class="chat-more-option col-group modal_notice_btn" @click="changeAlarm" v-else>
+                                <i class="icon"></i>
+                                알림켜기
+                            </button>
+                        </template>
+
+                        <button class="chat-more-option col-group modal_leave_btn" @click="isOut=true">
+                            <i class="icon"></i>
+                            채팅방 나가기
+                        </button>
+                    </div>
+
+
+                    <div class="modal-footer col-group">
+                        <button class="modal-footer-btn close-btn" @click="isMore=false">
+                            취소
+                        </button>
+                    </div>
                 </div>
 
+            </div>
+            <!-- //헤더 버튼 클릭시 나타나는 팝업 -->
 
-                <div class="modal-footer col-group">
-                    <button class="modal-footer-btn close-btn" @click="isMore=false">
-                        취소
-                    </button>
+            <!-- 차단하기 버튼 클릭 시 팝업 -->
+            <div class="modal-container modal_block" :class="{'active':isBlock}">
+                <div class="modal-wrap modal-alert">
+                    <div class="modal-title-wrap">
+                        <i class="icon red"></i>
+                        <h3 class="modal-title">
+                            차단하기
+                        </h3>
+                    </div>
+                    <p class="modal-alert-txt">
+                        차단하면 서로의 게시글을 확인하거나<br>
+                        채팅할 수 없습니다. 차단하시겠습니까? <br>
+                    </p>
+
+                    <div class="modal-footer col-group">
+                        <button class="modal-footer-btn close-btn" @click="isBlock=false">
+                            취소
+                        </button>
+                        <button class="modal-footer-btn submit-btn" @click="block">
+                            차단하기
+                        </button>
+                    </div>
                 </div>
             </div>
+            <!-- //차단하기 버튼 클릭 시 팝업 -->
 
-        </div>
-        <!-- //헤더 버튼 클릭시 나타나는 팝업 -->
+            <!-- 채팅방 나가기 버튼 클릭 시 팝업 -->
+            <div class="modal-container modal_leave" :class="{'active':isOut}">
+                <div class="modal-wrap modal-alert">
+                    <div class="modal-title-wrap">
+                        <i class="icon red"></i>
+                        <h3 class="modal-title">
+                            채팅방 나가기
+                        </h3>
+                    </div>
+                    <p class="modal-alert-txt">
+                        채팅방을 나가면 채팅 목록 및 대화 <br>
+                        내용이 삭제되고 복구할 수 없습니다. <br>
+                        채팅방을 나가시겠습니까?
+                    </p>
 
-        <!-- 차단하기 버튼 클릭 시 팝업 -->
-        <div class="modal-container modal_block" :class="{'active':isBlock}">
-            <div class="modal-wrap modal-alert">
-                <div class="modal-title-wrap">
-                    <i class="icon red"></i>
-                    <h3 class="modal-title">
-                        차단하기
-                    </h3>
-                </div>
-                <p class="modal-alert-txt">
-                    차단하면 서로의 게시글을 확인하거나<br>
-                    채팅할 수 없습니다. 차단하시겠습니까? <br>
-                </p>
-
-                <div class="modal-footer col-group">
-                    <button class="modal-footer-btn close-btn" @click="isBlock=false">
-                        취소
-                    </button>
-                    <button class="modal-footer-btn submit-btn" @click="block">
-                        차단하기
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- //차단하기 버튼 클릭 시 팝업 -->
-
-        <!-- 채팅방 나가기 버튼 클릭 시 팝업 -->
-        <div class="modal-container modal_leave" :class="{'active':isOut}">
-            <div class="modal-wrap modal-alert">
-                <div class="modal-title-wrap">
-                    <i class="icon red"></i>
-                    <h3 class="modal-title">
-                        채팅방 나가기
-                    </h3>
-                </div>
-                <p class="modal-alert-txt">
-                    채팅방을 나가면 채팅 목록 및 대화 <br>
-                    내용이 삭제되고 복구할 수 없습니다. <br>
-                    채팅방을 나가시겠습니까?
-                </p>
-
-                <div class="modal-footer col-group">
-                    <button class="modal-footer-btn close-btn" @click="isOut=false">
-                        취소
-                    </button>
-                    <button class="modal-footer-btn submit-btn" @click="outChat">
-                        나가기
-                    </button>
+                    <div class="modal-footer col-group">
+                        <button class="modal-footer-btn close-btn" @click="isOut=false">
+                            취소
+                        </button>
+                        <button class="modal-footer-btn submit-btn" @click="outChat">
+                            나가기
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- //채팅방 나가기 버튼 클릭 시 팝업 -->
+            <!-- //채팅방 나가기 버튼 클릭 시 팝업 -->
 
-        <!-- 신고하기 버튼 클릭시 나타나는 팝업 -->
-        <report :is-report="isReport" :type="reportable_type" :id="chat.id" v-if="chat" @created="leave"/>
-        <!-- //신고하기 버튼 클릭시 나타나는 팝업 -->
+            <!-- 신고하기 버튼 클릭시 나타나는 팝업 -->
+            <report :is-report="isReport" :type="reportable_type" :id="chat.id" v-if="chat" @created="reportCreated"/>
+            <!-- //신고하기 버튼 클릭시 나타나는 팝업 -->
 
-        <!-- 알림끄기/켜기 버튼 클릭 시 팝업 -->
-        <div class="modal-notice-txt" :class="{'active': alarmForm.alarm == 1}">
-            {{ alarmText }}
-        </div>
-
-        <!-- 채팅 이미지 버튼 클릭시 나타나는 팝업 -->
-        <div class="modal-container modal_img" :class="{'active':isImg}">
-            <div class="modal-select-wrap modal-wrap">
-
-                <div class="chat-more-option-wrap row-group">
-                    <label for="camera" class="chat-more-option col-group" @click="activeCamera = true">
-                        <i class="icon"></i>
-                        사진 찍기
-                    </label>
-
-                    <label for="imgs" class="chat-more-option col-group" @click="activeFiles = true">
-                        <i class="icon"></i>
-                        기존 항목 선택
-                    </label>
-
-                </div>
-
-                <div class="modal-footer col-group">
-                    <button class="modal-footer-btn close-btn" @click="isImg=false">
-                        닫기
-                    </button>
-                </div>
+            <!-- 알림끄기/켜기 버튼 클릭 시 팝업 -->
+            <div class="modal-notice-txt active" v-if="alarmText">
+                {{ alarmText }}
             </div>
 
-        </div>
-        <!-- //채팅 이미지 버튼 클릭시 나타나는 팝업 -->
+            <!-- 채팅 이미지 버튼 클릭시 나타나는 팝업 -->
+            <div class="modal-container modal_img" :class="{'active':isImg}">
+                <div class="modal-select-wrap modal-wrap">
+
+                    <div class="chat-more-option-wrap row-group">
+                        <label for="camera" class="chat-more-option col-group" @click="activeCamera = true">
+                            <i class="icon"></i>
+                            사진 찍기
+                        </label>
+
+                        <label for="imgs" class="chat-more-option col-group" @click="activeFiles = true">
+                            <i class="icon"></i>
+                            기존 항목 선택
+                        </label>
+
+                    </div>
+
+                    <div class="modal-footer col-group">
+                        <button class="modal-footer-btn close-btn" @click="isImg=false">
+                            닫기
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- //채팅 이미지 버튼 클릭시 나타나는 팝업 -->
+        </template>
+
     </div>
     </body>
 </template>
@@ -303,7 +307,7 @@ export default {
             isOut: false,
             isReport: false,
             reportable_type: "Chat",
-            alarmText: "채팅 알람이 꺼졌습니다.",
+            alarmText: "",
             messages: {
                 data: [],
                 meta: {
@@ -319,6 +323,15 @@ export default {
 
 
     methods: {
+        reportCreated(){
+            this.isReport = false;
+            this.isMore = false;
+
+            this.$store.commit("setPop", {
+                description: "신고가 접수되었습니다."
+            });
+        },
+
         setChannel(chat){
             let self = this;
 
@@ -406,31 +419,43 @@ export default {
             this.$router.back();
         },
         changeAlarm() {
-            if (this.alarmForm.alarm == 0) {
-                this.alarmForm.alarm = 1;
-                this.alarmText = "채팅 알람이 켜졌습니다.";
-            } else if (this.alarmForm.alarm == 1) {
-                this.alarmForm.alarm = 0;
-                this.alarmText = "채팅 알람이 꺼졌습니다.";
-            }
+
+
+            let self = this;
+
+            this.$store.commit("setLoading", true);
 
             this.alarmForm.patch("/api/chats/" + this.$route.params.id).then(response => {
-
                 this.chat = response.data;
 
+                if (this.chat.alarm == 0) {
+                    this.alarmForm.alarm = 1;
+                    this.alarmText = "채팅 알람이 꺼졌습니다.";
+
+                    return setTimeout(function (){
+                        self.alarmText = null;
+                    }, 1500);
+                }
+
+                this.alarmForm.alarm = 0;
+                this.alarmText = "채팅 알람이 켜졌습니다.";
+
+                return setTimeout(function (){
+                    self.alarmText = null;
+                }, 1500);
             })
         },
-        contact() {
+        getSafeContact() {
             this.$axios.get("/api/users/getContactSafe", {
                 params: this.form.data(),
             }).then(response => {
-                this.safeContact = response.data.data.contact_safe;
-                console.log(this.safeContact);
+                $(".safe-contact").attr("href", `tel:${response.data.data.contact_safe}`);
+                $(".safe-contact")[0].click();
             })
         },
         scrollEnd() {
             var subpage = document.querySelector('.subpage');
-            console.log(subpage.scrollHeight);
+
             subpage.scrollTop = subpage.scrollHeight;
         }
     },
@@ -452,11 +477,7 @@ export default {
         }
     },
     watch: {
-        "safeContact": {
-            handler() {
-                this.scrollEnd();
-            }
-        }
+
 
     },
     mounted() {
@@ -464,7 +485,7 @@ export default {
         this.getChat();
         this.getMessage();
         this.checkNull();
-        this.contact();
+        // this.contact();
     }
 };
 </script>

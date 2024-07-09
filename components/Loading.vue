@@ -5,7 +5,7 @@
 .loader {
     width: 48px;
     height: 48px;
-    border: 5px solid #ffc843;
+    border: 5px solid #2f83f7;
     border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;

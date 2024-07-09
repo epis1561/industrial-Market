@@ -81,7 +81,7 @@
     height: 48px; margin-left:12px;
     line-height: 48px;
     border-radius: 8px;
-    background-color: #ffc843;
+    background-color: #2f83f7;
     font-size: 15px;
     font-weight: bold;
     color: #202020;

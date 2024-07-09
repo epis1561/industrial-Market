@@ -45,7 +45,7 @@
 }
 .m-pop.type01 .modal-wrap .btn-wrap { display: flex; justify-content: center; gap: 16px; }
 .m-pop.type01 .modal-wrap .btn-wrap .m-btn {
-    display: flex; align-items: center; justify-content: center; width: 168px; height: 40px; background: #ffc843; text-align: center; line-height: 56px; border-radius: 4px; font-size: 17px; font-weight: bold; color: #000;
+    display: flex; align-items: center; justify-content: center; width: 168px; height: 40px; background: #2f83f7; text-align: center; line-height: 56px; border-radius: 4px; font-size: 17px; font-weight: bold; color: #fff;
 }
 .m-pop.type01 .modal-wrap .btn-wrap .cancel-btn { background: #8a8a8a; }
 
