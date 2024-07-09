@@ -12,7 +12,7 @@
                     <!--  인덱스로가는게 맞음. 일단 지금 인덱스는 로그인페이지라 놔두자.-->
                 </div>
                 <div class="sub-header-btn-wrap col-group">
-                    <button class="sub-header-btn share-btn"></button>
+                    <button class="sub-header-btn share-btn" @click.prevent="copy"></button>
                     <button class="sub-header-btn report-btn" @click="isReport=true" v-if="user.id != product.user.id"></button>
                     <!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
                     <button class="sub-header-btn more-btn" v-if="user.id == product.user.id" @click="isMore=true">
@@ -498,6 +498,20 @@ export default {
 
 
     methods: {
+        copy(){
+            var url = '';
+            var textarea = document.createElement("textarea");
+            document.body.appendChild(textarea);
+            url = window.document.location.href;
+            textarea.value = url;
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+
+            this.$store.commit("setPop", {
+                description: "URL이 복사되었습니다."
+            })
+        },
 
         getProduct() {
             this.$axios.get("/api/products/" + this.$route.params.id, {}).then(response => {

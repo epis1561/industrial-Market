@@ -41,7 +41,7 @@
 .m-pop.type01 .modal-wrap .title-wrap.warning i, .modal-wrap .title-wrap.warning .title { color: #ff0000; }
 .m-pop.type01 .modal-wrap .txt {
     margin-bottom: 24px; word-break: keep-all;
-    font-size: 18px; font-weight:500; line-height:24px;
+    font-size: 16px; font-weight:500; line-height:24px;
 }
 .m-pop.type01 .modal-wrap .btn-wrap { display: flex; justify-content: center; gap: 16px; }
 .m-pop.type01 .modal-wrap .btn-wrap .m-btn {
