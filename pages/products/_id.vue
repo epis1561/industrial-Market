@@ -12,7 +12,7 @@
                     <!--  인덱스로가는게 맞음. 일단 지금 인덱스는 로그인페이지라 놔두자.-->
                 </div>
                 <div class="sub-header-btn-wrap col-group">
-                    <button class="sub-header-btn share-btn" @click="copyToClipboard"></button>
+                    <button class="sub-header-btn share-btn"></button>
                     <button class="sub-header-btn report-btn" @click="isReport=true" v-if="user.id != product.user.id"></button>
                     <!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
                     <button class="sub-header-btn more-btn" v-if="user.id == product.user.id" @click="isMore=true">
@@ -93,7 +93,7 @@
                         </div>
                     </div>
 
-                    <h4 class="product-detail-title col-group">
+                    <h4 class="product-detail-title col-group" @click="console">
                         희망 거래 장소
                         <a href="" class="more-btn col-group" @click.prevent="showMap=true">
                             {{ product.address_detail }} <i></i>
@@ -130,7 +130,7 @@
                                 {{ product.user.nickname || product.user.name }}
                             </p>
                             <p class="txt">
-                                {{ product.address }}
+                                {{ product.address_detail }}
                             </p>
                         </div>
                     </div>
@@ -284,7 +284,7 @@
                 </div>
 
                 <div class="modal-footer col-group">
-                    <button class="modal-footer-btn submit-btn" @click="submitReport(product.id,'Product')">
+                    <button class="modal-footer-btn submit-btn" @click="submitReport(product.id,'Product'),isReport=false">
                         신고하기
                     </button>
                 </div>
@@ -412,7 +412,8 @@
 <script>
 
 import Form from "@/utils/Form";
-
+import VueClipboard from 'vue-clipboard2';
+Vue.use(VueClipboard);
 export default {
     middleware: ["user"],
 
@@ -504,7 +505,7 @@ export default {
 
 
                 this.product = response.data.data;
-
+                console.log(this.product);
                 // this.form.product_category_id = response.data.data.product_category_id;
                 this.form.user_id = response.data.data.user.id;
                 this.form.likeable_id = response.data.data.like;
@@ -555,12 +556,18 @@ export default {
             })
         },
         getOtherProducts() {
+            this.form.user_id = this.product.user.id;
+            this.product_id = this.product.id;
+            console.log(this.product_id);
+            console.log(this.product.user.id);
             this.$axios.get("/api/products/", {
                 params: this.form.data(),
 
             }).then(response => {
-
-                this.otherProducts = response.data;
+                this.otherProducts = response.data
+                this.otherProducts.data =this.otherProducts.data.filter(products =>{
+                    return products.id != this.product_id;
+                })
             })
         },
         getSimilarProducts() {
@@ -693,7 +700,7 @@ export default {
                     this.product.user.like = 1;
                     this.isLikeUser = 1;
                     this.form.likeable_id = this.product.user.id;
-                    console.log('유저id', this.form.likeable_id);
+
                     this.form.likeable_type = type;
 
                     this.form.post("/api/likes", {
@@ -705,7 +712,7 @@ export default {
                     this.product.user.like = 0;
                     this.isLikeUser = 0;
                     this.form.likeable_id = this.product.user.id;
-                    console.log('유저id', this.form.likeable_id);
+
                     this.form.likeable_type = type;
 
                     this.form.delete("/api/likes", {
@@ -791,18 +798,9 @@ export default {
 
                     })
         },
-        copyToClipboard() {
-            VueClipboard.toClipboard(window.location.href)
-                    .then(() => {
-                        // 클립보드 복사 성공 시 처리할 코드
-                        console.log('복사 성공');
-                    })
-                    .catch(() => {
-                        // 클립보드 복사 실패 시 처리할 코드
-                        console.error('복사 실패');
-                    });
-        }
-
+       console(){
+            console.log(this.otherProducts);
+       }
     },
 
     computed: {

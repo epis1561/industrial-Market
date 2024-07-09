@@ -83,6 +83,7 @@ export default {
 
             type: 'product',
             isLike:true,
+            product_id:"",
         }
 
     },
