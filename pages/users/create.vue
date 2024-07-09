@@ -88,11 +88,11 @@
                         <label for="type_0" >
                             <input type="checkbox" class="form-checkbox" id="type_0" name="type" v-model="isLocationCurrent"  @change="defaultLocation">
                             <error :form="form" name="location" />
-                            <div class="checked-item col-group">
+                            <div class="checked-item col-group" :class="{ 'checked': isLocationCurrent && location.city }">
                                 <div class="icon">
                                     <i class="xi-check"></i>
                                 </div>
-                                <p class="txt" @click="defaultLocation">
+                                <p class="txt">
                                     현재 위치로 설정
                                 </p>
                             </div>
@@ -174,9 +174,16 @@ export default {
 
         defaultLocation() {
             if (this.isLocationCurrent) {
-                this.active_country = this.location.country;
-                this.active_city = this.location.city;
-                this.active_county = this.location.county;
+                 if(this.location.city) {
+                     this.active_country = this.location.country;
+                     this.active_city = this.location.city;
+                     this.active_county = this.location.county;
+                 }
+                 else{
+                     alert('위치정보제공 동의를 하지않아 현재위치를 불러 올 수 없습니다.\n위치제공정보에 동의해주세요.')
+                     this.isLocationCurrent=false;
+                     $('.form-checkbox').prop('checked', false); // 체크 해제
+                 }
             } else {
                 this.active_country = "";  // 혹은 다른 초기화 값으로 설정
                 this.active_city = "";
@@ -194,9 +201,6 @@ export default {
             this.form.active_country = this.active_country;
             this.form.active_county = this.active_county;
             this.form.active_city = this.active_city;
-            console.log(this.form.active_country);
-            console.log(this.form.active_county);
-            console.log(this.form.active_city);
 
             this.form.post("/api/users")
                     .then(response => {

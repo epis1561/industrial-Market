@@ -1,7 +1,7 @@
 <template>
-    <div class="modal-container local_select_1">
+    <div class="modal-container local_select_1" :class="{'active': active}">
         <div class="modal-select-wrap modal-wrap">
-            <i class="close-btn"></i>
+            <i class="close-btn" @click="close"></i>
             <div class="modal-title-wrap center">
                 <h3 class="modal-title">지역</h3>
             </div>
@@ -63,7 +63,7 @@
 import Form from "@/utils/Form";
 
 export default {
-
+props:["active"],
 
     data(){
         return {
@@ -88,8 +88,10 @@ export default {
        this.selectedLocation = "";
        this.$emit('detail');
 
+        },
+        close(){
+          this.$emit('close');
         }
-
 
 
     },

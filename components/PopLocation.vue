@@ -77,10 +77,13 @@ export default {
             this.$emit('close');
         },
         send() {
-            this.$emit('close');
+
             if(this.selectedCounty){
             this.$emit("change", this.selectedCounty);
-
+            this.$emit('close');
+            }
+            else{
+                alert('지역을 선택해주세요');
             }
         },
         selectCity(city){

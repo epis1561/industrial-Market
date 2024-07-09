@@ -172,16 +172,22 @@ export default {
         },
         defaultLocation() {
             if (this.isLocationCurrent) {
-                this.active_country = this.location.country;
-                this.active_city = this.location.city;
-                this.active_county = this.location.county;
-                this.form.county_id = this.user.county.id;
-                console.log(this.form.county_id);
+                if (this.location.city) {
+                    this.active_country = this.location.country;
+                    this.active_city = this.location.city;
+                    this.active_county = this.location.county;
+                    this.form.county_id = this.user.county.id;
+                } else {
+                    alert('위치정보제공 동의를 하지않아 현재위치를 불러 올 수 없습니다.\n위치제공정보에 동의해주세요.');
+                    this.isLocationCurrent = false;
+                    $('.form-checkbox').prop('checked', false); // 체크 해제
+                }
             } else {
                 this.active_country = "";  // 혹은 다른 초기화 값으로 설정
                 this.active_city = "";
                 this.active_county = "";
             }
+
         },
 
         async getMap() {
@@ -233,7 +239,7 @@ export default {
 
     },
     mounted() {
-
+console.log(this.$auth.user.data);
     }
 }
 </script>

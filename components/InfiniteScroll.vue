@@ -28,13 +28,11 @@ export default {
 
             let self = this;
 
-            console.log(this.finish);
+
 
             if (!this.finish) {
                 if(!this.loading){
-                    console.log(this.finish, this.page, this.meta.last_page);
                     if (this.page >= this.meta.last_page) {
-                        console.log("끝남");
 
                         return this.finish = true;
                     }
@@ -59,8 +57,7 @@ export default {
         "form": {
             deep: true,
             handler() {
-                console.log(this.form.meta);
-                console.log(this.form.links);
+
                 let prev = {
                     ...this.prevForm,
                     page: null
@@ -78,7 +75,7 @@ export default {
 
                     this.finish = false;
 
-                    this.loadMore();
+                    // this.loadMore();
                 }
             }
         }
@@ -103,7 +100,8 @@ export default {
 
         observer.observe(scrollListElement);
 
-        this.loadMore();
+        $(this.targetScroll).scroll(this.loadMore);
+
     }
 }
 </script>
