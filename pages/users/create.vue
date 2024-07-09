@@ -162,6 +162,9 @@ export default {
             this.active_country = county.country;
             this.active_city = county.city.title;
             this.active_county = county.title;
+            console.log(this.active_country)
+            console.log(this.active_city)
+            console.log(this.active_county)
         },
 
         clearLetter(name) {
@@ -190,6 +193,7 @@ export default {
                 this.active_county = "";
             }
         },
+
         store() {
             this.$store.commit("setLoading", true);
 
@@ -201,7 +205,9 @@ export default {
             this.form.active_country = this.active_country;
             this.form.active_county = this.active_county;
             this.form.active_city = this.active_city;
-
+            console.log(this.form.active_country);
+            console.log(this.form.active_county);
+            console.log(this.form.active_city);
             this.form.post("/api/users")
                     .then(response => {
                         this.$store.commit("setLoading", true);

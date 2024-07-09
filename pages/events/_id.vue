@@ -68,7 +68,7 @@
 import Form from "@/utils/Form";
 
 export default {
-
+    middleware: ["user"],
     data() {
         return {
             form: new Form(this.$axios, {

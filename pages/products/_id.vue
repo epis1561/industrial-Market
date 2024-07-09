@@ -12,7 +12,7 @@
                     <!--  인덱스로가는게 맞음. 일단 지금 인덱스는 로그인페이지라 놔두자.-->
                 </div>
                 <div class="sub-header-btn-wrap col-group">
-                    <button class="sub-header-btn share-btn"></button>
+                    <button class="sub-header-btn share-btn" @click="copyToClipboard"></button>
                     <button class="sub-header-btn report-btn" @click="isReport=true" v-if="user.id != product.user.id"></button>
                     <!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
                     <button class="sub-header-btn more-btn" v-if="user.id == product.user.id" @click="isMore=true">
@@ -123,7 +123,7 @@
                         <button class="like-btn" :class="{'active':product.user.like==1}"
                                 @click="toggleLike(product,'User')"></button>
                         <div class="profile-img">
-                            <img src="" alt="">
+                            <img :src="product.img ? product.img.url : ''" alt="" v-if="product.img">
                         </div>
                         <div class="txt-wrap row-group">
                             <p class="title">
@@ -350,7 +350,7 @@
             <div class="modal-select-wrap modal-wrap">
 
                 <div class="chat-more-option-wrap row-group">
-                    <button class="chat-more-option col-group" v-if="product.state_transaction!=0" @click.prevent="changeTransaction(0),isSelect = false"">
+                    <button class="chat-more-option col-group" v-if="product.state_transaction!=0" @click.prevent="changeTransaction(0),isSelect = false">
                         <i class="icon"></i>
                         {{ product.format_short_type }}중
                     </button>
@@ -358,7 +358,7 @@
                         <i class="icon"></i>
                         거래중
                     </button>
-                    <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2" @click.prevent="changeTransaction(2),isSelect = false"" >
+                    <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2" @click.prevent="changeTransaction(2),isSelect = false">
                         <i class="icon"></i>
                         {{ product.format_short_type }}완료
                     </a>
@@ -414,7 +414,7 @@
 import Form from "@/utils/Form";
 
 export default {
-    middleware:["user"],
+    middleware: ["user"],
 
     data() {
 
@@ -427,18 +427,18 @@ export default {
                 page: 1,
                 state_transaction: "",
                 hide: "",
-                product_id:"",
+                product_id: "",
             }),
             similarForm: new Form(this.$axios, {
                 user_id: "",
                 product_category_id: "",
-                except_user_id : "",
+                except_user_id: "",
                 likeable_id: "",
                 likeable_type: "",
                 page: 1,
                 state_transaction: "",
                 hide: "",
-                product_id:"",
+                product_id: "",
             }),
             reportForm: new Form(this.$axios, {
                 reportable_id: "",
@@ -447,16 +447,16 @@ export default {
                 description: "",
             }),
             isDisabled: true,
-            count_like : "",
-            isLikeProduct:"",
-            isLikeUser:"",
+            count_like: "",
+            isLikeProduct: "",
+            isLikeUser: "",
             isReport: false,
             isMore: false,
             isImg: false,
             product: null,
             isTrade: false,
-            showMap:false,
-            isSelect:false,
+            showMap: false,
+            isSelect: false,
             products: {
                 data: [],
                 meta: {
@@ -511,7 +511,7 @@ export default {
                 this.count_like = response.data.data.count_like;
                 this.similarForm.product_category_id = response.data.data.product_category_id;
                 this.similarForm.except_user_id = response.data.data.user.id;
-                console.log( response.data.data.user.id);
+                console.log(response.data.data.user.id);
                 console.log(this.similarForm.except_user_id);
                 this.getSimilarProducts();
                 this.getOtherProducts();
@@ -656,11 +656,11 @@ export default {
             // Add a marker
             new google.maps.Marker({
                 position: {lat: getlat, lng: getlon},
-                map:map1,
+                map: map1,
                 title: "Marker Title",
             });
         },
-        toggleLike(data,type) {
+        toggleLike(data, type) {
 
             if (type == "Product") {
 
@@ -681,21 +681,19 @@ export default {
                     this.form.likeable_id = data.id;
                     this.form.likeable_type = type;
 
-                    this.form.delete("/api/likes",{
+                    this.form.delete("/api/likes", {
                         params: this.form.data()
                     }).then(response => {
 
                     });
                 }
 
-            }
-
-           else if (type == "User") {
+            } else if (type == "User") {
                 if (data.user.like == 0) {
                     this.product.user.like = 1;
                     this.isLikeUser = 1;
                     this.form.likeable_id = this.product.user.id;
-                    console.log('유저id',this.form.likeable_id);
+                    console.log('유저id', this.form.likeable_id);
                     this.form.likeable_type = type;
 
                     this.form.post("/api/likes", {
@@ -707,7 +705,7 @@ export default {
                     this.product.user.like = 0;
                     this.isLikeUser = 0;
                     this.form.likeable_id = this.product.user.id;
-                    console.log('유저id',this.form.likeable_id);
+                    console.log('유저id', this.form.likeable_id);
                     this.form.likeable_type = type;
 
                     this.form.delete("/api/likes", {
@@ -749,7 +747,7 @@ export default {
             this.isMore = false;
             this.isTrade = false;
             this.form.state_transaction = stateTransaction;
-            if(stateTransaction ==2){
+            if (stateTransaction == 2) {
                 return this.$router.push(`/mypage/products/buyer_select/?id=${this.product.id}`);
             }
             this.form.patch("/api/products/updateStateTransaction/" + this.$route.params.id).then(response => {
@@ -776,10 +774,10 @@ export default {
                 return this.$router.push("/products");
             })
         },
-        store(id){
+        store(id) {
             this.$router.push(`/products/create?id=${id}`)
         },
-        storeChat(){
+        storeChat() {
             this.$store.commit("setLoading", true);
 
             this.form.product_id = this.product.id;
@@ -788,11 +786,22 @@ export default {
                     .then(response => {
                         {
                             this.$router.push(`/chats/${response.data.id}`);
-                        //     남에꺼
+                            //     남에꺼
                         }
 
                     })
         },
+        copyToClipboard() {
+            VueClipboard.toClipboard(window.location.href)
+                    .then(() => {
+                        // 클립보드 복사 성공 시 처리할 코드
+                        console.log('복사 성공');
+                    })
+                    .catch(() => {
+                        // 클립보드 복사 실패 시 처리할 코드
+                        console.error('복사 실패');
+                    });
+        }
 
     },
 

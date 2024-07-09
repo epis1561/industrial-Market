@@ -13,10 +13,12 @@
                     {{ targetUser.name }}
                 </h2>
                 <div class="header-menu-wrap col-group">
+
                     <a href="#" class="sub-header-btn" v-if="this.chat && this.chat.product.state_transaction == 1" @click.prevent="getSafeContact">
                         <i class="xi-call"></i>
                     </a>
                     <a href="" class="safe-contact" style="opacity:0.00001; position:absolute; left:-10000px; top:-100000px;"></a>
+
                     <button class="sub-header-btn more-btn" style="margin-left:5px;" @click="isMore = true">
                         <i></i>
                     </button>
@@ -122,7 +124,6 @@
             <!-- 헤더 버튼 클릭시 나타나는 팝업 -->
             <div class="modal-container modal_chat" :class="{'active':isMore}">
                 <div class="modal-select-wrap modal-wrap">
-
                     <div class="chat-more-option-wrap row-group">
                         <button class="chat-more-option col-group modal_block_btn" @click="isBlock=true">
                             <i class="icon"></i>
@@ -272,7 +273,7 @@ import Pusher from 'pusher-js';
 import Form from "@/utils/Form";
 
 export default {
-
+    middleware: ["user"],
 
     data() {
 
@@ -293,7 +294,7 @@ export default {
             ),
             alarmForm: new Form(
                     this.$axios, {
-                        alarm: 0,
+                        alarm: "",
                     }
             ),
             chat: null,
@@ -307,7 +308,12 @@ export default {
             isOut: false,
             isReport: false,
             reportable_type: "Chat",
+
             alarmText: "",
+            isAlarm:"",
+            isAlarmActive:false,
+            activeAlarm:false,
+
             messages: {
                 data: [],
                 meta: {
@@ -359,7 +365,13 @@ export default {
 
             this.$axios.get("/api/chats/" + this.$route.params.id, {}).then(response => {
                 this.chat = response.data.data;
-
+                this.alarmForm.alarm=this.chat.alarm;
+                console.log(this.alarmForm.alarm);
+                if (this.chat.alarm == 1) {
+                    this.isAlarm = "알림끄기";
+                } else {
+                    this.isAlarm = "알림켜기";
+                }
                 this.setChannel(this.chat);
             })
         },
@@ -402,7 +414,7 @@ export default {
         outChat() {
             this.form.delete("/api/chats/detach/" + this.$route.params.id)
                     .then(response => {
-                        this.$router.push("/chatting");
+                        this.$router.push("/chats");
 
                     });
         },
@@ -419,11 +431,10 @@ export default {
             this.$router.back();
         },
         changeAlarm() {
-
-
             let self = this;
 
             this.$store.commit("setLoading", true);
+
 
             this.alarmForm.patch("/api/chats/" + this.$route.params.id).then(response => {
                 this.chat = response.data;
@@ -445,6 +456,7 @@ export default {
                 }, 1500);
             })
         },
+
         getSafeContact() {
             this.$axios.get("/api/users/getContactSafe", {
                 params: this.form.data(),
@@ -479,13 +491,14 @@ export default {
     watch: {
 
 
+
+
     },
     mounted() {
         this.$auth.fetchUser();
         this.getChat();
         this.getMessage();
         this.checkNull();
-        // this.contact();
     }
-};
+}
 </script>

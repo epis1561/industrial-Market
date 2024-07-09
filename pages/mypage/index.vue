@@ -82,7 +82,7 @@
                                     <i class="icon"></i>
                                 </div>
                             </nuxt-link>
-                            <nuxt-link :to="`/review/${user.id}`" class="mypage-menu-item col-group">
+                            <nuxt-link to="/manners" class="mypage-menu-item col-group">
                                 <p class="title">
                                     받은 후기
                                 </p>
@@ -184,8 +184,6 @@ export default {
                     return this.products.meta = response.data.meta;
                 }
 
-                console.log(response.data);
-
                 this.products = response.data;
 
             })
@@ -209,7 +207,7 @@ export default {
     },
     mounted() {
 this.getProducts();
-console.log(this.user);
+
     }
 }
 </script>
