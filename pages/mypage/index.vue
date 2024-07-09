@@ -29,7 +29,7 @@
                             </p>
                         </div>
                         <p class="txt">
-                            {{ user.activeCounty.city.title + ' ' + user.activeCounty.title }}
+                            {{ user.activeCounty ? user.activeCounty.city.title + ' ' + user.activeCounty.title : "-" }}
                         </p>
                     </div>
                     <div class="container">
