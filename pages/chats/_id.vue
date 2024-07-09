@@ -369,7 +369,7 @@ export default {
             this.blockForm.target_user_id = this.targetUser.id;
             this.blockForm.post("/api/blocks/")
                     .then(response => {
-                        this.$router.back();
+                        this.$router.push("/chats");
 
                     });
         },

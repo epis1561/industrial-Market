@@ -4,9 +4,9 @@
         <header id="header" class="sub-header">
             <div id="search"></div> <!-- 검색창 -->
             <div class="container col-group">
-                <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
+                <nuxt-link to="/qnas/" class="sub-header-btn prev-btn">
                     <img src="/images/icon_prev.png" alt="">
-                </a>
+                </nuxt-link>
                 <h2 class="title">
                     1:1 문의
                 </h2>
@@ -165,7 +165,7 @@
 
 .m-input-images.type01 .m-files {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap !important;
     margin: -4px;
 }
 

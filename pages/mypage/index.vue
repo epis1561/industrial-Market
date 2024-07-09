@@ -43,7 +43,7 @@
                                 <p class="txt">거래완료</p>
                             </div>
                             <div class="user-profile-info-item row-group">
-                                <nuxt-link to="/likes" class="num">{{user.count_like_user }}</nuxt-link>
+                                <nuxt-link :to="`/likes?type=User`" class="num">{{user.count_like_user }}</nuxt-link>
                                 <p class="txt">관심회원</p>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                                     <i class="icon"></i>
                                 </div>
                             </nuxt-link>
-                            <nuxt-link to="" class="mypage-menu-item col-group">
+                            <nuxt-link :to="`/review/${user.id}`" class="mypage-menu-item col-group">
                                 <p class="title">
                                     받은 후기
                                 </p>
@@ -154,13 +154,42 @@ export default {
     data() {
         return {
             form: new Form(this.$axios, {
-
+                buyer_id:"",
             }),
             isMy:true,
+            // 내 물건 중 후기가 있는지 찾아보기위해 만들었음.
+            products:{
+                data:[],
+                meta:{
+                    current_page:1,
+                    last_page:1,
+                }
+            }
         };
     },
 
     methods: {
+        getProducts(loadMore = false){
+            this.loading = true;
+            this.$store.commit("setLoading", true);
+            this.form.user_id = this.user.id;
+            this.$axios.get("/api/products/",{
+                params: this.form.data(),
+            }).then(response => {
+                this.loading = false;
+
+                if(loadMore){
+                    this.products.data = [...this.products.data, ...response.data.data];
+
+                    return this.products.meta = response.data.meta;
+                }
+
+                console.log(response.data);
+
+                this.products = response.data;
+
+            })
+        },
 
     },
 
@@ -179,7 +208,7 @@ export default {
 
     },
     mounted() {
-
+this.getProducts();
 console.log(this.user);
     }
 }
