@@ -40,7 +40,7 @@
                             </div>
                             <div class="item-txt row-group">
                                 <p class="txt">
-                                   [{{index}}] {{ alarm.subtitle }}
+                                   {{ alarm.subtitle }}
                                 </p>
                                 <p class="title">
                                     {{ alarm.title }}
