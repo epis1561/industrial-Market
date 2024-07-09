@@ -281,7 +281,7 @@
 import Form from "@/utils/Form";
 
 export default {
-
+    middleware: ["user"],
     load: false,
     data() {
         return {

@@ -2,7 +2,7 @@
         <nuxt-link :to="`/users/${likeUser.likeable.id}`" class="user-item col-group">
             <button class="like-btn active"></button>
             <div class="item-img">
-                <img :src="likeUser.likeable.img ? likeUser.likeable.img.url:''" alt="">
+                <img :src="likeUser.likeable.img ? likeUser.likeable.img.url:'/images/profile_null.png'" alt="">
             </div>
             <div class="item-title">
                 {{ likeUser.likeable.nickname || likeUser.likeable.name }}

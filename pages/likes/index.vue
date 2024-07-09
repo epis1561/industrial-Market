@@ -7,7 +7,7 @@
             <div id="search"></div> <!-- 검색창 -->
             <div class="container col-group">
                 <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
-                    <img src="images/icon_prev.png" alt="">
+                    <img src="/images/icon_prev.png" alt="">
                 </a>
                 <h2 class="title">
                     관심목록
@@ -57,7 +57,7 @@
 import Form from "@/utils/Form";
 
 export default {
-
+    middleware: ["user"],
     data() {
         return {
             form: new Form(this.$axios, {

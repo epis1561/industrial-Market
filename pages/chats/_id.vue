@@ -13,9 +13,10 @@
                     {{ targetUser.name }}
                 </h2>
                 <div class="header-menu-wrap col-group">
-                    <a :href="`tel:${safeContact}`" class="sub-header-btn" v-if="this.chat && this.chat.product.state_transaction == 1">
+                    <a href="#" class="sub-header-btn" v-if="this.chat && this.chat.product.state_transaction == 1" @click.prevent="contact">
                         <i class="xi-call"></i>
                     </a>
+                    <a :href="`tel:${safeContact}`"> </a>
                     <button class="sub-header-btn more-btn" style="margin-left:5px;" @click="isMore = true">
                         <i></i>
                     </button>
@@ -133,9 +134,13 @@
                         <i class="icon"></i>
                         신고하기
                     </button>
-                    <button class="chat-more-option col-group modal_notice_btn" @click="changeAlarm">
+                    <button class="chat-more-option col-group modal_notice_btn" @click="changeAlarm" v-if="chat && alarmForm.alarm == 1">
                         <i class="icon"></i>
-                        알림끄기
+                        {{ isAlarm }}
+                    </button>
+                    <button class="chat-more-option col-group modal_notice_btn" @click="changeAlarm" v-if="chat && alarmForm.alarm == 0">
+                        <i class="xi-bell-o"></i>
+                        {{ isAlarm }}
                     </button>
                     <!-- 알림끄기 상태일 때 나타나는 버튼
                     <button class="chat-more-option col-group modal_notice_btn">
@@ -218,7 +223,10 @@
         <!-- //신고하기 버튼 클릭시 나타나는 팝업 -->
 
         <!-- 알림끄기/켜기 버튼 클릭 시 팝업 -->
-        <div class="modal-notice-txt" :class="{'active': alarmForm.alarm == 1}">
+        <div class="modal-notice-txt" :class="{'active': isAlarmActive && activeAlarm==true}">
+            {{ alarmText }}
+        </div>
+        <div class="modal-notice-txt" :class="{'active': isAlarmActive==false && activeAlarm==true }">
             {{ alarmText }}
         </div>
 
@@ -268,7 +276,7 @@ import Pusher from 'pusher-js';
 import Form from "@/utils/Form";
 
 export default {
-
+    middleware: ["user"],
 
     data() {
 
@@ -289,7 +297,7 @@ export default {
             ),
             alarmForm: new Form(
                     this.$axios, {
-                        alarm: 0,
+                        alarm: "",
                     }
             ),
             chat: null,
@@ -304,6 +312,9 @@ export default {
             isReport: false,
             reportable_type: "Chat",
             alarmText: "채팅 알람이 꺼졌습니다.",
+            isAlarm:"",
+            isAlarmActive:false,
+            activeAlarm:false,
             messages: {
                 data: [],
                 meta: {
@@ -346,7 +357,13 @@ export default {
 
             this.$axios.get("/api/chats/" + this.$route.params.id, {}).then(response => {
                 this.chat = response.data.data;
-
+                this.alarmForm.alarm=this.chat.alarm;
+                console.log(this.alarmForm.alarm);
+                if (this.chat.alarm == 1) {
+                    this.isAlarm = "알림끄기";
+                } else {
+                    this.isAlarm = "알림켜기";
+                }
                 this.setChannel(this.chat);
             })
         },
@@ -389,7 +406,7 @@ export default {
         outChat() {
             this.form.delete("/api/chats/detach/" + this.$route.params.id)
                     .then(response => {
-                        this.$router.push("/chatting");
+                        this.$router.push("/chats");
 
                     });
         },
@@ -407,11 +424,15 @@ export default {
         },
         changeAlarm() {
             if (this.alarmForm.alarm == 0) {
+                this.activeAlarm=true;
                 this.alarmForm.alarm = 1;
-                this.alarmText = "채팅 알람이 켜졌습니다.";
+                this.isAlarm="알림끄기";
+
             } else if (this.alarmForm.alarm == 1) {
                 this.alarmForm.alarm = 0;
-                this.alarmText = "채팅 알람이 꺼졌습니다.";
+                this.activeAlarm=true;
+                this.isAlarm="알림켜기";
+
             }
 
             this.alarmForm.patch("/api/chats/" + this.$route.params.id).then(response => {
@@ -419,6 +440,15 @@ export default {
                 this.chat = response.data;
 
             })
+        },
+        handleAlarmChange(newVal){
+            this.isAlarmActive = newVal == 1;
+            if(this.isAlarmActive){
+                this.alarmText = "채팅 알람이 켜졌습니다.";
+            }
+            else{
+                this.alarmText = "채팅 알람이 꺼졌습니다.";
+            }
         },
         contact() {
             this.$axios.get("/api/users/getContactSafe", {
@@ -456,7 +486,10 @@ export default {
             handler() {
                 this.scrollEnd();
             }
-        }
+        },
+        'alarmForm.alarm': function(newVal, oldVal) {
+            this.handleAlarmChange(newVal);
+        },
 
     },
     mounted() {
@@ -464,7 +497,6 @@ export default {
         this.getChat();
         this.getMessage();
         this.checkNull();
-        this.contact();
     }
 };
 </script>

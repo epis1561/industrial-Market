@@ -233,6 +233,9 @@
 import Form from "@/utils/Form";
 
 export default {
+
+    middleware: ["user"],
+
     toggleBtn(){
         $('.categorybuttons .category').on('click', function() {
             // 현재 활성화된 버튼에서 active 클래스 제거
