@@ -431,7 +431,7 @@ main { overflow: auto; }
 .new-message-image {
   display: flex; flex-wrap:wrap; gap:8px; justify-content: flex-end;
   margin-left:auto;
-  width: 148px; margin-bottom:12px;
+  width: calc(100vw - 100px); margin-bottom:12px;
   border-radius: 4px; overflow: hidden;
 }
 .new-message-box-inner {
@@ -791,7 +791,6 @@ main { overflow: auto; }
   margin-top:8px;
 }
 
-/*매너박스 어떤점이 별로였나요??*/
 .mannerBox{
   display: none;
 }

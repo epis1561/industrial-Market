@@ -1,7 +1,7 @@
 <template>
     <nuxt-link :to="`/chats/${item.id}`"class="chat-item col-group">
         <div class="profile-img">
-            <img :src="targetUser.img.url ? targetUser.img.url : ''" />
+            <img :src="targetUser.img ? targetUser.img.url : ''" v-if="targetUser.img" />
         </div>
         <div class="item-txt-wrap row-group">
             <div class="title-group col-group">
@@ -48,13 +48,10 @@ export default {
 
     computed: {
         targetUser(){
-
-            if(this.item.owner && this.item.owner.id == this.$auth.user.data.id){
+            if(this.item.owner && this.item.owner.id == this.$auth.user.data.id)
                 return this.item.asker;
-            }
-            else if(this.item.asker && this.item.asker.id == this.$auth.user.data.id){
-                return this.item.owner;
-            }
+
+            return this.item.owner;
         },
     },
 

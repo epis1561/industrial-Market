@@ -185,7 +185,7 @@ export default {
         },
         store() {
             this.$store.commit("setLoading", true);
-            console.log(this.location);
+
             this.form.set({
                 ...this.form.data(),
                 ...this.location

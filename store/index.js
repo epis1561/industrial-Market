@@ -1,5 +1,5 @@
 export const state = () => ({
-    domain: process.env.NODE_ENV === "production" ? "https://api.cherivu.co.kr" : "http://localhost:80",
+    domain: process.env.NODE_ENV === "production" ? "https://api.industrialmarket.biz" : "http://localhost:80",
     pop: null,
     modals: [],
     loading: false,

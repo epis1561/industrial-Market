@@ -26,7 +26,7 @@
         </header>
         <!-- header End -->
 
-        <main class="subpage area-chats" v-if="chat!=null">
+        <main class="subpage area-chats" v-if="chat!=null" ref="chatWrap">
             <div class="chat-prod prod-item">
                 <div class="container col-group">
                     <div class="item-img">
@@ -59,7 +59,8 @@
                 <div class="chat-area">
                     <div class="message-group">
                         <template v-for="(message,index) in messages.data">
-                            <div class="date-check" v-if="index == 0 || messages.data[index].format_created_at != messages.data[index - 1 ].format_created_at">
+                            <div class="date-check"
+                                 v-if="index == 0 || messages.data[index].format_created_at != messages.data[index - 1 ].format_created_at">
                                 {{ message.format_created_at }}
                             </div>
 
@@ -67,7 +68,8 @@
                                 <div :class="`new-message-box col-group ${user.id != message.user.id ? 'receive' : 'send'}`">
                                     <div class="new-message-box-inner">
                                         <div class="new-message-image" v-if="message.imgs.length>0">
-                                            <img :src="img.url ? img.url : ''" v-for="img in message.imgs" :key="img.id"/>
+                                            <img :src="img ? img.url : ''" v-for="img in message.imgs"
+                                                 :key="img.id"/>
                                         </div>
 
                                         <div class="new-message-box-content">
@@ -95,10 +97,12 @@
 
             <div class="chat-footer">
                 <!-- 사진 한장 이상 첨부 시 -->
-                <div class="file-preview-scroll-wrap"  v-if="activeFiles || activeCamera">
+                <div class="file-preview-scroll-wrap" v-if="activeFiles || activeCamera">
                     <div class="file-preview-wrap col-group">
-                        <input-images :multiple="true" v-if="activeFiles" @change="(data) => {form.imgs = data; activeCamera = false;}"/>
-                        <input-images v-if="activeCamera" id="camera" :camera="true" @change="(data) => {form.imgs = data; activeFiles = false;}"/>
+                        <input-images :multiple="true" v-if="activeFiles"
+                                      @change="(data) => {form.imgs = data; activeCamera = false;}"/>
+                        <input-images v-if="activeCamera" id="camera" :camera="true"
+                                      @change="(data) => {form.imgs = data; activeFiles = false;}"/>
                     </div>
                 </div>
                 <!-- //사진 한장 이상 첨부 시 -->
@@ -107,10 +111,10 @@
                         <img src="/images/icon_picture.png" alt="">
                     </button>
                     <form @submit.prevent="storeMessage" class="submitForm">
-                    <textarea class="chat-textarea" placeholder="메세지 보내기" v-model="form.description"></textarea>
-                    <button class="chat-footer-btn send-btn">
-                        <i></i>
-                    </button>
+                        <textarea class="chat-textarea" placeholder="메세지 보내기" v-model="form.description"></textarea>
+                        <button class="chat-footer-btn send-btn">
+                            <i></i>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -210,12 +214,12 @@
         <!-- //채팅방 나가기 버튼 클릭 시 팝업 -->
 
         <!-- 신고하기 버튼 클릭시 나타나는 팝업 -->
-       <report :is-report="isReport" :type="reportable_type" :id="chat.id" v-if="chat" @created="leave"/>
+        <report :is-report="isReport" :type="reportable_type" :id="chat.id" v-if="chat" @created="leave"/>
         <!-- //신고하기 버튼 클릭시 나타나는 팝업 -->
 
         <!-- 알림끄기/켜기 버튼 클릭 시 팝업 -->
         <div class="modal-notice-txt" :class="{'active': alarmForm.alarm == 1}">
-           {{ alarmText }}
+            {{ alarmText }}
         </div>
 
         <!-- 채팅 이미지 버튼 클릭시 나타나는 팝업 -->
@@ -248,10 +252,11 @@
     </body>
 </template>
 <style>
-.chat-item .date{
+.chat-item .date {
     width: auto;
 }
-.submitForm{
+
+.submitForm {
     width: 100%;
     display: flex;
     align-items: center;
@@ -259,7 +264,7 @@
 }
 </style>
 <script>
-
+import Pusher from 'pusher-js';
 import Form from "@/utils/Form";
 
 export default {
@@ -277,14 +282,14 @@ export default {
                 imgs: [],
             }),
             blockForm: new Form(
-                this.$axios, {
-                target_user_id :"",
+                    this.$axios, {
+                        target_user_id: "",
 
                     }
             ),
             alarmForm: new Form(
-              this.$axios,{
-                  alarm:0,
+                    this.$axios, {
+                        alarm: 0,
                     }
             ),
             chat: null,
@@ -297,8 +302,8 @@ export default {
             spreadTime: false,
             isOut: false,
             isReport: false,
-            reportable_type : "Chat",
-            alarmText:"채팅 알람이 꺼졌습니다.",
+            reportable_type: "Chat",
+            alarmText: "채팅 알람이 꺼졌습니다.",
             messages: {
                 data: [],
                 meta: {
@@ -306,7 +311,7 @@ export default {
                     last_page: 1,
                 }
             },
-            safeContact:"",
+            safeContact: "",
 
         }
 
@@ -314,16 +319,39 @@ export default {
 
 
     methods: {
+        setChannel(chat){
+            let self = this;
+
+            Pusher.logToConsole = true;
+
+            let key = process.env.NODE_ENV === "production" ? "c19fee6f12af5307e6b9" : "8cd7d1abc2ee7229e126";
+
+            var pusher = new Pusher(key, {
+                cluster: 'ap3'
+            });
+
+            var channel = pusher.subscribe('chats.' + chat.id);
+
+            channel.bind('App\\Events\\MessageCreated', function(data) {
+                self.messages.data.push(data.message);
+
+                setTimeout(function(){
+                    self.$refs.chatWrap.scrollTop = self.$refs.chatWrap.scrollHeight + 400;
+                }, 10);
+            });
+        },
+
         getChat() {
-            this.$store.commit("setLoading",true);
+            this.$store.commit("setLoading", true);
+
             this.$axios.get("/api/chats/" + this.$route.params.id, {}).then(response => {
                 this.chat = response.data.data;
 
-
+                this.setChannel(this.chat);
             })
         },
         getMessage() {
-            this.$store.commit("setLoading",true);
+            this.$store.commit("setLoading", true);
             this.$axios.get("/api/messages", {
                 params: this.form.data(),
             }).then(response => {
@@ -334,21 +362,22 @@ export default {
 
         },
         storeMessage() {
-            this.$store.commit("setLoading",true);
-            console.log(this.form.imgs);
+            this.$store.commit("setLoading", true);
+
             this.scrollEnd();
+
             this.form.post("/api/messages")
                     .then(response => {
 
                         console.log(response);
-                this.form.description = "";
-                this.form.imgs = [];
+                        this.form.description = "";
+                        this.form.imgs = [];
 
-                this.activeCamera = false;
-                this.activeFiles = false;
+                        this.activeCamera = false;
+                        this.activeFiles = false;
 
-                $('.m-files-wrap').hide();
-            })
+                        $('.m-files-wrap').hide();
+                    })
         },
         checkNull() {
             if (this.messages.data.length == 0) {
@@ -364,8 +393,8 @@ export default {
 
                     });
         },
-        block(){
-            this.$store.commit("setLoading",true);
+        block() {
+            this.$store.commit("setLoading", true);
             this.blockForm.target_user_id = this.targetUser.id;
             this.blockForm.post("/api/blocks/")
                     .then(response => {
@@ -373,34 +402,33 @@ export default {
 
                     });
         },
-        leave(){
+        leave() {
             this.$router.back();
         },
-        changeAlarm(){
-            if(this.alarmForm.alarm == 0){
+        changeAlarm() {
+            if (this.alarmForm.alarm == 0) {
                 this.alarmForm.alarm = 1;
                 this.alarmText = "채팅 알람이 켜졌습니다.";
-            }
-            else if(this.alarmForm.alarm ==1){
+            } else if (this.alarmForm.alarm == 1) {
                 this.alarmForm.alarm = 0;
                 this.alarmText = "채팅 알람이 꺼졌습니다.";
             }
 
-            this.alarmForm.patch("/api/chats/"+ this.$route.params.id).then(response => {
+            this.alarmForm.patch("/api/chats/" + this.$route.params.id).then(response => {
 
                 this.chat = response.data;
 
             })
         },
-        contact(){
-            this.$axios.get("/api/users/getContactSafe",{
+        contact() {
+            this.$axios.get("/api/users/getContactSafe", {
                 params: this.form.data(),
             }).then(response => {
                 this.safeContact = response.data.data.contact_safe;
                 console.log(this.safeContact);
             })
         },
-        scrollEnd(){
+        scrollEnd() {
             var subpage = document.querySelector('.subpage');
             console.log(subpage.scrollHeight);
             subpage.scrollTop = subpage.scrollHeight;
@@ -419,16 +447,16 @@ export default {
             }
         },
 
-        user(){
+        user() {
             return this.$auth.user.data;
         }
     },
     watch: {
-"safeContact":{
-    handler(){
-        this.scrollEnd();
-    }
-}
+        "safeContact": {
+            handler() {
+                this.scrollEnd();
+            }
+        }
 
     },
     mounted() {

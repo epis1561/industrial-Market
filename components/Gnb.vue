@@ -16,7 +16,7 @@
             </nuxt-link>
             <nuxt-link to="/chats" class="gnb-item active" v-if="chat">
                 <div class="rela">
-                    <div class="chat-num" v-if="$auth.user.data.count_unread_message >= 0">{{  $auth.user.data.count_unread_message || 0 }}</div>
+                    <div class="chat-num" v-if="$auth.user.data.count_unread_message > 0">{{  $auth.user.data.count_unread_message || 0 }}</div>
                     <img src="/images/icon_chat_active.png" alt="" class="icon">
                     <p class="txt">
                         채팅
@@ -25,7 +25,7 @@
             </nuxt-link>
             <nuxt-link to="/chats" class="gnb-item" v-if="!chat">
                 <div class="rela">
-                    <div class="chat-num" v-if="$auth.user.data.count_unread_message >= 0">{{ $auth.user.data.count_unread_message || 0}}</div>
+                    <div class="chat-num" v-if="$auth.user.data.count_unread_message > 0">{{ $auth.user.data.count_unread_message || 0}}</div>
                     <img src="/images/icon_chat.png" alt="" class="icon">
                     <p class="txt">
                         채팅

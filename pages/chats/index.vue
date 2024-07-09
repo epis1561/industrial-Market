@@ -92,6 +92,7 @@ export default{
     methods: {
         getChattings(loadMore){
             this.$store.commit("setLoading",true);
+            console.log(this.$auth.user.data.id);
             if(this.$route.query.product_id){
                 this.form.product_id = this.$route.query.product_id;
             }
