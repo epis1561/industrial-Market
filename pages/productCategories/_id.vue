@@ -50,7 +50,7 @@
         </div>
     <pop-location :active="activeCities"  @change="showDetail"  @close="activeCities = false"/>
     <pop-like-location :active="activeLikeLocate" @close="activeLikeLocate=false" @showAll="showAll"  @showReal="showReal" @showPrefer="showPrefer" @detail="activeCities=true, activeLikeLocate=false"/>
-    <pop-order :active="activeOrder" @change="(data)=> {form.order_by=data; getProducts(), activeOrder=false}"/>
+    <pop-order :active="activeOrder" @change="(data)=> {form.order_by=data; getProducts(), activeOrder=false}" @close="activeOrder = false"/>
     </body>
 </template>
 <style>

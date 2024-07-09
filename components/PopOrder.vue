@@ -1,7 +1,7 @@
 <template>
     <div class="modal-container align_select" :class="{'active':active}">
         <div class="modal-select-wrap modal-wrap">
-            <i class="close-btn"></i>
+            <i class="close-btn" @click.prevent="close"></i>
             <div class="modal-title-wrap center">
                 <h3 class="modal-title">정렬</h3>
             </div>
@@ -60,6 +60,10 @@ order_by:null,
         sendOrder(){
             this.$emit("change",this.order_by);
         },
+
+        close(){
+            this.$emit("close");
+        }
     },
 
     computed: {

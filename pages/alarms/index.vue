@@ -17,8 +17,8 @@
                 </nuxt-link>
             </div>
         </header>
-        <!-- header End -->
 
+        <!-- header End -->
         <main class="subpage">
             <div class="top-tab-wrap col-group">
                 <a href="#" class="tab-item" @click.prevent="change(0)" :class="{'active':form.category==0}">
