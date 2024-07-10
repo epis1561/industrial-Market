@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            <div class="null-txt message-null-txt" v-if="!messages">
+            <div class="null-txt message-null-txt" v-if="messages.data.length==0">
                 <i class="icon"></i>
                 <strong>
                     산업마켓 채팅이 안전합니다!
@@ -344,7 +344,6 @@ export default {
 
     methods: {
         reportCreated(){
-
             console.log(this.isReport);
             this.isMore = false;
             this.isReport= false;
@@ -396,6 +395,7 @@ export default {
                 params: this.form.data(),
             }).then(response => {
                 this.messages = response.data;
+                console.log(this.messages);
                 this.checkNull();
 
             })

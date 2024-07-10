@@ -41,7 +41,7 @@
 
         <!-- gnb End -->
 
-<!--        <infinite-scroll :target-class="'.index'" @scroll="(page) => {form.page = page; getProducts(true)}" />-->
+        <infinite-scroll v-if="products.meta" :loading="loading" :form="form" :meta="products.meta" :target-contents="'.prod-list'" :target-scroll="'.index'" @paginate="(data) => {form.page = data; getProducts(true);}"/>
 
     </div>
 
@@ -80,7 +80,7 @@ export default {
 
             },
             isHome:true,
-
+            loading:false,
         }
 
     },
