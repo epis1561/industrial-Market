@@ -243,20 +243,7 @@ main { overflow: auto; }
 .prod-item .item-img { width: 112px; height: 112px; border-radius: 8px; overflow: hidden; position: relative; }
 .prod-item .item-img img { height: 100%; object-fit: cover; object-position: center; }
 
-.prod-item .item-img .ongoing{
-  background-color: rgba(4, 74, 186, 0.89);
-  width: 104px;
-  height: 31px;
-  color: #fff;
-  font-size: 13px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  bottom: 0;
-  border-radius: 0 0 8px 8px;
-}
+
 .prod-item .item-txt-wrap { width: calc( 100% - 128px ); position: relative; }
 
 .prod-item .item-txt-wrap * { line-height: 1.25; }

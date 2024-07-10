@@ -38,6 +38,12 @@
                         </div>
                     </div>
                     <div class="form-item row-group">
+                        <div class="item-default">닉네임</div>
+                        <div class="item-user">
+                            <input type="text" class="form-input disable" :value="user.nickname" v-if="user.nickname">
+                        </div>
+                    </div>
+                    <div class="form-item row-group">
                         <div class="item-default">이메일</div>
                         <div class="item-user">
                             <input type="text" class="form-input" v-model="form.email">

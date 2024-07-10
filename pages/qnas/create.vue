@@ -203,7 +203,7 @@
 import Form from "@/utils/Form";
 
 export default {
-
+    middleware: ["user"],
     data() {
         return {
             load: false,

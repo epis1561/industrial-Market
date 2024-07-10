@@ -71,3 +71,17 @@ i { font-family: 'xeicon'; font-style: normal; }
 .chat-prod .label .label1{
 
 }
+.prod-item .item-img .ongoing{
+    background-color: rgba(4, 74, 186, 0.89);
+    width: 112px;
+    height: 35px;
+    color: #fff;
+    font-size: 13px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    border-radius: 0 0 8px 8px;
+}
