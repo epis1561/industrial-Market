@@ -133,19 +133,19 @@ i { font-family: 'xeicon'; font-style: normal; }
 .sub-header-btn { width: 24px; height: 24px; background-repeat: no-repeat; background-position: center; background-size: contain; font-size: 24px; position: relative; }
 .sub-header-btn::after { content: ''; display: none; position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #ee2727; top: 0; right: 0;  }
 .sub-header-btn.active::after { display: block; }
-.sub-header .title { position: absolute; left: 50%; top: calc( 50% + 6px ); transform: translate(-50%, -50%); font-size: 17px; font-weight: bold; text-align: center; max-width: calc( 100% - 48px - 16px ); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sub-header .title { position: absolute; left: 50%; top: calc( 50% + 6px ); transform: translate(-50%, -50%); font-size: 18px; font-weight: bold; text-align: center; max-width: calc( 100% - 48px - 16px ); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* gnb */
 #gnb { position: fixed; bottom: 0; width: 100%; height: 64px; background: #fff; border-top: 1px solid #e4e4e4; z-index: 999; }
-#gnb .container { padding: 0; height: 100%; }
+#gnb .container { padding: 0; height: 100%; position: relative; }
 .gnb-wrap {  height: 100%; padding-bottom: 8px; }
 .gnb-item{
-    width: 100%; display: flex; flex-flow: column; justify-content: center; align-items: center; gap: 4px; }
-.gnb-item .icon { width: 20px; height: 20px; }
-.gnb-item .txt { font-size: 10px; font-weight: 500; }
+    width: 100%; display: flex; flex-flow: column; justify-content: center; align-items: center; gap: 6px; }
+.gnb-item .icon { width: 22px; height: 22px; }
+.gnb-item .txt { font-size: 12px; font-weight: 500; }
 .gnb-item.active .txt { color: #044aba; }
 .gnb-item .rela{
-    position: relative;
+    position: relative; text-align: center;
 }
 .gnb-item .chat-num{
     width: auto;
@@ -158,6 +158,9 @@ i { font-family: 'xeicon'; font-style: normal; }
     right: -16px;
     top: -5px;
 }
+.write-btn { position: absolute; bottom: 76px; right: 12px; width: 90px; height: 40px; display: flex; justify-content: center; align-items: center; gap: 4px; background: #044aba; border-radius: 20px; font-size: 14px; color: #fff; }
+.write-btn i { font-size: 16px; color: #fff; }
+
 /* search */
 #search { position: fixed; left: 0; top: 0; right: 0; bottom: 0; width: 100%; height: 100vh; background: #fff; border-top: 1px solid #e4e4e4; transform: translateX(100%); transition: .1s; z-index: 99; }
 #search.active { transform: translateX(0); }
