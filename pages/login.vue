@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="sns-login-wrap">
-                    <a :href="`${this.$store.state.domain}/openLoginPop/naver`" class="sns-login-item naver"  @click.prevent="ready"->
+                    <a :href="`${this.$store.state.domain}/openLoginPop/naver`" class="sns-login-item naver"  @click.prevent="ready">
                         <img src="/images/icon_naver.png" alt="" class="icon">
                         <p class="txt">
                             네이버 계정으로 로그인
