@@ -44,8 +44,8 @@
                     </div>
                 </div>
                 <div class="form-footer row-group">
-                    <nuxt-link :to="`/review/create${$auth.user.data.id}`" class="form-footer-btn submit-btn" v-if="!review.targetUserReview">후기 보내기</nuxt-link>
-                    <nuxt-link :to="`/review/${review.targetUserReview.id}`" class="form-footer-btn submit-btn" v-if="review.targetUserReview">내가 보낸 후기 보기</nuxt-link>
+                    <nuxt-link :to="`/review/create/?id=${review.user.id}`" class="form-footer-btn submit-btn" v-if="!review.targetUserReview">후기 보내기</nuxt-link>
+                    <nuxt-link :to="`/review/${review.targetUserReview.id}`" class="form-footer-btn submit-btn" v-if="review.targetUserReview && review.emotion==1">내가 보낸 후기 보기</nuxt-link>
                 </div>
             </div>
             </div>
@@ -98,7 +98,6 @@ export default {
 
     methods: {
         getReview(){
-            console.log(this.$auth.user.data.id);
             this.$axios.get("/api/reviews/" + this.$route.params.id)
                     .then(response => {
                         this.review = response.data.data;

@@ -32,6 +32,7 @@
                     <product :item="item" v-for="item in products.data" :key="item.id"/>
                 </div>
             </div>
+
         </main>
 
         <!-- gnb Start -->
@@ -99,6 +100,7 @@ export default {
                     return this.products.data = [...this.products.data, ...response.data.data];
                 }
                 this.products = response.data;
+                console.log(this.products.data);
 
             })
         },

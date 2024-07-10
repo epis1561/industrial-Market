@@ -36,6 +36,9 @@
                                     {{ product.format_short_type }}완료
                                 </div>
                                 <img :src="product.img ? product.img.url:''" alt="">
+                                <div class="ongoing" v-if="product.state_transaction ==1">
+                                    거래중
+                                </div>
                             </div>
                             <div class="item-txt-wrap">
                                 <p class="title">
@@ -72,8 +75,8 @@
                                 <nuxt-link :to="`/review/create/?id=${product.id}`" class="item-btn active"
                                            v-if="!product.reviewSend && product.state_transaction == 2">후기 보내기
                                 </nuxt-link>
-                                <nuxt-link :to="`/review/${product.reviewReceive.id}`" class="item-btn" v-if="product.reviewReceive && product.state_transaction == 2">받은 후기</nuxt-link>
-                                <nuxt-link :to="`/review/${product.reviewSend.id}`" class="item-btn" v-if="product.reviewSend && product.state_transaction == 2">보낸 후기</nuxt-link>
+                                <nuxt-link :to="`/review/${product.reviewReceive.id}`" class="item-btn" v-if="product.reviewReceive && product.state_transaction == 2 && product.reviewReceive.emotion==1">받은 후기</nuxt-link>
+                                <nuxt-link :to="`/review/${product.reviewSend.id}`" class="item-btn" v-if="product.reviewSend && product.state_transaction == 2 && product.reviewSend.emotion==1">보낸 후기</nuxt-link>
                             </div>
                             <button class="item-btn more-btn" @click="isReport=true,product_id = product.id">
                                 <i></i>
@@ -82,7 +85,7 @@
                     </div>
                 </div>
             </div>
-            <report :is-report="isReport" :type="reportable_type" :id="product_id" v-if="isReport" @created="leave"/>
+            <report :is-report="isReport" :type="reportable_type" :id="product_id" @created="leave"/>
         </main>
     </div>
 </template>

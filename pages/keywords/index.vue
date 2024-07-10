@@ -40,7 +40,7 @@
                             <p class="txt">
                                 {{ keyword.title }}
                             </p>
-                            <i class="del-btn" @click="closeKeyword(keyword.id)"></i>
+                            <i class="del-btn" @click="closeKeyword(keyword.id,keyword.title)"></i>
                         </div>
                     </div>
 
@@ -51,9 +51,9 @@
         <infinite-scroll v-if="keywords.meta" :loading="loading" :form="form" :meta="keywords.meta" :target-contents="'.keyword-wrap'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getKeywords(true);}"  />
 
         <!-- gnb Start -->
-        <div id="gnb">
-            <gnb/>
-        </div>
+
+            <gnb :mypage="isMy" />
+
         <!-- gnb End -->
 
         <!-- 등록 버튼 클릭 시 팝업 -->
@@ -66,7 +66,7 @@
                     <i class="icon"></i>
                 </div>
                 <p class="modal-alert-txt">
-                    'cnc' 키워드 알림을 삭제할까요?
+                    {{ keywordTitle }} 키워드 알림을 삭제할까요?
                 </p>
 
                 <div class="modal-footer col-group">
@@ -106,6 +106,8 @@ export default {
             isEnough:false,
             loading:false,
             id: null,
+            keywordTitle:"",
+            isMy:true,
         }
 
     },
@@ -156,9 +158,11 @@ export default {
                         return this.keywords.data = this.keywords.data.filter(data => data.id != this.id);
                     });
         },
-        closeKeyword(num){
+        closeKeyword(num,title){
             this.isClose=true;
             this.id=num;
+            this.keywordTitle=title;
+            console.log(this.keywordTitle)
             console.log(this.id);
         }
 

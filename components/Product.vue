@@ -2,6 +2,9 @@
     <nuxt-link :to="`/products/${item.id}`" class="prod-item col-group">
         <div class="item-img">
             <img :src="item.img ? item.img.url : ''" alt="">
+            <div class="ongoing" v-if="item.state_transaction ==1">
+                거래중
+            </div>
         </div>
         <div class="item-txt-wrap">
             <p class="title">
@@ -19,8 +22,11 @@
                 </p>
             </div>
             <div class="price">
-                <p :class="'label label' + item.type">
+                <p :class="'label label' + item.type" v-if="item.type !=0 && item.type==1">
                     {{ item.format_type }}
+                </p>
+                <p :class="'label label' + item.type" v-if="item.type ==2">
+                    {{ item.format_short_type }}
                 </p>
                 {{ item.format_price }}
             </div>

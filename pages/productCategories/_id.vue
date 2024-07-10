@@ -45,7 +45,7 @@
         </main>
 
         <!-- gnb Start -->
-            <gnb />
+            <gnb />ㄴ
         <!-- gnb End -->
         </div>
     <pop-location :active="activeCities"  @change="showDetail"  @close="activeCities = false"/>
@@ -114,7 +114,6 @@ export default {
             if(this.$route.query.word){
                 this.form.word =  this.$route.query.word;
             }
-            console.log(this.form.word);
             this.$store.commit("setLoading", true);
             this.$axios.get("/api/products", {
                 params: this.form.data(),
@@ -139,7 +138,7 @@ export default {
             var innerHeight = $('.index').innerHeight();
 
             var scrollHeight = $('.index').prop('scrollHeight');
-            console.log(this.form.page)
+
             if (scrollTop + innerHeight >= scrollHeight - 250) {
 
                 this.load = true;
@@ -154,21 +153,28 @@ export default {
             $('.index').scroll(this.loadMore);
         },
         showAll(){
+            console.log('전국발동')
             this.form.county_id= "";
             this.form.price = this.min_price;
             this.county_title = "";
+
             this.getProducts();
         },
         showReal(){
+            console.log('현재위치발동')
             this.form.county_id = this.$auth.user.data.county.id;
             this.form.price = "";
             this.county_title = this.$auth.user.data.county.title;
+
+
             this.getProducts();
         },
         showPrefer(){
+            console.log('선호발동')
             this.form.county_id = this.$auth.user.data.activeCounty.id;
             this.form.price = "";
             this.county_title = this.$auth.user.data.activeCounty.title;
+
             this.getProducts();
         },
         back() {

@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            <div class="null-txt message-null-txt" v-if="isNull==true">
+            <div class="null-txt message-null-txt" v-if="!messages">
                 <i class="icon"></i>
                 <strong>
                     산업마켓 채팅이 안전합니다!
@@ -58,7 +58,7 @@
                 피해가 있을 수 있으니 주의하세요!
             </div>
 
-            <div class="message-wrap container" v-else-if="isNull==false && messages">
+            <div class="message-wrap container" v-else-if="messages">
                 <div class="chat-area">
                     <div class="message-group">
                         <template v-for="(message,index) in messages.data">
@@ -71,12 +71,12 @@
                                 <div :class="`new-message-box col-group ${user.id != message.user.id ? 'receive' : 'send'}`">
                                     <div class="new-message-box-inner">
                                         <div class="new-message-image" v-if="message.imgs.length>0">
-                                            <img :src="img ? img.url : ''" v-for="img in message.imgs" :key="img.id"/>
+                                            <img :src="img ? img.url : ''" v-for="img in message.imgs" :key="img.id" @click="isBigImg=true"/>
                                         </div>
 
                                         <div class="new-message-box-content">
                                             <div class="profile-img">
-                                                <img :src="message.user.img ? message.user.img.url : ''" v-if="message.user.img" />
+                                                <img :src="message.user.img ? message.user.img.url : ''" v-if="message.user.img"/>
                                             </div>
                                             <div class="new-message col-group">
                                                 <div class="new-message-txt" v-if="message.description">
@@ -217,7 +217,7 @@
             <!-- //채팅방 나가기 버튼 클릭 시 팝업 -->
 
             <!-- 신고하기 버튼 클릭시 나타나는 팝업 -->
-            <report :is-report="isReport" :type="reportable_type" :id="chat.id" v-if="chat" @created="reportCreated"/>
+            <report :is-report="isReport" :type="reportable_type" :id="chat.id" v-if="chat" @created="reportCreated" @close="close"/>
             <!-- //신고하기 버튼 클릭시 나타나는 팝업 -->
 
             <!-- 알림끄기/켜기 버튼 클릭 시 팝업 -->
@@ -251,6 +251,20 @@
 
             </div>
             <!-- //채팅 이미지 버튼 클릭시 나타나는 팝업 -->
+
+            <div class="modal-container modal_slide" :class="{active:isBigImg}" v-if="chat">
+                <div class="modal-wrap modal-slide-wrap">
+                    <i class="xi-close close-btn" @click="isBigImg=false"></i>
+                    <div class="swiper slide_popup">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide" v-for="img in chat.latestMessage.imgs" :key="img.id" >
+                                <img :src="img.url ? img.url : ''"/>
+                            </div>
+                        </div>
+                        <div class="swiper-pagination slide-popup-pagination"></div>
+                    </div>
+                </div>
+            </div>
         </template>
 
     </div>
@@ -308,7 +322,7 @@ export default {
             isOut: false,
             isReport: false,
             reportable_type: "Chat",
-
+            isBigImg:"",
             alarmText: "",
             isAlarm:"",
             isAlarmActive:false,
@@ -330,9 +344,10 @@ export default {
 
     methods: {
         reportCreated(){
-            this.isReport = false;
-            this.isMore = false;
 
+            console.log(this.isReport);
+            this.isMore = false;
+            this.isReport= false;
             this.$store.commit("setPop", {
                 description: "신고가 접수되었습니다."
             });
@@ -366,7 +381,7 @@ export default {
             this.$axios.get("/api/chats/" + this.$route.params.id, {}).then(response => {
                 this.chat = response.data.data;
                 this.alarmForm.alarm=this.chat.alarm;
-                console.log(this.alarmForm.alarm);
+                console.log('coxld',this.chat);
                 if (this.chat.alarm == 1) {
                     this.isAlarm = "알림끄기";
                 } else {
@@ -469,6 +484,9 @@ export default {
             var subpage = document.querySelector('.subpage');
 
             subpage.scrollTop = subpage.scrollHeight;
+        },
+        close(){
+            this.isReport=false;
         }
     },
 
@@ -499,6 +517,7 @@ export default {
         this.getChat();
         this.getMessage();
         this.checkNull();
+
     }
 }
 </script>

@@ -9,8 +9,11 @@
                 <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
                     <img src="/images/icon_prev.png" alt="">
                 </a>
-                <h2 class="title">
+                <h2 class="title"  v-if="product && $auth.user.data.id == product.user.id && (product.type == 0 || product.type == 2)">
                     구매자 선택
+                </h2>
+                <h2 class="title" v-if="product && $auth.user.data.id == product.user.id && product.type == 1">
+                    판매자 선택
                 </h2>
             </div>
         </header>
@@ -37,9 +40,9 @@
             </div>
 
             <div class="chat-list" v-if="chats">
-                <label class="chat-item col-group" :id="'buyer_' + buyer.id" v-for="buyer in chats.data" :key="buyer.id">
-                    <input type="radio" class="form-radio" :id="'buyer_' + buyer.id" name="buyer" v-if="buyer.asker && buyer.asker.id != user.id" :value="buyer.asker.id" v-model="form.buyer_id" @click="console">
-                    <input type="radio" class="form-radio" :id="'buyer_' + buyer.id" name="buyer" v-if="buyer.owner && buyer.owner.id != user.id" :value="buyer.owner.id" v-model="form.buyer_id" @click="console">
+                <label class="chat-item col-group" :id="'buyer_' + buyer.id" v-for="buyer in chats.data" :key="buyer.id" v-if="chats">
+                    <input type="radio" class="form-radio" :id="'buyer_' + buyer.id" name="buyer" v-if="buyer.asker && buyer.asker.id != user.id" :value="buyer.asker.id" v-model="form.buyer_id">
+                    <input type="radio" class="form-radio" :id="'buyer_' + buyer.id" name="buyer" v-if="buyer.owner && buyer.owner.id != user.id" :value="buyer.owner.id" v-model="form.buyer_id">
                     <div class="checked-item col-group">
                         <div class="icon">
                             <i class="xi-check"></i>
@@ -54,6 +57,7 @@
                     <div class="item-txt-wrap row-group">
                         <div class="title-group col-group">
                             <p class="name" v-if="buyer.asker.id != user.id">
+                                {{ buyer.asker.nickname || buyer.asker.name }}
                             </p>
                             <p class="name" v-if="buyer.owner.id != user.id">
                                 {{ buyer.owner.nickname || buyer.owner.name }}
@@ -73,9 +77,10 @@
 
             <div class="buyer-select-footer">
                 <div class="container row-group">
-                    <p class="txt">
-                        다른 곳에서 판매했어요
-                    </p>
+                        <p class="txt" @click="otherStore">
+                            다른 곳에서 판매했어요
+                        </p>
+
                     <button class="modal-footer-btn submit-btn" @click="store">
                         거래완료
                     </button>
@@ -313,18 +318,28 @@ export default {
             },
         getChats(){
             this.$store.commit("setLoading", true);
+            console.log(this.form.product_id);
             this.$axios.get("/api/chats",{
                 params: this.form.data(),
             }).then(response => {
                this.chats = response.data;
-                console.log(this.chats.data);
+               this.chats.data = this.chats.data.filter(data =>{
+                   return data.latestMessage.length!=0;
+               } )
+               console.log(this.chats);
             });
         },
         store(){
+            this.$store.commit("setLoading", true);
+            this.form.patch("/api/products/updateStateTransaction/" + this.$route.query.id,{
 
-            if(this.form.buyer_id ==""){
-                return
-            }
+            }).then(response =>{
+                console.log('성공했습니다');
+                this.$router.push(`/mypage/products/indexBySell?id=${2}`)
+            })
+        },
+        otherStore(){
+            this.form.buyer_id="";
             this.$store.commit("setLoading", true);
             this.form.patch("/api/products/updateStateTransaction/" + this.$route.query.id,{
 
@@ -333,7 +348,6 @@ export default {
                 this.$router.push(`/products/${this.$route.query.id}`)
             })
         },
-console(){console.log(this.form.buyer_id)}
 
     },
 

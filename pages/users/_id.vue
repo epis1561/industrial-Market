@@ -21,7 +21,7 @@
                 <div class="product-detail-section user-detail-top">
                     <div class="user-profile-wrap">
                         <div class="profile-img">
-                            <img :src="user.img.url || '/images/replace-user.png'" alt="">
+                            <img :src="user.img ? user.img.url : '/images/profile_null.png'" alt="">
                         </div>
                         <div class="title-wrap col-group">
                             <p class="title">
@@ -30,7 +30,7 @@
                             <button class="like-btn" :class="{'active':user.like==1}" @click="toggleLike"></button>
                         </div>
                         <p class="txt">
-                            {{ user.activeCounty || user.city.title + ' ' + user.county.title }}
+                            {{ user.activeCounty.city.title + ' ' + user.activeCounty.title || user.city.title + ' ' + user.county.title }}
                         </p>
                     </div>
                     <div class="container">
@@ -83,10 +83,13 @@
                         </nuxt-link>
                     </h4>
                     <div class="prod-list prod-half-list col-group">
-                        <nuxt-link :to="`/sell/${product.user.id}`" class="prod-item row-group"
+                        <nuxt-link :to="`/products/${product.id}`" class="prod-item row-group"
                                    v-for="(product,index) in products.data" :key="product.id" v-if="index < 4">
                             <div class="item-img">
                                 <img :src="product.img ? product.img.url : ''" alt="">
+                                <div class="ongoing" v-if="product.state_transaction ==1">
+                                    거래중
+                                </div>
                             </div>
                             <div class="item-txt-wrap">
                                 <p class="title">
@@ -259,7 +262,6 @@ export default {
                 }
                 this.user = response.data.data;
                 this.getManners();
-                console.log('유저데이터', this.user);
 
             })
         },

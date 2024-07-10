@@ -63,6 +63,11 @@
                 </p>
             </nuxt-link>
         </div>
+        <div class="write_btn">
+            <nuxt-link to="/products/create">
+                <i class="xi-plus"></i>글쓰기
+            </nuxt-link>
+        </div>
     </div>
     </div>
 </template>

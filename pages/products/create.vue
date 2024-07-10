@@ -30,6 +30,7 @@
                                 <div class="file-preview-scroll-wrap">
                                     <div class="file-preview-wrap col-group">
                                         <input-images :multiple="true" @change="(data) => {form.imgs = data;}"
+                                                      @removed="(data) => {form.imgs_remove_ids = data}"
                                                       v-if="activeFiles" :default="product ? product.imgs:[]"/>
                                     </div>
 
@@ -48,7 +49,7 @@
                                 {{ productCategory.title }}
                             </button>
                         </div>
-                        <div class="m-input-error" v-if="!form.product_category_id && nullCategory">카테고리를 선택해주세요.</div>
+<!--                        <div class="m-input-error" v-if="!form.product_category_id && nullCategory">카테고리를 선택해주세요.</div>-->
                     </div>
                     <div class="form-item row-group">
                         <div class="item-default">
@@ -68,24 +69,24 @@
                             </button>
                             <button class="category" :class="{'active':form.type == 1}" @click="form.type=1">찾습니다
                             </button>
-                            <button class="category" :class="{'active':form.type == 2}" @click="form.type=2">나눔합니다
+                            <button class="category" :class="{'active':form.type == 2}" @click="form.type=2, price=0">나눔합니다
                             </button>
                         </div>
                         <div class="item-user row-group">
                             <div class="form-input-wrap col-group">
                                 <input type="number" class="form-input" placeholder="가격을 입력해주세요" v-model="price"
-                                       v-if="form.type == 2" disabled>
-                                <input type="number" class="form-input" placeholder="가격을 입력해주세요" v-model="price" v-else>
-                                <p class="sticker">만원</p>
+                                       v-if="form.offer_price == 1 && form.type !=2" disabled @wheel="preventScroll">
+                                <input type="number" class="form-input" placeholder="가격을 입력해주세요" v-model="price" v-if="form.offer_price == 0 && form.type !=2" @wheel="preventScroll">
+                                <p class="sticker" v-if="form.type !=2">만원</p>
                             </div>
                             <div class="m-input-checkbox type01" v-if="form.type!=2">
                                 <input type="checkbox" id="check1">
                                 <label for="check1" @click="offer">가격 제안 받기</label>
 
                             </div>
-                            <div class="m-input-error" v-if="!form.price && nullPrice && this.form.type !=2">가격을
-                                입력해주세요.
-                            </div>
+<!--                            <div class="m-input-error" v-if="!form.price && nullPrice && this.form.type !=2">가격을-->
+<!--                                입력해주세요.-->
+<!--                            </div>-->
                         </div>
                     </div>
                     <div class="form-item row-group">
@@ -111,10 +112,13 @@
                         <div class="item-user">
                             <div class="form-input-wrap relative">
                                 <input type="text" class="form-input modal_addr_btn" placeholder="위치 선택" readonly
-                                       @click="isMapOpen" :value="fullAddress">
-                                <div class="m-input-error" v-if="!fullAddress && nullLocation">희망장소를 선택해주세요.</div>
+                                       @click="isMapOpen" :value="form.address_detail">
+<!--                                <div class="m-input-error" v-if="!fullAddress && nullLocation">희망장소를 선택해주세요.</div>-->
                                 <i class="sticker" @click="isMapOpen"></i>
                             </div>
+<!--                            <div class="m-input-error" v-if="form.county&&!form.address_detail">-->
+<!--                               상세주소를 입력해주세요.-->
+<!--                            </div>-->
                         </div>
                     </div>
                     <div class="form-item row-group">
@@ -127,11 +131,11 @@
                         </div>
                         <div class="item-user">
                             <input type="text" class="form-input" placeholder="컴마(,)로 구분 / 최대 15자 / 5개까지 등록가능"
-                                   v-model="form.keywords_origin">
+                                   v-model="form.keywords_origin" @input="checkKeywords">
                         </div>
                     </div>
                     <div class="form-footer col-group">
-                        <button class="form-footer-btn submit-btn" :class="{'disable':!checkInputAll}" @click="store">
+                        <button class="form-footer-btn submit-btn" :class="{'disable':!checkInputAll}" :disabled="!checkInputAll" @click="store">
                             <!-- 필수 입력란 모두 입력시 disable 클래스 삭제 -->
                             상품 등록
                         </button>
@@ -212,29 +216,31 @@
 .m-input-images.type01 .m-files {
     flex-wrap: nowrap;
     gap: 8px;
+    overflow-x: auto;
 }
 
 .m-input-images.type01 .m-file-wrap {
     position: relative;
     padding: 0;
+    flex: 0 0 auto;
 }
 
 .m-input-images.type01 .m-file {
     background-size: cover;
-
-}
-
-.m-input-images.type01 .m-file {
     width: 95px !important;
     height: 95px !important;
     border-radius: 10px !important;
+    flex: 0 0 auto;
 }
 
 .file-preview-wrap .xi-close {
     border-radius: 4px;
+    width: 16px;
     top: 3px;
 }
-
+.file-preview-wrap::-webkit-scrollbar{
+    display: none;
+}
 .m-file-wrap:first-child .file-preview-label {
     display: block;
 }
@@ -249,6 +255,16 @@
 .file-upload-wrap {
     align-items: center;
 }
+.file-preview-scroll-wrap{
+    height: 95px;
+}
+.file-preview-wrap{
+    height: 95px;
+}
+.file-preview-label{
+    top: 4px;
+}
+
 </style>
 <script>
 
@@ -271,6 +287,7 @@ export default {
         return {
             form: new Form(this.$axios, {
                 imgs: [],
+                imgs_remove_ids: [],
                 country: "",
                 city: "",
                 county: "",
@@ -280,18 +297,12 @@ export default {
                 product_category_id: "",
                 title: "",
                 type: 0,
-                description: "",
-                price: "",
+                description:"",
+                price:"",
                 keywords_origin: "",
                 lat: "",
                 lon: "",
-                real_lat: "",
-                real_lon: "",
-                real_country: "",
-                real_city: "",
-                real_county: "",
-                realTown: "",
-                realVillage: "",
+
                 offer_price: 0,
             }),
             mapNull: false,
@@ -317,29 +328,32 @@ export default {
 
     methods: {
         async getMap() {
+
             if (this.$route.query.id) {
                 var getlat = this.product.lat;
                 var getlon = this.product.lon;
                 this.form.lat = this.product.lat;
                 this.form.lon = this.product.lon;
-                console.log(getlat);
-                console.log(getlon);
-                console.log(this.form.lat);
-                console.log(this.form.lon);
+
             } else {
                 if (!this.coords || (!this.coords.x && !this.coords.y)) {
                     var getlat = 37.49855955;
                     var getlon = 127.0444754;
+                    // 그냥 lat lon이 빌수밖에없음 real
+                    this.form.lat = "";
+                    this.form.lon = "";
+
                 } else {
                     var getlat = this.$store.state.coords.y;
                     var getlon = this.$store.state.coords.x;
+                    this.form.lat = this.$store.state.coords.y;
+                    this.form.lon = this.$store.state.coords.x;
+                    this.form.real_lat = this.$store.state.coords.y;
+                    this.form.real_lon = this.$store.state.coords.x;
                 }
             }
-            this.form.lat = this.$store.state.coords.y;
-            this.form.lon = this.$store.state.coords.x;
 
-            this.form.real_lat = this.$store.state.coords.y;
-            this.form.real_lon = this.$store.state.coords.x;
+
 
             // Wait for Google Maps API to be ready
             await new Promise((resolve) => {
@@ -368,25 +382,48 @@ export default {
             });
             const geocodeResult2 = await reverseGeocode(getlat, getlon);
             this.address = geocodeResult2.address_components;
+            if (!this.coords || (!this.coords.x && !this.coords.y)){
             this.address.forEach(component => {
                 const types = component.types;
                 if (types.includes("administrative_area_level_1")) {
-                    this.form.real_city = component.long_name;
+                    // this.form.real_city = component.long_name;
                     this.getCity = component.long_name;
                 } else if (types.includes("locality") || types.includes("sublocality_level_1")) {
-                    this.form.real_county = component.long_name;
+                    // this.form.real_county = component.long_name;
                     this.getCounty = component.long_name;
                 } else if (types.includes("sublocality_level_2")) {
-                    this.form.real_town = component.long_name;
+                    // this.form.real_town = component.long_name;
                     this.getTown = component.long_name;
                 } else if (types.includes("sublocality_level_3") || types.includes("sublocality_level_4")) {
-                    this.form.real_town2 = component.long_name;
+                    // this.form.real_town2 = component.long_name;
                     this.getTown2 = component.long_name;
                 } else if (types.includes("country")) {
-                    this.form.real_country = component.short_name.toUpperCase();
+                    // this.form.real_country = component.short_name.toUpperCase();
                     this.getCountry = component.short_name.toUpperCase();
                 }
             });
+            }
+            else{
+                this.address.forEach(component => {
+                    const types = component.types;
+                    if (types.includes("administrative_area_level_1")) {
+                        this.form.real_city = component.long_name;
+                        this.getCity = component.long_name;
+                    } else if (types.includes("locality") || types.includes("sublocality_level_1")) {
+                        this.form.real_county = component.long_name;
+                        this.getCounty = component.long_name;
+                    } else if (types.includes("sublocality_level_2")) {
+                        this.form.real_town = component.long_name;
+                        this.getTown = component.long_name;
+                    } else if (types.includes("sublocality_level_3") || types.includes("sublocality_level_4")) {
+                        this.form.real_town2 = component.long_name;
+                        this.getTown2 = component.long_name;
+                    } else if (types.includes("country")) {
+                         this.form.real_country = component.short_name.toUpperCase();
+                        this.getCountry = component.short_name.toUpperCase();
+                    }
+                });
+            }
 
 
             map.addListener('drag', async () => {
@@ -450,7 +487,7 @@ export default {
 
                 // Extract address components
                 this.address = geocodeResult.address_components;
-                console.log(this.address)
+
 
                 // Iterate through address components to extract city, county, and town
             });
@@ -497,6 +534,7 @@ export default {
             }
         },
         submitMap() {
+
             let country = "";
             let city = "";
             let county = "";
@@ -548,10 +586,12 @@ export default {
                     .then(response => {
                         this.product = response.data.data;
                         console.log(this.product);
+                        console.log(this.product.price / 10000);
                         this.form.title = this.product.title;
                         this.form.product_category_id = this.product.product_category_id;
                         this.form.type = this.product.type;
-                        this.price = this.product.price;
+                        this.form.price = this.product.price / 10000;
+                        this.price = this.product.price / 10000;
                         this.form.description = this.product.description;
                         this.form.address_detail = this.product.address_detail;
                         this.form.keywords_origin = this.product.keywords_origin;
@@ -571,7 +611,8 @@ export default {
         },
         store() {
             if (this.$route.query.id) {
-
+                this.form.price = this.price * 10000;
+                console.log(this.form.price,'수정금액')
                 this.$store.commit("setLoading", true);
                 return this.form.patch("/api/products/" + this.$route.query.id)
 
@@ -582,6 +623,8 @@ export default {
                             this.isError();
                         });
             } else {
+                this.form.price = this.price * 10000;
+                console.log(this.form.price,'등록금액')
                 this.$store.commit("setLoading", true);
                 this.form.post("/api/products").then(response => {
 
@@ -598,10 +641,11 @@ export default {
         offer() {
             if (this.form.offer_price == 0) {
                 this.form.offer_price = 1
-                console.log(this.form.offer_price);
+                this.price = 0
+
             } else {
                 this.form.offer_price = 0
-                console.log(this.form.offer_price);
+
             }
 
         },
@@ -632,13 +676,22 @@ export default {
             this.isMap = true;
 
         },
-
+        checkKeywords(){
+            if (this.form.keywords_origin.includes(' ')){
+                this.form.keywords_origin = this.form.keywords_origin.replace(/\s/g, '');
+            }
+        },
+        preventScroll(event){
+            if (event.deltaY !== 0) {
+                event.preventDefault();
+            }
+        }
 
     },
 
     computed: {
         checkInputAll() {
-            let exceptColumns = ["town", "village", "keywords_origin", "realTown", "realVillage"];
+            let exceptColumns = ["town", "village", "keywords_origin", "imgs_remove_ids"];
 
             let keys = Object.keys(this.form.data());
 
@@ -650,20 +703,20 @@ export default {
 
                 if (Array.isArray(this.form[key]) && this.form[key].length === 0) {
                     result = false;
-
                     return true;
                 }
 
                 if (this.form[key] === "") {
+
                     result = false;
-                    console.log(key);
                     return true;
                 }
-
+                console.log(this.form.data());
                 return false;
             });
-
+            console.log(result);
             return result;
+
         },
 
         coords() {
@@ -681,16 +734,16 @@ export default {
             if (this.form.city || this.form.county || this.form.town || this.form.village) {
                 if (this.form.city)
                     result += this.form.city;
-                console.log(result);
+
                 if (this.form.county)
                     result += ` ${this.form.county}`;
-                console.log(result);
+
                 if (this.form.town)
                     result += ` ${this.form.town}`;
-                console.log(result);
+
                 if (this.form.village)
                     result += ` ${this.form.village}`;
-                console.log(result);
+
                 return result;
             }
 
@@ -711,12 +764,12 @@ export default {
         },
         "price": {
             handler() {
-                // if(this.price ==0){
-                //     this.form.type = 2
-                // }
+
+                    this.form.price = this.price;
+
                 // 값이 정수형인지 판단 후 정수형이면 * 10000
                 // getproduct쪽에서 price를 parseInt로 해서 정수형으로 변환해주기. 숫자인지를 확실히 하는것.
-                this.form.price = this.price * 10000;
+
             }
         },
 
@@ -734,7 +787,6 @@ export default {
 
             return this.load = true;
         }
-        console.log(this.$auth.user.data);
     },
 
 };

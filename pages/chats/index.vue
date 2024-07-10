@@ -11,7 +11,7 @@
                 <h2 class="title">
                     채팅
                 </h2>
-                <button class="sub-header-btn search-btn">
+                <button class="sub-header-btn search-btn" :class="{'active' : $auth.user.data.count_unread_message!=0}" @click="$router.push('/alarms')">
                     <img src="/images/icon_bell.png" alt="">
                 </button>
             </div>
@@ -39,9 +39,10 @@
                 </div>
 
                 <div class="chat-list" v-if="chattings">
-                    <chat :item=chatting v-for="chatting in chattings.data" :key="chatting.id" />
+                    <chat :new="$auth.user.data" :item=chatting v-for="chatting in chattings.data" :key="chatting.id" />
                 </div>
             </div>
+
         </main>
 
 
@@ -224,6 +225,7 @@ export default{
     mounted() {
         this.getChattings(false);
         this.scroll();
+        console.log(this.$auth.user.data);
     }
 };
 </script>

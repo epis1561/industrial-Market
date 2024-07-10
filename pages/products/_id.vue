@@ -4,7 +4,7 @@
     <div id="wrap">
 
         <!-- header Start -->
-        <header id="header" class="detail-header" v-if="product">
+        <header id="header" class="detail-header" v-if="product" :class="{'active':isScroll}">
             <div class="container col-group">
                 <div class="sub-header-btn-wrap col-group">
                     <a href="javascript:window.history.back();" class="sub-header-btn prev-btn"></a>
@@ -44,7 +44,7 @@
                     <div class="detail-txt-wrap">
 
                         <!-- 본인의 상품 확인 시 보이는 섹션 -->
-                                              <div class="detail-status-select col-group" v-if="this.$auth.user.data.id == product.user.id" @click="isSelect = true">
+                                              <div class="detail-status-select col-group" v-if="this.$auth.user.data.id == product.user.id"  @click="isSelect = true">
                                                   <div class="txt">
                                                       {{ product.format_state }}
                                                   </div>
@@ -84,7 +84,7 @@
 
                         </h2>
                         <p class="detail-txt">
-                            <editor-content :description="this.product.description"/>
+                            <editor-content :description="product.description"/>
                         </p>
                         <div class="detail-prod-list col-group">
                             <div class="detail-prod-item" v-for="item in this.product.keywords" :key="item.id">
@@ -93,7 +93,7 @@
                         </div>
                     </div>
 
-                    <h4 class="product-detail-title col-group" @click="console">
+                    <h4 class="product-detail-title col-group">
                         희망 거래 장소
                         <a href="" class="more-btn col-group" @click.prevent="showMap=true">
                             {{ product.address_detail }} <i></i>
@@ -121,7 +121,7 @@
                 <div class="product-detail-section container">
                     <div class="detail-profile-wrap col-group">
                         <button class="like-btn" :class="{'active':product.user.like==1}"
-                                @click="toggleLike(product,'User')"></button>
+                                @click="toggleLike(product,'User')" v-if="product.user.id !=$auth.user.data.id"></button>
                         <div class="profile-img">
                             <img :src="product.img ? product.img.url : ''" alt="" v-if="product.img">
                         </div>
@@ -346,7 +346,7 @@
         </div>
         <!-- //헤더 버튼 클릭시 나타나는 팝업 -->
         <!--        셀렉트버튼 클릭시 나오는 팝업     -->
-        <div class="modal-container modal_chat modal_status" :class="{'active':isSelect}" v-if="product">
+        <div class="modal-container modal_chat modal_status" :class="{'active': isSelect }" v-if="product">
             <div class="modal-select-wrap modal-wrap">
 
                 <div class="chat-more-option-wrap row-group">
@@ -354,7 +354,7 @@
                         <i class="icon"></i>
                         {{ product.format_short_type }}중
                     </button>
-                    <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1" @click="isTrade=true">
+                    <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1" @click="trading(1)">
                         <i class="icon"></i>
                         거래중
                     </button>
@@ -375,7 +375,7 @@
         </div>
         <!--        셀렉트버튼 클릭시 나오는 팝업     -->
         <!-- 거래중 버튼 클릭 시 팝업 -->
-        <div class="modal-container modal_trans" :class="{'active':isTrade}">
+        <div class="modal-container modal_trans" :class="{'active':isTrade && this.form.state_transaction==2}">
             <div class="modal-wrap modal-alert">
                 <div class="modal-title-wrap">
                     <i class="icon blue"></i>
@@ -407,6 +407,10 @@
     }
     .modal_addr .map-wrap{
         height: 100%;
+    }
+    .detail-txt .ql-editor > *{
+        line-height: 1.5;
+        padding: 0;
     }
 </style>
 <script>
@@ -457,6 +461,7 @@ export default {
             isTrade: false,
             showMap: false,
             isSelect: false,
+            isScroll:false,
             products: {
                 data: [],
                 meta: {
@@ -525,6 +530,7 @@ export default {
                 this.count_like = response.data.data.count_like;
                 this.similarForm.product_category_id = response.data.data.product_category_id;
                 this.similarForm.except_user_id = response.data.data.user.id;
+                this.form.state_transaction = response.data.data.state_transaction;
                 console.log(response.data.data.user.id);
                 console.log(this.similarForm.except_user_id);
                 this.getSimilarProducts();
@@ -610,7 +616,6 @@ export default {
             var scrollHeight = $('.index').prop('scrollHeight');
 
             if (scrollTop + innerHeight >= scrollHeight - 250) {
-
                 this.load = true;
                 if (this.form.page < this.products.meta.last_page) {
                     this.form.page += 1;
@@ -764,7 +769,7 @@ export default {
             })
         },
         changeTransaction(stateTransaction) {
-            this.isMore = false;
+
             this.isTrade = false;
             this.form.state_transaction = stateTransaction;
             if (stateTransaction == 2) {
@@ -811,10 +816,31 @@ export default {
 
                     })
         },
-       console(){
-            console.log(this.otherProducts);
-       }
+        handleScroll(){
+            // 스크롤 위치가 일정 값 이상이면 isScroll을 true로 설정
+            if (window.scrollY > 100) { // 예시로 100px 이상 스크롤 시 true로 설정
+                this.isScroll = true;
+            } else {
+                this.isScroll = false;
+            }
+        },
+        trading(num) {
+            if (this.form.state_transaction == 2) {
+                this.isTrade = true;
+            }
+            else{
+                this.isSelect=false;
+                this.form.state_transaction = 1;
+                this.form.patch("/api/products/updateStateTransaction/" + this.$route.params.id).then(response => {
+
+                    this.product = response.data;
+
+                })
+            }
+
+        },
     },
+
 
     computed: {
 
@@ -835,7 +861,8 @@ export default {
             }
 
             return items.join(' ');
-        }
+        },
+
 
 
 
@@ -860,6 +887,7 @@ watch:{
         this.getRandomProducts();
         this.getReportCategories();
         this.getSimilarProducts();
+        window.addEventListener('scroll', this.handleScroll);
 
     }
 };

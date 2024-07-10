@@ -1,7 +1,7 @@
 <template>
     <div class="modal-container modal_report" :class="{'active':isReport}">
         <div class="modal-wrap">
-            <i class="xi-close close-btn" @click="isReport=false"></i>
+            <i class="xi-close close-btn" @click="close"></i>
             <div class="modal-title-wrap border">
                 <p class="modal-title">
                     신고하기
@@ -76,6 +76,9 @@ props:["isReport","type","id"],
 
                 this.reportCategories = response.data;
             })
+        },
+        close(){
+          this.$emit('close');
         },
         enable(num){
             if (num === 5) {

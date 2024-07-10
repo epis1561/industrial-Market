@@ -20,7 +20,7 @@
             <div class="container">
                 <div class="form-wrap row-group">
 
-                    <input-avatar :multiple="0" @change="(data) => {form.img = data;}" :default="user.img ? { url: user.img.url } : { url: '/images/profile_null.png' }"/>
+                    <input-avatar :multiple="0" @change="(data) => {form.img = data;}" :default="$auth.user.data.img ? { url: $auth.user.data.img.url } : { url: '/images/profile_null.png' }"/>
 
                     <div class="form-item row-group">
                         <div class="item-default" @click="console">닉네임</div>

@@ -3,7 +3,7 @@
         <div class="modal-select-wrap modal-wrap">
             <i class="close-btn" @click="close"></i>
             <div class="modal-title-wrap center">
-                <h3 class="modal-title">지역</h3>
+                <h3 class="modal-title" @click="console">지역</h3>
             </div>
 
             <div class="form-label-wrap row-group">
@@ -75,12 +75,15 @@ props:["active"],
     methods: {
         show(){
             if(this.selectedLocation=== "전국"){
+                console.log('발동');
                 this.$emit('showAll');
             }
             else if(this.selectedLocation === "내위치"){
+
                 this.$emit('showReal');
             }
             else if(this.selectedLocation === "선호지역"){
+
                 this.$emit('showPrefer');
             }
         },
@@ -91,6 +94,9 @@ props:["active"],
         },
         close(){
           this.$emit('close');
+        },
+        console(){
+            console.log(this.selectedLocation);
         }
 
 

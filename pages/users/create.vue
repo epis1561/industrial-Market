@@ -4,7 +4,7 @@
         <!-- header Start -->
         <header id="header" class="sub-header">
             <div class="container col-group">
-                <a href="#" class="sub-header-btn prev-btn" @click.prevent="$router.back">
+                <a href="#" class="sub-header-btn prev-btn" @click.prevent="$router.back()">
                     <img src="/images/icon_prev.png" alt="">
                 </a>
             </div>
