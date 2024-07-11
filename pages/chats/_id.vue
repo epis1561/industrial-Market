@@ -10,7 +10,7 @@
                     <img src="/images/icon_prev.png" alt="">
                 </a>
                 <h2 class="title">
-                    {{ targetUser.name }}
+                    {{ targetUser ? targetUser.name : '알 수 없는 사용자' }}
                 </h2>
                 <div class="header-menu-wrap col-group">
 
