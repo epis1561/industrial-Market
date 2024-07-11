@@ -38,8 +38,7 @@
                         <div class="item-default">문의내용</div>
                         <div class="item-user">
                             <div class="form-textarea-wrap">
-                                <textarea name="" id="" maxlength="1000" class="form-textarea"
-                                          v-model="form.description"></textarea>
+                                <textarea name="" id="" maxlength="1000" class="form-textarea" v-model="form.description"></textarea>
                                 <p class="sticker">
                                     <span>{{ form.description.length }}</span> / 1000
                                 </p>
@@ -62,9 +61,7 @@
 
                                 <div class="file-preview-scroll-wrap">
                                     <div class="file-preview-wrap col-group">
-                                        <input-images :max="max" :multiple="true" :default="qna ? qna.imgs : []"
-                                                      @removed="(data) => {form.imgs_remove_ids = data;}"
-                                                      @change="(data) => {form.imgs = data;}"/>
+                                        <input-images :max="max" :multiple="true" :default="qna ? qna.imgs : []" @removed="(data) => {form.imgs_remove_ids = data;}" @change="(data) => {form.imgs = data;}"/>
                                         <!--                                        <div class="file-preview">-->
                                         <!--                                            <img class="file-preview-img" src="/images/biz_program_01.png">-->
                                         <!--                                            <i class="xi-close"></i>-->
@@ -91,10 +88,9 @@
                         </p>
                     </div>
                     <div class="form-footer">
-
-                            <button class="form-footer-btn submit-btn" :class="{'disabled': enough==false}" :disabled="enough==false" @click="isCreate=true">
-                                문의등록
-                            </button>
+                        <button class="form-footer-btn submit-btn" :class="{'disabled': !checkInputAll}" :disabled="checkInputAll == false" @click="isCreate=true">
+                            문의등록
+                        </button>
                     </div>
                 </div>
                 <div class="modal-container modal_trans" :class="{'active':isCreate}">
@@ -240,9 +236,11 @@ export default {
     },
 
     methods: {
+
+
+
         store() {
             this.$store.commit("setLoading", true);
-
 
             if (this.$route.query.id)
                 return this.form.patch("/api/qnas/" + this.$route.query.id)
@@ -256,7 +254,7 @@ export default {
             });
         },
 
-        getQna() {
+        getQnas() {
             this.$store.commit("setLoading", true);
 
             this.$axios.get("/api/qnas/" + this.$route.query.id, {})
@@ -274,36 +272,43 @@ export default {
 
     computed: {
 
+        checkInputAll() {
+            let exceptColumns = ["imgs", "imgs_remove_ids"];
 
+            let keys = Object.keys(this.form.data());
+
+            let result = true;
+
+            keys.some(key => {
+                if (exceptColumns.includes(key))
+                    return false;
+
+                if (Array.isArray(this.form[key]) && this.form[key].length === 0) {
+                    result = false;
+                    return true;
+                }
+
+                if (this.form[key] === "") {
+                    result = false;
+
+                    return true;
+                }
+
+                return false;
+            });
+
+            return result;
+        },
     },
 
     watch: {
-        "form.title": {
-            handler() {
-                if (this.form.title && this.form.decription) {
-                   this.enough=true;
-                }
-                else {
-                    this.enough=false;
-                }
-            }
-        },
-        "form.description": {
-            handler() {
-                if (this.form.title && this.form.description) {
-                    this.enough=true;
-                }
-                else {
-                    this.enough=false;
-                }
-            }
-        },
+
     },
 
 
     mounted() {
         if (this.$route.query.id)
-            return this.getQna();
+            return this.getQnas();
 
         return this.load = true;
     },
