@@ -27,7 +27,7 @@
                             {{ block.targetUser.nickname || block.targetUser.name }}
                         </div>
                         <div class="item-title" v-if="block.targetUser==null">
-                           알 수 없는 사용자
+                            알 수 없는 사용자
                         </div>
                         <button class="block-btn" @click="remove(block.targetUser.nickname || block.targetUser.name, block.id)">
                             차단해제
@@ -41,71 +41,70 @@
         <!-- gnb Start -->
 
         <!-- gnb End -->
-        <flash :name="nickName" :isname="isName" />
+        <flash :name="nickName" :isname="isName"/>
         <!-- 차단해제 버튼 클릭 시 팝업 -->
 
     </div>
 </template>
 <script>
 import Form from "@/utils/Form";
+
 export default {
     middleware: ["user"],
     data() {
         return {
             form: new Form(this.$axios, {
-                page:1,
+                page: 1,
             }),
             loading: false,
-            blocks:{
-                data:[],
-                meta:{
-                    current_page:1,
-                    last_page:1,
+            blocks: {
+                data: [],
+                meta: {
+                    current_page: 1,
+                    last_page: 1,
                 }
             },
-            isLike:true,
-            nickName:"",
-            isName:false,
+            isLike: true,
+            nickName: "",
+            isName: false,
         };
     },
 
     methods: {
-                getBlocks(loadMore = false){
-                    this.loading = true;
-                    this.$store.commit("setLoading",true);
+        getBlocks(loadMore = false) {
+            this.loading = true;
 
-                    this.$axios.get("/api/blocks",{
+            this.$store.commit("setLoading", true);
 
-                    }).then(response => {
-                        this.loading = false;
-                        if(loadMore){
-                            this.blocks.data = [...this.blocks.data, ...response.data.data];
-                            return this.blocks.meta = response.data.meta;
-                        }
-                        console.log(response.data);
-                        return this.blocks = response.data;
-                    })
-                },
-        remove(name,num){
-                    this.isName=true;
-                    this.nickName = name
-                    this.form.delete("/api/blocks/" + num).then(response => {
-                        this.blocks.data = this.blocks.data.filter(blocks =>blocks.id != num)
-                    })
+            this.$axios.get("/api/blocks", {
+                params: this.form.data()
+            }).then(response => {
+                this.loading = false;
+                if (loadMore) {
+                    this.blocks.data = [...this.blocks.data, ...response.data.data];
+                    return this.blocks.meta = response.data.meta;
+                }
+                return this.blocks = response.data;
+            })
+        },
+        remove(name, num) {
+            this.isName = true;
+            this.nickName = name
+            this.form.delete("/api/blocks/" + num).then(response => {
+                this.blocks.data = this.blocks.data.filter(blocks => blocks.id != num)
+            })
 
         }
     },
 
     computed: {
-        user(){
+        user() {
             return this.$auth.user.data;
         },
     },
-    watch: {
-
-    },
+    watch: {},
     mounted() {
-            this.getBlocks();
+        this.getBlocks();
 
     }
 }

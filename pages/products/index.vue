@@ -39,7 +39,7 @@
 
             <gnb :home="isHome" />
 
-        <!-- gnb End -->
+
 
         <infinite-scroll v-if="products.meta" :loading="loading" :form="form" :meta="products.meta" :target-contents="'.prod-list'" :target-scroll="'.index'" @paginate="(data) => {form.page = data; getProducts(true);}"/>
 
