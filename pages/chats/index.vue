@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="chat-list" v-else>
-                    <chat  :item=chatting v-for="chatting in chattings.data" :key="chatting.id" />
+                    <chat item=chatting v-for="chatting in chattings.data" :key="chatting.id" />
                 </div>
             </div>
 
@@ -220,7 +220,6 @@ export default{
     mounted() {
         this.getChats(false);
         this.scroll();
-        console.log(this.$auth.user.data);
     }
 };
 </script>
