@@ -67,6 +67,7 @@ export default {
                 page:1,
                 likeable_type: "Product",
                 likeable_id: "",
+                user_id:"",
             }),
 
             likeUsers: {

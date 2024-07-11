@@ -47,7 +47,7 @@
                                 <p class="txt">거래완료</p>
                             </div>
                             <div class="user-profile-info-item row-group">
-                                <a href="" class="num">{{ user.count_like_user }}</a>
+                                <nuxt-link :to="``" class="num">{{ user.count_like_user }}</nuxt-link>
                                 <p class="txt">관심회원</p>
                             </div>
                         </div>
