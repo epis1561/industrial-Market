@@ -64,8 +64,7 @@
                 <div class="chat-area">
                     <div class="message-group">
                         <template v-for="(message,index) in messages.data">
-                            <div class="date-check"
-                                 v-if="index == 0 || messages.data[index].format_created_at != messages.data[index - 1 ].format_created_at">
+                            <div class="date-check" v-if="index == 0 || messages.data[index].format_created_at != messages.data[index - 1 ].format_created_at">
                                 {{ message.format_created_at }}
                             </div>
 
