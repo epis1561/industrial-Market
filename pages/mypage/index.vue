@@ -35,7 +35,9 @@
                     <div class="container">
                         <div class="user-profile-info-wrap col-group">
                             <div class="user-profile-info-item row-group">
-                                <nuxt-link :to="`/mypage/products/indexBySell?id=${1}`" class="num">{{user.count_product_sell}} </nuxt-link>
+                                <nuxt-link :to="`/mypage/products/indexBySell?id=${1}`" class="num">
+                                    {{ user.count_product_sell }}
+                                </nuxt-link>
                                 <p class="txt">판매상품</p>
                             </div>
                             <div class="user-profile-info-item row-group">
@@ -43,7 +45,7 @@
                                 <p class="txt">거래완료</p>
                             </div>
                             <div class="user-profile-info-item row-group">
-                                <nuxt-link :to="`/likes?type=User`" class="num">{{user.count_like_user }}</nuxt-link>
+                                <nuxt-link :to="`/likes?type=User`" class="num">{{ user.count_like_user }}</nuxt-link>
                                 <p class="txt">관심회원</p>
                             </div>
                         </div>
@@ -65,7 +67,8 @@
                                     <i class="icon"></i>
                                 </div>
                             </nuxt-link>
-                            <nuxt-link :to="`/mypage/products/indexByBuy?id=${user.id}`" class="mypage-menu-item col-group">
+                            <nuxt-link :to="`/mypage/products/indexByBuy?id=${user.id}`"
+                                       class="mypage-menu-item col-group">
                                 <p class="title">
                                     구매 내역
                                 </p>
@@ -74,14 +77,14 @@
                                     <i class="icon"></i>
                                 </div>
                             </nuxt-link>
-<!--                            <nuxt-link to="/users/editAccount" class="mypage-menu-item col-group">-->
-<!--                                <p class="title">-->
-<!--                                    활동지역 설정-->
-<!--                                </p>-->
-<!--                                <div class="more-btn">-->
-<!--                                    <i class="icon"></i>-->
-<!--                                </div>-->
-<!--                            </nuxt-link>-->
+                            <!--                            <nuxt-link to="/users/editAccount" class="mypage-menu-item col-group">-->
+                            <!--                                <p class="title">-->
+                            <!--                                    활동지역 설정-->
+                            <!--                                </p>-->
+                            <!--                                <div class="more-btn">-->
+                            <!--                                    <i class="icon"></i>-->
+                            <!--                                </div>-->
+                            <!--                            </nuxt-link>-->
                             <nuxt-link to="/manners" class="mypage-menu-item col-group">
                                 <p class="title">
                                     받은 후기
@@ -101,7 +104,7 @@
                             <nuxt-link to="/events" class="mypage-menu-item col-group">
                                 <p class="title">
                                     이벤트
-                                    <span class="badge" v-if="newEvents.data.length!=0 && newEvents.data[0].new == 1">N</span>
+                                    <span class="badge" v-if="events.data.length > 0 && events.data[0].new == 1">N</span>
                                 </p>
                                 <div class="more-btn">
                                     <i class="icon"></i>
@@ -118,13 +121,13 @@
                             <nuxt-link to="/notices" class="mypage-menu-item col-group">
                                 <p class="title">
                                     공지사항
-                                    <span class="badge" v-if="newNotice.data.length!=0 && newNotice.data[0].new == 1">N</span>
+                                    <span class="badge" v-if="notices.data.length > 0 && notices.data[0].new == 1">N</span>
                                 </p>
                                 <div class="more-btn">
                                     <i class="icon"></i>
                                 </div>
                             </nuxt-link>
-                            <nuxt-link to="/qnas"class="mypage-menu-item col-group">
+                            <nuxt-link to="/qnas" class="mypage-menu-item col-group">
                                 <p class="title">
                                     1:1 문의
                                 </p>
@@ -140,7 +143,7 @@
 
         <!-- gnb Start -->
 
-            <gnb :mypage="isMy" />
+        <gnb :mypage="isMy"/>
 
         <!-- gnb End -->
     </div>
@@ -149,36 +152,37 @@
 </template>
 <script>
 import Form from "@/utils/Form";
+
 export default {
     middleware: ["user"],
     data() {
         return {
             form: new Form(this.$axios, {
-                buyer_id:"",
+                buyer_id: "",
             }),
-            isMy:true,
+            isMy: true,
             // 내 물건 중 후기가 있는지 찾아보기위해 만들었음.
-            products:{
-                data:[],
-                meta:{
-                    current_page:1,
-                    last_page:1,
+            products: {
+                data: [],
+                meta: {
+                    current_page: 1,
+                    last_page: 1,
                 }
             }
         };
     },
 
     methods: {
-        getProducts(loadMore = false){
+        getProducts(loadMore = false) {
             this.loading = true;
             this.$store.commit("setLoading", true);
             this.form.user_id = this.user.id;
-            this.$axios.get("/api/products/",{
+            this.$axios.get("/api/products/", {
                 params: this.form.data(),
             }).then(response => {
                 this.loading = false;
 
-                if(loadMore){
+                if (loadMore) {
                     this.products.data = [...this.products.data, ...response.data.data];
 
                     return this.products.meta = response.data.meta;
@@ -192,21 +196,19 @@ export default {
     },
 
     computed: {
-            user(){
-                return this.$auth.user.data;
-            },
-        newNotice(){
-                return this.$store.state.notices;
+        user() {
+            return this.$auth.user.data;
         },
-        newEvents(){
+        notices() {
+            return this.$store.state.notices;
+        },
+        events() {
             return this.$store.state.events;
         },
     },
-    watch: {
-
-    },
+    watch: {},
     mounted() {
-this.getProducts();
+        this.getProducts();
 
     }
 }
