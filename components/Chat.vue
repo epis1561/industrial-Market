@@ -17,7 +17,7 @@
                 {{item.latestMessage ? (item.latestMessage.imgs.length > 0 ? '(사진)' : item.latestMessage.description) : '메시지가 없습니다.'}}
             </p>
 
-            <div class="chat-num-wrap">
+            <div class="chat-num-wrap" v-if="item.count_unread_message">
                 <div class="chat-num">
                     {{ item.count_unread_message }}
                 </div>
