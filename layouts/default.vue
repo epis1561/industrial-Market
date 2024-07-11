@@ -33,6 +33,7 @@ import HeaderVue from "../components/HeaderVue";
 import FooterVue from "../components/FooterVue";
 import TopNavs from "../components/TopNavs.vue";
 import Form from "@/utils/Form";
+import Pusher from 'pusher-js';
 
 export default {
     head() {
@@ -79,9 +80,31 @@ export default {
 
     components: {},
 
-    computed: {},
+    computed: {
+        user(){
+            return this.$auth.user.data;
+        }
+    },
 
     methods: {
+        setChannel(){
+            let self = this;
+
+            Pusher.logToConsole = true;
+
+            let key = process.env.NODE_ENV === "production" ? "d3d926327900abbca288" : "8cd7d1abc2ee7229e126";
+
+            var pusher = new Pusher(key, {
+                cluster: 'ap3'
+            });
+
+            var channel = pusher.subscribe('users.' + this.user.id);
+
+            channel.bind('App\\Events\\AlarmCreated', function(data) {
+                self.$auth.fetchUser();
+            });
+        },
+
         getPushToken() {
             let self = this;
 
@@ -190,6 +213,7 @@ export default {
     },
 
     mounted() {
+        this.setChannel();
         this.getProductCategories();
         this.getNoticeCategories();
         this.getFaqCategories();

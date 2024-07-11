@@ -82,9 +82,7 @@
                                             </div>
                                             <div class="new-message col-group">
                                                 <div class="new-message-txt" v-if="message.description">
-                                                    <p class="txt">
-                                                        {{ message.description }}
-                                                    </p>
+                                                    <p class="txt">{{ message.description }}</p>
                                                 </div>
                                                 <div class="message-time">
                                                     {{ message.format_short_created_at }}
@@ -392,37 +390,40 @@ export default {
                 this.setChannel(this.chat);
             })
         },
-        getMessage() {
+        getMessages() {
             this.$store.commit("setLoading", true);
             this.$axios.get("/api/messages", {
                 params: this.form.data(),
             }).then(response => {
+                this.$auth.fetchUser();
+
                 this.messages = response.data;
+
+                this.$nextTick(() => {
+                    this.scrollEnd();
+                });
             })
 
         },
         storeMessage() {
 
-            if(!this.form.description){
-                return;
-            }
-            else{
-                this.$store.commit("setLoading", true);
-                this.scrollEnd();
+            if(!this.form.description && this.form.imgs.length === 0)
+                return null;
 
-                this.form.post("/api/messages")
-                        .then(response => {
+            this.$store.commit("setLoading", true);
 
-                            console.log(response);
-                            this.form.description = "";
-                            this.form.imgs = [];
+            this.scrollEnd();
 
-                            this.activeCamera = false;
-                            this.activeFiles = false;
+            this.form.post("/api/messages")
+                    .then(response => {
+                        this.form.description = "";
+                        this.form.imgs = [];
 
-                            $('.m-files-wrap').hide();
-                        })
-            }
+                        this.activeCamera = false;
+                        this.activeFiles = false;
+
+                        $('.m-files-wrap').hide();
+                    })
 
         },
         checkNull() {
@@ -531,9 +532,8 @@ export default {
 
     },
     mounted() {
-        this.$auth.fetchUser();
         this.getChat();
-        this.getMessage();
+        this.getMessages();
     }
 }
 </script>

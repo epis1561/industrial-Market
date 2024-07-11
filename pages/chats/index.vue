@@ -33,12 +33,12 @@
             <div class="container">
 
                 <!-- 채팅 내역 0개 -->
-                <div class="null-txt chat-null-txt row-group" v-if="chattings && chattings.data.length==0">
+                <div class="null-txt chat-null-txt row-group" v-if="chattings.data.length==0">
                     <i class="icon"></i>
                     채팅 내역이 없습니다.
                 </div>
 
-                <div class="chat-list" v-if="chattings">
+                <div class="chat-list" v-else>
                     <chat  :item=chatting v-for="chatting in chattings.data" :key="chatting.id" />
                 </div>
             </div>
@@ -91,16 +91,14 @@ export default{
 
 
     methods: {
-        getChattings(loadMore){
+        getChats(loadMore){
             this.$store.commit("setLoading",true);
-            console.log(this.$auth.user.data.id);
-            if(this.$route.query.product_id){
+            
+            if(this.$route.query.product_id)
                 this.form.product_id = this.$route.query.product_id;
-            }
-            console.log(this.form.product_id);
+
             this.$axios.get("/api/chats", {
                 params: this.form.data(),
-
             }).then(response => {
 
                 if(loadMore) {
@@ -136,7 +134,7 @@ export default{
 
 
                 if(this.isMy =="전체"){
-                   return this.getChattings(this.load);
+                   return this.getChats(this.load);
                 }
                 else if(this.isMy =="내가쓴글"){
 
@@ -197,7 +195,7 @@ export default{
                 this.load= false;
                 this.form.page=1;
                 this.chattings = "";
-                return this.getChattings();
+                return this.getChats();
             }
             else if(this.isMy==='내가올린글'){
                 this.load= false;
@@ -220,7 +218,7 @@ export default{
     },
 
     mounted() {
-        this.getChattings(false);
+        this.getChats(false);
         this.scroll();
         console.log(this.$auth.user.data);
     }

@@ -52,6 +52,10 @@ export const state = () => ({
         data:[],
         meta:{},
     },
+    chats:{
+        data:[],
+        meta:{},
+    },
     location:{
 
 
@@ -152,6 +156,9 @@ export const mutations = {
     },
     setPrice(state,data){
         state.price = data;
+    },
+    setChats(state,data){
+        state.chats = data;
     }
 }
 

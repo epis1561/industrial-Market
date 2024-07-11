@@ -12,19 +12,17 @@
                     {{ item.latestMessage.format_created_at }}
                 </p>
             </div>
-            <p class="txt" style="display: inline-block" v-if="item.latestMessage.length!=0">
+
+            <p class="txt">
+                {{item.latestMessage ? (item.latestMessage.imgs.length > 0 ? '(사진)' : item.latestMessage.description) : '메시지가 없습니다.'}}
+
                 <div class="chat-num-wrap">
-                    {{ item.latestMessage.description }}
-                    <div class="chat-num" v-if="$auth.user.data.count_unread_message !=0">
-                        {{ $auth.user.data.count_unread_message }}
+                    <div class="chat-num" v-if="item.count_unread_message > 0">
+                        {{ item.count_unread_message }}
                     </div>
                 </div>
-
-
             </p>
-            <p class="txt" v-if="item.latestMessage.length==0">
-                메시지가 없습니다.
-            </p>
+
         </div>
     </nuxt-link>
 
