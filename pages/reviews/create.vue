@@ -178,9 +178,8 @@ export default {
             this.form.post("/api/reviews",{
                 params:this.form.data(),
             }).then(response =>{
-                console.log('성공했습니다.');
                 if(this.good ==true){
-                    this.$router.push(`/reviews/${this.$route.query.id}`);
+                    this.$router.push(`/reviews/${response.data.id}`);
                 }
                 else{
                     this.$router.back();

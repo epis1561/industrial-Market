@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-footer row-group" v-if="review.targetUserReview">
+                <div class="form-footer row-group" v-if="review.targetUserReview && review.targetUserReview.emotion != 0">
                     <nuxt-link :to="`/reviews/${review.targetUserReview.id}`" class="form-footer-btn submit-btn">상대방이 보낸 후기 보기</nuxt-link>
                 </div>
             </div>
