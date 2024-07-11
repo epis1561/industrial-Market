@@ -21,7 +21,7 @@
                 <div class="user-list">
                     <div class="user-item col-group" v-for="block in blocks.data" :key="block.id">
                         <div class="item-img">
-                            <img :src="block.targetUser.img ? block.targetUser.img.url: ''" alt="">
+                            <img :src="block.targetUser.img ? block.targetUser.img.url: '/images/profile_null.png'" alt="">
                         </div>
                         <div class="item-title" v-if="block.targetUser!=null">
                             {{ block.targetUser.nickname || block.targetUser.name }}
