@@ -38,13 +38,10 @@
                     <empty v-if="events.data.length===0" />
                 </div>
             </div>
+            <infinite-scroll v-if="events.meta" :loading="loading" :form="form" :meta="events.meta" :target-contents="'.event-list'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getEvents(true);}"/>
         </main>
 
-        <!-- gnb Start -->
-        <div id="gnb">
-            <gnb/>
-        </div>
-        <!-- gnb End -->
+
     </div>
     </body>
 </template>
@@ -69,46 +66,29 @@ export default {
                     current_page: 1,
                     last_page: "",
                 }
-            }
+            },
+            loading:false,
 
         }
     },
 
     methods: {
-        getEvents(loadMore) {
+        getEvents(loadMore = false) {
+            this.loading = true;
             this.$store.commit("setLoading",true);
-            this.$axios.get("/api/events", {}).then(response => {
+            this.$axios.get("/api/events", {
+                params: this.form.data(),
+            }).then(response => {
                 if (loadMore){
-                    this.load = false;
-                    return this.events.data = [...this.events.data, ...response.data.data];
+                    this.loading = false;
+                    this.events.data = [...this.events.data, ...response.data.data];
+                    return this.events.meta = response.data.meta;
                 }
                 this.events = response.data;
                 console.log(this.events.data);
             })
         },
-        loadMore() {
-            var scrollTop = $('.subpage').scrollTop();
 
-            var innerHeight = $('.subpage').innerHeight();
-
-            var scrollHeight = $('.subpage').prop('scrollHeight');
-            if (this.load || this.form.page >= this.events.meta.last_page) {
-                return;
-            }
-            console.log(this.form.page)
-            if (scrollTop + innerHeight >= scrollHeight - 100) {
-
-                if(this.form.page < this.events.meta.last_page) {
-                    this.load = true;
-                    this.form.page += 1;
-                    return this.getEvents(this.load);
-                };
-
-            }
-        },
-        scroll(){
-            $('.subpage').scroll(this.loadMore);
-        },
     },
 
     computed: {},

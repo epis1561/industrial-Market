@@ -20,30 +20,33 @@
             <form class="container" @submit.prevent="() => {form.page = 1; getFaqs()}">
                 <div class="search-input-wrap">
                     <button><img src="images/icon_search.png" alt="" class="icon"></button>
-                    <input type="text" class="search-input" placeholder="무엇을 찾고 계신가요?" v-model="form.word" >
+                    <input type="text" class="search-input" placeholder="무엇을 찾고 계신가요?" v-model="form.word">
                 </div>
             </form>
             <div class="cate-wrap">
                 <div class="cate-list col-group">
-                    <div class="cate-item" :class="{'active':!form.faq_category_id}" @click="() => {form.page = 1; showCategoriesFaq()}">
+                    <div class="cate-item" :class="{'active':!form.faq_category_id}"
+                         @click="() => {form.page = 1; showCategoriesFaq()}">
                         전체보기
                     </div>
-                    <div class="cate-item" :class="{'active':form.faq_category_id==faqCategory.id}" v-for="faqCategory in faqCategories.data" :key="faqCategory.id" @click="() => {form.page =1; showCategoriesFaq(faqCategory.id)}">
+                    <div class="cate-item" :class="{'active':form.faq_category_id==faqCategory.id}"
+                         v-for="faqCategory in faqCategories.data" :key="faqCategory.id"
+                         @click="() => {form.page =1; showCategoriesFaq(faqCategory.id)}">
                         {{ faqCategory.title }}
                     </div>
                 </div>
             </div>
             <div class="container">
                 <div class="faq-list">
-                   <nuxt-link :to="`/faqs/${faq.id}`" class="faq-item" v-for="faq in faqs.data" :key="faq.id">
+                    <nuxt-link :to="`/faqs/${faq.id}`" class="faq-item" v-for="faq in faqs.data" :key="faq.id">
                         <div class="content-wrap">
                             <p class="faq-text" v-if="faqs">Q</p>
                             <p class="faq-title">
                                 {{ faq.title }}
                             </p>
-                            <i class="icon"v-if="faqs"></i>
+                            <i class="icon" v-if="faqs"></i>
                         </div>
-                   </nuxt-link>
+                    </nuxt-link>
                     <empty v-if="faqs.data.length === 0"/>
                 </div>
             </div>
@@ -69,67 +72,48 @@ export default {
     data() {
         return {
             form: new Form(this.$axios, {
-                faq_category_id:"",
-                word:"",
-                page:1,
+                faq_category_id: "",
+                word: "",
+                page: 1,
             }),
-            faqs:{
-                data:[],
-                meta:{
-                    current_page:1,
-                    last_page:1,
+            faqs: {
+                data: [],
+                meta: {
+                    current_page: 1,
+                    last_page: 1,
                 }
             },
-            load:false,
-            loading:false,
+            load: false,
+            loading: false,
 
         }
 
     },
 
     methods: {
-        getFaqs(loadMore) {
-            this.$store.commit("setLoading",true);
+        getFaqs(loadMore = false) {
+            this.loading = true;
+            this.$store.commit("setLoading", true);
             this.$axios.get("/api/faqs", {
                 params: this.form.data(),
             }).then(response => {
-                if (loadMore){
-                    this.load = false;
-                    return this.faqs.data = [...this.faqs.data, ...response.data.data]
-                    }
+                this.loading = false;
+                if (loadMore) {
+
+                    this.faqs.data = [...this.faqs.data, ...response.data.data]
+                    return this.faqs.meta = response.data.meta;
+                }
 
                 this.faqs = response.data;
-                console.log(this.faqs);
+
             })
         },
-        loadMore() {
-            var scrollTop = $('.subpage').scrollTop();
 
-            var innerHeight = $('.subpage').innerHeight();
 
-            var scrollHeight = $('.subpage').prop('scrollHeight');
-            if (this.load || this.form.page >= this.faqs.meta.last_page) {
-                return;
-            }
-
-            if (scrollTop + innerHeight >= scrollHeight - 50) {
-
-                if(this.form.page < this.faqs.meta.last_page) {
-                    this.load = true;
-                    this.form.page += 1;
-                    return this.getFaqs(this.load);
-                };
-
-            }
-        },
-        scroll(){
-            $('.subpage').scroll(this.loadMore);
-        },
-        showCategoriesFaq(id){
-            if(id){
+        showCategoriesFaq(id) {
+            if (id) {
                 this.form.faq_category_id = id;
-            }
-            else{
+            } else {
                 this.form.faq_category_id = null;
             }
             return this.getFaqs();
@@ -147,8 +131,8 @@ export default {
 
 
     mounted() {
-    this.getFaqs();
-    this.scroll();
+        this.getFaqs();
+
     },
 
 };

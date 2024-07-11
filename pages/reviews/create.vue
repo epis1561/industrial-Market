@@ -180,7 +180,7 @@ export default {
             }).then(response =>{
                 console.log('성공했습니다.');
                 if(this.good ==true){
-                    this.$router.push(`/review/${this.$route.query.id}`);
+                    this.$router.push(`/reviews/${this.$route.query.id}`);
                 }
                 else{
                     this.$router.back();

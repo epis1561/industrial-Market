@@ -39,8 +39,11 @@
                 </div>
 
                 <div class="chat-list" v-else>
-                    <chat  :item=chatting v-for="chatting in chattings.data" :key="chatting.id" />
+                    <chat :item=chatting v-for="chatting in chattings.data" :key="chatting.id" />
+                    <infinite-scroll v-if="chattings.meta" :loading="loading" :form="form" :meta="chattings.meta" :target-contents="'.chat-list'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getChats(true);}"/>
                 </div>
+
+
             </div>
 
         </main>
@@ -81,7 +84,7 @@ export default{
 
                 },
             },
-
+            loading:false,
             isMy: "전체",
             isChat:true,
         }
@@ -91,9 +94,9 @@ export default{
 
 
     methods: {
-        getChats(loadMore){
+        getChats(loadMore = false){
             this.$store.commit("setLoading",true);
-            
+            this.loading=true;
             if(this.$route.query.product_id)
                 this.form.product_id = this.$route.query.product_id;
 
@@ -102,9 +105,9 @@ export default{
             }).then(response => {
 
                 if(loadMore) {
-
+                    this.loading=false,
                     this.chattings.data = [...this.chattings.data, ...response.data.data];
-                    this.load = false;
+                    return this.chattings.meta = response.data.meta;
                 }
                 else{
 
@@ -116,40 +119,7 @@ export default{
         },
 
 
-        loadMore(){
-            var scrollTop = $('.subpage').scrollTop();
 
-            var innerHeight = $('.subpage').innerHeight();
-
-            var scrollHeight = $('.subpage').prop('scrollHeight');
-
-            if (this.load || this.form.page >= this.chattings.meta.last_page) {
-                return;
-            }
-
-
-            if (scrollTop + innerHeight >= scrollHeight - 100) {
-                this.load = true;
-                this.form.page += 1;
-
-
-                if(this.isMy =="전체"){
-                   return this.getChats(this.load);
-                }
-                else if(this.isMy =="내가쓴글"){
-
-                   return this.getMyChat(this.load);
-                }
-                else if(this.isMy == "문의한글"){
-                   return this.getAskChat(this.load);
-                }
-                // if(내가올린글 클릭 시 isMy=2, 내가문의한글 클릭시 isMy=3, 전체는 isMy=1)
-            };
-
-        },
-        scroll(){
-            $('.subpage').scroll(this.loadMore);
-        },
         getMyChat(loadMore){
             this.$store.commit("setLoading",true);
             this.$axios.get("/api/chats/indexByOwner", {
@@ -219,7 +189,7 @@ export default{
 
     mounted() {
         this.getChats(false);
-        this.scroll();
+
         console.log(this.$auth.user.data);
     }
 };
