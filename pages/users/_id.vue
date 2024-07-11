@@ -36,10 +36,7 @@
                     <div class="container">
                         <div class="user-profile-info-wrap col-group">
                             <div class="user-profile-info-item row-group">
-                                <nuxt-link :to="`/sell?id=${user.id}`" class="num">{{
-                                        user.count_product_ongoing_sell
-                                    }}
-                                </nuxt-link>
+                                <nuxt-link :to="`/sell?id=${user.id}`" class="num">{{user.count_product_ongoing_sell}}</nuxt-link>
                                 <p class="txt">판매상품</p>
                             </div>
                             <div class="user-profile-info-item row-group">
@@ -47,7 +44,11 @@
                                 <p class="txt">거래완료</p>
                             </div>
                             <div class="user-profile-info-item row-group">
+<<<<<<< HEAD
                                 <nuxt-link :to="``" class="num">{{ user.count_like_user }}</nuxt-link>
+=======
+                                <nuxt-link :to="`/likes?user_id=${user.id}&type=User`" class="num">{{ user.count_like_user }}</nuxt-link>
+>>>>>>> 1cdf5ad8ba943c9d5b34ef25dbfd508256096430
                                 <p class="txt">관심회원</p>
                             </div>
                         </div>

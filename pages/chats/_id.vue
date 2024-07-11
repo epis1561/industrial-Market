@@ -391,6 +391,7 @@ export default {
         },
         getMessages() {
             this.$store.commit("setLoading", true);
+
             this.$axios.get("/api/messages", {
                 params: this.form.data(),
             }).then(response => {
