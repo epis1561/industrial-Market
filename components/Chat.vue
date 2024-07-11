@@ -6,7 +6,7 @@
         <div class="item-txt-wrap row-group">
             <div class="title-group col-group">
                 <p class="name">
-                    {{ targetUser.nickname || targetUser.name }}
+                    {{ targetUser ? (targetUser.nickname || targetUser.name) : '알 수 없는 사용자' }}
                 </p>
                 <p class="date">
                     {{ item.latestMessage.format_created_at }}
