@@ -76,7 +76,7 @@ export default {
     data() {
         return {
             form: new Form(this.$axios, {
-
+                user_id:"",
             }),
             manners:{
                 data:[],
@@ -90,7 +90,12 @@ export default {
 
     methods: {
         getManners(){
-            this.$axios.get("/api/manners")
+            this.form.user_id = this.$auth.user.data.id;
+
+            console.log(this.form.user_id);
+            this.$axios.get("/api/manners",{
+                params: this.form.data(),
+            })
                     .then(response => {
                         console.log(response.data);
                         this.manners = response.data;

@@ -17,13 +17,13 @@
 
         <main class="subpage">
             <div class="top-tab-wrap col-group">
-                <a href="#" class="tab-item" :class="{'active': !form.state_transaction}" @click.prevent="all">
+                <a href="#" class="tab-item" :class="{'active': isTransaction==0}" @click.prevent="all">
                     전체
                 </a>
-                <a href="#" class="tab-item" :class="{'active': form.state_transaction==1}" @click.prevent="ongoing">
+                <a href="#" class="tab-item" :class="{'active': isTransaction==1}" @click.prevent="ongoing">
                     판매중
                 </a>
-                <a href="#" class="tab-item" :class="{'active': form.state_transaction==2}" @click.prevent="complete">
+                <a href="#" class="tab-item" :class="{'active': isTransaction==2}" @click.prevent="complete">
                     판매완료
                 </a>
             </div>
@@ -39,9 +39,9 @@
                                 {{ product.title }}
                             </p>
                             <div class="sub-txt-group col-group">
-                                <p class="sub-txt">
-                                    {{ product.address_detail }}
-                                </p>
+<!--                                <p class="sub-txt">-->
+<!--                                    {{ product.address_detail }}-->
+<!--                                </p>-->
                                 <p class="sub-txt">
                                     {{ product.format_created_at }}
                                 </p>
@@ -66,6 +66,7 @@
                     </nuxt-link>
                 </div>
             </div>
+            <infinite-scroll v-if="products.meta" :loading="loading" :form="form" :meta="products.meta" :target-contents="'.prod-list'" :target-scroll="'.index'" @paginate="(data) => {form.page = data; getProducts(true);}"/>
         </main>
     </div>
 </template>
@@ -87,7 +88,9 @@ export default {
                     current_page: 1,
                     last_page: 1,
                 }
-            }
+            },
+            isTransaction:"",
+            loading:false,
         };
     },
 
@@ -107,14 +110,17 @@ export default {
         },
         all() {
             this.form.state_transactions = [];
+            this.isTransaction =0;
             return this.getProducts();
         },
         ongoing() {
             this.form.state_transactions = [0, 1];
+            this.isTransaction =1;
             return this.getProducts();
         },
         complete() {
             this.form.state_transactions = [2];
+            this.isTransaction =2;
             return this.getProducts();
         },
 

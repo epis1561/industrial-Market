@@ -1,6 +1,6 @@
 <template>
     <body>
-    <div id="wrap">
+    <div id="wrap" class="chats">
 
         <!-- header Start -->
         <header id="header" class="sub-header" v-if="targetUser!=null">
@@ -30,26 +30,28 @@
         <!-- header End -->
 
         <main class="subpage area-chats" v-if="chat!=null" ref="chatWrap">
-            <div class="chat-prod prod-item">
-                <div class="container col-group">
-                    <div class="item-img">
-                        <img :src="chat.product.img ? chat.product.img.url : ''"/>
-                    </div>
-                    <div class="item-txt-wrap">
-                        <p class="title">
-                            {{ chat.product.title }}
-                        </p>
-                        <div class="price">
-                            <p :class="'label label' + chat.product.type">
-                                {{ chat.product.format_type }}
+            <nuxt-link :to="`/products/${chat.product.id}`">
+                <div class="chat-prod prod-item">
+                    <div class="container col-group">
+                        <div class="item-img">
+                            <img :src="chat.product.img ? chat.product.img.url : ''"/>
+                        </div>
+                        <div class="item-txt-wrap">
+                            <p class="title">
+                                {{ chat.product.title }}
                             </p>
-                            {{ chat.product.format_price }}
+                            <div class="price">
+                                <p :class="'label label' + chat.product.type">
+                                    {{ chat.product.format_type }}
+                                </p>
+                                {{ chat.product.format_price }}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </nuxt-link>
 
-            <div class="null-txt message-null-txt" v-if="messages.data.length==0">
+            <div class="null-txt message-null-txt" v-if="isNull">
                 <i class="icon"></i>
                 <strong>
                     산업마켓 채팅이 안전합니다!
@@ -311,6 +313,7 @@ export default {
                         alarm: "",
                     }
             ),
+
             chat: null,
             isNull: false,
             isMore: false,
@@ -348,7 +351,7 @@ export default {
             this.isMore = false;
             this.isReport= false;
             this.$store.commit("setPop", {
-                description: "신고가 접수되었습니다."
+                description: "신고내용이 정상 접수 되었습니다."
             });
         },
 
@@ -395,29 +398,32 @@ export default {
                 params: this.form.data(),
             }).then(response => {
                 this.messages = response.data;
-                console.log(this.messages);
-                this.checkNull();
-
             })
 
         },
         storeMessage() {
-            this.$store.commit("setLoading", true);
 
-            this.scrollEnd();
+            if(!this.form.description){
+                return;
+            }
+            else{
+                this.$store.commit("setLoading", true);
+                this.scrollEnd();
 
-            this.form.post("/api/messages")
-                    .then(response => {
+                this.form.post("/api/messages")
+                        .then(response => {
 
-                        console.log(response);
-                        this.form.description = "";
-                        this.form.imgs = [];
+                            console.log(response);
+                            this.form.description = "";
+                            this.form.imgs = [];
 
-                        this.activeCamera = false;
-                        this.activeFiles = false;
+                            this.activeCamera = false;
+                            this.activeFiles = false;
 
-                        $('.m-files-wrap').hide();
-                    })
+                            $('.m-files-wrap').hide();
+                        })
+            }
+
         },
         checkNull() {
             if (this.messages.data.length == 0) {
@@ -450,26 +456,28 @@ export default {
 
             this.$store.commit("setLoading", true);
 
-
-            this.alarmForm.patch("/api/chats/" + this.$route.params.id).then(response => {
-                this.chat = response.data;
-
-                if (this.chat.alarm == 0) {
-                    this.alarmForm.alarm = 1;
-                    this.alarmText = "채팅 알람이 꺼졌습니다.";
-
+            if (this.chat.alarm == 0) {
+                this.alarmForm.alarm = 1;
+                this.alarmText = "채팅 알람이 켜졌습니다.";
+                this.alarmForm.patch("/api/chats/" + this.$route.params.id).then(response => {
+                    this.chat = response.data;
                     return setTimeout(function (){
                         self.alarmText = null;
                     }, 1500);
-                }
-
+                })
+            }
+            else if (this.chat.alarm == 1) {
                 this.alarmForm.alarm = 0;
-                this.alarmText = "채팅 알람이 켜졌습니다.";
+                this.alarmText = "채팅 알람이 꺼졌습니다.";
+                this.alarmForm.patch("/api/chats/" + this.$route.params.id).then(response => {
+                    this.chat = response.data;
+                    return setTimeout(function (){
+                        self.alarmText = null;
+                    }, 1500);
+                })
+            }
 
-                return setTimeout(function (){
-                    self.alarmText = null;
-                }, 1500);
-            })
+
         },
 
         getSafeContact() {
@@ -487,6 +495,9 @@ export default {
         },
         close(){
             this.isReport=false;
+        },
+        updateIsNull(newMessagesData){
+            this.isNull = newMessagesData.length ===0;
         }
     },
 
@@ -508,7 +519,14 @@ export default {
     },
     watch: {
 
+        'messages.data': {
+            handler(newMessagesData) {
+                // messages.data가 변경될 때마다 호출됩니다.
+                this.updateIsNull(newMessagesData);
 
+            },
+            immediate: false,
+        }
 
 
     },
@@ -516,8 +534,6 @@ export default {
         this.$auth.fetchUser();
         this.getChat();
         this.getMessage();
-        this.checkNull();
-
     }
 }
 </script>

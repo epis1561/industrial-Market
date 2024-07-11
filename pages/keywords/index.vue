@@ -22,9 +22,10 @@
                 <div class="keyword-wrap">
                     <form @submit.prevent="store">
                     <div class="search-input-wrap keyword-input-wrap">
-                        <input type="text" class="search-input" placeholder="알림 받을 키워드를 입력해주세요." v-model="form.title">
+                        <input type="text" class="search-input" placeholder="알림 받을 키워드를 입력해주세요." v-model="title">
                         <button class="submit-btn">등록</button>
                     </div>
+                        <error :form="form" name="title"/>
                     </form>
                     <div class="search-section-title-wrap col-group">
                         <h3 class="search-section-title">
@@ -47,8 +48,8 @@
                 </div>
             </div>
         </main>
+        <infinite-scroll v-if="keywords.meta" :loading="loading" :form="form" :meta="keywords.meta" :target-contents="'.recent-search-list'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getKeywords(true);}"/>
 
-        <infinite-scroll v-if="keywords.meta" :loading="loading" :form="form" :meta="keywords.meta" :target-contents="'.keyword-wrap'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getKeywords(true);}"  />
 
         <!-- gnb Start -->
 
@@ -57,7 +58,7 @@
         <!-- gnb End -->
 
         <!-- 등록 버튼 클릭 시 팝업 -->
-        <flash :isAdd="isAdd" :isEnough="isEnough" />
+        <flash :isAdd="isAdd" :isEnough="isEnough" :isEmpty="isEmpty"/>
 
         <!-- x삭제 버튼 클릭 시 팝업 -->
         <div class="modal-container modal_alert" :class="{'active':isClose}">
@@ -99,7 +100,10 @@ export default {
 
             keywords: {
                 data: [],
-
+                meta:{
+                    current_page:1,
+                    last_page:1,
+                }
                 },
             isAdd:false,
             isClose:false,
@@ -108,6 +112,8 @@ export default {
             id: null,
             keywordTitle:"",
             isMy:true,
+            title:"",
+            isEmpty:false,
         }
 
     },
@@ -121,32 +127,66 @@ export default {
             }).then(response => {
                 this.loading = false;
                 if (loadMore) {
-                    this.load = false;
-                    return this.keywords.data = [...this.keywords.data, ...response.data.data];
+
+                  this.keywords.data = [...this.keywords.data, ...response.data.data];
+                  console.log(this.keywords.meta);
+                  return this.keywords.meta = response.data.meta;
+
                 }
 
                 this.keywords = response.data;
-                console.log(this.keywords);
             })
         },
         store(){
-            this.isAdd=true;
-            this.form.post("/api/keywords")
-                    .then(response => {
-                        if(this.form.title != null && this.form.title != this.keywords.data.title && this.keywords.meta.total < 50){
-                        this.form.title="",
-                        this.keywords.data.push(response.data);
-                       this.keywords.meta.total+=1;
-                        this.isAdd=false;
-                        this.isEnough=false;
-                        }
+            this.form.title=this.title;
+            this.title="";
+            const existKeyword = this.keywords.data.find(keyword => keyword.title === this.form.title);
 
-                        else{
-                            this.isEnough=true;
-                            return
-                        }
+          if(this.form.title && this.keywords.meta.total < 50){
+                if(existKeyword){
+                    this.isAdd=false;
+                    console.log('실행');
+                    this.form.post("/api/keywords")
+                            .then(response => {
 
-                    });
+
+                                console.log(this.isAdd);
+                                this.keywords.data.push(response.data);
+                                this.keywords.meta.total+=1;
+                                this.isAdd=false;
+                                this.isEnough=false;
+                                this.isEmpty=false;
+                            })
+                }
+
+                else{
+                    this.isAdd=true;
+                    this.form.post("/api/keywords")
+                            .then(response => {
+
+
+                                console.log(this.isAdd);
+                                console.log(this.keywords.meta.total);
+                                this.keywords.data.push(response.data);
+                                this.keywords.meta.total+=1;
+                                this.isAdd=false;
+                                this.isEnough=false;
+                                this.isEmpty=false;
+                            })
+                }
+
+            }
+            else if(this.keywords.meta.total >= 50) {
+                    this.isEnough=true;
+                    console.log('else if');
+                    return;
+            }
+            else{
+
+                return  this.isEmpty=true;
+            }
+
+
         },
         remove(){
 
@@ -171,7 +211,24 @@ export default {
     computed: {
 
     },
-
+watch:{
+    isEmpty(newVal) {
+        if (newVal === true) {
+            // 예를 들어, 3초 뒤에 isEmpty를 false로 변경
+            setTimeout(() => {
+                this.isEmpty = false;
+            }, 1000); // 3초 후에 실행
+        }
+    },
+    isEnough(newVal) {
+        if (newVal === true) {
+            // 예를 들어, 3초 뒤에 isEmpty를 false로 변경
+            setTimeout(() => {
+                this.isEnough = false;
+            }, 1000); // 3초 후에 실행
+        }
+    }
+},
     mounted() {
         this.getKeywords();
     },

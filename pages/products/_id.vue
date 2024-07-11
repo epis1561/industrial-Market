@@ -87,7 +87,7 @@
                             <editor-content :description="product.description"/>
                         </p>
                         <div class="detail-prod-list col-group">
-                            <div class="detail-prod-item" v-for="item in this.product.keywords" :key="item.id">
+                            <div class="detail-prod-item" v-for="(item,index) in this.product.keywords" :key="item.id" v-if="index < 5">
                                 {{ item.title }}
                             </div>
                         </div>
@@ -123,14 +123,14 @@
                         <button class="like-btn" :class="{'active':product.user.like==1}"
                                 @click="toggleLike(product,'User')" v-if="product.user.id !=$auth.user.data.id"></button>
                         <div class="profile-img">
-                            <img :src="product.img ? product.img.url : ''" alt="" v-if="product.img">
+                            <img :src="product.user.img ? product.user.img.url : ''" alt="" v-if="product.user.img">
                         </div>
                         <div class="txt-wrap row-group">
                             <p class="title">
                                 {{ product.user.nickname || product.user.name }}
                             </p>
                             <p class="txt">
-                                {{ product.address_detail }}
+                                {{  $auth.user.data.activeCounty ? $auth.user.data.activeCounty.city.title  + " " + $auth.user.data.activeCounty.title: ''   }}
                             </p>
                         </div>
                     </div>
@@ -146,8 +146,18 @@
                                     {{ otherItem.title }}
                                 </p>
                                 <div class="price">
-
-                                    {{ otherItem.format_price }}
+                                    <p :class="'label label' + otherItem.type" v-if="otherItem.type !=0 && otherItem.type==1">
+                                        {{ otherItem.format_type }}
+                                    </p>
+                                    <p :class="'label label' + otherItem.type" v-if="otherItem.type ==2">
+                                        {{ otherItem.format_short_type }}
+                                    </p>
+                                    <div v-if="otherItem.offer_price ==0 && otherItem.type!=2">
+                                        {{ otherItem.format_price }}
+                                    </div>
+                                    <div v-if="otherItem.offer_price ==1 && otherItem.type!=2">
+                                        가격제안
+                                    </div>
                                 </div>
                             </div>
                         </nuxt-link>
@@ -169,7 +179,18 @@
                                     {{ randomItem.title }}
                                 </p>
                                 <div class="price">
-                                    {{ randomItem.format_price }}
+                                    <p :class="'label label' + randomItem.type" v-if="randomItem.type !=0 && randomItem.type==1">
+                                        {{ randomItem.format_type }}
+                                    </p>
+                                    <p :class="'label label' + randomItem.type" v-if="randomItem.type ==2">
+                                        {{ randomItem.format_short_type }}
+                                    </p>
+                                    <div v-if="randomItem.offer_price ==0 && randomItem.type!=2">
+                                        {{ randomItem.format_price }}
+                                    </div>
+                                    <div v-if="randomItem.offer_price ==1 && randomItem.type!=2">
+                                        가격제안
+                                    </div>
                                 </div>
                             </div>
                         </nuxt-link>
@@ -192,7 +213,18 @@
                                                   {{ similarProduct.title }}
                                               </p>
                                               <div class="price">
-                                                  {{ similarProduct.price }}
+                                                  <p :class="'label label' + similarProduct.type" v-if="similarProduct.type !=0 && similarProduct.type==1">
+                                                      {{ similarProduct.format_type }}
+                                                  </p>
+                                                  <p :class="'label label' + similarProduct.type" v-if="similarProduct.type ==2">
+                                                      {{ similarProduct.format_short_type }}
+                                                  </p>
+                                                  <div v-if="similarProduct.offer_price ==0 && similarProduct.type!=2">
+                                                      {{ similarProduct.format_price }}
+                                                  </div>
+                                                  <div v-if="similarProduct.offer_price ==1 && similarProduct.type!=2">
+                                                      가격제안
+                                                  </div>
                                               </div>
                                           </div>
                                       </nuxt-link>
@@ -209,7 +241,13 @@
                         <p :class="'label label' + product.type"> <!-- 삽니다 상태에서 buy 클래스 -->
                             {{ product.format_short_type }}
                         </p>
-                        {{ product.format_price }}
+                        <div v-if="product.offer_price ==0 && product.type!=2">
+                            {{ product.format_price }}
+                        </div>
+                        <div v-if="product.offer_price ==1 && product.type!=2">
+                            가격제안
+                        </div>
+
                     </div>
                     <div class="price" v-if="product.type==2">
                         <p :class="'label label' + product.type"> <!-- 삽니다 상태에서 buy 클래스 -->
@@ -229,6 +267,7 @@
 
                 </div>
             </div>
+            <flash :isReportEmpty="isReportEmpty"  />
         </main>
 
         <!-- 이미지 슬라이드 클릭시 나타나는 팝업 -->
@@ -284,7 +323,7 @@
                 </div>
 
                 <div class="modal-footer col-group">
-                    <button class="modal-footer-btn submit-btn" @click="submitReport(product.id,'Product'),isReport=false">
+                    <button class="modal-footer-btn submit-btn" @click="submitReport(product.id,'Product')">
                         신고하기
                     </button>
                 </div>
@@ -450,6 +489,10 @@ export default {
                 report_category_id: "",
                 description: "",
             }),
+            randomForm: new Form(this.$axios,{
+                product_category_id:"",
+                random:1,
+            }),
             isDisabled: true,
             count_like: "",
             isLikeProduct: "",
@@ -462,6 +505,7 @@ export default {
             showMap: false,
             isSelect: false,
             isScroll:false,
+            isReportEmpty:false,
             products: {
                 data: [],
                 meta: {
@@ -529,12 +573,14 @@ export default {
                 this.form.likeable_id = response.data.data.like;
                 this.count_like = response.data.data.count_like;
                 this.similarForm.product_category_id = response.data.data.product_category_id;
+                this.randomForm.product_category_id = response.data.data.product_category_id;
                 this.similarForm.except_user_id = response.data.data.user.id;
                 this.form.state_transaction = response.data.data.state_transaction;
                 console.log(response.data.data.user.id);
                 console.log(this.similarForm.except_user_id);
                 this.getSimilarProducts();
                 this.getOtherProducts();
+                this.getRandomProducts();
                 this.getMap();
                 this.getMap2();
                 this.$nextTick(() => {
@@ -566,9 +612,7 @@ export default {
         },
         getRandomProducts() {
             this.$axios.get("/api/products/", {
-                params: {
-                    random: 1,
-                },
+                params:this.randomForm.data(),
             }).then(response => {
 
                 this.randomProducts = response.data;
@@ -577,19 +621,20 @@ export default {
         getOtherProducts() {
             this.form.user_id = this.product.user.id;
             this.product_id = this.product.id;
-            console.log(this.product_id);
-            console.log(this.product.user.id);
+
             this.$axios.get("/api/products/", {
                 params: this.form.data(),
 
             }).then(response => {
                 this.otherProducts = response.data
+                console.log(this.otherProducts.data);
                 this.otherProducts.data =this.otherProducts.data.filter(products =>{
                     return products.id != this.product_id;
                 })
             })
         },
         getSimilarProducts() {
+
             this.$axios.get("/api/products/", {
                 params: this.similarForm.data(),
             }).then(response => {
@@ -642,7 +687,7 @@ export default {
 
             // Initialize and add the map
             const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 10,
+                zoom: 13,
                 center: {lat: getlat, lng: getlon}, // Initial position
                 mapId: "DEMO_MAP_ID",
                 disableDefaultUI: true,
@@ -672,7 +717,7 @@ export default {
 
             // Initialize and add the map
             const map1 = new google.maps.Map(document.getElementById("map1"), {
-                zoom: 10,
+                zoom: 17,
                 center: {lat: getlat, lng: getlon}, // Initial position
                 mapId: "DEMO_MAP_ID",
                 disableDefaultUI: true,
@@ -763,10 +808,19 @@ export default {
         submitReport(id, type) {
             this.reportForm.reportable_id = id;
             this.reportForm.reportable_type = type;
+            if(!this.reportForm.reportable_type){
+                this.isReportEmpty=true;
+            }
+            else{
+                this.reportForm.post("/api/reports").then(response => {
+                    this.$store.commit("setPop", {
+                        description: "신고가 접수되었습니다."
+                    });
+                    this.isReport=false;
+                    this.isReportEmpty=false;
+                })
+            }
 
-            this.reportForm.post("/api/reports").then(response => {
-
-            })
         },
         changeTransaction(stateTransaction) {
 
@@ -884,11 +938,9 @@ watch:{
     mounted() {
         this.getProduct();
         this.getProducts();
-        this.getRandomProducts();
         this.getReportCategories();
-        this.getSimilarProducts();
         window.addEventListener('scroll', this.handleScroll);
-
+        console.log(this.$auth.user.data);
     }
 };
 </script>

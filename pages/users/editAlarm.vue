@@ -172,14 +172,6 @@ export default {
             })
 
         },
-        console(){
-            console.log(this.form.alarm_chat);
-            console.log(this.form.alarm_keyword);
-            console.log(this.form.alarm_like);
-            console.log(this.form.alarm_marketing);
-            console.log(this.form.alarm_review);
-
-        }
 
     },
 
@@ -192,8 +184,7 @@ export default {
 
     },
     mounted() {
-        this.console();
-
+        console.log(this.$auth.user.data);
     }
 }
 </script>

@@ -19,11 +19,11 @@
         </header>
         <!-- header End -->
 
-        <main class="subpage buyer_select" v-if="product">
-            <div class="chat-prod prod-item">
+        <main class="subpage buyer_select chats" v-if="product" >
+            <div class="chat-prod prod-item ">
                 <div class="container col-group">
                     <div class="item-img">
-                        <img :src="product.img ? product.img.url:''" alt="">
+                        <img :src="product.img ? product.img.url: ''" alt="">
                     </div>
                     <div class="item-txt-wrap">
                         <p class="title">
@@ -49,10 +49,10 @@
                         </div>
                     </div>
                     <div class="profile-img" v-if="buyer.asker.id != user.id">
-                        <img :src="buyer.asker.img ? buyer.asker.img.url:''" alt="">
+                        <img :src="buyer.asker.img ? buyer.asker.img.url:'/images/profile_null.png'" alt="">
                     </div>
                     <div class="profile-img" v-if="buyer.owner.id != user.id">
-                        <img :src="buyer.owner.img ? buyer.owner.img.url:''" alt="">
+                        <img :src="buyer.owner.img ? buyer.owner.img.url:'/images/profile_null.png'" alt="">
                     </div>
                     <div class="item-txt-wrap row-group">
                         <div class="title-group col-group">

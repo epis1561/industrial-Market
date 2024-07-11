@@ -85,3 +85,15 @@ i { font-family: 'xeicon'; font-style: normal; }
     bottom: 0;
     border-radius: 0 0 8px 8px;
 }
+.chats .prod-item .label{
+    padding: 0 6px;
+}
+
+.offer_price{
+    font-size: 16px;
+}
+
+.users .prod-item .item-img .ongoing {
+    width: 191px;
+    height: 42px;
+}

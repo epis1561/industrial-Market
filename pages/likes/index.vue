@@ -17,27 +17,30 @@
         <!-- header End -->
 
         <main class="subpage">
+
             <div class="top-tab-wrap col-group">
-                <a href="#" class="tab-item" @click.prevent="type='product'" :class="{'active':type=='product'}">
+                <a href="#" class="tab-item" @click.prevent="form.likeable_type='Product'" :class="{'active':form.likeable_type=='Product'}">
                     관심 상품
                 </a>
-                <a href="#" class="tab-item" @click.prevent="type='user'" :class="{'active':type=='user'}">
+                <a href="#" class="tab-item" @click.prevent="form.likeable_type='User'" :class="{'active':form.likeable_type=='User'}">
                     관심 회원
                 </a>
             </div>
 
-            <div class="container" v-if="type=='product'">
+            <div class="container" v-if="form.likeable_type=='Product'">
                 <div class="prod-list">
                     <like-product @removeProduct="removeProduct(likeProduct.likeable.id)" :product="likeProduct.likeable" v-for="likeProduct in likeProducts.data" :key="likeProduct.id"/>
                 </div>
+                <infinite-scroll v-if="likeProducts.meta" :loading="loading" :form="form" :meta="likeProducts.meta" :target-contents="'.prod-list'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getLikeProducts(true);}"/>
+
             </div>
 
-            <div class="container" v-if="type=='user'">
+            <div class="container" v-if="form.likeable_type=='User'">
                 <div class="user-list">
-                    <like-user :like-user="likeUser" v-for="likeUser in likeUsers.data" :key="likeUser.id"/>
+                    <like-user @removeProduct="removeUser(likeUser.likeable.id)" :like-user="likeUser" v-for="likeUser in likeUsers.data" :key="likeUser.id"/>
                 </div>
+                <infinite-scroll v-if="likeUsers.meta" :loading="loading" :form="form" :meta="likeUsers.meta" :target-contents="'.user-list'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getLikeUsers(true);}"/>
             </div>
-
         </main>
 
         <!-- gnb Start -->
@@ -61,7 +64,8 @@ export default {
     data() {
         return {
             form: new Form(this.$axios, {
-                likeable_type: "",
+                page:1,
+                likeable_type: "Product",
                 likeable_id: "",
             }),
 
@@ -84,62 +88,112 @@ export default {
             type: 'product',
             isLike:true,
             product_id:"",
+            loading:false,
         }
 
     },
 
     methods: {
-        getLikeUser() {
+        getLikeUsers(loadMore = false) {
+            this.loading = true;
             this.$store.commit("setLoading", true);
-            this.form.likeable_type = 'User';
 
             this.$axios.get("/api/likes", {
-                params: this.form.data(),
+                params: {
+                    ...this.form.data(),
+                    likeable_type: "User",
+                },
             }).then(response => {
+                this.loading = false;
+                console.log(response.data);
+                if (loadMore) {
+                    this.likeUsers.data = [...this.likeUsers.data, ...response.data.data];
+
+                    return this.likeUsers.meta = response.data.meta;
+                }
+
                 this.likeUsers = response.data;
-                console.log('유저데이터', this.likeUsers.data);
+
             })
         },
 
-        getLikeProducts() {
+        getLikeProducts(loadMore = false) {
+            this.loading = true;
             this.$store.commit("setLoading", true);
-            this.form.likeable_type = 'Product';
 
             this.$axios.get("/api/likes", {
-                params: this.form.data(),
+                params: {
+                    ...this.form.data(),
+                    likeable_type: "Product",
+                },
             }).then(response => {
+                console.log(response.data);
+                this.loading = false;
+
+                if (loadMore) {
+                    this.likeProducts.data = [...this.likeProducts.data, ...response.data.data];
+
+                    return this.likeProducts.meta = response.data.meta;
+                }
                 this.likeProducts = response.data;
-                console.log('상품데이터', response.data.data);
 
             })
         },
 
         removeProduct(id) {
-            console.log('삭제발동했습니다.');
             this.form.likeable_id = id;
-
             this.form.likeable_type = "Product";
             console.log(this.form.likeable_id);
             console.log(this.form.likeable_type);
             this.form.delete("/api/likes")
                     .then(response => {
-                        console.log('삭제성공')
                         this.likeProducts.data = this.likeProducts.data.filter(likeProduct => {
                             return likeProduct.likeable.id !== id; // id가 다른 항목만 필터링
                         });
                     })
 
         },
+        removeUser(id) {
+            this.form.likeable_id = id;
+            this.form.likeable_type = "User";
+            console.log(this.form.likeable_id);
+            console.log(this.form.likeable_type);
+            this.form.delete("/api/likes")
+                    .then(response => {
+                        this.likeUsers.data = this.likeUser.data.filter(likeUser => {
+                            return likeUser.likeable.id !== id; // id가 다른 항목만 필터링
+                        });
+                    })
 
+        },
     },
 
     computed: {},
 
-    watch: {},
+    watch: {
+        "form.likeable_type": {
+            deep: true,
+            handler() {
+                this.likeProducts.data = [];
+                this.likeProducts.meta.current_page = 1;
+
+                this.likeUsers.data = [];
+                this.likeUsers.meta.current_page = 1;
+
+                this.form.page = 1;
+
+                if(this.form.likeable_type === "User")
+                    return this.getLikeUsers();
+
+                return this.getLikeProducts();
+
+            }
+        }
+    },
 
 
     mounted() {
-        this.getLikeUser();
+        this.getLikeUsers();
         this.getLikeProducts();
         if(this.$route.query.type == 'User'){
             this.type='user';

@@ -40,7 +40,7 @@
                     <div class="form-item row-group">
                         <div class="item-default">닉네임</div>
                         <div class="item-user">
-                            <input type="text" class="form-input disable" :value="user.nickname" v-if="user.nickname">
+                            <input type="text" class="form-input" :value="user.nickname" v-if="user.nickname">
                         </div>
                     </div>
                     <div class="form-item row-group">
@@ -58,10 +58,10 @@
                             <div class="item-default">활동지역</div>
                             <div class="item-user col-group">
                                 <div name="" id="" class="select form-input form-input-half" @click.prevent.stop="activeCities = true, isLocationCurrent = false">
-                                   {{ active_city ? active_city : user.activeCounty.city.title}}
+                                   {{ active_city ? active_city : '시/도'}}
                                 </div>
                                 <div name="" id="" class="select form-input form-input-half" @click.prevent.stop="activeCities = true, isLocationCurrent = false">
-                                    {{ active_county ? active_county : user.activeCounty.title }}
+                                    {{ active_county ? active_county : '시/군/구'}}
                                 </div>
                             </div>
                             <p class="guide-txt">
@@ -94,9 +94,11 @@
                             </div>
                         </div>
                     </div>
+
                     <pop-location :active="activeCities" @change="changeLocation" @close="activeCities = false" v-if="activeCities"/>
                 </div>
             </div>
+            <flash :isNullLocate="isNullLocate"/>
         </main>
 
 
@@ -123,10 +125,7 @@ export default {
             form: new Form(this.$axios, {
                 email: this.$auth.user.data.email,
                 page: 1,
-                county_id: "",
-                active_country: "",
-                active_city: "",
-                active_county: "",
+                county_id: this.$auth.user.data.activeCounty ? this.$auth.user.data.activeCounty.id : "",
 
                 city: "",
                 county: "",
@@ -136,9 +135,9 @@ export default {
                 lon: "",
             }),
             isLocationCurrent: false,
-            active_country: "",
-            active_city: "",
-            active_county: "",
+            active_county : this.$auth.user.data.activeCounty ? this.$auth.user.data.activeCounty.title:"",
+            active_city : this.$auth.user.data.activeCounty ? this.$auth.user.data.activeCounty.city.title:"",
+            isNullLocate: false,
             activeCities:false,
             showMap:false,
             getlat:"",
@@ -153,45 +152,54 @@ export default {
             this.activeCities = true;
         },
         changeLocation(county){
-            this.active_country = county.country;
-            this.active_city = county.city.title;
             this.active_county = county.title;
+            this.active_city = county.city.title;
             this.form.county_id = county.id;
         },
         update() {
+            if(!this.form.county_id){
+                this.isNullLocate=true;
+                return;
+            }
+
             this.$store.commit("setLoading", true);
             this.form.set({
                 ...this.form.data(),
                 ...this.location
             });
 
-            this.form.active_country = this.active_country;
-            this.form.active_county = this.active_county;
-            this.form.active_city = this.active_city;
+            console.log(this.form.data());
 
 
             this.form.patch("/api/users/updateAccount").then(response => {
-
                 this.$auth.fetchUser();
                 this.$router.back();
             })
         },
         defaultLocation() {
+            console.log(this.location);
+            console.log(this.isLocationCurrent);
             if (this.isLocationCurrent) {
                 if (this.location.city) {
                     this.active_country = this.location.country;
                     this.active_city = this.location.city;
                     this.active_county = this.location.county;
                     this.form.county_id = this.user.county.id;
+                    console.log(this.active_county,'카운티')
+                    console.log(this.active_city,'시티')
+                    console.log(this.form.county_id)
                 } else {
                     alert('위치정보제공 동의를 하지않아 현재위치를 불러 올 수 없습니다.\n위치제공정보에 동의해주세요.');
                     this.isLocationCurrent = false;
                     $('.form-checkbox').prop('checked', false); // 체크 해제
                 }
             } else {
-                this.active_country = "";  // 혹은 다른 초기화 값으로 설정
                 this.active_city = "";
                 this.active_county = "";
+                this.form.county_id="";
+                console.log(this.form.county_id)
+                console.log(this.active_county,'카운티');
+                console.log(this.active_city,'시티');
             }
 
         },
@@ -239,10 +247,18 @@ export default {
         },
         location(){
             return this.$store.state.location;
-        }
+        },
+
     },
     watch: {
-
+        isNullLocate(newVal) {
+            if (newVal === true) {
+                // 예를 들어, 3초 뒤에 isEmpty를 false로 변경
+                setTimeout(() => {
+                    this.isNullLocate = false;
+                }, 1000); // 3초 후에 실행
+            }
+        }
     },
     mounted() {
 console.log(this.$auth.user.data);

@@ -1,6 +1,6 @@
 <template>
         <nuxt-link :to="`/users/${likeUser.likeable.id}`" class="user-item col-group">
-            <button class="like-btn active"></button>
+            <button class="like-btn" @click.prevent.stop="remove" :class="{'active':isLike}"></button>
             <div class="item-img">
                 <img :src="likeUser.likeable.img ? likeUser.likeable.img.url:'/images/profile_null.png'" alt="">
             </div>
@@ -18,14 +18,17 @@ export default {
     props:["likeUser"],
     data(){
         return {
-            locateName:[],
+
+            isLike:true,
         }
     },
 
     methods: {
-console(){
-
-},
+        remove(){
+            this.isLike=false;
+            this.$emit('removeProduct',);
+            console.log('에밋발동')
+        }
 
     },
 

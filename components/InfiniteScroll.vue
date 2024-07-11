@@ -12,6 +12,7 @@ export default {
         return {
             page: 1,
             finish: false,
+            currentForm: this.form.data(),
             prevForm: this.form.data(),
         }
     },
@@ -28,14 +29,10 @@ export default {
 
             let self = this;
 
-
-
             if (!this.finish) {
                 if(!this.loading){
-                    if (this.page >= this.meta.last_page) {
-
+                    if (this.page >= this.meta.last_page)
                         return this.finish = true;
-                    }
 
                     if (scrollEnd) {
                         this.page += 1;
@@ -64,7 +61,7 @@ export default {
                 }
 
                 let current = {
-                    ...this.form.data(),
+                    ...this.currentForm,
                     page: null
                 }
 
@@ -85,7 +82,6 @@ export default {
         // 맨처음 한번만 불러오는 부분이다.
         // 즉, 1페이지 정보가 너무 적게 들어오고 다음페이지넘어가는 수순밟기전에 이미끝인가싶을까봐
         // 2페이지분량을 뿌려주는느낌!
-
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {

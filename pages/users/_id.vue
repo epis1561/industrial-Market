@@ -1,5 +1,5 @@
 <template>
-    <div id="wrap">
+    <div id="wrap" class="users">
 
         <!-- header Start -->
         <header id="header" class="detail-header user-detail-header">

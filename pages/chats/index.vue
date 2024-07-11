@@ -24,10 +24,10 @@
                     전체
                 </div>
                 <div class="label-item" :class="{'active': isMy==='내가올린글'}" @click="changeMy('내가올린글')">
-                    내가올린글
+                    판매
                 </div>
                 <div class="label-item" :class="{'active': isMy==='내가문의한글'}" @click="changeMy('내가문의한글')">
-                    내가문의한글
+                    구매
                 </div>
             </div>
             <div class="container">
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="chat-list" v-if="chattings">
-                    <chat :new="$auth.user.data" :item=chatting v-for="chatting in chattings.data" :key="chatting.id" />
+                    <chat  :item=chatting v-for="chatting in chattings.data" :key="chatting.id" />
                 </div>
             </div>
 
@@ -102,13 +102,11 @@ export default{
                 params: this.form.data(),
 
             }).then(response => {
-                console.log(response.data);
-                console.log("이거",this.$auth.user.data);
+
                 if(loadMore) {
 
                     this.chattings.data = [...this.chattings.data, ...response.data.data];
                     this.load = false;
-                    console.log(this.chattings);
                 }
                 else{
 
@@ -156,7 +154,6 @@ export default{
         },
         getMyChat(loadMore){
             this.$store.commit("setLoading",true);
-            console.log('내가올린글')
             this.$axios.get("/api/chats/indexByOwner", {
                 params: this.form.data(),
             }).then(response => {
@@ -174,12 +171,12 @@ export default{
             })
         },
         getAskChat(loadMore){
-            console.log('내가문의한글')
+
             this.$store.commit("setLoading",true);
             this.$axios.get("/api/chats/indexByAsker", {
                 params: this.form.data(),
             }).then(response => {
-                console.log(response.data);
+
                 if(loadMore) {
 
                     this.chattings.data = [...this.chattings.data, ...response.data.data];

@@ -28,7 +28,12 @@
                 <p :class="'label label' + item.type" v-if="item.type ==2">
                     {{ item.format_short_type }}
                 </p>
-                {{ item.format_price }}
+                <div v-if="item.offer_price ==0 && item.type!=2">
+                    {{ item.format_price }}
+                </div>
+                <div v-if="item.offer_price ==1 && item.type!=2">
+                    가격제안
+                </div>
             </div>
             <div class="prod-btn-wrap col-group">
                 <div class="prod-btn col-group">

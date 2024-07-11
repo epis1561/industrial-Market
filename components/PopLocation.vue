@@ -88,6 +88,7 @@ export default {
         },
         selectCity(city){
             this.selectedCity = city;
+            console.log(this.selectedCity);
         },
         selectCounty(county){
             this.selectedCounty = county;

@@ -296,7 +296,7 @@ main { overflow: auto; }
 .products_detail .detail-sub-title:not(:last-child)::after { content: ''; display: block; position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #aeaeae; right: -7px; top: 50%;  transform: translateY(-50%); }
 .products_detail .detail-title { font-size: 20px; font-weight: 600; line-height: 1.25; }
 .products_detail .detail-title .label { transform: translateY(-2px); }
-.products_detail .label { display: inline-block; font-size: 12px; font-weight: normal; padding: 0 4px; height: 20px; line-height: 18px; background: #2f83f7; color: #fff; border-radius: 2px;  }
+.products_detail .label { display: inline-block; font-size: 12px; font-weight: normal; padding: 0 4px; height: 20px; line-height: 20px; background: #2f83f7; color: #fff; border-radius: 2px;  }
 .products_detail .detail-title .label1,.products_detail.detail-title .label2, .products_detail .detail-title .label4, .products_detail .detail-title .label6{
   display: inline-block; font-size: 12px; font-weight: normal; padding: 0 4px; height: 20px; line-height: 18px; background: #fff; color:  #2f83f7; border-radius: 2px; border: 1px solid #2f83f7;
 }

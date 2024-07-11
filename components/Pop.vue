@@ -1,11 +1,6 @@
 <template>
     <div class="m-pop type01 modal-container" v-if="pop" style="display: block; z-index: 999999999;">
         <div class="modal-wrap" style="max-width:calc(100% - 40px); width:560px;">
-<!--            <div class="title-wrap">
-                <h3 class="title" v-if="pop.title">
-                    {{ pop.title }}
-                </h3>
-            </div>-->
             <p class="txt" v-html="pop.description ? pop.description : '성공적으로 처리되었습니다.'"></p>
 
             <div class="btn-wrap">

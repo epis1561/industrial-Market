@@ -156,7 +156,7 @@ export default {
         return {
             form: new Form(this.$axios, {
                 product_id: this.$route.query.id,
-                emotion: "",
+                emotion: null,
                 manner_ids: [],
             }),
             product: "",

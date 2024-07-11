@@ -49,7 +49,7 @@
                                 {{ productCategory.title }}
                             </button>
                         </div>
-<!--                        <div class="m-input-error" v-if="!form.product_category_id && nullCategory">카테고리를 선택해주세요.</div>-->
+                 <error :form="form" name="product_category_id"/>
                     </div>
                     <div class="form-item row-group">
                         <div class="item-default">
@@ -65,12 +65,13 @@
                             가격
                         </div>
                         <div class="categorybuttons">
-                            <button class="category" :class="{'active':form.type == 0}" @click="form.type=0">팝니다
+                            <button class="category" :class="{'active':form.type == 0}" @click="form.type=0" :disabled="isOffer">판매
                             </button>
-                            <button class="category" :class="{'active':form.type == 1}" @click="form.type=1">찾습니다
+                            <button class="category" :class="{'active':form.type == 2}" @click="form.type=2, price=0">나눔
                             </button>
-                            <button class="category" :class="{'active':form.type == 2}" @click="form.type=2, price=0">나눔합니다
+                            <button class="category" :class="{'active':form.type == 1}" @click="form.type=1" :disabled="isOffer">찾습니다
                             </button>
+
                         </div>
                         <div class="item-user row-group">
                             <div class="form-input-wrap col-group">
@@ -96,7 +97,9 @@
                         <div class="item-user">
                             <div class="form-textarea-wrap">
                                 <textarea name="" id="" maxlength="2000" class="form-textarea"
-                                          placeholder="브랜드, 모델명, 구매 시기, 하자 유무 등 상품 설명을 최대한 자세히 적어주세요. 작성된 문의 내용은 검색 포털에 노출됩니다.개인 정보는 작성 내용에 기재하시면 안됩니다."
+                                          placeholder="브랜드, 모델명, 구매 시기, 하자 유무 등 상품 설명을 최대한 자세히 적어주세요.
+작성된 문의 내용은 검색 포털에 노출됩니다.
+개인 정보는 작성 내용에 기재하시면 안됩니다."
                                           v-model="form.description"> </textarea>
                                 <p class="sticker">
                                     <span>{{ form.description.length }}</span> / 2000
@@ -130,9 +133,9 @@
                             </p>
                         </div>
                         <div class="item-user">
-                            <input type="text" class="form-input" placeholder="컴마(,)로 구분 / 최대 15자 / 5개까지 등록가능"
-                                   v-model="form.keywords_origin" @input="checkKeywords">
+                            <input type="text" class="form-input" placeholder="컴마(,)로 구분 / 최대 15자 / 5개까지 등록가능" v-model="form.keywords_origin">
                         </div>
+
                     </div>
                     <div class="form-footer col-group">
                         <button class="form-footer-btn submit-btn" :class="{'disable':!checkInputAll}" :disabled="!checkInputAll" @click="store">
@@ -322,11 +325,16 @@ export default {
             nullLocation: "",
             nullType: "",
             price: "",
+            keywordsError: false,
+            keywords:'',
+            isOffer:false,
         }
 
     },
 
     methods: {
+
+
         async getMap() {
 
             if (this.$route.query.id) {
@@ -458,6 +466,7 @@ export default {
             const geocodeResult = await reverseGeocode(getlat, getlon);
 
             this.address = geocodeResult.address_components;
+
             this.address.forEach(component => {
                 const types = component.types;
                 if (types.includes("administrative_area_level_1")) {
@@ -487,7 +496,6 @@ export default {
 
                 // Extract address components
                 this.address = geocodeResult.address_components;
-
 
                 // Iterate through address components to extract city, county, and town
             });
@@ -569,6 +577,8 @@ export default {
                 this.form.town = town;
                 this.form.village = town2;
                 this.form.country = country;
+
+
                 this.detailMap = true;
 
             }
@@ -585,8 +595,7 @@ export default {
             this.$axios.get("api/products/" + this.$route.query.id, {})
                     .then(response => {
                         this.product = response.data.data;
-                        console.log(this.product);
-                        console.log(this.product.price / 10000);
+
                         this.form.title = this.product.title;
                         this.form.product_category_id = this.product.product_category_id;
                         this.form.type = this.product.type;
@@ -612,7 +621,7 @@ export default {
         store() {
             if (this.$route.query.id) {
                 this.form.price = this.price * 10000;
-                console.log(this.form.price,'수정금액')
+
                 this.$store.commit("setLoading", true);
                 return this.form.patch("/api/products/" + this.$route.query.id)
 
@@ -624,7 +633,7 @@ export default {
                         });
             } else {
                 this.form.price = this.price * 10000;
-                console.log(this.form.price,'등록금액')
+
                 this.$store.commit("setLoading", true);
                 this.form.post("/api/products").then(response => {
 
@@ -640,11 +649,13 @@ export default {
         },
         offer() {
             if (this.form.offer_price == 0) {
-                this.form.offer_price = 1
-                this.price = 0
+                this.form.offer_price = 1;
+                this.price = "";
+                this.isOffer=true;
 
             } else {
                 this.form.offer_price = 0
+                this.isOffer=false;
 
             }
 
@@ -676,22 +687,26 @@ export default {
             this.isMap = true;
 
         },
-        checkKeywords(){
-            if (this.form.keywords_origin.includes(' ')){
-                this.form.keywords_origin = this.form.keywords_origin.replace(/\s/g, '');
-            }
-        },
         preventScroll(event){
             if (event.deltaY !== 0) {
                 event.preventDefault();
             }
-        }
+        },
+
 
     },
 
+
+
     computed: {
         checkInputAll() {
-            let exceptColumns = ["town", "village", "keywords_origin", "imgs_remove_ids"];
+            let exceptColumns
+            if(this.isOffer ==1 ){
+                exceptColumns = ["town", "village", "keywords_origin", "imgs_remove_ids","price"];
+            }
+            else{
+                exceptColumns = ["town", "village", "keywords_origin", "imgs_remove_ids"];
+            }
 
             let keys = Object.keys(this.form.data());
 
@@ -711,10 +726,10 @@ export default {
                     result = false;
                     return true;
                 }
-                console.log(this.form.data());
+
                 return false;
             });
-            console.log(result);
+
             return result;
 
         },

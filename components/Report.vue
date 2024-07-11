@@ -90,7 +90,9 @@ props:["isReport","type","id"],
         submitReport(){
             this.$store.commit("setLoading",true);
             this.reportForm.post("/api/reports").then(response => {
-
+                this.$store.commit("setPop", {
+                    description: "신고내용이 정상 접수 되었습니다."
+                });
 this.$emit("created");
             })
         },

@@ -150,7 +150,7 @@ export default {
         },
         complete() {
             this.form.state_transactions = [2];
-            this.isTransaction =2
+            this.isTransaction =2;
             return this.getProducts();
         },
         leave(){

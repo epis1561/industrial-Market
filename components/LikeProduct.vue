@@ -22,10 +22,18 @@
                 </p>
             </div>
             <div class="price">
-                <p class="label">
+                <p :class="'label label' + product.type" v-if="product.type !=0 && product.type==1">
                     {{ product.format_type }}
                 </p>
-                {{ product.format_price }}
+                <p :class="'label label' + product.type" v-if="product.type ==2">
+                    {{ product.format_short_type }}
+                </p>
+                <div v-if="product.offer_price ==0 && product.type!=2">
+                    {{ product.format_price }}
+                </div>
+                <div v-if="product.offer_price ==1 && product.type!=2">
+                    가격제안
+                </div>
             </div>
             <button class="like-btn" @click.prevent.stop="remove" :class="{'active':isLike}"></button>
             <div class="prod-btn-wrap col-group">
