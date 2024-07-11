@@ -169,8 +169,6 @@ export default {
             this.$store.commit('setLoading',true);
             this.$axios.get("/api/products/" + this.$route.query.id, {}).then(response => {
                 this.product = response.data.data;
-                console.log(this.product)
-
             })
         },
         store(){

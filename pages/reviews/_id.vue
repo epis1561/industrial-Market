@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="form-footer row-group">
-                    <nuxt-link :to="`/reviews/create/?id=${review.user.id}`" class="form-footer-btn submit-btn" v-if="!review.targetUserReview">후기 보내기</nuxt-link>
+                    <nuxt-link :to="`/reviews/create/?id=${review.product.id}`" class="form-footer-btn submit-btn" v-if="!review.targetUserReview">후기 보내기</nuxt-link>
                     <nuxt-link :to="`/reviews/${review.targetUserReview.id}`" class="form-footer-btn submit-btn" v-if="review.targetUserReview && review.emotion==1">내가 보낸 후기 보기</nuxt-link>
                 </div>
             </div>
