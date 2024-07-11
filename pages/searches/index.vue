@@ -31,8 +31,8 @@
 
         <div class="popular-search-wrap">
             <div class="popular-search-list col-group">
-                <div class="popular-search-item" v-for="popularItem in productCategories.data" :key="popularItem.id" @click="selectCategory(popularItem)">
-                    {{ popularItem.title }}
+                <div class="popular-search-item" v-for="search in searches.data" :key="search.id">
+                    {{ search.title }}
                 </div>
             </div>
         </div>

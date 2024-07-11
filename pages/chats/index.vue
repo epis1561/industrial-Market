@@ -113,7 +113,6 @@ export default {
                 this.chats = response.data;
             })
         },
-
     },
 
     computed: {
