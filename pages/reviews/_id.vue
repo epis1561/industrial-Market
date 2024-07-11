@@ -45,7 +45,7 @@
                 </div>
                 <div class="form-footer row-group">
                     <nuxt-link :to="`/reviews/create/?id=${review.product.id}`" class="form-footer-btn submit-btn" v-if="!review.targetUserReview">후기 보내기</nuxt-link>
-                    <nuxt-link :to="`/reviews/${review.targetUserReview.id}`" class="form-footer-btn submit-btn" v-if="review.targetUserReview && review.emotion != 0">내가 보낸 후기 보기</nuxt-link>
+                    <nuxt-link :to="`/reviews/${review.targetUserReview.id}`" class="form-footer-btn submit-btn" v-if="review.targetUserReview">내가 보낸 후기 보기</nuxt-link>
                 </div>
             </div>
             </div>
@@ -64,7 +64,7 @@
 
                     <div class="review-detail send">
                         <div class="review-detail-list row-group">
-                            <div class="review-detail-item col-group" v-for="manner in review.manners" :key="manner.id">
+                            <div class="review-detail-item col-group" v-for="manner in review.manners.filter(manner => manner.emotion != 0)" :key="manner.id">
                                 <i class="icon"></i>
                                 <p class="txt">
                                     {{ manner.title }}
