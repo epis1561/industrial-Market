@@ -38,7 +38,7 @@
                     <nuxt-link :to="`/notices/${notice.id}`" class="notice-item" v-for="(notice, index) in notices.data" :key="notice.id">
                         <div class="content-wrap row-group">
                             <p class="title">
-                                {{index}} {{ notice.title }}
+                                {{ notice.title }}
                             </p>
                             <p class="date">
                                 {{ notice.format_created_at }}
