@@ -95,6 +95,7 @@ export default {
 
     methods: {
         getLikeUsers(loadMore = false) {
+            this.form.likeable_type = "User"
             this.loading = true;
             this.$store.commit("setLoading", true);
 
@@ -193,11 +194,16 @@ export default {
 
 
     mounted() {
-        this.getLikeUsers();
-        this.getLikeProducts();
         if(this.$route.query.type == 'User'){
-            this.type='user';
+            this.likeable_type='User';
+            this.getLikeUsers();
         }
+       else{
+            this.likeable_type='Product';
+            this.getLikeProducts();
+        }
+
+
     },
 
 };

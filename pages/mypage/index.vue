@@ -56,7 +56,7 @@
                             나의 활동
                         </p>
                         <div class="mypage-menu-list row-group">
-                            <nuxt-link :to="`/mypage/products/indexBySell?id=${2}`" class="mypage-menu-item col-group">
+                            <nuxt-link :to="`/mypage/products/indexBySell?id=${1}`" class="mypage-menu-item col-group">
                                 <p class="title">
                                     판매 내역
                                 </p>
@@ -74,14 +74,14 @@
                                     <i class="icon"></i>
                                 </div>
                             </nuxt-link>
-                            <nuxt-link to="/users/editAccount" class="mypage-menu-item col-group">
-                                <p class="title">
-                                    활동지역 설정
-                                </p>
-                                <div class="more-btn">
-                                    <i class="icon"></i>
-                                </div>
-                            </nuxt-link>
+<!--                            <nuxt-link to="/users/editAccount" class="mypage-menu-item col-group">-->
+<!--                                <p class="title">-->
+<!--                                    활동지역 설정-->
+<!--                                </p>-->
+<!--                                <div class="more-btn">-->
+<!--                                    <i class="icon"></i>-->
+<!--                                </div>-->
+<!--                            </nuxt-link>-->
                             <nuxt-link to="/manners" class="mypage-menu-item col-group">
                                 <p class="title">
                                     받은 후기

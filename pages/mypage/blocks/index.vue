@@ -35,10 +35,11 @@
                     </div>
                 </div>
             </div>
+            <infinite-scroll v-if="blocks.meta" :loading="loading" :form="form" :meta="blocks.meta" :target-contents="'.user-list'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getBlocks(true);}"/>
         </main>
 
         <!-- gnb Start -->
-        <gnb :like="isLike" />
+
         <!-- gnb End -->
         <flash :name="nickName" :isname="isName" />
         <!-- 차단해제 버튼 클릭 시 팝업 -->
@@ -52,7 +53,7 @@ export default {
     data() {
         return {
             form: new Form(this.$axios, {
-
+                page:1,
             }),
             loading: false,
             blocks:{
@@ -70,7 +71,7 @@ export default {
 
     methods: {
                 getBlocks(loadMore = false){
-                    this.loadding = true;
+                    this.loading = true;
                     this.$store.commit("setLoading",true);
 
                     this.$axios.get("/api/blocks",{

@@ -26,10 +26,10 @@
                         <p class="txt date">
                             {{ qna.format_created_at }}
                         </p>
-                        <p class="txt state" v-if="qna.answer==null">
+                        <p class="txt state" v-if="qna.answer.length==0">
                             답변대기
                         </p>
-                        <p class="txt state complete" v-if="qna.answer!=null"> <!-- 답변 완료 시 complete 클래스 추가 -->
+                        <p class="txt state complete" v-if="qna.answer.length!=0"> <!-- 답변 완료 시 complete 클래스 추가 -->
                             답변완료
                         </p>
                     </div>
@@ -63,12 +63,32 @@
                 </div>
 
                 <div class="form-footer col-group">
-                    <button class="form-footer-btn del-btn" @click="remove">
+                    <button class="form-footer-btn del-btn" @click="isDelete=true">
                         삭제
                     </button>
                     <nuxt-link :to="`/qnas/create?id=${qna.id}`" class="form-footer-btn submit-btn">
                         수정
                     </nuxt-link>
+                </div>
+
+                <div class="modal-container modal_trans" :class="{'active':isDelete}">
+                    <div class="modal-wrap modal-alert">
+                        <div class="modal-title-wrap">
+                            <i class="icon blue"></i>
+                        </div>
+                        <p class="modal-alert-txt">
+                          삭제하시겠습니까?
+                        </p>
+
+                        <div class="modal-footer col-group">
+                            <button class="modal-footer-btn submit-btn" @click="remove">
+                                예
+                            </button>
+                            <button class="modal-footer-btn close-btn" @click="isDelete=false">
+                                아니오
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -114,6 +134,7 @@ export default {
             }),
             qna: "",
             isImg:false,
+            isDelete:false,
         }
 
     },
@@ -131,6 +152,7 @@ export default {
             })
         },
         remove(){
+            this.isDelete=false;
             this.form.delete("/api/qnas/" + this.qna.id).then(response => {
                 this.$router.push("/qnas");
             })

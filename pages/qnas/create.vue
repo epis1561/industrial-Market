@@ -1,5 +1,5 @@
 <template>
-    <div id="wrap" v-if="load">
+    <div id="wrap" v-if="load" class="qnas">
         <!-- header Start -->
         <header id="header" class="sub-header">
             <div id="search"></div> <!-- 검색창 -->
@@ -43,8 +43,8 @@
                                 <p class="sticker">
                                     <span>{{ form.description.length }}</span> / 1000
                                 </p>
-                                <error :form="form" name="description"></error>
                             </div>
+                            <error :form="form" name="description"></error>
                         </div>
                     </div>
                     <div class="form-item">
@@ -91,11 +91,29 @@
                         </p>
                     </div>
                     <div class="form-footer">
-                        <form @submit.prevent="store">
-                            <button class="form-footer-btn submit-btn">
+
+                            <button class="form-footer-btn submit-btn" :class="{'disabled': enough==false}" :disabled="enough==false" @click="isCreate=true">
                                 문의등록
                             </button>
-                        </form>
+                    </div>
+                </div>
+                <div class="modal-container modal_trans" :class="{'active':isCreate}">
+                    <div class="modal-wrap modal-alert">
+                        <div class="modal-title-wrap">
+                            <i class="icon blue"></i>
+                        </div>
+                        <p class="modal-alert-txt">
+                            등록하시겠습니까?
+                        </p>
+
+                        <div class="modal-footer col-group">
+                            <button class="modal-footer-btn submit-btn" @click="store">
+                                예
+                            </button>
+                            <button class="modal-footer-btn close-btn" @click="isCreate=false">
+                                아니오
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -215,6 +233,8 @@ export default {
             }),
             max: 5,
             qna: null,
+            isCreate:false,
+            enough:false,
         }
 
     },
@@ -227,6 +247,7 @@ export default {
             if (this.$route.query.id)
                 return this.form.patch("/api/qnas/" + this.$route.query.id)
                         .then(response => {
+                            this.isCreate=false;
                             this.$router.push("/qnas");
                         });
 
@@ -251,9 +272,33 @@ export default {
     },
 
 
-    computed: {},
+    computed: {
 
-    watch: {},
+
+    },
+
+    watch: {
+        "form.title": {
+            handler() {
+                if (this.form.title && this.form.decription) {
+                   this.enough=true;
+                }
+                else {
+                    this.enough=false;
+                }
+            }
+        },
+        "form.description": {
+            handler() {
+                if (this.form.title && this.form.description) {
+                    this.enough=true;
+                }
+                else {
+                    this.enough=false;
+                }
+            }
+        },
+    },
 
 
     mounted() {

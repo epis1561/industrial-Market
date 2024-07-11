@@ -46,7 +46,7 @@
                                 </p>
                                 <div class="sub-txt-group col-group">
                                     <p class="sub-txt">
-                                        {{ product.address_detail }}
+                                        {{ product.city.title + " " + product.county.title }}
                                     </p>
                                     <p class="sub-txt">
                                         {{ product.format_created_at }}
@@ -56,7 +56,12 @@
                                     <p :class="`label label${product.type}`">
                                         {{ product.format_state }}
                                     </p>
-                                    {{ product.format_price }}
+                                    <div v-if="product.offer_price ==0 && product.type!=2">
+                                        {{ product.format_price }}
+                                    </div>
+                                    <div v-if="product.offer_price ==1 && product.type!=2">
+                                        가격제안
+                                    </div>
                                 </div>
                                 <div class="prod-btn-wrap col-group">
                                     <div class="prod-btn col-group">
@@ -85,7 +90,8 @@
                     </div>
                 </div>
             </div>
-            <report :is-report="isReport" :type="reportable_type" :id="product_id" @created="leave"/>
+            <infinite-scroll v-if="products.meta" :loading="loading" :form="form" :meta="products.meta" :target-contents="'.prod-list'" :target-scroll="'.index'" @paginate="(data) => {form.page = data; getProducts(true);}"/>
+            <report :is-report="isReport" :type="reportable_type" :id="product_id" @created="leave" @close="close"/>
         </main>
     </div>
 </template>
@@ -118,6 +124,7 @@ export default {
             isReport:false,
             reportable_type : "Product",
             product_id: "",
+            loading:false,
         };
     },
 
@@ -141,46 +148,26 @@ export default {
         all() {
             this.form.state_transactions = [];
             this.isTransaction =0;
+            this.form.page= 1;
             return this.getProducts();
         },
         ongoing() {
             this.form.state_transactions = [0, 1];
             this.isTransaction =1;
+            this.form.page= 1;
             return this.getProducts();
         },
         complete() {
             this.form.state_transactions = [2];
             this.isTransaction =2;
+            this.form.page= 1;
             return this.getProducts();
         },
         leave(){
             this.$router.back();
         },
-        loadMore() {
-            var scrollTop = $('.index').scrollTop();
-
-            var innerHeight = $('.index').innerHeight();
-
-            var scrollHeight = $('.index').prop('scrollHeight');
-            if (this.load || this.form.page >= this.products.meta.last_page) {
-                return;
-            }
-            console.log(this.form.page)
-            if (scrollTop + innerHeight >= scrollHeight - 200) {
-
-                if (this.form.page < this.products.meta.last_page) {
-                    this.load = true;
-                    this.form.page += 1;
-                    this.$store.commit("setLoading", true);
-                    return this.getOngoingProducts(this.load);
-                }
-                ;
-
-            }
-        },
-        deleteProduct(id) {
-
-
+        close(){
+            this.isReport=false;
         },
 
     },

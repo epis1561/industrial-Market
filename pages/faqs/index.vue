@@ -47,6 +47,7 @@
                     <empty v-if="faqs.data.length === 0"/>
                 </div>
             </div>
+            <infinite-scroll v-if="faqs.meta" :loading="loading" :form="form" :meta="faqs.meta" :target-contents="'.faq-list'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getFaqs(true);}"/>
         </main>
 
         <!-- gnb Start -->
@@ -80,6 +81,7 @@ export default {
                 }
             },
             load:false,
+            loading:false,
 
         }
 

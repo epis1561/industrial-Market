@@ -80,7 +80,7 @@
                     </div>
 
                     <!-- 별로예요 선호도 체크시 나타나는 부분 -->
-                    <div v-if="badManners" class="mannerBox" :class="{'active':!good}">
+                    <div v-if="badManners" class="mannerBox" :class="{'active':good==false}">
                         <div class="review-title-wrap row-group">
                             <h3 class="title">
                                 어떤 점이 별로였나요?
@@ -109,7 +109,7 @@
                     <!-- //별로예요 선호도 체크시 나타나는 부분 -->
 
                     <!-- 좋아요/최고예요 선호도 체크시 나타나는 부분 -->
-                    <div v-if="goodManners" class="mannerBox" :class="{'active':good}">
+                    <div v-if="goodManners" class="mannerBox" :class="{'active':good==true}">
                         <div class="review-title-wrap row-group">
                             <h3 class="title">
                                 어떤 점이 좋았나요?
@@ -179,7 +179,12 @@ export default {
                 params:this.form.data(),
             }).then(response =>{
                 console.log('성공했습니다.');
-                this.$router.back();
+                if(this.good ==true){
+                    this.$router.push(`/review/${this.$route.query.id}`);
+                }
+                else{
+                    this.$router.back();
+                }
             })
 
         }

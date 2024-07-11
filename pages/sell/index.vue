@@ -50,7 +50,12 @@
                                 <p :class="`label label${product.type}`">
                                     {{ product.format_state }}
                                 </p>
-                                {{ product.format_price }}
+                                <div v-if="product.offer_price ==0 && product.type!=2">
+                                    {{ product.format_price }}
+                                </div>
+                                <div v-if="product.offer_price ==1 && product.type!=2">
+                                    가격제안
+                                </div>
                             </div>
                             <div class="prod-btn-wrap col-group">
                                 <div class="prod-btn col-group">
@@ -66,7 +71,7 @@
                     </nuxt-link>
                 </div>
             </div>
-            <infinite-scroll v-if="products.meta" :loading="loading" :form="form" :meta="products.meta" :target-contents="'.prod-list'" :target-scroll="'.index'" @paginate="(data) => {form.page = data; getProducts(true);}"/>
+          <infinite-scroll v-if="products.meta" :loading="loading" :form="form" :meta="products.meta" :target-contents="'.prod-list'" :target-scroll="'.index'" @paginate="(data) => {form.page = data; getProducts(true);}"/>
         </main>
     </div>
 </template>
@@ -78,7 +83,7 @@ export default {
     data() {
         return {
             form: new Form(this.$axios, {
-                state_transactions: [],
+                state_transactions: [0,1],
                 user_id: this.$route.query.id,
                 page: 1,
             }),
@@ -89,63 +94,48 @@ export default {
                     last_page: 1,
                 }
             },
-            isTransaction:"",
+            isTransaction:1,
             loading:false,
         };
     },
 
     methods: {
-        getProducts(loadMore) {
+        getProducts(loadMore = false) {
+            this.loading = true;
             this.$store.commit("setLoading", true);
-
+            console.log(this.form.state_transactions);
+            console.log(this.form.user_id);
             this.$axios.get("/api/products", {
                 params: this.form.data(),
             }).then(response => {
-                console.log(response.data);
-                if (loadMore)
-                    return this.products.data = [...this.products.data, ...response.data.data];
-
+                this.loading = false;
+                if (loadMore) {
+                    this.products.data = [...this.products.data, ...response.data.data];
+                    return this.products.meta = response.data.meta;
+                }
+            console.log(response.data);
                 this.products = response.data;
             })
         },
         all() {
             this.form.state_transactions = [];
             this.isTransaction =0;
+            this.form.page= 1;
             return this.getProducts();
         },
         ongoing() {
             this.form.state_transactions = [0, 1];
             this.isTransaction =1;
+            this.form.page= 1;
             return this.getProducts();
         },
         complete() {
             this.form.state_transactions = [2];
             this.isTransaction =2;
+            this.form.page= 1;
             return this.getProducts();
         },
 
-        loadMore() {
-            var scrollTop = $('.index').scrollTop();
-
-            var innerHeight = $('.index').innerHeight();
-
-            var scrollHeight = $('.index').prop('scrollHeight');
-            if (this.load || this.form.page >= this.products.meta.last_page) {
-                return;
-            }
-            console.log(this.form.page)
-            if (scrollTop + innerHeight >= scrollHeight - 200) {
-
-                if (this.form.page < this.products.meta.last_page) {
-                    this.load = true;
-                    this.form.page += 1;
-                    this.$store.commit("setLoading", true);
-                    return this.getOngoingProducts(this.load);
-                }
-                ;
-
-            }
-        },
 
     },
 

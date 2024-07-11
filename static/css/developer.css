@@ -97,3 +97,6 @@ i { font-family: 'xeicon'; font-style: normal; }
     width: 191px;
     height: 42px;
 }
+.qnas .form-footer-btn.submit-btn.disabled{
+    background-color: #e4e4e4;
+}

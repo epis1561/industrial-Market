@@ -44,10 +44,10 @@
                                 <p class="txt date">
                                     {{ qna.format_created_at }}
                                 </p>
-                                <p class="txt state" v-if="qna.answer==null">
+                                <p class="txt state" v-if="qna.answer.length==0">
                                     답변대기
                                 </p>
-                                <p class="txt state" v-if="qna.answer" :class="{'complete':!qna.format_answered_at}">
+                                <p class="txt state" v-if="qna.answer.length!=0" :class="{'complete':!qna.format_answered_at}">
                                     답변완료
                                 </p>
                             </div>

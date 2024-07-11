@@ -60,7 +60,7 @@ export default {
                     .then(response => {
                         console.log(123);
                         this.$auth.fetchUser();
-                        this.$router.back();
+                        this.$router.push('/mypage');
                     });
         },
         console(){

@@ -32,15 +32,22 @@
                                 </p>
                                 <div class="sub-txt-group col-group">
                                     <p class="sub-txt">
-                                        {{ product.address_detail }}
+                                        {{ product.city.title + " " + product.county.title }}
                                     </p>
                                     <p class="sub-txt">
                                         {{ product.format_created_at }}
                                     </p>
                                 </div>
                                 <div class="price">
-
-                                    {{ product.format_price }}
+                                    <p :class="`label label${product.type}`">
+                                        {{ product.format_state }}
+                                    </p>
+                                    <div v-if="product.offer_price ==0 && product.type!=2">
+                                        {{ product.format_price }}
+                                    </div>
+                                    <div v-if="product.offer_price ==1 && product.type!=2">
+                                        가격제안
+                                    </div>
                                 </div>
                                 <div class="prod-btn-wrap col-group">
                                     <div class="prod-btn col-group">
