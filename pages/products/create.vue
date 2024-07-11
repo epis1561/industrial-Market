@@ -251,7 +251,7 @@
 .file-preview-label {
     border-radius: 2px;
     top: 1px;
-    left: 1px;
+    left: 2px;
     z-index: 9999;
 }
 

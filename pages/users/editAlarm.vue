@@ -138,9 +138,9 @@
         </main>
 
         <!-- gnb Start -->
-        <div id="gnb">
-            <gnb/>
-        </div>
+
+            <gnb isMy=""/>
+
         <!-- gnb End -->
     </div>
     </body>
