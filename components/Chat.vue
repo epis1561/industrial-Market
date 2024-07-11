@@ -1,5 +1,5 @@
 <template>
-    <nuxt-link :to="`/chats/${item.id}`"class="chat-item col-group" v-if="item.latestMessage.length!=0">
+    <nuxt-link :to="`/chats/${item.id}`"class="chat-item col-group">
         <div class="profile-img">
             <img :src="targetUser.img ? targetUser.img.url : ''" v-if="targetUser.img" />
         </div>

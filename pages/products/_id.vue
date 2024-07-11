@@ -169,8 +169,7 @@
                         이런 상품은 어떠세요?
                     </h4>
                     <div class="prod-list prod-half-list col-group" v-if="randomProducts">
-                        <nuxt-link :to="`/products/${randomItem.id}`" class="prod-item row-group" v-if="index < 4"
-                                   v-for="(randomItem,index) in randomProducts.data" :key="randomItem.id">
+                        <nuxt-link :to="`/products/${randomItem.id}`" class="prod-item row-group" v-if="index < 4" v-for="(randomItem,index) in randomProducts.data.filter(randomProduct => randomProduct.id != product.id)" :key="randomItem.id">
                             <div class="item-img">
                                 <img :src="randomItem.img.url ? randomItem.img.url : ''"/>
                             </div>
