@@ -15,22 +15,26 @@
 
             <p class="txt">
                 {{item.latestMessage ? (item.latestMessage.imgs.length > 0 ? '(사진)' : item.latestMessage.description) : '메시지가 없습니다.'}}
-
-                <div class="chat-num-wrap">
-                    <div class="chat-num" v-if="item.count_unread_message > 0">
-                        {{ item.count_unread_message }}
-                    </div>
-                </div>
             </p>
 
+            <div class="chat-num-wrap">
+                <div class="chat-num">
+                    {{ item.count_unread_message }}
+                </div>
+            </div>
         </div>
     </nuxt-link>
 
 </template>
 <style>
 .item-txt-wrap .chat-num-wrap{
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.chat-item .item-txt-wrap {
     position: relative;
-    display: inline-block;
 }
 .chat-item .txt{
     width: fit-content;
@@ -42,9 +46,7 @@
     padding: 5px 8px;
     color: #fff;
     font-size: 14px;
-    position: absolute;
-    right: 0px;
-    top: -5px;
+
 }
 </style>
 <script>
