@@ -603,6 +603,7 @@ export default {
                         this.form.price = this.product.price / 10000;
                         this.price = this.product.price / 10000;
                         this.form.description = this.product.description;
+                        this.description = this.product.description;
                         this.form.address_detail = this.product.address_detail;
                         this.form.keywords_origin = this.product.keywords_origin;
                         this.form.city = this.product.city.title;
