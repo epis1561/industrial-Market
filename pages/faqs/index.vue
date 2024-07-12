@@ -19,17 +19,17 @@
         <main class="subpage board">
             <form class="container" @submit.prevent="() => {form.page = 1; getFaqs()}">
                 <div class="search-input-wrap">
-                    <button><img src="images/icon_search.png" alt="" class="icon"></button>
+                    <button><img src="/images/icon_search.png" alt="" class="icon"></button>
                     <input type="text" class="search-input" placeholder="무엇을 찾고 계신가요?" v-model="form.word">
                 </div>
             </form>
             <div class="cate-wrap">
                 <div class="cate-list col-group">
-                    <div class="cate-item" :class="{'active':!form.faq_category_id}"
-                         @click="() => {form.page = 1; showCategoriesFaq()}">
+                    <div class="cate-item" :class="{'active': !form.faq_category_id}"
+                         @click="() => {form.page = 1; form.faq_category = ''; showCategoriesFaq()}">
                         전체보기
                     </div>
-                    <div class="cate-item" :class="{'active':form.faq_category_id==faqCategory.id}"
+                    <div class="cate-item" :class="{'active':form.faq_category_id == faqCategory.id}"
                          v-for="faqCategory in faqCategories.data" :key="faqCategory.id"
                          @click="() => {form.page =1; showCategoriesFaq(faqCategory.id)}">
                         {{ faqCategory.title }}
@@ -116,7 +116,8 @@ export default {
             } else {
                 this.form.faq_category_id = null;
             }
-            return this.getFaqs();
+            this.loading = false;
+            return this.getFaqs(false);
 
         }
     },

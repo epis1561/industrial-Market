@@ -90,44 +90,23 @@ export default {
             if(this.$route.query.word){
                 this.form.word =  this.$route.query.word;
             }
+            this.loading = true;
             console.log(this.$auth.user.data);
             this.$store.commit("setLoading", true);
             this.$axios.get("/api/products", {
                 params: this.form.data(),
             }).then(response => {
                 if (loadMore) {
-                    this.load = false;
-                    return this.products.data = [...this.products.data, ...response.data.data];
+                    this.loading = false;
+                    this.products.data = [...this.products.data, ...response.data.data];
+                    return this.products.data.meta = response.data.meta;
                 }
                 this.products = response.data;
                 console.log(this.products.data);
 
             })
         },
-        loadMore() {
-            var scrollTop = $('.index').scrollTop();
 
-            var innerHeight = $('.index').innerHeight();
-
-            var scrollHeight = $('.index').prop('scrollHeight');
-            if (this.load || this.form.page >= this.products.meta.last_page) {
-                return;
-            }
-
-            if (scrollTop + innerHeight >= scrollHeight - 200) {
-
-                if(this.form.page < this.products.meta.last_page) {
-                    this.load = true;
-                    this.form.page += 1;
-                    this.$store.commit("setLoading",true);
-                    return this.getProducts(this.load);
-                };
-
-            }
-        },
-        scroll(){
-            $('.index').scroll(this.loadMore);
-        },
 
     },
 
@@ -143,7 +122,6 @@ export default {
 
     mounted() {
         this.getProducts();
-        this.scroll();
     },
 
 };

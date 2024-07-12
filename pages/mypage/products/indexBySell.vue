@@ -90,7 +90,7 @@
                     </div>
                 </div>
             </div>
-            <infinite-scroll v-if="products.meta" :loading="loading" :form="form" :meta="products.meta" :target-contents="'.prod-list'" :target-scroll="'.index'" @paginate="(data) => {form.page = data; getProducts(true);}"/>
+            <infinite-scroll v-if="products.meta" :loading="loading" :form="form" :meta="products.meta" :target-contents="'.prod-list'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getProducts(true);}"/>
             <report :is-report="isReport" :type="reportable_type" :id="product_id" @created="leave" @close="close"/>
         </main>
     </div>
@@ -110,7 +110,7 @@ export default {
         return {
             form: new Form(this.$axios, {
                 state_transactions: [],
-                user_id: 11,
+                user_id: "",
                 page: 1,
             }),
             products: {
@@ -129,18 +129,21 @@ export default {
     },
 
     methods: {
-        getProducts(loadMore) {
+        getProducts(loadMore = false) {
             this.form.user_id = this.user.id;
-            console.log(this.form.user_id);
-            console.log(this.form.state_transactions);
-            this.$store.commit("setLoading", true);
+            this.loading = true;
 
+            this.$store.commit("setLoading", true);
             this.$axios.get("/api/products", {
                 params: this.form.data(),
             }).then(response => {
-                console.log(response.data);
-                if (loadMore)
-                    return this.products.data = [...this.products.data, ...response.data.data];
+                this.loading = false;
+                if (loadMore){
+                    this.products.data = [...this.products.data, ...response.data.data];
+                    console.log(this.form.page);
+                    console.log(response.data);
+                    return this.products.meta = response.data.meta;
+                }
 
                 this.products = response.data;
             })
@@ -149,19 +152,22 @@ export default {
             this.form.state_transactions = [];
             this.isTransaction =0;
             this.form.page= 1;
-            return this.getProducts();
+            this.loading = false;
+            return this.getProducts(false);
         },
         ongoing() {
             this.form.state_transactions = [0, 1];
             this.isTransaction =1;
             this.form.page= 1;
-            return this.getProducts();
+            this.loading = false;
+            return this.getProducts(false);
         },
         complete() {
             this.form.state_transactions = [2];
             this.isTransaction =2;
             this.form.page= 1;
-            return this.getProducts();
+            this.loading = false;
+            return this.getProducts(false);
         },
         leave(){
             this.$router.back();

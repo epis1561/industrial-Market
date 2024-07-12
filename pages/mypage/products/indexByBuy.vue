@@ -147,10 +147,13 @@ export default {
                 this.loading = true;
                 this.$store.commit("setLoading", true);
                 this.form.buyer_id=this.$auth.user.data.id;
+                console.log(this.form.buyer_id);
                 this.form.state_transaction = 2;
                 this.$axios.get("/api/products/",{
                     params: this.form.data(),
                 }).then(response => {
+                    console.log(response.data);
+
                     this.loading = false;
 
                     if(loadMore){
@@ -159,7 +162,7 @@ export default {
                         return this.products.meta = response.data.meta;
                     }
 
-                    console.log(response.data);
+
                     this.products = response.data;
 
                 })

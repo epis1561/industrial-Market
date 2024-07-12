@@ -56,7 +56,7 @@ export default {
             form: new Form(this.$axios, {
                 page: 1,
             }),
-            loading: false,
+
             blocks: {
                 data: [],
                 meta: {
@@ -67,6 +67,7 @@ export default {
             isLike: true,
             nickName: "",
             isName: false,
+            loading: false,
         };
     },
 
