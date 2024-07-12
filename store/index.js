@@ -159,7 +159,8 @@ export const mutations = {
     },
     setChats(state,data){
         state.chats = data;
-    }
+    },
+
 }
 
 export const actions = {
