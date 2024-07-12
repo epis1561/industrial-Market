@@ -96,13 +96,11 @@
                         </div>
                         <div class="item-user">
                             <div class="form-textarea-wrap">
-                                <textarea name="" id="" maxlength="2000" class="form-textarea"
-                                          placeholder="브랜드, 모델명, 구매 시기, 하자 유무 등 상품 설명을 최대한 자세히 적어주세요.
+                                <textarea name="" id="" maxlength="2000" class="form-textarea" placeholder="브랜드, 모델명, 구매 시기, 하자 유무 등 상품 설명을 최대한 자세히 적어주세요.
 작성된 문의 내용은 검색 포털에 노출됩니다.
-개인 정보는 작성 내용에 기재하시면 안됩니다."
-                                          v-model="form.description"> </textarea>
+개인 정보는 작성 내용에 기재하시면 안됩니다." v-model="form.description" @input="changeDescription"></textarea>
                                 <p class="sticker">
-                                    <span>{{ form.description.length }}</span> / 2000
+                                    <span>{{ description.length }}</span> / 2000
                                 </p>
                                 <error :form="form" name="description"/>
                             </div>
@@ -328,12 +326,15 @@ export default {
             keywordsError: false,
             keywords:'',
             isOffer:false,
+            description: "",
         }
 
     },
 
     methods: {
-
+        changeDescription(e){
+            this.description = e.target.value;
+        },
 
         async getMap() {
 
@@ -602,6 +603,7 @@ export default {
                         this.form.price = this.product.price / 10000;
                         this.price = this.product.price / 10000;
                         this.form.description = this.product.description;
+                        this.description = this.product.description;
                         this.form.address_detail = this.product.address_detail;
                         this.form.keywords_origin = this.product.keywords_origin;
                         this.form.city = this.product.city.title;
