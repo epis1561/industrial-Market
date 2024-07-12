@@ -295,6 +295,8 @@ export default {
             activeCamera: false,
             activeFiles: false,
 
+            channel: null,
+
             currentUsers: [],
 
             form: new Form(this.$axios, {
@@ -360,8 +362,6 @@ export default {
             let self = this;
             let token = localStorage.getItem("token");
 
-            console.log(token);
-
             let key = process.env.NODE_ENV === "production" ? "d3d926327900abbca288" : "8cd7d1abc2ee7229e126";
 
             Pusher.logToConsole = true;
@@ -376,9 +376,9 @@ export default {
                 }
             });
 
-            var channel = pusher.subscribe('presence-chats.' + chat.id);
+            this.channel = pusher.subscribe('presence-chats.' + chat.id);
 
-            channel.bind('App\\Events\\MessageCreated', function(data) {
+            this.channel.bind('App\\Events\\MessageCreated', function(data) {
                 console.log(data);
 
                 self.messages.data.push(data.message);
@@ -533,6 +533,12 @@ export default {
             return this.$auth.user.data;
         }
     },
+
+    beforeDestroy() {
+        if (this.channel)
+            this.channel.unsubscribe(); // Pusher 연결 해제
+    },
+
     watch: {
 
         'messages.data': {
