@@ -29,9 +29,12 @@
             </div>
             <div class="container">
                 <div class="prod-list">
-                    <nuxt-link :to="`/products/${product.id}`" class="prod-item col-group"
+                    <nuxt-link :to="`/products/${product.id}`" class="prod-item col-group complete"
                                v-for="product in products.data" :key="product.id">
                         <div class="item-img">
+                            <div class="complete-box" v-if="product.state_transaction==2">
+                                {{ product.format_short_type }}완료
+                            </div>
                             <img :src="product.img ? product.img.url:''" alt="">
                         </div>
                         <div class="item-txt-wrap">
@@ -39,9 +42,7 @@
                                 {{ product.title }}
                             </p>
                             <div class="sub-txt-group col-group">
-<!--                                <p class="sub-txt">-->
-<!--                                    {{ product.address_detail }}-->
-<!--                                </p>-->
+
                                 <p class="sub-txt">
                                     {{ product.format_created_at }}
                                 </p>
@@ -103,11 +104,11 @@ export default {
         getProducts(loadMore = false) {
             this.loading = true;
             this.$store.commit("setLoading", true);
-            console.log(this.form.state_transactions);
-            console.log(this.form.user_id);
+
             this.$axios.get("/api/products", {
                 params: this.form.data(),
             }).then(response => {
+                console.log(response.data)
                 this.loading = false;
                 if (loadMore) {
                     this.products.data = [...this.products.data, ...response.data.data];

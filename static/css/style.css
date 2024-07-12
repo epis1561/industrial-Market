@@ -276,6 +276,7 @@ main { overflow: auto; }
 
 .prod-item .complete-box { position: absolute; left: 0; top: 0; right: 0; bottom: 0; text-align: center; line-height: 112px; background-color: rgba(0, 0, 0, 0.6); font-size: 16px; font-weight: 500; color: #fff; display: none; }
 .prod-item.complete .complete-box { display: block; }
+
 .prod-item .tx-box { position: absolute; bottom: 0; left: 0; right: 0; padding: 8px 0; text-align: center; font-size: 16px; font-weight: 500; color: #fff; display: none; background-color: rgba(4, 74, 186, 0.9); }
 .prod-item.tx .tx-box { display: block; }
 
