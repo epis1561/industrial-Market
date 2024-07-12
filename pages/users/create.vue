@@ -212,6 +212,8 @@ export default {
                     .then(response => {
                         this.$store.commit("setLoading", true);
 
+                        localStorage.setItem("token", response.data);
+
                         this.$auth.loginWith('laravelSanctum', {
                             data: {
                                 token: response.data,
