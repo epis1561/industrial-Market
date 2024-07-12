@@ -294,11 +294,17 @@ export default {
             activePop: false,
             activeCamera: false,
             activeFiles: false,
+
+            channel: null,
+
+            currentUsers: [],
+
             form: new Form(this.$axios, {
                 chat_id: this.$route.params.id,
                 description: "",
                 imgs: [],
             }),
+
             blockForm: new Form(
                     this.$axios, {
                         target_user_id: "",
@@ -354,18 +360,27 @@ export default {
 
         setChannel(chat){
             let self = this;
-
-            Pusher.logToConsole = true;
+            let token = localStorage.getItem("token");
 
             let key = process.env.NODE_ENV === "production" ? "d3d926327900abbca288" : "8cd7d1abc2ee7229e126";
 
-            var pusher = new Pusher(key, {
-                cluster: 'ap3'
+            Pusher.logToConsole = true;
+
+            const pusher = new Pusher(key, {
+                cluster: 'ap3',
+                authEndpoint: this.$store.state.domain + '/api/pusher/auth',
+                auth: {
+                    headers: {
+                        Authorization: "Bearer " + token, // here | value of "token" can get from backend
+                    },
+                }
             });
 
-            var channel = pusher.subscribe('chats.' + chat.id);
+            this.channel = pusher.subscribe('presence-chats.' + chat.id);
 
-            channel.bind('App\\Events\\MessageCreated', function(data) {
+            this.channel.bind('App\\Events\\MessageCreated', function(data) {
+                console.log(data);
+
                 self.messages.data.push(data.message);
 
                 setTimeout(function(){
@@ -518,6 +533,12 @@ export default {
             return this.$auth.user.data;
         }
     },
+
+    beforeDestroy() {
+        if (this.channel)
+            this.channel.unsubscribe(); // Pusher 연결 해제
+    },
+
     watch: {
 
         'messages.data': {

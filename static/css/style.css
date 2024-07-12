@@ -437,7 +437,7 @@ main { overflow: auto; }
 .new-message-txt { max-width: calc( 100% - 32px ); padding: 8px 16px; background: #fff; border-radius: 20px; }
 .new-message-box.send .new-message-txt { background: #2f83f7; border-top-right-radius: 0; }
 .new-message-box.receive .new-message-txt { background: #f5f5f5; border-top-left-radius: 0; }
-.new-message-txt .txt { font-size: 15px; font-weight: normal; line-height: 1.5; }
+.new-message-txt .txt { font-size: 15px; font-weight: normal; line-height: 1.5; word-break: break-all; }
 .new-message-box.send .new-message-txt .txt {
   white-space: pre-line;
   color: #fff;

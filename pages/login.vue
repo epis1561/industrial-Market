@@ -100,6 +100,8 @@ export default {
                     push_token : pushToken
                 }
             }).then(response => {
+                localStorage.setItem("token", this.$route.query.token);
+
                 return this.$router.push("/");
             }).catch((e) => {
                 alert("소셜로그인에 실패하였습니다. 잠시 후 재시도해주세요.");
