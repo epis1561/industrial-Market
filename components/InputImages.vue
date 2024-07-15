@@ -147,61 +147,65 @@ export default {
     },
 
     methods: {
-      changeFile(event) {
-        let self = this;
-        let readers = [];
-        let images = [];
-        let newFiles = [];
+        changeFile(event) {
+            let self = this;
+            let readers = [];
+            let images = [];
 
-        let length = event.target.files.length;
-        let countResize = 0;
+            let length = event.target.files.length;
+            let countResize = 0;
 
-        // 새 파일 추가 시 기존 파일 유지
-        newFiles = [...this.files];
+            if(!this.multiple || !this.canAdd) {
+                this.files = [];
 
-        if (!this.multiple || !this.canAdd) {
-          newFiles = [];
-          if (this.defaultFiles.length > 0) {
-            this.remove_ids = [...this.remove_ids, ...this.defaultFiles.map(defaultFile => defaultFile.id)];
-            this.$emit("removed", this.remove_ids);
-          };
-          this.defaultFiles = [];
-        }
+                if(this.defaultFiles.length > 0) {
+                    this.remove_ids = [...this.remove_ids, ...this.defaultFiles.map(defaultFile => defaultFile.id)];
 
-        if (this.max && this.max < Array.from(event.target.files).length)
-          return alert(`최대 ${this.max}개의 파일만 업로드할 수 있습니다.`);
+                    this.$emit("removed", this.remove_ids);
+                };
 
-        Array.from(event.target.files).map((file, index) => {
-          readers.push(new FileReader());
-          images.push(new Image());
+                this.defaultFiles = [];
+            }
 
-          readers[index].readAsDataURL(file);
+            if(this.max && this.max < Array.from(event.target.files).length)
+                return alert(`최대 ${this.max}개의 파일만 업로드할 수 있습니다.`);
 
-          readers[index].onload = function (readerEvent) {
-            images[index].onload = function () {
-              let result = self.resize(images[index]);
+            Array.from(event.target.files).map((file, index) => {
+                readers.push(new FileReader());
+                images.push(new Image());
 
-              newFiles.push({
-                name: result.name,
-                file: result,
-                url: URL.createObjectURL(result),
-              });
+                readers[index].readAsDataURL(file);
 
-              countResize++;
+                readers[index].onload = function (readerEvent) {
+                    images[index].onload = function () {
+                        /*if(images[index].height > self.maxHeight) {
+                            return self.$store.commit("setPop", {
+                                description: `높이가 ${self.maxHeight}px이 있어 자동제외되었습니다.`
+                            });
+                        }*/
 
-              if (length === countResize)
-                self.$emit("change", newFiles);
+                        let result = self.resize(images[index]);
 
-              return result;
-            };
+                        self.files.push({
+                            name: result.name,
+                            file: result,
+                            url: URL.createObjectURL(result),
+                        });
 
-            images[index].src = readerEvent.target.result;
-          };
-        });
+                        countResize++;
 
-        this.files = newFiles;
-        this.$emit("change", this.files);
-      },
+                        if(length === countResize)
+                            self.$emit("change", self.files);
+
+                        return result;
+                    };
+
+                    images[index].src = readerEvent.target.result;
+                };
+            });
+
+            this.$emit("change", this.files);
+        },
 
         remove(file, index){
             // 새로 업로드된 파일 목록 중 삭제
