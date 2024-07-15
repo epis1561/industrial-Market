@@ -25,14 +25,14 @@
                             카카오 계정으로 로그인
                         </p>
                     </a>
-                    <a :href="`${this.$store.state.domain}/openLoginPop/google`" class="sns-login-item google">
+                    <a :href="`${this.$store.state.domain}/openLoginPop/google`" class="sns-login-item google" @click.prevent="socialLogin('google')">
 
                         <img src="/images/icon_google.png" alt="" class="icon">
                         <p class="txt">
                             Google 계정으로 로그인
                         </p>
                     </a>
-                    <a :href="`${this.$store.state.domain}/openLoginPop/apple`" class="sns-login-item apple" @click.prevent="ready">
+                    <a :href="`${this.$store.state.domain}/openLoginPop/apple`" class="sns-login-item apple" @click.prevent="socialLogin('apple')">
                         <img src="/images/icon_apple.png" alt="" class="icon">
                         <p class="txt">
                             Apple 계정으로 로그인
@@ -80,6 +80,22 @@ export default {
 
         ready(){
             alert("준비중입니다. 카카오 로그인으로 이용해주세요.");
+        },
+
+        socialLogin(social){
+            if(/WEBVIEW/.test(navigator.userAgent)) {
+                if(social === 'google') {
+                    return window.postMessage(JSON.stringify({key: 'GOOGLE_LOGIN'}));
+                }
+            }
+
+            if(/WEBVIEW/.test(navigator.userAgent)) {
+                if(social === 'apple') {
+                    return window.postMessage(JSON.stringify({key: 'APPLE_LOGIN'}));
+                }
+            }
+
+            return location.href = `${this.$store.state.domain}/openLoginPop/` + social;
         }
 
     },
