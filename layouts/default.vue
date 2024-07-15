@@ -213,6 +213,8 @@ export default {
     },
 
     mounted() {
+        window.postMessage(JSON.stringify({key: 'DEVICE_TOKEN'}));
+
         this.setChannel();
         this.getProductCategories();
         this.getNoticeCategories();

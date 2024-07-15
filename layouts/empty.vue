@@ -34,6 +34,8 @@ export default {
     },
 
     mounted() {
+        window.postMessage(JSON.stringify({key: 'DEVICE_TOKEN'}));
+
         this.$store.dispatch("getCoords");
         this.getCities();
 
