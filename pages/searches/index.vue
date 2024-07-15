@@ -99,8 +99,15 @@ export default {
                 }
             },
             productCategory:"",
-
-
+            keywords:{
+                  data:[],
+                  meta:{
+                    current_page:1,
+                    last_page:1,
+                  }
+            },
+          isEnough:false,
+          isAdd:false,
         }
     },
 
@@ -114,7 +121,7 @@ export default {
 
                 this.searches = response.data;
                 this.productCategory = this.selectedCategory;
-                console.log(this.productCategory)
+
             })
         },
         getLatestSearches() {
@@ -139,6 +146,57 @@ export default {
                 return this.$router.push('/products?word=' + this.form.title);
             })
         },
+      storeKeywords(text){
+        this.form.title = text;
+        console.log('키워드등록',text);
+        const existKeyword = this.keywords.data.find(keyword => keyword.title === this.form.title);
+
+        if(this.form.title && this.keywords.meta.total < 50){
+          if(existKeyword){
+            this.isAdd=false;
+            console.log('실행');
+            this.form.post("/api/keywords")
+                .then(response => {
+                  this.keywords.data.push(response.data);
+                  this.keywords.meta.total+=1;
+                  this.isAdd=false;
+                  this.isEnough=false;
+                  if(this.form.product_category_id)
+                    return this.$router.push('/productCategories/' + this.form.product_category_id + '?word=' + this.form.title);
+
+                  return this.$router.push('/products?word=' + this.form.title);
+                })
+          }
+
+          else{
+            this.isAdd=true;
+            this.form.post("/api/keywords")
+                .then(response => {
+
+
+                  console.log(this.isAdd);
+                  console.log(this.keywords.meta.total);
+                  this.keywords.data.push(response.data);
+                  this.keywords.meta.total+=1;
+                  this.isAdd=false;
+                  this.isEnough=false;
+                  if(this.form.product_category_id)
+                    return this.$router.push('/productCategories/' + this.form.product_category_id + '?word=' + this.form.title);
+
+                  return this.$router.push('/products?word=' + this.form.title);
+                })
+          }
+
+        }
+        else if(this.keywords.meta.total >= 50) {
+          this.isEnough=true;
+          if(this.form.product_category_id)
+          return this.$router.push('/productCategories/' + this.form.product_category_id + '?word=' + this.form.title);
+
+          return this.$router.push('/products?word=' + this.form.title);
+        }
+
+      },
       latestStore(text) {
         this.form.title = text;
         this.$store.commit("setLoading", true);
@@ -146,10 +204,9 @@ export default {
         this.form.post("/api/searches/", {
 
         }).then(response => {
-          if(this.form.product_category_id)
-            return this.$router.push('/productCategories/' + this.form.product_category_id + '?word=' + this.form.title);
 
-          return this.$router.push('/products?word=' + this.form.title);
+          this.storeKeywords(text);
+
         })
       },
 
@@ -186,7 +243,24 @@ export default {
             this.productCategory = popularItem;
             this.form.product_category_id  =  popularItem.id;
         },
-        console(){console.log(this.selectedCategory);}
+      getKeywords(loadMore=false) {
+        this.loading = true;
+        this.$store.commit("setLoading", true);
+        this.$axios.get("/api/keywords", {
+          params: this.form.data(),
+        }).then(response => {
+          this.loading = false;
+          if (loadMore) {
+
+            this.keywords.data = [...this.keywords.data, ...response.data.data];
+            console.log(this.keywords.meta);
+            return this.keywords.meta = response.data.meta;
+
+          }
+
+          this.keywords = response.data;
+        })
+      },
     },
 
     computed: {
@@ -203,6 +277,7 @@ export default {
     mounted() {
         this.getSearches();
         this.getLatestSearches();
+        this.getKeywords();
     },
 
 };

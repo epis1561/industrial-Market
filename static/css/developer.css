@@ -103,3 +103,10 @@ i { font-family: 'xeicon'; font-style: normal; }
 .recent-search-item .txt ,.popular-search-item{
     cursor: pointer;
 }
+.products .search-input-wrap{
+    width: 160px;
+    height: 30px;
+}
+.products .search-input-wrap input{
+    text-align: center;
+}

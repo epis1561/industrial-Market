@@ -119,24 +119,25 @@ export default {
     },
 
     methods: {
-        getKeywords(loadMore=false) {
-            this.loading = true;
-            this.$store.commit("setLoading", true);
-            this.$axios.get("/api/keywords", {
-                params: this.form.data(),
-            }).then(response => {
-                this.loading = false;
-                if (loadMore) {
+      getKeywords(loadMore=false) {
+        this.loading = true;
+        this.$store.commit("setLoading", true);
+        this.$axios.get("/api/keywords", {
+          params: this.form.data(),
+        }).then(response => {
+          this.loading = false;
+          if (loadMore) {
 
-                  this.keywords.data = [...this.keywords.data, ...response.data.data];
-                  console.log(this.keywords.meta);
-                  return this.keywords.meta = response.data.meta;
+            this.keywords.data = [...this.keywords.data, ...response.data.data];
+            console.log(this.keywords.meta);
+            return this.keywords.meta = response.data.meta;
 
-                }
+          }
 
-                this.keywords = response.data;
-            })
-        },
+          this.keywords = response.data;
+        })
+      },
+
         store(){
             this.form.title=this.title;
             this.title="";
@@ -151,7 +152,7 @@ export default {
 
 
                                 console.log(this.isAdd);
-                                this.keywords.data.push(response.data);
+                                this.keywords.data.unshift(response.data);
                                 this.keywords.meta.total+=1;
                                 this.isAdd=false;
                                 this.isEnough=false;
@@ -167,7 +168,7 @@ export default {
 
                                 console.log(this.isAdd);
                                 console.log(this.keywords.meta.total);
-                                this.keywords.data.push(response.data);
+                                this.keywords.data.unshift(response.data);
                                 this.keywords.meta.total+=1;
                                 this.isAdd=false;
                                 this.isEnough=false;

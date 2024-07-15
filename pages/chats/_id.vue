@@ -34,7 +34,7 @@
                 <div class="chat-prod prod-item">
                     <div class="container col-group">
                         <div class="item-img">
-                            <img :src="chat.product.img ? chat.product.img.url : ''"/>
+                            <img :src="chat.product.img ? chat.product.img.url : '/images/notification_icon_bg.png'"/>
                         </div>
                         <div class="item-txt-wrap">
                             <p class="title">

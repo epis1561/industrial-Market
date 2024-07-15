@@ -23,7 +23,7 @@
             <div class="chat-prod prod-item ">
                 <div class="container col-group">
                     <div class="item-img">
-                        <img :src="product.img ? product.img.url: ''" alt="">
+                        <img :src="product.img ? product.img.url: '/images/notification_icon_bg.png'" alt="">
                     </div>
                     <div class="item-txt-wrap">
                         <p class="title">

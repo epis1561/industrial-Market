@@ -3,11 +3,14 @@
     <div id="wrap">
 
         <!-- header Start -->
-        <header id="header" class="index-header">
+        <header id="header" class="index-header products" v-if="$route.query.word">
             <div class="container col-group">
                 <h1 class="logo">
                     <img src="/images/LOGO.png" alt="">
                 </h1>
+              <div class="search-input-wrap">
+                <input type="text" class="search-input" disabled v-model="$route.query.word || '검색어'">
+              </div>
                 <div class="header-menu-wrap col-group">
                     <nuxt-link to="/searches" class="sub-header-btn search-btn"> <img src="/images/icon_search.png" alt=""></nuxt-link>
                     <nuxt-link to="/alarms" class="header-menu" :class="{'active':user.has_unread_alarm}"> <!-- 알림 갯수 1개 이상일 때 active 클래스 추가 -->
@@ -16,6 +19,22 @@
                 </div>
             </div>
         </header>
+      <header id="header" class="index-header products" v-if="$route.query.word">
+        <div class="container col-group">
+          <h1 class="logo">
+            <img src="/images/LOGO.png" alt="">
+          </h1>
+          <div class="search-input-wrap">
+            <input type="text" class="search-input" disabled v-model="$route.query.word || '검색어'">
+          </div>
+          <div class="header-menu-wrap col-group">
+            <nuxt-link to="/searches" class="sub-header-btn search-btn"> <img src="/images/icon_search.png" alt=""></nuxt-link>
+            <nuxt-link to="/alarms" class="header-menu" :class="{'active':user.has_unread_alarm}"> <!-- 알림 갯수 1개 이상일 때 active 클래스 추가 -->
+              <img src="/images/icon_bell.png" alt="">
+            </nuxt-link>
+          </div>
+        </div>
+      </header>
         <!-- header End -->
 
         <main class="index">

@@ -24,7 +24,7 @@
                                 <div class="complete-box">
                                     {{ product.format_state }}
                                 </div>
-                                <img :src="product.img ? product.img.url : ''" alt="">
+                                <img :src="product.img ? product.img.url : '/images/notification_icon_bg.png'" alt="">
                             </div>
                             <div class="item-txt-wrap">
                                 <p class="title">
@@ -46,7 +46,7 @@
                                         {{ product.format_price }}
                                     </div>
                                     <div v-if="product.offer_price ==1 && product.type!=2">
-                                        가격제안
+                                        협의
                                     </div>
                                 </div>
                                 <div class="prod-btn-wrap col-group">
