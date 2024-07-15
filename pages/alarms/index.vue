@@ -31,7 +31,7 @@
             <div class="container">
                 <div class="notification-wrap">
                     <p class="notification-txt">
-                        최근 90일 동안의 알림이 최대 50건까지 보관됩니다.
+                        알림 메세지는 최대 50건까지 보관되며 90일 경과 시 자동삭제됩니다.
                     </p>
                     <div class="notification-list">
                         <nuxt-link :to="alarm.url" class="notification-item col-group" v-for="(alarm, index) in alarms.data" :key="alarm.id">

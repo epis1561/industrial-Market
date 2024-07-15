@@ -24,14 +24,14 @@
 
     <div class="search-section">
         <div class="search-section-title-wrap col-group">
-            <h3 class="search-section-title" @click="console">
+            <h3 class="search-section-title">
                 인기 검색
             </h3>
         </div>
 
         <div class="popular-search-wrap">
             <div class="popular-search-list col-group">
-                <div class="popular-search-item" v-for="search in searches.data" :key="search.id">
+                <div class="popular-search-item" v-for="search in searches.data" :key="search.id" @click="latestStore(search.title)">
                     {{ search.title }}
                 </div>
             </div>
@@ -47,7 +47,7 @@
         </div>
 
         <div class="recent-search-list row-group">
-            <div class="recent-search-item col-group" v-for="latestSearch in latestSearches.data" :key="latestSearch.id" @click="form.title = latestSearch.title">
+            <div class="recent-search-item col-group" v-for="latestSearch in latestSearches.data" :key="latestSearch.id" @click="latestStore(latestSearch.title)">
                 <p class="txt">
                     {{ latestSearch.title }}
                 </p>
@@ -139,6 +139,19 @@ export default {
                 return this.$router.push('/products?word=' + this.form.title);
             })
         },
+      latestStore(text) {
+        this.form.title = text;
+        this.$store.commit("setLoading", true);
+
+        this.form.post("/api/searches/", {
+
+        }).then(response => {
+          if(this.form.product_category_id)
+            return this.$router.push('/productCategories/' + this.form.product_category_id + '?word=' + this.form.title);
+
+          return this.$router.push('/products?word=' + this.form.title);
+        })
+      },
 
         remove(latestSearch){
             this.$store.commit("setLoading", true);

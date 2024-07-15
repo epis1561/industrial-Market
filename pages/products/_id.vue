@@ -331,7 +331,7 @@
 
 
         <!-- 헤더 버튼 클릭시 나타나는 팝업 -->
-        <div class="modal-container modal_chat" :class="{'active': isMore}" v-if="product">
+        <div class="modal-container modal_chat" :class="{'active': isMore}" v-if="product" @click="isMore=false">
             <div class="modal-select-wrap modal-wrap">
 
                 <div class="chat-more-option-wrap row-group">

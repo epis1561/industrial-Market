@@ -101,7 +101,7 @@
                 <div class="file-preview-scroll-wrap" v-if="activeFiles || activeCamera">
                     <div class="file-preview-wrap col-group">
                         <input-images :multiple="true" v-if="activeFiles" @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }"/>
-                        <input-images v-if="activeCamera" id="camera" :camera="true" @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"/>
+                        <input-images v-if="activeCamera" :multiple="true" id="camera" :camera="true" @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"/>
                     </div>
                 </div>
                 <!-- //사진 한장 이상 첨부 시 -->

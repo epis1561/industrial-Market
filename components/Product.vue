@@ -1,7 +1,10 @@
  <template>
-    <nuxt-link :to="`/products/${item.id}`" class="prod-item col-group">
+    <nuxt-link :to="`/products/${item.id}`" class="prod-item col-group complete">
         <div class="item-img">
-            <img :src="item.img ? item.img.url : ''" alt="">
+          <div class="complete-box" v-if="item.state_transaction==2">
+            거래완료
+          </div>
+            <img :src="item.img ? item.img.url : '/images/notification_icon_bg.png'" alt="">
             <div class="ongoing" v-if="item.state_transaction ==1">
                 거래중
             </div>
