@@ -622,18 +622,21 @@ export default {
         },
         store() {
             if (this.$route.query.id) {
-                this.form.price = this.price * 10000;
+              this.form.price = this.price * 10000;
+              if (!this.$store.state.loading) {
+
 
                 this.$store.commit("setLoading", true);
                 return this.form.patch("/api/products/" + this.$route.query.id)
 
-                        .then(response => {
+                    .then(response => {
 
-                            this.$router.push("/products");
-                        }).catch(error => {
-                            this.isError();
-                        });
-            } else {
+                      this.$router.push("/products");
+                    }).catch(error => {
+                      this.isError();
+                    });
+              }
+            }else {
                 this.form.price = this.price * 10000;
 
                 this.$store.commit("setLoading", true);
@@ -804,7 +807,7 @@ export default {
 
             return this.load = true;
         }
-        console.log(this.$auth.user.data);
+        console.log(this.$auth.user.data.id);
     },
 
 };
