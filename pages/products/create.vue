@@ -636,6 +636,9 @@ export default {
                       this.isError();
                     });
               }
+              else{
+                return ;
+              }
             }else {
                 this.form.price = this.price * 10000;
 
@@ -807,7 +810,7 @@ export default {
 
             return this.load = true;
         }
-        console.log(this.$auth.user.data.id);
+        alert(this.$auth.user.data.id);
     },
 
 };
