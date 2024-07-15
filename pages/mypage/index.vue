@@ -20,7 +20,7 @@
             <div class="product-detail-section-wrap row-group">
                 <div class="product-detail-section user-detail-top">
                     <div class="user-profile-wrap">
-                        <div class="profile-img">
+                        <div class="profile-img" @click="$router.push('/users/editProfile')">
                             <img :src="user.img ? user.img.url : '/images/profile_null.png'" alt="">
                         </div>
                         <div class="title-wrap col-group">
