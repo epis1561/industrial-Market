@@ -1,5 +1,5 @@
 <template xmlns="http://www.w3.org/1999/html">
-  <section>
+  <section class="policy">
     <div class="company-box">
       <div class="company-intro">
         <div class="container">
