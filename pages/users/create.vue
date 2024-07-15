@@ -209,6 +209,8 @@ export default {
 
                         localStorage.setItem("token", response.data);
 
+                        alert(response.data);
+
                         let pushToken = localStorage.getItem("push_token");
 
                         this.$auth.loginWith('laravelSanctum', {
