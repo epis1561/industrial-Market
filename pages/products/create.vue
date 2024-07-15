@@ -804,6 +804,7 @@ export default {
 
             return this.load = true;
         }
+        console.log(this.$auth.user.data);
     },
 
 };

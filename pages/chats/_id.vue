@@ -110,7 +110,7 @@
                         <img src="/images/icon_picture.png" alt="">
                     </button>
                     <form @submit.prevent="storeMessage" class="submitForm">
-                        <textarea class="chat-textarea" placeholder="메세지 보내기" v-model="form.description"></textarea>
+                        <textarea class="chat-textarea" placeholder="메세지 입력" v-model="form.description"></textarea>
                         <button class="chat-footer-btn send-btn">
                             <i></i>
                         </button>
@@ -121,7 +121,7 @@
 
         <template v-if="chat">
             <!-- 헤더 버튼 클릭시 나타나는 팝업 -->
-            <div class="modal-container modal_chat" :class="{'active':isMore}">
+            <div class="modal-container modal_chat" :class="{'active':isMore}" @click="isMore=false">
                 <div class="modal-select-wrap modal-wrap">
                     <div class="chat-more-option-wrap row-group">
                         <button class="chat-more-option col-group modal_block_btn" @click="isBlock=true">
@@ -251,13 +251,13 @@
             </div>
             <!-- //채팅 이미지 버튼 클릭시 나타나는 팝업 -->
 
-            <div class="modal-container modal_slide" :class="{active:isBigImg}" v-if="chat">
+            <div class="modal-container modal_slide" :class="{active:isBigImg}" >
                 <div class="modal-wrap modal-slide-wrap">
                     <i class="xi-close close-btn" @click="isBigImg=false"></i>
                     <div class="swiper slide_popup">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide" v-for="img in chat.latestMessage.imgs" :key="img.id" >
-                                <img :src="img.url ? img.url : ''"/>
+                            <div class="swiper-slide" v-for="message in messages.data" :key="message.id" v-if="message.imgs && message.imgs.length > 0">
+                                <img :src="message.imgs.url ? message.imgs.url : ''"/>
                             </div>
                         </div>
                         <div class="swiper-pagination slide-popup-pagination"></div>
@@ -379,8 +379,6 @@ export default {
             this.channel = pusher.subscribe('presence-chats.' + chat.id);
 
             this.channel.bind('App\\Events\\MessageCreated', function(data) {
-                console.log(data);
-
                 self.messages.data.push(data.message);
 
                 setTimeout(function(){
@@ -395,7 +393,7 @@ export default {
             this.$axios.get("/api/chats/" + this.$route.params.id, {}).then(response => {
                 this.chat = response.data.data;
                 this.alarmForm.alarm=this.chat.alarm;
-                console.log('coxld',this.chat);
+                console.log('채팅',this.chat);
                 if (this.chat.alarm == 1) {
                     this.isAlarm = "알림끄기";
                 } else {
@@ -413,13 +411,22 @@ export default {
                 this.$auth.fetchUser();
 
                 this.messages = response.data;
-
+                console.log('채팅배열',this.messages.data);
                 this.$nextTick(() => {
                     this.scrollEnd();
+                  this.detailSwiper();
                 });
             })
 
         },
+      detailSwiper() {
+        var slide_popup = new Swiper(".slide_popup", {
+          loop: true,
+          pagination: {
+            el: '.slide-popup-pagination',
+          },
+        });
+      },
         storeMessage() {
 
             if(!this.form.description && this.form.imgs.length === 0)
