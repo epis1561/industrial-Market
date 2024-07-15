@@ -59,6 +59,7 @@ export default {
             {rel: 'stylesheet', type: 'text/css', href: '/css/datepicker.css'},   {rel: 'stylesheet', type: 'text/css', href: '//cdn.quilljs.com/1.3.4/quill.snow.css'},
             {rel: 'stylesheet', type: 'text/css', href: '/css/swiper.min.css'},
             {rel: 'stylesheet', type: 'text/css', href: '/css/developer.css'},
+            {rel: 'stylesheet', type: 'text/css', href: '/css/user.css'},
             {rel: 'stylesheet', type: 'text/css', href: '//gcore.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css'},
 
             {rel: 'stylesheet', type: 'text/css', href: '/css/common.css'},
