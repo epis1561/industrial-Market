@@ -13,14 +13,12 @@
                 </div>
 
                 <div class="sns-login-wrap">
-                    <!--
-                    <a :href="`${this.$store.state.domain}/openLoginPop/naver`" class="sns-login-item naver"  @click.prevent="ready">
+                    <a :href="`${this.$store.state.domain}/openLoginPop/naver`" class="sns-login-item naver">
                         <img src="/images/icon_naver.png" alt="" class="icon">
                         <p class="txt">
                             네이버 계정으로 로그인
                         </p>
                     </a>
-                    -->
 
                     <a :href="`${this.$store.state.domain}/openLoginPop/kakao`" class="sns-login-item kakao">
                         <img src="/images/icon_kakao.png" alt="" class="icon">
@@ -29,7 +27,6 @@
                         </p>
                     </a>
 
-                    <!--
                     <a :href="`${this.$store.state.domain}/openLoginPop/google`" class="sns-login-item google" @click.prevent="socialLogin('google')">
 
                         <img src="/images/icon_google.png" alt="" class="icon">
@@ -43,7 +40,6 @@
                             Apple 계정으로 로그인
                         </p>
                     </a>
-                    -->
                 </div>
             </div>
 
