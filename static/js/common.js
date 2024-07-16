@@ -28,6 +28,7 @@ function listen(event) {
             break;
         }
         case 'DEVICE_TOKEN': {
+            alert(JSON.stringify(result));
             localStorage.setItem("pushToken", result.value);
 
             break;
