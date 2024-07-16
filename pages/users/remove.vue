@@ -60,9 +60,39 @@
                 </div>
 
                 <div class="form-footer container col-group">
-                    <button class="form-footer-btn del-btn" @click="remove">회원탈퇴</button>
-                    <button class="form-footer-btn submit-btn" @click="$router.back()">취소</button>
+                    <button class="form-footer-btn del-btn" :class="{'submit-btn':form.isAgree}" @click="isRemove = true" :disabled="!form.isAgree">회원탈퇴</button>
+                    <button class="form-footer-btn del-btn" @click="$router.back()">취소</button>
                 </div>
+              <div class="modal-container modal_trans" :class="{'active':isRemove}">
+                <div class="modal-wrap modal-alert">
+                  <div class="modal-title-wrap">
+                    <i class="icon blue"></i>
+                  </div>
+                  <p class="modal-alert-txt">
+                    정말로 탈퇴하시겠습니까?
+                  </p>
+
+                  <div class="modal-footer col-group">
+                    <button class="modal-footer-btn submit-btn" @click="remove">
+                      예
+                    </button>
+                    <button class="modal-footer-btn close-btn" @click.prevent="isRemove=false">
+                      아니오
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-container modal_trans" :class="{'active':removeComplete}">
+                <div class="modal-wrap modal-alert">
+                  <div class="modal-title-wrap">
+                    <i class="icon blue"></i>
+                  </div>
+                  <p class="modal-alert-txt">
+                    회원 탈퇴가 완료되었습니다.<br>
+                    아쉽지만, 다음에 또 만나요.
+                  </p>
+                </div>
+              </div>
             </div>
         </main>
 
@@ -78,7 +108,8 @@ export default {
             form: new Form(this.$axios, {
                 isAgree:"",
             }),
-
+            isRemove:false,
+            removeComplete:false,
 
         }
 
@@ -89,8 +120,10 @@ export default {
                 if(this.form.isAgree == true) {
                     this.form.delete("api/users")
                             .then(response => {
-                                console.log('성공했습니다.');
+                              this.removeComplete=true;
+                              setTimeout(() => {
                                 this.$auth.logout();
+                              }, 2000); // 2초(2000밀리초) 후에 로그아웃 처리
                             })
                 }
 

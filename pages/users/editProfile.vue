@@ -27,6 +27,7 @@
                         <div class="item-user">
                             <input type="text" class="form-input" v-model="form.nickname">
                         </div>
+                      <error :form="form" name="nickname" />
                     </div>
                     <div class="form-footer">
                         <button class="form-footer-btn submit-btn" @click="update">프로필 수정</button>

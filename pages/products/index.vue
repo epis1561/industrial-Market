@@ -5,7 +5,7 @@
         <!-- header Start -->
         <header id="header" class="index-header" v-if="!$route.query.word">
             <div class="container col-group">
-                <h1 class="logo">
+                <h1 class="logo" @click="$router.push('/')">
                     <img src="/images/LOGO.png" alt="">
                 </h1>
 

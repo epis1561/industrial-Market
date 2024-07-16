@@ -37,7 +37,7 @@
                             연락처
                         </div>
                         <div class="item-user">
-                            <input type="text" class="form-input" v-model="form.contact">
+                            <input type="number" class="form-input" v-model="form.contact">
                             <error :form="form" name="contact" />
                         </div>
                     </div>

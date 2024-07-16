@@ -267,6 +267,7 @@ export default {
         },
         getManners() {
             this.form.user_id = this.user.id;
+            console.log(this.form.user_id);
             this.$axios.get("/api/manners", {
                 params: this.form.data(),
             }).then(response => {

@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <div class="form-footer">
-                        <button class="form-footer-btn submit-btn" @click="update">계정 정보 수정</button>
+                        <button class="form-footer-btn submit-btn" @click="isStore=true">계정 정보 수정</button>
                     </div>
                     <div class="form-wrap row-group">
                         <div class="form-item row-group">
@@ -101,7 +101,25 @@
             <flash :isNullLocate="isNullLocate"/>
         </main>
 
+      <div class="modal-container modal_trans" :class="{'active':isStore}">
+        <div class="modal-wrap modal-alert">
+          <div class="modal-title-wrap">
+            <i class="icon blue"></i>
+          </div>
+          <p class="modal-alert-txt">
+            수정하시겠습니까?
+          </p>
 
+          <div class="modal-footer col-group">
+            <button class="modal-footer-btn submit-btn" @click="update">
+              예
+            </button>
+            <button class="modal-footer-btn close-btn" @click.prevent="isStore=false">
+              아니오
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
 </template>
@@ -142,6 +160,7 @@ export default {
             showMap:false,
             getlat:"",
             getlon:"",
+          isStore:false,
         };
 
     },
