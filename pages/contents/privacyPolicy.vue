@@ -1,5 +1,16 @@
 <template xmlns="http://www.w3.org/1999/html">
   <section class="policy">
+    <header id="header" class="sub-header">
+      <div id="search"></div>
+      <div class="container col-group">
+        <button type="button" class="sub-header-btn prev-btn" @click="$router.back()">
+          <img src="/images/icon_prev.png" alt="">
+        </button>
+        <h2 class="title">
+         산업마켓
+        </h2>
+      </div>
+    </header>
     <div class="company-box">
       <div class="company-intro">
         <div class="container">

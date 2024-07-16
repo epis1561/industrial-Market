@@ -17,10 +17,6 @@
                 </h2>
 
                 <nuxt-link :to="`/searches?product_category_id=${this.$route.params.id}`" class="sub-header-btn search-btn"> <img src="/images/icon_search.png" alt=""></nuxt-link>
-
-
-
-
             </div>
         </header>
         <!-- header End -->

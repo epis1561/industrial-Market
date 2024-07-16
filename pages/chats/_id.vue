@@ -255,11 +255,11 @@
                 <div class="modal-wrap modal-slide-wrap">
                     <i class="xi-close close-btn" @click="isBigImg=false"></i>
                     <div class="swiper slide_popup">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide" v-for="message in messages.data" :key="message.id" v-if="message.imgs && message.imgs.length > 0">
-                                <img :src="message.imgs.url ? message.imgs.url : ''"/>
-                            </div>
+                      <div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for="img in messages.data.flatMap(m => m.imgs || [])" :key="img.id">
+                          <img :src="img.url" />
                         </div>
+                      </div>
                         <div class="swiper-pagination slide-popup-pagination"></div>
                     </div>
                 </div>
@@ -393,7 +393,7 @@ export default {
             this.$axios.get("/api/chats/" + this.$route.params.id, {}).then(response => {
                 this.chat = response.data.data;
                 this.alarmForm.alarm=this.chat.alarm;
-                console.log('채팅',this.chat);
+                console.log('채팅',this.chat.latestMessage.imgs);
                 if (this.chat.alarm == 1) {
                     this.isAlarm = "알림끄기";
                 } else {

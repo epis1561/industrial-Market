@@ -204,10 +204,30 @@ export default {
         this.form.post("/api/searches/", {
 
         }).then(response => {
+          const isKeywordExist = this.checkKeywordExist(text);
+          console.log(isKeywordExist);
 
-          this.storeKeywords(text);
+          if(!isKeywordExist){
+            this.storeKeywords(text);
+          }
+          else{
+            if(this.form.product_category_id)
+              return this.$router.push('/productCategories/' + this.form.product_category_id + '?word=' + this.form.title);
+
+            return this.$router.push('/products?word=' + this.form.title);
+          }
 
         })
+      },
+      checkKeywordExist(text) {
+          console.log('실행',text);
+        // keywords 데이터 배열에서 text와 일치하는 항목 찾기
+        for (let keyword of this.keywords.data) {
+          if (keyword.title === text) {
+            return true; // 일치하는 키워드가 있으면 true 반환
+          }
+        }
+        return false; // 일치하는 키워드가 없으면 false 반환
       },
 
         remove(latestSearch){
@@ -259,6 +279,7 @@ export default {
           }
 
           this.keywords = response.data;
+          console.log('키워드모록',this.keywords.data);
         })
       },
     },

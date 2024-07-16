@@ -3,7 +3,7 @@
     <div id="wrap">
 
         <!-- header Start -->
-        <header id="header" class="index-header products" v-if="!$route.query.word">
+        <header id="header" class="index-header" v-if="!$route.query.word">
             <div class="container col-group">
                 <h1 class="logo">
                     <img src="/images/LOGO.png" alt="">
@@ -17,7 +17,7 @@
                 </div>
             </div>
         </header>
-      <header id="header" class="sub-header" v-if="$route.query.word">
+      <header id="header" class="sub-header product" v-if="$route.query.word">
         <form class="container">
           <div class="search-top col-group">
             <button type="button" class="sub-header-btn prev-btn" @click="$router.push('/')">
