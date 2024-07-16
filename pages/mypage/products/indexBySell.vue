@@ -17,14 +17,14 @@
 
         <main class="subpage">
             <div class="top-tab-wrap col-group">
-                <a href="#" class="tab-item" :class="{'active': isTransaction==0}" @click.prevent="all">
-                    전체
-                </a>
-                <a href="#" class="tab-item" :class="{'active': isTransaction==1}" @click.prevent="ongoing">
+                <a href="#" class="tab-item" :class="{'active': isTransaction==0 && isHide==false}" @click.prevent="all">
                     판매중
                 </a>
-                <a href="#" class="tab-item" :class="{'active': isTransaction==2}" @click.prevent="complete">
-                    판매완료
+                <a href="#" class="tab-item" :class="{'active': isTransaction==1}" @click.prevent="complete">
+                    거래완료
+                </a>
+                <a href="#" class="tab-item" :class="{'active': isHide==true}" @click.prevent="hide">
+                    숨김
                 </a>
             </div>
             <div class="container">
@@ -112,6 +112,7 @@ export default {
                 state_transactions: [],
                 user_id: "",
                 page: 1,
+                hide:"",
             }),
             products: {
                 data: [],
@@ -125,6 +126,7 @@ export default {
             reportable_type : "Product",
             product_id: "",
             loading:false,
+            isHide:false,
         };
     },
 
@@ -149,24 +151,30 @@ export default {
             })
         },
         all() {
-            this.form.state_transactions = [];
+            this.form.state_transactions = [0,1];
             this.isTransaction =0;
             this.form.page= 1;
             this.loading = false;
-            return this.getProducts(false);
-        },
-        ongoing() {
-            this.form.state_transactions = [0, 1];
-            this.isTransaction =1;
-            this.form.page= 1;
-            this.loading = false;
+            this.isHide=false;
+            this.form.hide="";
             return this.getProducts(false);
         },
         complete() {
             this.form.state_transactions = [2];
-            this.isTransaction =2;
+            this.isTransaction =1;
             this.form.page= 1;
             this.loading = false;
+            this.isHide=false;
+            this.form.hide="";
+            return this.getProducts(false);
+        },
+        hide() {
+            this.form.state_transactions = [];
+            this.isTransaction ="";
+            this.form.page= 1;
+            this.form.hide=1;
+            this.loading = false;
+            this.isHide=true;
             return this.getProducts(false);
         },
         leave(){
@@ -187,11 +195,11 @@ export default {
     mounted() {
         if(this.$route.query.id == 1){
             this.form.state_transactions = [0,1];
-            this.isTransaction=1
+            this.isTransaction=0;
         }
         else if(this.$route.query.id == 2){
             this.form.state_transactions = [2];
-            this.isTransaction=2
+            this.isTransaction=1
         }
         this.getProducts();
     }

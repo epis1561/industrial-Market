@@ -68,11 +68,9 @@
 .m-input-images.type01 .m-input .m-btn i {
     font-size:32px; color:#a7a7a7;
 }
-.m-input-images.type01 .m-files-wrap {
 
-}
 .m-input-images.type01 .m-files {
-    display: flex; flex-wrap:wrap;
+    display: flex; flex-wrap:nowrap;
     margin:-4px;
 }
 .m-input-images.type01 .m-file-wrap {

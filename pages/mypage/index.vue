@@ -58,7 +58,7 @@
                             나의 활동
                         </p>
                         <div class="mypage-menu-list row-group">
-                            <nuxt-link :to="`/mypage/products/indexBySell?id=${1}`" class="mypage-menu-item col-group">
+                            <nuxt-link :to="`/mypage/products/indexBySell?id=${2}`" class="mypage-menu-item col-group">
                                 <p class="title">
                                     판매 내역
                                 </p>

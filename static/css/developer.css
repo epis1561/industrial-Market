@@ -110,3 +110,16 @@ i { font-family: 'xeicon'; font-style: normal; }
 .products .search-input-wrap input{
     text-align: center;
 }
+
+.prod-item .item-txt-wrap *{
+    line-height: 1;
+}
+.prod-item .label2{
+    padding: 4px 8px;
+}
+.products_detail .label{
+    padding: 4px 8px;
+}
+.products_detail .label{
+    line-height: 1;
+}

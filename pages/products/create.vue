@@ -68,12 +68,11 @@
             <div class="categorybuttons">
               <button class="category" :class="{'active':form.type == 0}" @click="form.type=0" :disabled="isOffer">판매
               </button>
+              <button class="category" :class="{'active':form.type == 1}" @click="form.type=1" :disabled="isOffer">찾습니다
+              </button>
               <button class="category" :class="{'active':form.type == 2}" @click="form.type=2, price=0, isOffer=false">
                 나눔
               </button>
-              <button class="category" :class="{'active':form.type == 1}" @click="form.type=1" :disabled="isOffer">찾습니다
-              </button>
-
             </div>
             <div class="item-user row-group">
               <div class="form-input-wrap col-group">

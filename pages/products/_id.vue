@@ -112,7 +112,7 @@
                     <div class="map-wrap">
                         <!-- * 카카오맵 - 지도퍼가기 -->
                         <!-- 1. 지도 노드 -->
-                        <div id="map" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+                        <div id="map" class="root_daum_roughmap root_daum_roughmap_landing" @click="showMap=true"></div>
 
                     </div>
                 </div>
