@@ -30,7 +30,7 @@
                             <button class="like-btn" :class="{'active':user.like==1}" @click="toggleLike"></button>
                         </div>
                         <p class="txt">
-                            {{ user.activeCounty.city.title + ' ' + user.activeCounty.title || user.city.title + ' ' + user.county.title }}
+                          {{ (user.activeCounty && user.activeCounty.city.title === user.activeCounty.title) ? user.activeCounty.city.title + ' ' + user.activeCounty.title : (user.city.title === user.county.title) ? user.city.title: user.city.title + ' ' + user.county.title }}
                         </p>
                     </div>
                     <div class="container">
@@ -85,7 +85,7 @@
                         <nuxt-link :to="`/products/${product.id}`" class="prod-item row-group"
                                    v-for="(product,index) in products.data" :key="product.id" v-if="index < 4">
                             <div class="item-img">
-                                <img :src="product.img ? product.img.url : ''" alt="">
+                                <img :src="product.img ? product.img.url : '/images/notification_icon_bg.png'" alt="">
                                 <div class="ongoing" v-if="product.state_transaction ==1">
                                     거래중
                                 </div>
@@ -260,6 +260,7 @@ export default {
                     this.$router.push('/mypage');
                 }
                 this.user = response.data.data;
+                console.log(this.user);
                 this.getManners();
 
             })

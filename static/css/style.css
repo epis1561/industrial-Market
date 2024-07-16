@@ -458,6 +458,7 @@ main { overflow: auto; }
 .new-message-image img {
   display: block;
   width:calc(50% - 4px);
+  cursor: pointer;
 }
 .message-time { font-size: 12px; font-weight: 300; color: #aeaeae; }
 

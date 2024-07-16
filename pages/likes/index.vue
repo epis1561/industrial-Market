@@ -162,7 +162,7 @@ export default {
             console.log(this.form.likeable_type);
             this.form.delete("/api/likes")
                     .then(response => {
-                        this.likeUsers.data = this.likeUser.data.filter(likeUser => {
+                        this.likeUsers.data = this.likeUsers.data.filter(likeUser => {
                             return likeUser.likeable.id !== id; // id가 다른 항목만 필터링
                         });
                     })

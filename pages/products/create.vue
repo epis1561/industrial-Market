@@ -713,9 +713,9 @@ export default {
     checkInputAll() {
       let exceptColumns
       if (this.isOffer == 1) {
-        exceptColumns = ["town", "village", "keywords_origin", "imgs_remove_ids", "price"];
+        exceptColumns = ["town", "village", "keywords_origin", "imgs_remove_ids", "price","imgs"];
       } else {
-        exceptColumns = ["town", "village", "keywords_origin", "imgs_remove_ids"];
+        exceptColumns = ["town", "village", "keywords_origin", "imgs_remove_ids","imgs"];
       }
 
       let keys = Object.keys(this.form.data());
