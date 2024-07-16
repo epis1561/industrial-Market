@@ -119,10 +119,19 @@ export default {
                     push_token : pushToken
                 }
             }).then(response => {
+                alert(pushToken);
+
                 if(pushToken){
                     this.form.push_token = pushToken;
 
-                    this.form.patch("/api/users/updatePushToken");
+                    this.form.patch("/api/users/updatePushToken")
+                            .then(response => {
+                                alert("성공");
+                            }).catch(error => {
+                                alert("실패");
+
+                                alert(JSON.stringify(error));
+                    });
                 }
 
                 localStorage.setItem("token", this.$route.query.token);
