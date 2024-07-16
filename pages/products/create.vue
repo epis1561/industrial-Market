@@ -713,9 +713,9 @@ export default {
     checkInputAll() {
       let exceptColumns
       if (this.isOffer == 1) {
-        exceptColumns = ["town", "village", "keywords_origin", "imgs_remove_ids", "price","imgs"];
+        exceptColumns = ["town", "village", "keywords_origin", "imgs", "imgs_remove_ids", "price"];
       } else {
-        exceptColumns = ["town", "village", "keywords_origin", "imgs_remove_ids","imgs"];
+        exceptColumns = ["town", "village", "keywords_origin", "imgs", "imgs_remove_ids"];
       }
 
       let keys = Object.keys(this.form.data());
@@ -812,7 +812,6 @@ export default {
 
       return this.load = true;
     }
-    alert(this.$auth.user.data.id);
     console.log(this.$auth.user.data);
   },
 

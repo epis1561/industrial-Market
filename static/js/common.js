@@ -28,7 +28,8 @@ function listen(event) {
             break;
         }
         case 'DEVICE_TOKEN': {
-            localStorage.setItem("push_token", result.value);
+            if(result.value)
+                localStorage.setItem("push_token", result.value);
 
             break;
         }
