@@ -48,16 +48,22 @@
                 <p class="item-default">
                     장문텍스트 <span class="star">*</span>
                 </p>
-                <textarea class="form-textarea" placeholder="" v-model="form.description"></textarea>
+                <textarea class="form-textarea" placeholder="" v-model="form.description" required></textarea>
             </div>
 
             <div class="form-item row-group">
                 <p class="item-default">
                     파일 <span class="star">*</span>
                 </p>
-                <input-files :default="item && item.img ? [item.img] : ''" comment="최소 1920*980px 비율 고해상도 사진 등록" @change="(data) => form.files = data" @removed="data => form.files_remove_ids = data" />
+                <input-files :default="item && item.img ? [item.img] : ''" comment="" @change="(data) => form.files = data" @removed="data => form.files_remove_ids = data" />
             </div>
 
+            <div class="form-item row-group">
+                <p class="item-default">
+                    이미지 <span class="star">*</span>
+                </p>
+                <input-images :default="item && item.img ? [item.img] : ''" comment="" @change="(data) => form.files = data" @removed="data => form.files_remove_ids = data" />
+            </div>
         </div>
 
         <div class="m-spaces type01 mt-40 flex-end">
