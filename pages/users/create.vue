@@ -217,6 +217,12 @@ export default {
                                 push_token: pushToken,
                             }
                         }).then(response => {
+                            if(pushToken){
+                                this.form.push_token = pushToken;
+
+                                this.form.patch("/api/users/updatePushToken");
+                            }
+
                             return this.$router.push("/");
                         }).catch(error => {
                             this.form.onFail(error.response.data);

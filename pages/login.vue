@@ -72,6 +72,7 @@ export default {
             form : new Form(this.$axios, {
                 email:"",
                 password:"",
+                push_token: "",
             })
         }
     },
@@ -118,6 +119,12 @@ export default {
                     push_token : pushToken
                 }
             }).then(response => {
+                if(pushToken){
+                    this.form.push_token = pushToken;
+
+                    this.form.patch("/api/users/updatePushToken");
+                }
+
                 localStorage.setItem("token", this.$route.query.token);
 
                 return this.$router.push("/");
