@@ -30,7 +30,7 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide" v-for="img in product.imgs" :key="img.id" @click="isImg=true">
                             <div class="img-container">
-                                <img :src="img.url ? img.url : ''"/>
+                                <img :src="img.url ? img.url : '/images/notification_icon_bg.png'"/>
                             </div>
                         </div>
 
@@ -123,7 +123,7 @@
                         <button class="like-btn" :class="{'active':product.user.like==1}"
                                 @click="toggleLike(product,'User')" v-if="product.user.id !=$auth.user.data.id"></button>
                         <div class="profile-img">
-                            <img :src="product.user.img ? product.user.img.url : ''" alt="" v-if="product.user.img">
+                            <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'" alt="" v-if="product.user.img">
                         </div>
                         <div class="txt-wrap row-group">
                             <p class="title">
@@ -139,7 +139,7 @@
                         <nuxt-link :to="`/products/${otherItem.id}`" class="prod-item row-group" v-if="index < 4"
                                    v-for="(otherItem,index) in otherProducts.data" :key="otherItem.id">
                             <div class="item-img">
-                                <img :src="otherItem.img.url ? otherItem.img.url : ''"/>
+                                <img :src="otherItem.img.url ? otherItem.img.url : '/images/notification_icon_bg.png'"/>
                             </div>
                             <div class="item-txt-wrap">
                                 <p class="title">
@@ -171,7 +171,7 @@
                     <div class="prod-list prod-half-list col-group" v-if="randomProducts">
                         <nuxt-link :to="`/products/${randomItem.id}`" class="prod-item row-group" v-if="index < 4" v-for="(randomItem,index) in randomProducts.data.filter(randomProduct => randomProduct.id != product.id)" :key="randomItem.id">
                             <div class="item-img">
-                                <img :src="randomItem.img.url ? randomItem.img.url : ''"/>
+                                <img :src="randomItem.img.url ? randomItem.img.url : '/images/notification_icon_bg.png'"/>
                             </div>
                             <div class="item-txt-wrap">
                                 <p class="title">
@@ -205,7 +205,7 @@
                                   <div class="prod-list prod-half-list col-group" v-if="similarProducts">
                                       <nuxt-link :to="`/products/${similarProduct.id}`" class="prod-item row-group" v-for="(similarProduct,index) in similarProducts.data" :key="similarProduct.id" v-if="index < 4">
                                           <div class="item-img">
-                                              <img :src="similarProduct.img.url ? similarProduct.img.url : ''" />
+                                              <img :src="similarProduct.img.url ? similarProduct.img.url : '/images/notification_icon_bg.png'" />
                                           </div>
                                           <div class="item-txt-wrap">
                                               <p class="title">

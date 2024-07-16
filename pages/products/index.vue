@@ -3,14 +3,12 @@
     <div id="wrap">
 
         <!-- header Start -->
-        <header id="header" class="index-header products" v-if="$route.query.word">
+        <header id="header" class="index-header products" v-if="!$route.query.word">
             <div class="container col-group">
                 <h1 class="logo">
                     <img src="/images/LOGO.png" alt="">
                 </h1>
-              <div class="search-input-wrap">
-                <input type="text" class="search-input" disabled v-model="$route.query.word || '검색어'">
-              </div>
+
                 <div class="header-menu-wrap col-group">
                     <nuxt-link to="/searches" class="sub-header-btn search-btn"> <img src="/images/icon_search.png" alt=""></nuxt-link>
                     <nuxt-link to="/alarms" class="header-menu" :class="{'active':user.has_unread_alarm}"> <!-- 알림 갯수 1개 이상일 때 active 클래스 추가 -->
@@ -19,26 +17,27 @@
                 </div>
             </div>
         </header>
-      <header id="header" class="index-header products" v-if="$route.query.word">
-        <div class="container col-group">
-          <h1 class="logo">
-            <img src="/images/LOGO.png" alt="">
-          </h1>
-          <div class="search-input-wrap">
-            <input type="text" class="search-input" disabled v-model="$route.query.word || '검색어'">
+      <header id="header" class="sub-header" v-if="$route.query.word">
+        <form class="container">
+          <div class="search-top col-group">
+            <button type="button" class="sub-header-btn prev-btn" @click="$router.push('/')">
+              <img src="/images/icon_prev.png" alt="">
+            </button>
+
+            <div class="search-input-wrap">
+              <div class="search-category" v-if="productCategory">
+                {{ productCategory.title }}
+                <i class="del-btn" @click="delCategory()"></i>
+              </div>
+              <input type="text" class="search-input" v-model="$route.query.word ||''" disabled>
+            </div>
           </div>
-          <div class="header-menu-wrap col-group">
-            <nuxt-link to="/searches" class="sub-header-btn search-btn"> <img src="/images/icon_search.png" alt=""></nuxt-link>
-            <nuxt-link to="/alarms" class="header-menu" :class="{'active':user.has_unread_alarm}"> <!-- 알림 갯수 1개 이상일 때 active 클래스 추가 -->
-              <img src="/images/icon_bell.png" alt="">
-            </nuxt-link>
-          </div>
-        </div>
+        </form>
       </header>
         <!-- header End -->
 
         <main class="index">
-            <div class="cate-wrap">
+            <div class="cate-wrap" v-if="!$route.query.word">
                 <div class="cate-list col-group">
                     <a href="" class="cate-item active" @click.prevent="">전체보기</a>
                     <nuxt-link :to="`/productCategories/${item.id}`" class="cate-item" v-for="item in this.productCategories.data" :key="item.id">
@@ -89,7 +88,19 @@ export default {
                 state_transaction: "",
                 random: "",
             }),
-
+          categoryForm: new Form(this.$axios,{
+            page:1,
+            product_category_id: this.$route.query.product_category_id || "",
+            county_id: "",
+            order_by: "created_at",
+            word: "",
+            user_id:"",
+            state_transaction: "",
+            random:"",
+            price:"",
+          }),
+          productCategory:"",
+          product_category_id:"",
             products: {
                 data: [],
                 meta: {
@@ -98,6 +109,9 @@ export default {
                 },
 
             },
+          productsCategories: {
+            data: [],
+          },
             isHome:true,
             loading:false,
         }
@@ -105,6 +119,14 @@ export default {
     },
 
     methods: {
+      getProductCategories() {
+        this.$axios.get("/api/productCategories", {
+          params: this.categoryForm.data(),
+        }).then(response => {
+          this.productsCategories = response.data;
+          this.productCategory = this.selectedCategory;
+        })
+      },
         getProducts(loadMore=false) {
             if(this.$route.query.word){
                 this.form.word =  this.$route.query.word;
@@ -136,11 +158,15 @@ export default {
 
         user(){
             return this.$auth.user.data;
-        }
+        },
+      selectedCategory(){
+        return this.productsCategories.data.find(category => category.id == this.product_category_id);
+      },
     },
 
     mounted() {
-        this.getProducts();
+      this.getProducts();
+      this.getProductCategories();
     },
 
 };
