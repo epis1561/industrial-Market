@@ -100,12 +100,28 @@
 
       <div class="chat-footer">
         <!-- 사진 한장 이상 첨부 시 -->
-        <div class="file-preview-scroll-wrap" v-if="activeFiles || activeCamera">
+        <div class="file-preview-scroll-wrap" v-if="activeFiles || activeCamera || appCamera">
           <div class="file-preview-wrap col-group">
             <input-images :multiple="true" v-if="activeFiles"
                           @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }"/>
             <input-images v-if="activeCamera" :multiple="true" id="camera" :camera="true"
                           @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"/>
+
+            <div class="m-files-wrap" v-if="files.length > 0">
+              <div class="m-files">
+                <div class="m-file-wrap" v-for="(file, index) in files" :key="index">
+                  <div class="file-preview-label">
+                    대표
+                  </div>
+                  <div class="m-file" :style="`background-image:url(${file.url})`">
+                    <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(file, index)" type="button">
+                      <i class="xi-close"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
         <!-- //사진 한장 이상 첨부 시 -->
@@ -339,6 +355,14 @@ export default {
       isAlarmActive: false,
       activeAlarm: false,
       selectImg:"",
+      appCamera:false,
+      files:[],
+      onlyShow: {
+        default: false,
+      },
+      canRemove: {
+        default: true,
+      },
       messages: {
         data: [],
         meta: {
@@ -545,6 +569,7 @@ export default {
     },
 cameraOn(){
   if(/WEBVIEW/.test(navigator.userAgent)) {
+    this.appCamera=true;
     window.postMessage(JSON.stringify({key: "CAMERA"}))
   }
       else{
@@ -565,7 +590,7 @@ cameraOn(){
   switch(result?.key) {
     case 'CAMERA': {
       console.log(result.value); // BASE64로 넘어옴
-
+        this.files.push(result.value);
       break;
     }
 
@@ -575,7 +600,12 @@ cameraOn(){
     }
   }
 },
+    remove(file, index){
+      // 기존 업로드된 파일 목록 중 삭제
+      this.files.splice(index, 1);
 
+      this.$emit("change", this.files);
+    },
 /* "message"라는걸 캐치하는 리스너를 사용하면 카메라 촬영 등 동작을 하고 난 다음에
 리턴되는 데이터를 받을 수 있음 */
 
