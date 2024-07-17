@@ -113,7 +113,7 @@
                   <div class="file-preview-label">
                     대표
                   </div>
-                  <div class="m-file" :style="`background-image:url(${file.url})`">
+                  <div class="m-file" :style="{ 'background-image': 'url(' + file.url + ')' }">
                     <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(file, index)" type="button">
                       <i class="xi-close"></i>
                     </button>
@@ -605,12 +605,6 @@ cameraOn(){
         // base64 문자열을 파일 객체로 변환 (프라미스 사용)
         this.base64ToFile(result.value, 'camera_image.jpg')
             .then(imageFile => {
-              alert(JSON.stringify(imageFile));
-              alert(`
-      File Name: ${imageFile.name}
-      File: ${imageFile}
-      File URL: ${imageFile.url}
-    `);
               if (imageFile) {
                 this.form.imgs.push(
                     {
