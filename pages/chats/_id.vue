@@ -579,8 +579,9 @@ cameraOn(){
 },
   listen(event) {
   let result = null;
-
+    alert(event.data);
   if (event.data) {
+    alert(event.data);
     try {
       result = JSON.parse(event.data);
       alert(result.value);
@@ -678,6 +679,11 @@ watch: {
 
 }
 ,
+  beforeUnmount() {
+    // 컴포넌트가 제거될 때 이벤트 리스너 제거
+    document.removeEventListener('message', this.listen);
+    window.removeEventListener('message', this.listen);
+  },
 mounted()
 {
   this.getChat();
