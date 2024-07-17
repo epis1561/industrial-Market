@@ -589,7 +589,7 @@ cameraOn(){
 
   switch(result?.key) {
     case 'CAMERA': {
-      console.log(result.value); // BASE64로 넘어옴
+      alert(result.value); // BASE64로 넘어옴
         this.files.push(result.value);
       break;
     }
