@@ -588,7 +588,7 @@ cameraOn(){
       alert('imageFile은',imageFile);
       this.form.imgs.push(imageFile);
       this.file.push(imageFile);
-      alert(this.form.imgs);
+
     } catch (e) {
       console.error("Invalid JSON data:", e);
     }
