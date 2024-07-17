@@ -596,7 +596,7 @@ cameraOn(){
     case 'CAMERA': {
       const imageFile = this.base64ToFile(result.value, 'camera_image.jpg');
       this.form.imgs.push(imageFile);
-      alert(this.form.imgs);
+      alert(JSON.stringify(this.form.imgs));
       this.file.push(imageFile);
       break;
     }
