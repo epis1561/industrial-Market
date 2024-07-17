@@ -598,6 +598,7 @@ cameraOn(){
         // base64 문자열을 파일 객체로 변환 (프라미스 사용)
         this.base64ToFile(result.value, 'camera_image.jpg')
             .then(imageFile => {
+              alert(JSON.stringify(imageFile));
               alert(`
       File Name: ${imageFile.name}
       File: ${imageFile}
