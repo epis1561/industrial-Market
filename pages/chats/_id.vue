@@ -630,7 +630,7 @@ cameraOn(){
     base64ToFile(string, filename) {
       return new Promise((resolve, reject) => {
         try {
-          alert(try)
+          alert('try');
           // base64 문자열을 Blob 객체로 변환
           const byteCharacters = atob(string);
           const byteNumbers = new Array(byteCharacters.length);
@@ -645,7 +645,11 @@ cameraOn(){
 
           // URL 생성
           const fileUrl = URL.createObjectURL(file);
-
+          alert(`
+  File Name: ${file.name}
+  File Size: ${file.size} bytes
+  File Type: ${file.type}
+`);
           // 이름, 파일 객체, URL을 포함하는 객체로 Promise 해결
           resolve({
 
