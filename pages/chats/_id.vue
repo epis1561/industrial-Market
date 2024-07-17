@@ -582,6 +582,7 @@ cameraOn(){
   if (event.data) {
     try {
       result = JSON.parse(event.data);
+      alert(result.value);
     } catch (e) {
       console.error("Invalid JSON data:", e);
     }
