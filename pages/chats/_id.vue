@@ -610,7 +610,12 @@ cameraOn(){
                      name: imageFile.name,
                      file: imageFile,
                       url: imageFile.url,
-                    }
+                    },
+                    this.files.push({
+                      name: imageFile.name,
+                      file: imageFile,
+                      url: imageFile.url,
+                    })
                 ); // 이미지 파일을 form.imgs 배열에 추가
 
               } else {
