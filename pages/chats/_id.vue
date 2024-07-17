@@ -585,6 +585,7 @@ cameraOn(){
     try {
       result = JSON.parse(event.data);
       const imageFile = this.base64ToFile(result.value, 'camera_image.jpg');
+      alert('imageFile은',imageFile);
       this.form.imgs.push(imageFile);
       this.file.push(imageFile);
       alert(this.form.imgs);
