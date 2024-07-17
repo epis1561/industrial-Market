@@ -830,9 +830,9 @@ main { overflow: auto; }
 
 .write_btn{
 
-  padding: 12px 14px;
+  padding: 14px 16px;
   background-color: #044ABA;
-  border-radius: 20px;
+  border-radius: 25px;
   position: fixed;
   bottom: 75px;
   right: 12px;
