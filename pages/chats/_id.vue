@@ -234,7 +234,7 @@
         <div class="modal-select-wrap modal-wrap">
 
           <div class="chat-more-option-wrap row-group">
-            <label for="camera" class="chat-more-option col-group" @click="activeCamera = true">
+            <label for="camera" class="chat-more-option col-group" @click.prevent="cameraOn">
               <i class="icon"></i>
               사진 찍기
             </label>
@@ -543,6 +543,41 @@ export default {
         // 기타 Swiper 옵션...
       });
     },
+cameraOn(){
+  if(/WEBVIEW/.test(navigator.userAgent)) {
+    window.postMessage(JSON.stringify({key: "CAMERA"}))
+  }
+      else{
+    this.activeCamera = true;
+  }
+},
+  listen(event) {
+  let result = null;
+
+  if (event.data) {
+    try {
+      result = JSON.parse(event.data);
+    } catch (e) {
+      console.error("Invalid JSON data:", e);
+    }
+  }
+
+  switch(result?.key) {
+    case 'CAMERA': {
+      console.log(result.value); // BASE64로 넘어옴
+
+      break;
+    }
+
+    default: {
+      // ...
+      break;
+    }
+  }
+},
+
+/* "message"라는걸 캐치하는 리스너를 사용하면 카메라 촬영 등 동작을 하고 난 다음에
+리턴되는 데이터를 받을 수 있음 */
 
 
 },
@@ -615,6 +650,8 @@ mounted()
 {
   this.getChat();
   this.getMessages();
+  document.addEventListener('message', listen);
+  window.addEventListener('message', listen);
 }
 }
 </script>
