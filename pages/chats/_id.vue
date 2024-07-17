@@ -600,7 +600,7 @@ cameraOn(){
             .then(imageFile => {
               alert(`
       File Name: ${imageFile.name}
-      File: ${imageFile.type}
+      File: ${imageFile}
       File URL: ${imageFile.url}
     `);
               if (imageFile) {
