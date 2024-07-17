@@ -555,7 +555,7 @@ export default {
               value: {
                 title: this.product.title,
                 message: this.product.description,
-                url: `/products/${this.product.id}`,
+                url: `https://industrialmarket.biz/products/${this.product.id}`,
               }
             }))
           }
