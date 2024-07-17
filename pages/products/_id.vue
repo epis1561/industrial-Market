@@ -547,6 +547,18 @@ export default {
 
     methods: {
         copy(){
+          if(/WEBVIEW/.test(navigator.userAgent)) {
+            window.postMessage(JSON.stringify({
+              key: SHARE,
+              value: {
+                title: this.product.title,
+                message: this.product.description,
+                url: `/products/${this.product.id}`,
+              }
+            }))
+          }
+          else
+          {
             var url = '';
             var textarea = document.createElement("textarea");
             document.body.appendChild(textarea);
@@ -557,8 +569,9 @@ export default {
             document.body.removeChild(textarea);
 
             this.$store.commit("setPop", {
-                description: "URL이 복사되었습니다."
+              description: "URL이 복사되었습니다."
             })
+          }
         },
 
         getProduct() {

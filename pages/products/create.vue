@@ -26,7 +26,7 @@
                   <i class="icon"></i>
                   {{ form.imgs.length }}/10
                 </label>
-                <error :form="form" name="imgs" v-if="form.imgs.length==0"/>
+<!--                <error :form="form" name="imgs" v-if="form.imgs.length==0"/>-->
                 <div class="file-preview-scroll-wrap">
                   <div class="file-preview-wrap col-group">
                     <input-images :multiple="true" @change="(data) => {form.imgs = data;}"
@@ -354,7 +354,17 @@ export default {
         this.form.lat = this.product.lat;
         this.form.lon = this.product.lon;
 
-      } else {
+      }
+      else if(this.$auth.user.data.latestProduct){
+        var getlat =this.$auth.user.data.latestProduct.lat;
+        var getlon = this.$auth.user.data.latestProduct.lon;
+        console.log('여기에걸림')
+        console.log(getlat);
+        console.log(getlon);
+        this.form.lat = "";
+        this.form.lon = "";
+      }
+      else {
         if (!this.coords || (!this.coords.x && !this.coords.y)) {
           var getlat = 37.49855955;
           var getlon = 127.0444754;
@@ -399,6 +409,8 @@ export default {
         draggable: true,
       });
       const geocodeResult2 = await reverseGeocode(getlat, getlon);
+
+
       this.address = geocodeResult2.address_components;
       if (!this.coords || (!this.coords.x && !this.coords.y)) {
         this.address.forEach(component => {
@@ -450,7 +462,8 @@ export default {
         const geocodeResult = await reverseGeocode(newLat, newLng);
         getlat = newLat;
         getlon = newLng;
-
+        console.log(getlat)
+        console.log(getlon)
         this.form.lat = getlat;
         this.form.lon = getlon;
         // Extract address components
@@ -639,6 +652,7 @@ export default {
 
               .then(response => {
                 this.ongoing = false;
+                this.$auth.fetchUser();
                 this.$router.push("/products");
               }).catch(error => {
                 this.isError();
@@ -651,6 +665,7 @@ export default {
 
             this.$router.back();
           }).then(response => {
+            this.$auth.fetchUser();
             this.ongoing = false;
           }).catch(error => {
             this.isError();

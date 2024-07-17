@@ -165,7 +165,7 @@ export default {
         // Check if adding new files exceeds the max limit
         if (this.max && this.max < this.files.length + length) {
           const remainingSpace = this.max - this.files.length;
-          return alert(`최대 ${this.max}개의 파일을 업로드할 수 있습니다.`);
+          return alert(`등록 가능한 사진은 최대 ${this.max}장 입니다.`);
         }
 
         Array.from(event.target.files).forEach((file, index) => {

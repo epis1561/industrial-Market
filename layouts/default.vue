@@ -226,6 +226,9 @@ export default {
         this.getBadManners();
         this.settingPrice();
         this.$store.dispatch("getCoords");
+
+        console.log(this.$auth.user.data);
+
         /*   this.$store.dispatch("getCenterTypes");
          //아래처럼 푸시id 가져오는 구문 사용(웹페이지가 로딩되자마자 가져오는 방법사용)
 
