@@ -618,7 +618,7 @@ cameraOn(){
         u8arr[n] = bstr.charCodeAt(n);
       }
       return new File([u8arr], filename, {type: mime});
-    }
+    },
 
     remove(file, index){
       // 기존 업로드된 파일 목록 중 삭제
