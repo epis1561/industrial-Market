@@ -570,6 +570,7 @@ export default {
 cameraOn(){
   if(/WEBVIEW/.test(navigator.userAgent)) {
     this.appCamera=true;
+    alert('카메라작동');
     window.postMessage(JSON.stringify({key: "CAMERA"}))
   }
       else{
