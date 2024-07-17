@@ -9,7 +9,7 @@
         <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
           <img src="/images/icon_prev.png" alt="">
         </a>
-        <h2 class="title">
+        <h2 class="title" @click="console">
           {{ targetUser ? targetUser.name : '알 수 없는 사용자' }}
         </h2>
         <div class="header-menu-wrap col-group">
@@ -577,6 +577,13 @@ cameraOn(){
     this.activeCamera = true;
   }
 },
+    console(){
+      alert(JSON.stringify(this.files));
+      this.files.forEach(file => {
+        alert(file.url);
+      });
+    },
+
   listen(event) {
   let result = null;
 
@@ -637,6 +644,7 @@ cameraOn(){
       break;
     }
   }
+
 },
     base64ToFile(string, filename) {
       return new Promise((resolve, reject) => {
