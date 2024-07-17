@@ -103,7 +103,7 @@
         <div class="file-preview-scroll-wrap" v-if="activeFiles || activeCamera || appCamera">
           <div class="file-preview-wrap col-group">
             <input-images :multiple="true" v-if="activeFiles"
-                          @change="(data) => {form.imgs = data; console.log(form.imgs); activeCamera = false; isImg = false; }"/>
+                          @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }"/>
             <input-images v-if="activeCamera" :multiple="true" id="camera" :camera="true"
                           @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"/>
 
@@ -627,19 +627,34 @@ cameraOn(){
     }
   }
 },
-    base64ToFile(base64String, fileName) {
-      // base64 문자열을 Blob 객체로 변환
-      const byteCharacters = atob(base64String);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: 'image/jpeg' });
-      // Blob 객체를 File 객체로 변환
-      const file = new File([blob], fileName, { type: 'image/jpeg' });
-      alert(`File name: ${file.name}, File size: ${file.size} bytes, File type: ${file.type}`);
-      return file;
+    base64ToFile(string, filename) {
+      return new Promise((resolve, reject) => {
+        try {
+          // base64 문자열을 Blob 객체로 변환
+          const byteCharacters = atob(string);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: 'image/jpeg' });
+
+          // Blob 객체를 File 객체로 변환
+          const file = new File([blob], filename, { type: 'image/jpeg' });
+
+          // URL 생성
+          const fileUrl = URL.createObjectURL(file);
+
+          // 이름, 파일 객체, URL을 포함하는 객체로 Promise 해결
+          resolve({
+            name: file.name,
+            file: file,
+            url: fileUrl
+          });
+        } catch (error) {
+          reject(error);
+        }
+      });
     },
 
     remove(file, index){
