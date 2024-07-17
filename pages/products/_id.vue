@@ -156,7 +156,7 @@
                                         {{ otherItem.format_price }}
                                     </div>
                                     <div v-if="otherItem.offer_price ==1 && otherItem.type!=2">
-                                        협의
+                                        가격협의
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +188,7 @@
                                         {{ randomItem.format_price }}
                                     </div>
                                     <div v-if="randomItem.offer_price ==1 && randomItem.type!=2">
-                                        협의
+                                        가격협의
                                     </div>
                                 </div>
                             </div>
@@ -222,7 +222,7 @@
                                                       {{ similarProduct.format_price }}
                                                   </div>
                                                   <div v-if="similarProduct.offer_price ==1 && similarProduct.type!=2">
-                                                      협의
+                                                      가격협의
                                                   </div>
                                               </div>
                                           </div>
@@ -244,7 +244,7 @@
                             {{ product.format_price }}
                         </div>
                         <div v-if="product.offer_price ==1 && product.type!=2">
-                            협의
+                            가격협의
                         </div>
 
                     </div>

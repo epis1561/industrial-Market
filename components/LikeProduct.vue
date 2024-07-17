@@ -32,7 +32,7 @@
                     {{ product.format_price }}
                 </div>
                 <div v-if="product.offer_price ==1 && product.type!=2">
-                    협의
+                    가격협의
                 </div>
             </div>
             <button class="like-btn" @click.prevent.stop="remove" :class="{'active':isLike}"></button>

@@ -35,7 +35,7 @@
                     {{ item.format_price }}
                 </div>
                 <div v-if="item.offer_price ==1 && item.type!=2">
-                    협의
+                    가격협의
                 </div>
             </div>
             <div class="prod-btn-wrap col-group">
