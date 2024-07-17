@@ -834,8 +834,8 @@ main { overflow: auto; }
   background-color: #044ABA;
   border-radius: 25px;
   position: fixed;
-  bottom: 75px;
-  right: 12px;
+  bottom: 90px;
+  right: 16px;
 }
 .write_btn a{
   color: #fff;
@@ -849,4 +849,7 @@ main { overflow: auto; }
   font-size: 18px;
   color: #fff;
   margin-right: 5px;
+}
+.counts{
+  margin-top: 10px;
 }

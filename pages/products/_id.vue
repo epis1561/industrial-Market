@@ -61,20 +61,6 @@
                                     {{ product.format_created_at }}
                                 </p>
                             </div>
-                            <div class="prod-btn-wrap col-group">
-                                <div class="prod-btn col-group">
-                                    <img src="/images/icon_view_gray.png" alt="" class="icon">
-                                    <p class="txt">{{ product.count_view }}</p>
-                                </div>
-                                <div class="prod-btn col-group">
-                                    <img src="/images/icon_chat_gray.png" alt="" class="icon">
-                                    <p class="txt">{{ product.count_chat }}</p>
-                                </div>
-                                <div class="prod-btn col-group">
-                                    <img src="/images/icon_like_gray.png" alt="" class="icon">
-                                    <p class="txt">{{ count_like }}</p>
-                                </div>
-                            </div>
                         </div>
                         <h2 class="detail-title state" @click="console">
                             {{ product.title }}
@@ -115,6 +101,25 @@
                         <div id="map" class="root_daum_roughmap root_daum_roughmap_landing" @click="showMap=true"></div>
 
                     </div>
+                  <div class="prod-btn-wrap col-group counts">
+                    <div class="prod-btn col-group">
+                      <!--                      <img src="/images/icon_chat_gray.png" alt="" class="icon">-->
+                      <p class="txt">채팅</p>
+                      <p class="txt">{{ product.count_chat }}</p>
+                    </div>
+                    <div class="prod-btn col-group">
+                      <!--                      <img src="/images/icon_like_gray.png" alt="" class="icon">-->
+                      <p class="txt">관심</p>
+                      <p class="txt">{{ count_like }}</p>
+                    </div>
+                    <div class="prod-btn col-group">
+<!--                      <img src="/images/icon_view_gray.png" alt="" class="icon">-->
+                      <p class="txt">조회</p>
+                      <p class="txt">{{ product.count_view }}</p>
+                    </div>
+
+
+                  </div>
                 </div>
 
                 <!-- 다른 유저의 상품 확인 시 보이는 섹션 -->
@@ -931,7 +936,7 @@ watch:{
         this.getProducts();
         this.getReportCategories();
         window.addEventListener('scroll', this.handleScroll);
-        console.log(this.$auth.user.data);
+
     }
 };
 </script>
