@@ -547,10 +547,11 @@ export default {
 
     methods: {
         copy(){
+          alert(copy발동);
           if(/WEBVIEW/.test(navigator.userAgent)) {
-            alert(발동);
+            alert(if문통과);
             window.postMessage(JSON.stringify({
-              key: SHARE,
+              key: "SHARE",
               value: {
                 title: this.product.title,
                 message: this.product.description,
@@ -560,6 +561,7 @@ export default {
           }
           else
           {
+            // 기존 url복사부분
             var url = '';
             var textarea = document.createElement("textarea");
             document.body.appendChild(textarea);
