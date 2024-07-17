@@ -846,6 +846,7 @@ main { overflow: auto; }
   justify-content: center;
 }
 .write_btn a i{
+  font-size: 18px;
   color: #fff;
   margin-right: 5px;
 }
