@@ -633,7 +633,7 @@ cameraOn(){
 
       // Blob 객체를 File 객체로 변환
       const file = new File([blob], fileName, { type: 'image/jpeg' });
-      alert(file);
+      alert(`File name: ${file.name}, File size: ${file.size} bytes, File type: ${file.type}`);
       return file;
     },
 
