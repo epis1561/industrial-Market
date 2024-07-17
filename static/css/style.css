@@ -257,7 +257,15 @@ main { overflow: auto; }
   color: #fff;
   border-radius: 4px; }
 
-
+.product .prod-item .label { display: inline-block;
+  font-size: 14px;
+  font-weight: normal;
+  padding: 4px 8px;
+  height: auto;
+  line-height: 20px;
+  background: #2f83f7;
+  color: #fff;
+  border-radius: 4px; }
 
 .prod-item .title { font-size: 18px; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc( 100% - 28px ); }
 .prod-item .sub-txt-group { gap: 12px; margin-bottom: 12px; }

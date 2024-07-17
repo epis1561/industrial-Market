@@ -89,9 +89,10 @@
                         </div>
                     </div>
                 </div>
+              <report :is-report="isReport" :type="reportable_type" :id="product_id" @created="leave" @close="close"/>
             </div>
             <infinite-scroll v-if="products.meta" :loading="loading" :form="form" :meta="products.meta" :target-contents="'.prod-list'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getProducts(true);}"/>
-            <report :is-report="isReport" :type="reportable_type" :id="product_id" @created="leave" @close="close"/>
+
         </main>
     </div>
 </template>

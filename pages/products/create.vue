@@ -80,11 +80,11 @@
                        v-if="form.offer_price == 1 && form.type !=2" disabled @wheel="preventScroll">
                 <input type="number" class="form-input" placeholder="가격을 입력해주세요" v-model="price"
                        v-if="form.offer_price == 0 && form.type !=2" @wheel="preventScroll">
-                <p class="sticker" v-if="form.type !=2">만원</p>
+                <p class="sticker" v-if="form.type !=2">원</p>
               </div>
               <div class="m-input-checkbox type01" v-if="form.type!=2">
                 <input type="checkbox" id="check1">
-                <label for="check1" @click="offer">협의</label>
+                <label for="check1" @click="offer">가격협의</label>
 
               </div>
               <!--                            <div class="m-input-error" v-if="!form.price && nullPrice && this.form.type !=2">가격을-->
@@ -94,7 +94,7 @@
           </div>
           <div class="form-item row-group">
             <div class="item-default">
-              상품설명
+              제품설명
             </div>
             <div class="item-user">
               <div class="form-textarea-wrap">
@@ -126,7 +126,7 @@
           </div>
           <div class="form-item row-group">
             <div class="item-default">
-              키워드(선택)
+              <span>키워드(<span style="color:red;">선택</span>) </span>&nbsp;<span class="guide-txt" style="display:inline-block;">등록 시, 검색 노출에 도움이 됩니다.</span>
               <p class="guide-txt">
                 키워드가 2개 이상인 경우 컴마(,)로 구분하여 입력해 주세요. <br>
                 예) 각가공, 밀링, 머시닝가공, 백색 아노다이

@@ -13,7 +13,7 @@
                 </div>
                 <div class="sub-header-btn-wrap col-group">
                     <button class="sub-header-btn share-btn" @click.prevent="copy"></button>
-                    <button class="sub-header-btn report-btn" @click="isReport=true" v-if="user.id != product.user.id"></button>
+                    <button class="sub-header-btn report-btn" @click="goReport" v-if="user.id != product.user.id"></button>
                     <!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
                     <button class="sub-header-btn more-btn" v-if="user.id == product.user.id" @click="isMore=true">
                         <!-- 본인의 상품 확인 시 보이는 버튼 -->
@@ -76,7 +76,7 @@
                                 </div>
                             </div>
                         </div>
-                        <h2 class="detail-title state">
+                        <h2 class="detail-title state" @click="console">
                             {{ product.title }}
                             <div :class="'label label' + product.state">
                                 {{ product.format_state }}
@@ -259,16 +259,18 @@
                         채팅하기
                     </button>
                     <!-- 본인의 상품 확인 시 보이는 버튼-->
-                    <nuxt-link :to="`/chats?product_id=${product.id}`" class="chat-btn" v-if="user.id == product.user.id">
-                        <img src="/images/icon_chat_white.png" alt="" class="icon">
-                        채팅 {{product.count_chat}}
-                    </nuxt-link>
-
+                  <nuxt-link :to="`/chats?product_id=${product.id}`" class="chat-btn" v-if="user.id == product.user.id && product.count_chat == 1">
+                    <img src="/images/icon_chat_white.png" alt="" class="icon">
+                    채팅 {{product.count_chat}}
+                  </nuxt-link>
+                  <nuxt-link :to="/chats/" class="chat-btn" v-if="user.id == product.user.id && (product.count_chat == 0 || product.count_chat > 1)">
+                    <img src="/images/icon_chat_white.png" alt="" class="icon">
+                    채팅 {{product.count_chat}}
+                  </nuxt-link>
                 </div>
             </div>
-            <flash :isReportEmpty="isReportEmpty"  />
         </main>
-
+      <report :is-report="isReport" :type="reportable_type" :id="product_id" @created="leave" @close="close"/>
         <!-- 이미지 슬라이드 클릭시 나타나는 팝업 -->
         <div class="modal-container modal_slide" :class="{active:isImg}" v-if="product">
             <div class="modal-wrap modal-slide-wrap">
@@ -285,49 +287,7 @@
         </div>
 
         <!-- 신고하기 버튼 클릭시 나타나는 팝업 -->
-        <div class="modal-container modal_report" :class="{'active':isReport}">
-            <div class="modal-wrap">
-                <i class="xi-close close-btn" @click="isReport=false"></i>
-                <div class="modal-title-wrap border">
-                    <p class="modal-title">
-                        신고하기
-                    </p>
-                    <p class="modal-sub-title">
-                        아래의 목록에서 신고 사유를 선택해 주세요
-                    </p>
-                </div>
 
-                <div class="form-item row-group">
-                    <div class="form-label-wrap row-group">
-                        <label :for="'type_'+reportCategory.id" v-for="reportCategory in ReportCategories.data"
-                               :key="reportCategory.id">
-                            <input type="radio" class="form-radio" :id="'type_'+reportCategory.id"
-                                   :value="reportCategory.id" name="type" v-model="reportForm.report_category_id"
-                                   @click="enable(reportCategory.id)">
-                            <div class="checked-item col-group">
-                                <div class="icon">
-                                    <i class="xi-check"></i>
-                                </div>
-                                <p class="txt">
-                                    {{ reportCategory.title }}
-                                </p>
-                            </div>
-                            <div class="checked-item row-group" v-if="reportCategory.id==5">
-                                <input type="text" class="form-input" :class="{ 'disable': isDisabled }"
-                                       :disabled="isDisabled" placeholder="간단한 사유 입력" v-model="reportForm.description">
-                            </div>
-                        </label>
-
-                    </div>
-                </div>
-
-                <div class="modal-footer col-group">
-                    <button class="modal-footer-btn submit-btn" @click="submitReport(product.id,'Product')">
-                        신고하기
-                    </button>
-                </div>
-            </div>
-        </div>
 
 
         <!-- 헤더 버튼 클릭시 나타나는 팝업 -->
@@ -505,6 +465,8 @@ export default {
             isSelect: false,
             isScroll:false,
             isReportEmpty:false,
+            product_id: "",
+          reportable_type : "Product",
             products: {
                 data: [],
                 meta: {
@@ -546,6 +508,9 @@ export default {
 
 
     methods: {
+      console(){
+        console.log(this.product_id);
+      },
         copy(){
 
           if(/WEBVIEW/.test(navigator.userAgent)) {
@@ -908,6 +873,17 @@ export default {
             }
 
         },
+      leave(){
+        this.$router.back();
+      },
+      close(){
+        this.isReport=false;
+      },
+      goReport(){
+        this.product_id = this.product.id;
+        console.log(this.product_id);
+        this.isReport=true;
+      }
     },
 
 

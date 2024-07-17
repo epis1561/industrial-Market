@@ -1,6 +1,6 @@
 <template>
 
-    <div id="wrap">
+    <div id="wrap" class="product">
 
         <!-- header Start -->
         <header id="header" class="index-header" v-if="!$route.query.word">

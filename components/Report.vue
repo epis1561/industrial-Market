@@ -27,7 +27,7 @@
                             <input type="text"  class="form-input" :class="{ 'disable': isDisabled }" :disabled="isDisabled" placeholder="간단한 사유 입력" v-model="reportForm.description">
                         </div>
                     </label>
-
+                  <div class="m-input-error" v-if="isNull">신고사유를 선택해주세요.</div>
                 </div>
             </div>
 
@@ -65,6 +65,7 @@ props:["isReport","type","id"],
                 description:"",
             }),
             isDisabled: true,
+            isNull:false,
         }
     },
 
@@ -88,13 +89,19 @@ props:["isReport","type","id"],
             }
         },
         submitReport(){
+          this.reportForm.reportable_id =this.id ;
+              this.reportForm.reportable_type = this.type;
+
+              console.log(this.reportForm.reportable_id);
             this.$store.commit("setLoading",true);
             this.reportForm.post("/api/reports").then(response => {
                 this.$store.commit("setPop", {
                     description: "신고내용이 정상 접수 되었습니다."
                 });
-this.$emit("created");
-            })
+                this.$emit("created");
+            }) .catch(error => {
+              this.isNull = true;
+            });
         },
     },
 
