@@ -594,12 +594,26 @@ cameraOn(){
 
   switch(result?.key) {
     case 'CAMERA': {
-      const imageFile = this.base64ToFile(result.value, 'camera_image.jpg');
-      this.form.imgs.push(imageFile);
-      alert(JSON.stringify(this.form.imgs));
-      this.file.push(imageFile);
+      if (result.value && typeof result.value === 'string') {
+        // base64 문자열을 파일 객체로 변환 (프라미스 사용)
+        this.base64ToFile(result.value, 'camera_image.jpg')
+            .then(imageFile => {
+              if (imageFile) {
+                this.form.imgs.push(imageFile); // 이미지 파일을 form.imgs 배열에 추가
+                alert('사진결과:', this.form.imgs); // 추가된 이미지 배열 로깅
+              } else {
+                alert(fail);
+              }
+            })
+            .catch(error => {
+              console.error('Failed to convert base64 to file:', error);
+            });
+      } else {
+        console.error('Invalid image data:', result.value);
+      }
       break;
     }
+
 
     default: {
       // ...
@@ -619,7 +633,7 @@ cameraOn(){
 
       // Blob 객체를 File 객체로 변환
       const file = new File([blob], fileName, { type: 'image/jpeg' });
-
+      alert(file);
       return file;
     },
 
