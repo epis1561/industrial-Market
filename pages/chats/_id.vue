@@ -579,9 +579,9 @@ cameraOn(){
 },
   listen(event) {
   let result = null;
-    alert(event.data);
+
   if (event.data) {
-    alert(event.data);
+
     try {
       result = JSON.parse(event.data);
 
@@ -596,9 +596,8 @@ cameraOn(){
     case 'CAMERA': {
       const imageFile = this.base64ToFile(result.value, 'camera_image.jpg');
       this.form.imgs.push(imageFile);
-      alert('사진결과',this.form.imgs);
+      alert(this.form.imgs);
       this.file.push(imageFile);
-      alert('사진결과',this.file);
       break;
     }
 
@@ -608,16 +607,20 @@ cameraOn(){
     }
   }
 },
-    base64ToFile(base64, filename) {
-      const arr = base64.split(',');
-      const mime = arr[0].match(/:(.*?);/)[1];
-      const bstr = atob(arr[1]);
-      let n = bstr.length;
-      const u8arr = new Uint8Array(n);
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+    base64ToFile(base64String, fileName) {
+      // base64 문자열을 Blob 객체로 변환
+      const byteCharacters = atob(base64String);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
       }
-      return new File([u8arr], filename, {type: mime});
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'image/jpeg' });
+
+      // Blob 객체를 File 객체로 변환
+      const file = new File([blob], fileName, { type: 'image/jpeg' });
+
+      return file;
     },
 
     remove(file, index){
