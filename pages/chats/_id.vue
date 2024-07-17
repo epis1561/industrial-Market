@@ -579,15 +579,13 @@ cameraOn(){
 },
   listen(event) {
   let result = null;
-
+    alert(event.data);
   if (event.data) {
-
+    alert(event.data);
     try {
       result = JSON.parse(event.data);
-      const imageFile = this.base64ToFile(result.value, 'camera_image.jpg');
-      alert('imageFile은',imageFile);
-      this.form.imgs.push(imageFile);
-      this.file.push(imageFile);
+
+
 
     } catch (e) {
       console.error("Invalid JSON data:", e);
@@ -596,8 +594,11 @@ cameraOn(){
 
   switch(result?.key) {
     case 'CAMERA': {
-      alert(result.value); // BASE64로 넘어옴
-        this.files.push(result.value);
+      const imageFile = this.base64ToFile(result.value, 'camera_image.jpg');
+      this.form.imgs.push(imageFile);
+      alert('사진결과',this.form.imgs);
+      this.file.push(imageFile);
+      alert('사진결과',this.file);
       break;
     }
 
@@ -607,6 +608,18 @@ cameraOn(){
     }
   }
 },
+    base64ToFile(base64, filename) {
+      const arr = base64.split(',');
+      const mime = arr[0].match(/:(.*?);/)[1];
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename, {type: mime});
+    }
+
     remove(file, index){
       // 기존 업로드된 파일 목록 중 삭제
       this.files.splice(index, 1);
