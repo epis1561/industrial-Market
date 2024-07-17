@@ -84,7 +84,7 @@
               </div>
               <div class="m-input-checkbox type01" v-if="form.type!=2">
                 <input type="checkbox" id="check1">
-                <label for="check1" @click="offer">가격협의</label>
+                <label for="check1" @click="offer">가격협의&nbsp;<span class="guide-txt" style="display:inline-block;">체크 시, 가격은 표시되지 않고 가격협의로만 노출됩니다.</span> </label>
 
               </div>
               <!--                            <div class="m-input-error" v-if="!form.price && nullPrice && this.form.type !=2">가격을-->
@@ -126,7 +126,7 @@
           </div>
           <div class="form-item row-group">
             <div class="item-default">
-              <span>키워드(<span style="color:red;">선택</span>) </span>&nbsp;<span class="guide-txt" style="display:inline-block;">등록 시, 검색 노출에 도움이 됩니다.</span>
+              <span>키워드(<span style="color:red;">선택</span>) </span>&nbsp;<span class="guide-txt">등록 시, 검색 노출에 도움이 됩니다.</span>
               <p class="guide-txt">
                 키워드가 2개 이상인 경우 컴마(,)로 구분하여 입력해 주세요. <br>
                 예) 각가공, 밀링, 머시닝가공, 백색 아노다이
@@ -645,7 +645,6 @@ export default {
       this.ongoing = true;
       if (this.ongoing == true) {
         if (this.$route.query.id) {
-          this.form.price = this.price * 10000;
 
           this.$store.commit("setLoading", true);
           return this.form.patch("/api/products/" + this.$route.query.id)
@@ -658,7 +657,6 @@ export default {
                 this.isError();
               });
         } else {
-          this.form.price = this.price * 10000;
 
           this.$store.commit("setLoading", true);
           this.form.post("/api/products").then(response => {
