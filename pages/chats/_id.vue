@@ -579,15 +579,15 @@ cameraOn(){
 },
   listen(event) {
   let result = null;
-    alert(event.data);
+
   if (event.data) {
-    alert(event.data);
+
     try {
       result = JSON.parse(event.data);
       const imageFile = this.base64ToFile(result.value, 'camera_image.jpg');
       this.form.imgs.push(imageFile);
       this.file.push(imageFile);
-      alert(result.value);
+      alert(this.form.imgs);
     } catch (e) {
       console.error("Invalid JSON data:", e);
     }
