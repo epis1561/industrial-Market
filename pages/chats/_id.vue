@@ -598,17 +598,22 @@ cameraOn(){
         // base64 문자열을 파일 객체로 변환 (프라미스 사용)
         this.base64ToFile(result.value, 'camera_image.jpg')
             .then(imageFile => {
+              alert(`
+      File Name: ${imageFile.name}
+      File: ${imageFile.type}
+      File URL: ${imageFile.url}
+    `);
               if (imageFile) {
                 this.form.imgs.push(
                     {
                      name: imageFile.name,
                      file: imageFile,
-                     url: URL.createObjectURL(imageFile),
+                      url: imageFile.url,
                     }
                 ); // 이미지 파일을 form.imgs 배열에 추가
-                alert('사진결과:', this.form.imgs); // 추가된 이미지 배열 로깅
+
               } else {
-                alert(fail);
+
               }
             })
             .catch(error => {
@@ -645,11 +650,7 @@ cameraOn(){
 
           // URL 생성
           const fileUrl = URL.createObjectURL(file);
-          alert(`
-  File Name: ${file.name}
-  File Size: ${file.size} bytes
-  File Type: ${file.type}
-`);
+
           // 이름, 파일 객체, URL을 포함하는 객체로 Promise 해결
           resolve({
 
