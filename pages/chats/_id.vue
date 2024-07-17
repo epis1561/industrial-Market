@@ -609,8 +609,11 @@ cameraOn(){
 
       this.$emit("change", this.files);
     },
-/* "message"라는걸 캐치하는 리스너를 사용하면 카메라 촬영 등 동작을 하고 난 다음에
-리턴되는 데이터를 받을 수 있음 */
+    addEventListeners() {
+      document.addEventListener('message', this.listen);
+      window.addEventListener('message', this.listen);
+      alert('Event listeners added');
+    },
 
 
 },
@@ -679,17 +682,11 @@ watch: {
 
 }
 ,
-  beforeUnmount() {
-    // 컴포넌트가 제거될 때 이벤트 리스너 제거
-    document.removeEventListener('message', this.listen);
-    window.removeEventListener('message', this.listen);
-  },
 mounted()
 {
   this.getChat();
   this.getMessages();
-  document.addEventListener('message', listen);
-  window.addEventListener('message', listen);
+  this.addEventListeners();
 }
 }
 </script>
