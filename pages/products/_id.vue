@@ -548,6 +548,7 @@ export default {
     methods: {
         copy(){
           if(/WEBVIEW/.test(navigator.userAgent)) {
+            alert(발동);
             window.postMessage(JSON.stringify({
               key: SHARE,
               value: {
