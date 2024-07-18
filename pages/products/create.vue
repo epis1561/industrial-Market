@@ -49,7 +49,7 @@
                 {{ productCategory.title }}
               </button>
             </div>
-            <error :form="form" name="product_category_id"/>
+            <error :form="form" name="카테고리"/>
           </div>
           <div class="form-item row-group">
             <div class="item-default">
@@ -369,8 +369,8 @@ export default {
           var getlat = 37.49855955;
           var getlon = 127.0444754;
           // 그냥 lat lon이 빌수밖에없음 real
-          this.form.lat = "";
-          this.form.lon = "";
+          this.form.lat = 37.49855955;
+          this.form.lon = 127.0444754;
 
         } else {
           var getlat = this.$store.state.coords.y;
