@@ -357,9 +357,7 @@ export default {
       else if(this.$auth.user.data.latestProduct){
         var getlat =this.$auth.user.data.latestProduct.lat;
         var getlon = this.$auth.user.data.latestProduct.lon;
-        console.log('여기에걸림')
-        console.log(getlat);
-        console.log(getlon);
+
         this.form.lat = getlat;
         this.form.lon = getlon;
       }
@@ -368,7 +366,6 @@ export default {
           var getlat = 37.49855955;
           var getlon = 127.0444754;
           // 그냥 lat lon이 빌수밖에없음 real
-          console.log('위치정보허락안함')
           this.form.lat = 37.49855955;
           this.form.lon = 127.0444754;
 
@@ -619,12 +616,12 @@ export default {
             this.product = response.data.data;
             console.log(this.product);
             this.form.offer_price = this.product.offer_price;
-            console.log(this.form.offer_price);
             this.form.title = this.product.title;
             this.form.product_category_id = this.product.product_category_id;
             this.form.type = this.product.type;
-            this.form.price = this.product.price / 10000;
-            this.price = this.product.price / 10000;
+            this.form.price = this.product.price * 10000;
+            this.price = this.product.price * 10000;
+            console.log(this.form.price);
             if(this.form.offer_price==1){
               this.price="";
             }

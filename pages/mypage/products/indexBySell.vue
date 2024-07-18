@@ -165,6 +165,7 @@ export default {
             })
         },
         all() {
+          $('.subpage').scrollTop(0);
             this.form.state_transactions = [0,1];
             this.isTransaction =0;
             this.form.page= 1;
@@ -175,6 +176,7 @@ export default {
             return this.getProducts(false);
         },
         complete() {
+          $('.subpage').scrollTop(0);
             this.form.state_transactions = [2];
             this.isTransaction =1;
             this.form.page= 1;
@@ -185,6 +187,7 @@ export default {
             return this.getProducts(false);
         },
         hide() {
+          $('.subpage').scrollTop(0);
             this.form.state_transactions = [];
             this.isTransaction ="";
             this.form.page= 1;
@@ -203,7 +206,7 @@ export default {
           this.form.hide = 0;
           this.form.patch("/api/products/updateHide/" + id, {}).then(response => {
             this.form.hide =1;
-            this.getProducts();
+            this.getProducts(false);
 
           })
 

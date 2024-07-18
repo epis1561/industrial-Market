@@ -46,6 +46,26 @@ export default {
                 }, 500);
             }
         },
+      detect(){
+
+
+        if(this.meta.current_page==1){
+          console.log('이거발동')
+           const observer = new IntersectionObserver(entries => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  this.page += 1;
+
+                  this.$emit("paginate", this.page);
+                }
+              });
+            });
+          const scrollListElement = document.querySelector(this.targetContents);
+
+          observer.observe(scrollListElement);
+          }
+          }
+
     },
 
     computed: {},
@@ -75,7 +95,22 @@ export default {
                     // this.loadMore();
                 }
             }
-        }
+        },
+      meta: {
+        handler(newMeta) {
+          if (newMeta.current_page === 1 && newMeta.last_page > 1) {
+            this.$nextTick(() => {
+              this.detect();
+            });
+          } else if (this.observer) {
+            // 조건에 맞지 않으면 기존 observer 제거
+            this.observer.disconnect();
+            this.observer = null;
+          }
+        },
+        deep: true,
+        immediate: true
+      }
     },
 
     mounted() {

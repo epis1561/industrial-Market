@@ -19,7 +19,7 @@
         <main class="subpage">
             <form class="container" @submit.prevent="() => {form.page = 1; getNotices()}">
                 <div class="search-input-wrap">
-                    <button><img src="images/icon_search.png" alt="" class="icon"></button>
+                    <button><img src="/images/icon_search.png" alt="" class="icon"></button>
                     <input type="text" class="search-input" placeholder="무엇을 찾고 계신가요?" v-model="form.word" >
                 </div>
             </form>
@@ -49,11 +49,12 @@
                     <empty v-if="notices.data.length === 0"/>
                 </div>
             </div>
+          <infinite-scroll v-if="notices.meta" :loading="loading" :form="form" :meta="notices.meta" :target-contents="'.notice-list'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getNotices(true);}"/>
         </main>
 
         <!-- gnb Start -->
         <div id="gnb">
-            <gnb />
+            <gnb :mypage="isMy" />
         </div>
         <!-- gnb End -->
     </div>
@@ -84,47 +85,30 @@ export default {
                 }
             },
             load:false,
+          loading:false,
+          isMy:true,
         }
     },
 
     methods: {
-        getNotices(load) {
+        getNotices(loadMore = false) {
+          this.loading = true;
             this.$store.commit("setLoading",true);
 
             this.$axios.get("/api/notices", {
                 params: this.form.data(),
             }).then(response => {
+              this.loading = false;
+                if (loadMore) {
 
-                if (load) {
-                    this.load = false;
-                    return this.notices.data = [...this.notices.data, ...response.data.data];
+                  this.notices.data = [...this.notices.data, ...response.data.data];
+                  return this.notices.meta = response.data.meta;
                 }
                 this.notices = response.data;
+                console.log(this.notices.meta);
             })
         },
-        loadMore() {
-            var scrollTop = $('.subpage').scrollTop();
 
-            var innerHeight = $('.subpage').innerHeight();
-
-            var scrollHeight = $('.subpage').prop('scrollHeight');
-            if (this.load || this.form.page == this.notices.meta.last_page) {
-
-                return;
-            }
-
-            if ( scrollTop + innerHeight >= scrollHeight - 50) {
-
-                if(this.form.page < this.notices.meta.last_page) {
-                    this.load=true;
-                    this.form.page += 1;
-                    return this.getNotices(this.load);
-                };
-            }
-        },
-        scroll(){
-            $('.subpage').scroll(this.loadMore);
-        },
         showCategoriesNotice(id){
             if(id){
             this.form.notice_category_id = id;
@@ -132,8 +116,10 @@ export default {
             else{
                 this.form.notice_category_id = null;
             }
-
-            return this.getNotices();
+          this.form.page=1;
+          this.loading = false;
+          $('.subpage').scrollTop(0);
+            return this.getNotices(false);
 
         }
 
@@ -150,10 +136,7 @@ export default {
 
     mounted() {
         this.getNotices();
-        this.getNotices();
-        setTimeout(() => {
-            this.scroll();
-        }, 500);
+
 
     },
 

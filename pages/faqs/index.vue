@@ -52,10 +52,9 @@
             </div>
             <infinite-scroll v-if="faqs.meta" :loading="loading" :form="form" :meta="faqs.meta" :target-contents="'.faq-list'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getFaqs(true);}"/>
         </main>
-
-        <!-- gnb Start -->
-        <div id="gnb"></div>
-        <!-- gnb End -->
+      <div id="gnb">
+        <gnb :mypage="isMy" />
+      </div>
     </div>
     </body>
 </template>
@@ -85,7 +84,8 @@ export default {
             },
             load: false,
             loading: false,
-
+             switcher:false,
+          isMy:true,
         }
 
     },
@@ -98,27 +98,32 @@ export default {
                 params: this.form.data(),
             }).then(response => {
                 this.loading = false;
+                this.switch = false;
                 if (loadMore) {
 
-                    this.faqs.data = [...this.faqs.data, ...response.data.data]
+                    this.faqs.data = [...this.faqs.data, ...response.data.data];
+                    console.log(this.faqs.meta);
                     return this.faqs.meta = response.data.meta;
                 }
 
                 this.faqs = response.data;
-
+                console.log(this.faqs);
             })
         },
 
 
         showCategoriesFaq(id) {
+          this.switch=true;
             if (id) {
                 this.form.faq_category_id = id;
             } else {
                 this.form.faq_category_id = null;
             }
+            this.form.page=1;
+            console.log(this.form.page);
             this.loading = false;
-            return this.getFaqs(false);
-
+          $('.subpage').scrollTop(0);
+            return this.getFaqs(false)
         }
     },
 
@@ -128,7 +133,9 @@ export default {
         }
     },
 
-    watch: {},
+    watch: {
+
+    },
 
 
     mounted() {

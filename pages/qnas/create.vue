@@ -31,7 +31,7 @@
                         <div class="item-default">제목</div>
                         <div class="item-user">
                             <input type="text" class="form-input" placeholder="제목을 입력하세요" v-model="form.title">
-                            <error :form="form" name="title"></error>
+                            <error :form="form" name="title" />
                         </div>
                     </div>
                     <div class="form-item row-group">
@@ -88,7 +88,7 @@
                         </p>
                     </div>
                     <div class="form-footer">
-                        <button class="form-footer-btn submit-btn" :class="{'disabled': !checkInputAll}" :disabled="checkInputAll == false" @click="isCreate=true">
+                        <button class="form-footer-btn submit-btn" :class="{'disabled': !checkInputAll}"  @click="isCreate=true">
                             문의등록
                         </button>
                     </div>
@@ -240,18 +240,25 @@ export default {
 
 
         store() {
-            this.$store.commit("setLoading", true);
 
+            if(!this.checkInputAll){
+
+            }
+          this.$store.commit("setLoading", true);
             if (this.$route.query.id)
                 return this.form.patch("/api/qnas/" + this.$route.query.id)
                         .then(response => {
                             this.isCreate=false;
                             this.$router.push("/qnas");
-                        });
+                        }).catch(error => {
+                      this.isCreate=false;
+              });
 
             this.form.post("/api/qnas").then(response => {
                 this.$router.push("/qnas");
-            });
+            }).catch(error => {
+              this.isCreate=false;
+              });
         },
 
         getQnas() {
@@ -262,8 +269,8 @@ export default {
                         this.qna = response.data.data;
 
                         this.form.title = this.qna.title;
-                        this.form.description = this.qna.title;
-
+                        this.form.description = this.qna.description;
+                        this.form.imgs = this.qna.imgs;
                         this.load = true;
                     })
         },
