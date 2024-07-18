@@ -24,17 +24,23 @@
         </header>
         <!-- header End -->
 
-        <main class="products_detail  product" v-if="product">
+        <main class="products_detail product" v-if="product">
             <div class="detail-img-wrap">
                 <div class="swiper detail-img-slide">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="img in product.imgs" :key="img.id" @click="isImg=true">
+                        <div class="swiper-slide" v-for="img in product.imgs" :key="img.id" @click="isImg=true" v-if="product.imgs.length!=0">
                             <div class="img-container">
-                                <img :src="img.url ? img.url : '/images/notification_icon_bg.png'"/>
+                                <img :src="img ? img.url :'/images/notification_icon_bg.png'"/>
                             </div>
                         </div>
-
                     </div>
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide" v-if="product.imgs.length==0">
+                      <div class="img-container">
+                        <img src="/images/notification_icon_bg.png"/>
+                      </div>
+                    </div>
+                  </div>
                     <div class="swiper-pagination detail-img-pagination"></div>
                 </div>
             </div>

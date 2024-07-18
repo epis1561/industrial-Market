@@ -83,9 +83,8 @@
                 <p class="sticker" v-if="form.type !=2">원</p>
               </div>
               <div class="m-input-checkbox type01" v-if="form.type!=2">
-                <input type="checkbox" id="check1">
-                <label for="check1" @click="offer">가격협의&nbsp;<span class="guide-txt" style="font-size:12px;">체크 시, 가격은 표시되지 않고 가격협의로만 노출됩니다.</span> </label>
-
+                <input type="checkbox" id="check1" v-model="form.offer_price">
+                <label for="check1" @click.prevent="offer">가격협의&nbsp;<span class="guide-txt" style="font-size:12px;">체크 시, 가격은 표시되지 않고 가격협의로만 노출됩니다.</span> </label>
               </div>
               <!--                            <div class="m-input-error" v-if="!form.price && nullPrice && this.form.type !=2">가격을-->
               <!--                                입력해주세요.-->
@@ -369,6 +368,7 @@ export default {
           var getlat = 37.49855955;
           var getlon = 127.0444754;
           // 그냥 lat lon이 빌수밖에없음 real
+          console.log('위치정보허락안함')
           this.form.lat = 37.49855955;
           this.form.lon = 127.0444754;
 
@@ -617,12 +617,17 @@ export default {
       this.$axios.get("api/products/" + this.$route.query.id, {})
           .then(response => {
             this.product = response.data.data;
-
+            console.log(this.product);
+            this.form.offer_price = this.product.offer_price;
+            console.log(this.form.offer_price);
             this.form.title = this.product.title;
             this.form.product_category_id = this.product.product_category_id;
             this.form.type = this.product.type;
             this.form.price = this.product.price / 10000;
             this.price = this.product.price / 10000;
+            if(this.form.offer_price==1){
+              this.price="";
+            }
             this.form.description = this.product.description;
             this.description = this.product.description;
             this.form.address_detail = this.product.address_detail;
@@ -676,18 +681,17 @@ export default {
 
     },
     offer() {
-      if (this.form.offer_price == 0) {
-        this.form.offer_price = 1;
+      this.form.offer_price = this.form.offer_price ? 0 : 1;
+      if (this.form.offer_price === 1) {
         this.price = "";
         this.isOffer = true;
-        this.form.price=0;
-
+        this.form.price = 0;
+        console.log('협의함');
       } else {
-        this.form.offer_price = 0
         this.isOffer = false;
-
+        console.log('협의안함');
       }
-
+      console.log('form.offer_price:', this.form.offer_price);
     },
     isError() {
       let isNullCategory = !this.form.product_category_id;
