@@ -36,11 +36,12 @@ export default function ({$axios, redirect, route, store, app}) {
             return redirect("/login");
         }
 
-        if (error.response.status == 422)
-            return store.commit("setPop", {
+        if (error.response.status == 422) {
+            /*return store.commit("setPop", {
                 title: "확인필요",
                 description: "입력값을 확인해주세요."
-            });
+            });*/
+        }
 
         if (error.response.status == 403 && error.response.data && error.response.data.message)
             return store.commit("setPop", {
