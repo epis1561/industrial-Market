@@ -766,6 +766,9 @@ main { overflow: auto; }
 
 /* 마이페이지 - 차단 사용자 관리 */
 .user-item .block-btn { margin-left: auto; width: 84px; height: 40px; border-radius: 4px; background: #fff; text-align: center; line-height: 38px; border: 1px solid #484848; font-size: 14px; font-weight: bold; } 
+.prod-item .block-btn {
+  position: relative;
+  z-index: 1000; margin-left: auto; width: 55px; height: 32px; border-radius: 4px; background: #fff; text-align: center; line-height: 30px; border: 1px solid #484848; font-size: 12px; font-weight: bold; }
 
 /* 마이페이지 - 관심 키워드 설정 */
 .keyword-wrap { padding: 20px 0; }

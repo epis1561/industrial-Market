@@ -29,8 +29,9 @@
             </div>
             <div class="container">
                 <div class="prod-list">
-                    <div class="prod-item col-group complete"  v-for="product in products.data" :key="product.id">
-                        <nuxt-link :to="`/products/${product.id}`" class="prod-item col-group">
+                    <div class="prod-item col-group complete"  v-for="(product,index) in products.data" :key="product.id">
+                        <nuxt-link to="" class="prod-item col-group" @click.stop>
+                          <nuxt-link :to="`/products/${product.id}`">
                             <div class="item-img">
                                 <div class="complete-box" v-if="product.state_transaction==2">
                                     {{ product.format_short_type }}완료
@@ -40,6 +41,7 @@
                                     거래중
                                 </div>
                             </div>
+                          </nuxt-link>
                             <div class="item-txt-wrap">
                                 <p class="title">
                                     {{ product.title }}
@@ -51,17 +53,24 @@
                                     <p class="sub-txt">
                                         {{ product.format_created_at }}
                                     </p>
+                                  <button class="block-btn" @click="hideTransaction(product.id)" v-if="hiding==true">
+                                    숨김해제
+                                  </button>
                                 </div>
                                 <div class="price">
-                                    <p :class="`label label${product.type}`">
+                                    <p :class="`label label${product.type}`" v-if="product.hide==0">
                                         {{ product.format_state }}
                                     </p>
+                                  <p class="label label1" v-if="product.hide==1">
+                                    {{ product.format_state }}
+                                  </p>
                                     <div v-if="product.offer_price ==0 && product.type!=2">
                                         {{ product.format_price }}
                                     </div>
                                     <div v-if="product.offer_price ==1 && product.type!=2">
                                         가격협의
                                     </div>
+
                                 </div>
                                 <div class="prod-btn-wrap col-group">
                                     <div class="prod-btn col-group">
@@ -73,6 +82,7 @@
                                         <p class="txt">{{ product.count_like }}</p>
                                     </div>
                                 </div>
+
                             </div>
                         </nuxt-link>
                         <div class="item-btn-wrap col-group" v-if="product.state_transaction == 2">
@@ -128,6 +138,7 @@ export default {
             product_id: "",
             loading:false,
             isHide:false,
+            hiding:false,
         };
     },
 
@@ -141,6 +152,8 @@ export default {
                 params: this.form.data(),
             }).then(response => {
                 this.loading = false;
+                if(this.isHide==true)
+                  this.hiding=true;
                 if (loadMore){
                     this.products.data = [...this.products.data, ...response.data.data];
                     console.log(this.form.page);
@@ -158,6 +171,7 @@ export default {
             this.loading = false;
             this.isHide=false;
             this.form.hide="";
+            this.hiding=false;
             return this.getProducts(false);
         },
         complete() {
@@ -167,6 +181,7 @@ export default {
             this.loading = false;
             this.isHide=false;
             this.form.hide="";
+            this.hiding=false;
             return this.getProducts(false);
         },
         hide() {
@@ -184,7 +199,15 @@ export default {
         close(){
             this.isReport=false;
         },
+        hideTransaction(id){
+          this.form.hide = 0;
+          this.form.patch("/api/products/updateHide/" + id, {}).then(response => {
+            this.form.hide =1;
+            this.getProducts();
 
+          })
+
+        }
     },
 
     computed: {

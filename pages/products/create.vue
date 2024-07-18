@@ -655,6 +655,7 @@ export default {
                 this.$router.push("/products");
               }).catch(error => {
                 this.isError();
+                this.ongoing = false;
               });
         } else {
 
@@ -667,6 +668,7 @@ export default {
             this.$auth.fetchUser();
             this.ongoing = false;
           }).catch(error => {
+            this.ongoing = false;
             this.isError();
           });
         }
@@ -678,6 +680,7 @@ export default {
         this.form.offer_price = 1;
         this.price = "";
         this.isOffer = true;
+        this.form.price=0;
 
       } else {
         this.form.offer_price = 0
