@@ -361,8 +361,8 @@ export default {
         console.log('여기에걸림')
         console.log(getlat);
         console.log(getlon);
-        this.form.lat = "";
-        this.form.lon = "";
+        this.form.lat = getlat;
+        this.form.lon = getlon;
       }
       else {
         if (!this.coords || (!this.coords.x && !this.coords.y)) {
