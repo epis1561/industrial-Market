@@ -70,7 +70,7 @@
               </button>
               <button class="category" :class="{'active':form.type == 1}" @click="form.type=1" :disabled="isOffer">찾습니다
               </button>
-              <button class="category" :class="{'active':form.type == 2}" @click="form.type=2, price=0, isOffer=false">
+              <button class="category" :class="{'active':form.type == 2}" @click="form.type=2, price=0, isOffer=false, form.price=0">
                 나눔
               </button>
             </div>
