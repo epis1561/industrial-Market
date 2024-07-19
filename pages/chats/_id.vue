@@ -75,7 +75,8 @@
                 <div :class="`new-message-box col-group ${user.id != message.user.id ? 'receive' : 'send'}`">
                   <div class="new-message-box-inner">
                     <div class="new-message-image" v-if="message.imgs.length>0">
-                      <img :src="img ? img.url : ''" v-for="(img,imgIndex) in message.imgs" :key="img.id" @click="isBigImg=true,openModal(index,imgIndex)"/>
+                      <img :src="img ? img.url : ''" v-for="(img,imgIndex) in message.imgs" :key="img.id"
+                           @click="isBigImg=true,openModal(index,imgIndex)"/>
                     </div>
 
                     <div class="new-message-box-content">
@@ -108,20 +109,20 @@
             <input-images v-if="activeCamera" :multiple="true" id="camera" :camera="true"
                           @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"/>
 
-<!--            <div class="m-files-wrap" v-if="files.length > 0">-->
-<!--              <div class="m-files">-->
-<!--                <div class="m-file-wrap" v-for="(file, index) in files" :key="index">-->
-<!--                  <div class="file-preview-label">-->
-<!--                    대표-->
-<!--                  </div>-->
-<!--                  <div class="m-file" :style="{ 'background-image': 'url(' + file.url + ')' }">-->
-<!--                    <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(file, index)" type="button">-->
-<!--                      <i class="xi-close"></i>-->
-<!--                    </button>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
+            <!--            <div class="m-files-wrap" v-if="files.length > 0">-->
+            <!--              <div class="m-files">-->
+            <!--                <div class="m-file-wrap" v-for="(file, index) in files" :key="index">-->
+            <!--                  <div class="file-preview-label">-->
+            <!--                    대표-->
+            <!--                  </div>-->
+            <!--                  <div class="m-file" :style="{ 'background-image': 'url(' + file.url + ')' }">-->
+            <!--                    <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(file, index)" type="button">-->
+            <!--                      <i class="xi-close"></i>-->
+            <!--                    </button>-->
+            <!--                  </div>-->
+            <!--                </div>-->
+            <!--              </div>-->
+            <!--            </div>-->
 
           </div>
         </div>
@@ -207,6 +208,22 @@
           </div>
         </div>
       </div>
+
+      <div class="modal-container modal_block" :class="{'active':blockComplete}">
+        <div class="modal-wrap modal-alert">
+          <div class="modal-title-wrap">
+            <i class="icon red"></i>
+            <h3 class="modal-title">
+              차단하기
+            </h3>
+          </div>
+          <p class="modal-alert-txt">
+            차단되었습니다.
+          </p>
+          <div class="modal-footer col-group">
+          </div>
+        </div>
+      </div>
       <!-- //차단하기 버튼 클릭 시 팝업 -->
 
       <!-- 채팅방 나가기 버튼 클릭 시 팝업 -->
@@ -251,7 +268,7 @@
         <div class="modal-select-wrap modal-wrap">
 
           <div class="chat-more-option-wrap row-group">
-            <label for="camera" class="chat-more-option col-group" @click.prevent="cameraOn">
+            <label for="camera" class="chat-more-option col-group">
               <i class="icon"></i>
               사진 찍기
             </label>
@@ -374,7 +391,7 @@ export default {
       safeContact: "",
       initialSlide: 0,
       swiper: null,
-
+      blockComplete: false,
     }
 
   },
@@ -406,379 +423,377 @@ export default {
 //     },
 
 
-  reportCreated() {
-    console.log(this.isReport);
-    this.isMore = false;
-    this.isReport = false;
-    this.$store.commit("setPop", {
-      description: "신고내용이 정상 접수 되었습니다."
-    });
-  },
-
-  setChannel(chat) {
-    let self = this;
-    let token = localStorage.getItem("token");
-
-    let key = process.env.NODE_ENV === "production" ? "d3d926327900abbca288" : "8cd7d1abc2ee7229e126";
-
-    Pusher.logToConsole = true;
-
-    const pusher = new Pusher(key, {
-      cluster: 'ap3',
-      authEndpoint: this.$store.state.domain + '/api/pusher/auth',
-      auth: {
-        headers: {
-          Authorization: "Bearer " + token, // here | value of "token" can get from backend
-        },
-      }
-    });
-
-    this.channel = pusher.subscribe('presence-chats.' + chat.id);
-
-    this.channel.bind('App\\Events\\MessageCreated', function (data) {
-      self.messages.data.push(data.message);
-
-      setTimeout(function () {
-        self.$refs.chatWrap.scrollTop = self.$refs.chatWrap.scrollHeight + 400;
-      }, 10);
-    });
-  },
-
-  getChat() {
-    this.$store.commit("setLoading", true);
-
-    this.$axios.get("/api/chats/" + this.$route.params.id, {}).then(response => {
-      this.chat = response.data.data;
-      this.alarmForm.alarm = this.chat.alarm;
-      if (this.chat.alarm == 1) {
-        this.isAlarm = "알림끄기";
-      } else {
-        this.isAlarm = "알림켜기";
-      }
-      this.setChannel(this.chat);
-    })
-  },
-  getMessages() {
-    this.$store.commit("setLoading", true);
-
-    this.$axios.get("/api/messages", {
-      params: this.form.data(),
-    }).then(response => {
-      this.$auth.fetchUser();
-
-      this.messages = response.data;
-      console.log('채팅배열', this.messages.data);
-      this.$nextTick(() => {
-        this.scrollEnd();
-        this.detailSwiper();
+    reportCreated() {
+      console.log(this.isReport);
+      this.isMore = false;
+      this.isReport = false;
+      this.$store.commit("setPop", {
+        description: "신고내용이 정상 접수 되었습니다."
       });
-    })
+    },
 
-  },
-  detailSwiper() {
-    var slide_popup = new Swiper(".slide_popup", {
-      loop: true,
-      pagination: {
-        el: '.slide-popup-pagination',
-      },
-    });
-  },
-  storeMessage() {
+    setChannel(chat) {
+      let self = this;
+      let token = localStorage.getItem("token");
 
-    if (!this.form.description && this.form.imgs.length === 0)
-      return null;
+      let key = process.env.NODE_ENV === "production" ? "d3d926327900abbca288" : "8cd7d1abc2ee7229e126";
 
-    this.$store.commit("setLoading", true);
+      Pusher.logToConsole = true;
 
-    this.scrollEnd();
+      const pusher = new Pusher(key, {
+        cluster: 'ap3',
+        authEndpoint: this.$store.state.domain + '/api/pusher/auth',
+        auth: {
+          headers: {
+            Authorization: "Bearer " + token, // here | value of "token" can get from backend
+          },
+        }
+      });
 
-    this.form.post("/api/messages")
-        .then(response => {
-          this.form.description = "";
-          this.form.imgs = [];
+      this.channel = pusher.subscribe('presence-chats.' + chat.id);
 
-          this.activeCamera = false;
-          this.activeFiles = false;
+      this.channel.bind('App\\Events\\MessageCreated', function (data) {
+        self.messages.data.push(data.message);
 
-          $('.m-files-wrap').hide();
-        })
+        setTimeout(function () {
+          self.$refs.chatWrap.scrollTop = self.$refs.chatWrap.scrollHeight + 400;
+        }, 10);
+      });
+    },
 
-  },
-  checkNull() {
-    if (this.messages.data.length == 0) {
-      return this.isNull = true;
-    } else {
-      return this.isNull = false;
-    }
-  },
-  outChat() {
-    this.form.delete("/api/chats/detach/" + this.$route.params.id)
-        .then(response => {
-          this.$router.push("/chats");
+    getChat() {
+      this.$store.commit("setLoading", true);
 
-        });
-  },
-  block() {
-    this.$store.commit("setLoading", true);
-    this.blockForm.target_user_id = this.targetUser.id;
-    this.blockForm.post("/api/blocks/")
-        .then(response => {
-          this.$router.push("/chats");
-
-        });
-  },
-  leave() {
-    this.$router.back();
-  },
-  changeAlarm() {
-    let self = this;
-
-    this.$store.commit("setLoading", true);
-
-    if (this.chat.alarm == 0) {
-      this.alarmForm.alarm = 1;
-      this.alarmText = "채팅 알람이 켜졌습니다.";
-      this.alarmForm.patch("/api/chats/" + this.$route.params.id).then(response => {
-        this.chat = response.data;
-        return setTimeout(function () {
-          self.alarmText = null;
-        }, 1500);
+      this.$axios.get("/api/chats/" + this.$route.params.id, {}).then(response => {
+        this.chat = response.data.data;
+        this.alarmForm.alarm = this.chat.alarm;
+        if (this.chat.alarm == 1) {
+          this.isAlarm = "알림끄기";
+        } else {
+          this.isAlarm = "알림켜기";
+        }
+        this.setChannel(this.chat);
       })
-    } else if (this.chat.alarm == 1) {
-      this.alarmForm.alarm = 0;
-      this.alarmText = "채팅 알람이 꺼졌습니다.";
-      this.alarmForm.patch("/api/chats/" + this.$route.params.id).then(response => {
-        this.chat = response.data;
-        return setTimeout(function () {
-          self.alarmText = null;
-        }, 1500);
+    },
+    getMessages() {
+      this.$store.commit("setLoading", true);
+
+      this.$axios.get("/api/messages", {
+        params: this.form.data(),
+      }).then(response => {
+        this.$auth.fetchUser();
+
+        this.messages = response.data;
+        console.log('채팅배열', this.messages.data);
+        this.$nextTick(() => {
+          this.scrollEnd();
+          this.detailSwiper();
+        });
       })
-    }
 
+    },
+    detailSwiper() {
+      var slide_popup = new Swiper(".slide_popup", {
+        loop: true,
+        pagination: {
+          el: '.slide-popup-pagination',
+        },
+      });
+    },
+    storeMessage() {
 
-  },
+      if (!this.form.description && this.form.imgs.length === 0)
+        return null;
 
-  getSafeContact() {
-    this.$axios.get("/api/users/getContactSafe", {
-      params: this.form.data(),
-    }).then(response => {
-      $(".safe-contact").attr("href", `tel:${response.data.data.contact_safe}`);
-      $(".safe-contact")[0].click();
-    })
-  },
-  scrollEnd() {
-    var subpage = document.querySelector('.subpage');
+      this.$store.commit("setLoading", true);
 
-    subpage.scrollTop = subpage.scrollHeight;
-  },
-  close() {
-    this.isReport = false;
-  },
-  updateIsNull(newMessagesData) {
-    this.isNull = newMessagesData.length === 0;
-  },
-  openModal(messageIndex, imgIndex) {
-    this.isBigImg = true; // 모달 활성화
-    // 선택된 이미지 URL 설정
-    this.selectImg = this.messages.data[messageIndex].imgs[imgIndex].url;
-  },
+      this.scrollEnd();
 
-  initSwiper() {
-    this.swiper = new Swiper('.slide_popup', {
-      initialSlide: this.initialSlide,
-      pagination: {
-        el: '.slide-popup-pagination',
-      },
-      // 기타 Swiper 옵션...
-    });
-  },
-  // cameraOn() {
-  //   if (/WEBVIEW/.test(navigator.userAgent)) {
-  //     this.appCamera = true;
-  //     alert('카메라작동');
-  //     window.postMessage(JSON.stringify({key: "CAMERA"}))
-  //   } else {
-  //     this.activeCamera = true;
-  //   }
-  // },
-  // console() {
-  //   console.log(this.files.url);
-  // },
-  //
-  // listen(event) {
-  //   let result = null;
-  //
-  //   if (event.data) {
-  //
-  //     try {
-  //       result = JSON.parse(event.data);
-  //
-  //
-  //     } catch (e) {
-  //       console.error("Invalid JSON data:", e);
-  //     }
-  //   }
-  //
-  //   switch (result?.key) {
-  //     case 'CAMERA': {
-  //       if (result.value && typeof result.value === 'string') {
-  //         // base64 문자열을 파일 객체로 변환 (프라미스 사용)
-  //         this.base64ToFile(result.value, 'camera_image.jpg')
-  //             .then(imageFile => {
-  //               if (imageFile) {
-  //                 this.form.imgs.push(
-  //                     {
-  //                       name: imageFile.name,
-  //                       file: imageFile,
-  //                       url: imageFile.url,
-  //                     },
-  //                     this.files.push({
-  //                       name: imageFile.name,
-  //                       file: imageFile,
-  //                       url: imageFile.url,
-  //                     })
-  //                 ); // 이미지 파일을 form.imgs 배열에 추가
-  //
-  //               } else {
-  //
-  //               }
-  //             })
-  //             .catch(error => {
-  //               console.error('Failed to convert base64 to file:', error);
-  //             });
-  //       } else {
-  //         console.error('Invalid image data:', result.value);
-  //       }
-  //       break;
-  //     }
-  //
-  //
-  //     default: {
-  //       // ...
-  //       break;
-  //     }
-  //   }
-  //
-  // },
-  // base64ToFile(string, filename) {
-  //   return new Promise((resolve, reject) => {
-  //     try {
-  //       alert('try');
-  //       // base64 문자열을 Blob 객체로 변환
-  //       const byteCharacters = atob(string);
-  //       const byteNumbers = new Array(byteCharacters.length);
-  //       for (let i = 0; i < byteCharacters.length; i++) {
-  //         byteNumbers[i] = byteCharacters.charCodeAt(i);
-  //       }
-  //       const byteArray = new Uint8Array(byteNumbers);
-  //       const blob = new Blob([byteArray], {type: 'image/jpeg'});
-  //
-  //       // Blob 객체를 File 객체로 변환
-  //       const file = new File([blob], filename, {type: 'image/jpeg'});
-  //
-  //       // URL 생성
-  //       const fileUrl = URL.createObjectURL(file);
-  //
-  //       // 이름, 파일 객체, URL을 포함하는 객체로 Promise 해결
-  //       resolve({
-  //
-  //         name: file.name,
-  //         file: file,
-  //         url: fileUrl
-  //       });
-  //     } catch (error) {
-  //       alert(123);
-  //       reject(error);
-  //     }
-  //   });
-  // },
+      this.form.post("/api/messages")
+          .then(response => {
+            this.form.description = "";
+            this.form.imgs = [];
 
-  // remove(file, index) {
-  //   // 기존 업로드된 파일 목록 중 삭제
-  //   this.files.splice(index, 1);
-  //
-  //   this.$emit("change", this.files);
-  // },
-  // addEventListeners() {
-  //   document.addEventListener('message', this.listen);
-  //   window.addEventListener('message', this.listen);
-  //   alert('Event listeners added');
-  // },
+            this.activeCamera = false;
+            this.activeFiles = false;
 
+            $('.m-files-wrap').hide();
+          })
 
-},
-
-computed: {
-  targetUser()
-  {
-    if (this.chat != null) {
-      if (this.chat.asker && this.chat.asker.id == this.$auth.user.data.id) {
-        return this.chat.owner;
-      } else if (this.chat.owner && this.chat.owner.id == this.$auth.user.data.id) {
-        return this.chat.asker;
+    },
+    checkNull() {
+      if (this.messages.data.length == 0) {
+        return this.isNull = true;
+      } else {
+        return this.isNull = false;
       }
+    },
+    outChat() {
+      this.form.delete("/api/chats/detach/" + this.$route.params.id)
+          .then(response => {
+            this.$router.push("/chats");
 
-    }
-  }
-,
-
-  user()
-  {
-    return this.$auth.user.data;
-  }
-,
-  flattenedImages() {
-    let flattened = [];
-    this.messages.data.forEach((message, messageIndex) => {
-      if (message.imgs && message.imgs.length > 0) {
-        message.imgs.forEach((img, imgIndex) => {
-          flattened.push({
-            ...img,
-            messageIndex,
-            imgIndex,
-            uniqueId: `${messageIndex}-${imgIndex}`
           });
-        });
+    },
+    block() {
+      this.$store.commit("setLoading", true);
+      this.blockForm.target_user_id = this.targetUser.id;
+      this.blockForm.post("/api/blocks/")
+          .then(response => {
+            this.isBlock = false;
+            this.blockComplete = true;
+            setTimeout(() => {
+              this.$router.push("/chats");
+            }, 2300);
+
+          });
+    },
+    leave() {
+      this.$router.back();
+    },
+    changeAlarm() {
+      let self = this;
+
+      this.$store.commit("setLoading", true);
+
+      if (this.chat.alarm == 0) {
+        this.alarmForm.alarm = 1;
+        this.alarmText = "채팅 알람이 켜졌습니다.";
+        this.alarmForm.patch("/api/chats/" + this.$route.params.id).then(response => {
+          this.chat = response.data;
+          return setTimeout(function () {
+            self.alarmText = null;
+          }, 1500);
+        })
+      } else if (this.chat.alarm == 1) {
+        this.alarmForm.alarm = 0;
+        this.alarmText = "채팅 알람이 꺼졌습니다.";
+        this.alarmForm.patch("/api/chats/" + this.$route.params.id).then(response => {
+          this.chat = response.data;
+          return setTimeout(function () {
+            self.alarmText = null;
+          }, 1500);
+        })
       }
-    });
-    console.log('',flattened);
-    return flattened;
-  }
-}
-,
 
-beforeDestroy()
-{
-  if (this.channel)
-    this.channel.unsubscribe(); // Pusher 연결 해제
-}
-,
 
-watch: {
+    },
 
-  'messages.data'
-:
-  {
-    handler(newMessagesData)
-    {
-      // messages.data가 변경될 때마다 호출됩니다.
-      this.updateIsNull(newMessagesData);
+    getSafeContact() {
+      this.$axios.get("/api/users/getContactSafe", {
+        params: this.form.data(),
+      }).then(response => {
+        $(".safe-contact").attr("href", `tel:${response.data.data.contact_safe}`);
+        $(".safe-contact")[0].click();
+      })
+    },
+    scrollEnd() {
+      var subpage = document.querySelector('.subpage');
 
+      subpage.scrollTop = subpage.scrollHeight;
+    },
+    close() {
+      this.isReport = false;
+    },
+    updateIsNull(newMessagesData) {
+      this.isNull = newMessagesData.length === 0;
+    },
+    openModal(messageIndex, imgIndex) {
+      this.isBigImg = true; // 모달 활성화
+      // 선택된 이미지 URL 설정
+      this.selectImg = this.messages.data[messageIndex].imgs[imgIndex].url;
+    },
+
+    initSwiper() {
+      this.swiper = new Swiper('.slide_popup', {
+        initialSlide: this.initialSlide,
+        pagination: {
+          el: '.slide-popup-pagination',
+        },
+        // 기타 Swiper 옵션...
+      });
+    },
+    // cameraOn() {
+    //   if (/WEBVIEW/.test(navigator.userAgent)) {
+    //     this.appCamera = true;
+    //     alert('카메라작동');
+    //     window.postMessage(JSON.stringify({key: "CAMERA"}))
+    //   } else {
+    //     this.activeCamera = true;
+    //   }
+    // },
+    // console() {
+    //   console.log(this.files.url);
+    // },
+    //
+    // listen(event) {
+    //   let result = null;
+    //
+    //   if (event.data) {
+    //
+    //     try {
+    //       result = JSON.parse(event.data);
+    //
+    //
+    //     } catch (e) {
+    //       console.error("Invalid JSON data:", e);
+    //     }
+    //   }
+    //
+    //   switch (result?.key) {
+    //     case 'CAMERA': {
+    //       if (result.value && typeof result.value === 'string') {
+    //         // base64 문자열을 파일 객체로 변환 (프라미스 사용)
+    //         this.base64ToFile(result.value, 'camera_image.jpg')
+    //             .then(imageFile => {
+    //               if (imageFile) {
+    //                 this.form.imgs.push(
+    //                     {
+    //                       name: imageFile.name,
+    //                       file: imageFile,
+    //                       url: imageFile.url,
+    //                     },
+    //                     this.files.push({
+    //                       name: imageFile.name,
+    //                       file: imageFile,
+    //                       url: imageFile.url,
+    //                     })
+    //                 ); // 이미지 파일을 form.imgs 배열에 추가
+    //
+    //               } else {
+    //
+    //               }
+    //             })
+    //             .catch(error => {
+    //               console.error('Failed to convert base64 to file:', error);
+    //             });
+    //       } else {
+    //         console.error('Invalid image data:', result.value);
+    //       }
+    //       break;
+    //     }
+    //
+    //
+    //     default: {
+    //       // ...
+    //       break;
+    //     }
+    //   }
+    //
+    // },
+    // base64ToFile(string, filename) {
+    //   return new Promise((resolve, reject) => {
+    //     try {
+    //       alert('try');
+    //       // base64 문자열을 Blob 객체로 변환
+    //       const byteCharacters = atob(string);
+    //       const byteNumbers = new Array(byteCharacters.length);
+    //       for (let i = 0; i < byteCharacters.length; i++) {
+    //         byteNumbers[i] = byteCharacters.charCodeAt(i);
+    //       }
+    //       const byteArray = new Uint8Array(byteNumbers);
+    //       const blob = new Blob([byteArray], {type: 'image/jpeg'});
+    //
+    //       // Blob 객체를 File 객체로 변환
+    //       const file = new File([blob], filename, {type: 'image/jpeg'});
+    //
+    //       // URL 생성
+    //       const fileUrl = URL.createObjectURL(file);
+    //
+    //       // 이름, 파일 객체, URL을 포함하는 객체로 Promise 해결
+    //       resolve({
+    //
+    //         name: file.name,
+    //         file: file,
+    //         url: fileUrl
+    //       });
+    //     } catch (error) {
+    //       alert(123);
+    //       reject(error);
+    //     }
+    //   });
+    // },
+
+    // remove(file, index) {
+    //   // 기존 업로드된 파일 목록 중 삭제
+    //   this.files.splice(index, 1);
+    //
+    //   this.$emit("change", this.files);
+    // },
+    // addEventListeners() {
+    //   document.addEventListener('message', this.listen);
+    //   window.addEventListener('message', this.listen);
+    //   alert('Event listeners added');
+    // },
+
+
+  },
+
+  computed: {
+    targetUser() {
+      if (this.chat != null) {
+        if (this.chat.asker && this.chat.asker.id == this.$auth.user.data.id) {
+          return this.chat.owner;
+        } else if (this.chat.owner && this.chat.owner.id == this.$auth.user.data.id) {
+          return this.chat.asker;
+        }
+
+      }
     }
-  ,
-    immediate: false,
+    ,
+
+    user() {
+      return this.$auth.user.data;
+    }
+    ,
+    flattenedImages() {
+      let flattened = [];
+      this.messages.data.forEach((message, messageIndex) => {
+        if (message.imgs && message.imgs.length > 0) {
+          message.imgs.forEach((img, imgIndex) => {
+            flattened.push({
+              ...img,
+              messageIndex,
+              imgIndex,
+              uniqueId: `${messageIndex}-${imgIndex}`
+            });
+          });
+        }
+      });
+      console.log('', flattened);
+      return flattened;
+    }
   }
+  ,
+
+  beforeDestroy() {
+    if (this.channel)
+      this.channel.unsubscribe(); // Pusher 연결 해제
+  }
+  ,
+
+  watch: {
+
+    'messages.data':
+        {
+          handler(newMessagesData) {
+            // messages.data가 변경될 때마다 호출됩니다.
+            this.updateIsNull(newMessagesData);
+
+          }
+          ,
+          immediate: false,
+        }
 
 
-}
-,
-mounted()
-{
-  // this.test();
-  this.getChat();
-  this.getMessages();
-  // this.addEventListeners();
-}
+  }
+  ,
+  mounted() {
+    // this.test();
+    this.getChat();
+    this.getMessages();
+    // this.addEventListeners();
+  }
 }
 </script>
 <!---->

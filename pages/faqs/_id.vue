@@ -31,19 +31,19 @@
                   <editor-content :description = "faq.description"/>
                 </div>
 
-<!--                <div class="btm-wrap col-group">-->
-<!--                    <a href="/faq_detail.html" class="btn prev-btn">-->
-<!--                        <i class="xi-long-arrow-left"></i>-->
-<!--                        이전글-->
-<!--                    </a>-->
-<!--                    <a href="/faq.html" class="list-btn">-->
-<!--                        <i class="xi-bars"></i>-->
-<!--                    </a>-->
-<!--                    <a href="/faq_detail.html" class="btn next-btn">-->
-<!--                        다음글-->
-<!--                        <i class="xi-long-arrow-right"></i>-->
-<!--                    </a>-->
-<!--                </div>-->
+                <div class="btm-wrap col-group">
+                    <nuxt-link to="/faqs" class="btn prev-btn">
+                        <i class="xi-long-arrow-left"></i>
+                        이전글
+                    </nuxt-link>
+                    <nuxt-link :to="`/faqs`" class="list-btn">
+                        <i class="xi-bars"></i>
+                    </nuxt-link>
+                    <nuxt-link to="/faqs" class="btn next-btn">
+                        다음글
+                        <i class="xi-long-arrow-right"></i>
+                    </nuxt-link>
+                </div>
             </div>
         </main>
 

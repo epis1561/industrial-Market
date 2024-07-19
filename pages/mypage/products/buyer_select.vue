@@ -10,10 +10,10 @@
                     <img src="/images/icon_prev.png" alt="">
                 </a>
                 <h2 class="title"  v-if="product && $auth.user.data.id == product.user.id && (product.type == 0 || product.type == 2)">
-                    구매자 선택
+                    판매자 선택
                 </h2>
                 <h2 class="title" v-if="product && $auth.user.data.id == product.user.id && product.type == 1">
-                    판매자 선택
+                    구매자 선택
                 </h2>
             </div>
         </header>

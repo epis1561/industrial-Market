@@ -68,13 +68,33 @@
                                 <nuxt-link :to="`/reviews/${product.reviewReceive.id}`" class="item-btn" v-if="product.reviewReceive && product.state_transaction == 2 && product.reviewReceive.emotion==1" >받은 후기</nuxt-link>
                                 <nuxt-link :to="`/reviews/${product.reviewSend.id}`" class="item-btn" v-if="product.reviewSend && product.state_transaction == 2 && product.reviewSend.emotion==1">보낸 후기</nuxt-link>
                             </div>
-                            <button class="item-btn more-btn" @click="deleteProduct(product.id)">
+                            <button class="item-btn more-btn" @click="isDelete=true">
                                 <i></i>
                             </button>
                         </div>
+                      <div class="modal-container modal_trans" :class="{'active':deleteProd}">
+                        <div class="modal-wrap modal-alert">
+                          <div class="modal-title-wrap">
+                            <i class="icon blue"></i>
+                          </div>
+                          <p class="modal-alert-txt">
+                            구매내역에서 이 상품을 삭제하시겠습니까?
+                          </p>
+
+                          <div class="modal-footer col-group">
+                            <button class="modal-footer-btn submit-btn" @click="remove(product.id)">
+                              삭제
+                            </button>
+                            <button class="modal-footer-btn close-btn" @click.prevent="deleteProd=false">
+                              취소
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                 </div>
             </div>
+
         </main>
         <infinite-scroll v-if="products.meta" :loading="loading" :form="form" :meta="products.meta" :target-contents="'.prod-list'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getProducts(true);}"  />
         <!-- gnb Start -->
@@ -92,7 +112,7 @@
 <!--                        <i class="icon"></i>-->
 <!--                        후기 보내기-->
 <!--                    </a>-->
-                    <button class="chat-more-option col-group red" @click="remove">
+                    <button class="chat-more-option col-group red" @click="deleteProd=true, isDelete=false">
                         <i class="icon red"></i>
                         목록에서 삭제
                     </button>
@@ -139,6 +159,7 @@ export default {
             loading:false,
             isDelete:false,
             id:"",
+           deleteProd:false,
         }
     },
 
@@ -167,13 +188,10 @@ export default {
 
                 })
             },
-        deleteProduct(num){
-                this.isDelete=true;
-                this.id=num;
-                console.log(this.id);
-        },
-        remove(){
+
+        remove(num){
                this.form.archive =1;
+          this.id=num;
                console.log(this.form.archive);
                console.log(this.id);
                this.form.patch("/api/products/updateArchive/"+ this.id)

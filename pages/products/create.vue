@@ -619,8 +619,8 @@ export default {
             this.form.title = this.product.title;
             this.form.product_category_id = this.product.product_category_id;
             this.form.type = this.product.type;
-            this.form.price = this.product.price * 10000;
-            this.price = this.product.price * 10000;
+            this.form.price = this.product.price;
+            this.price = this.product.price;
             console.log(this.form.price);
             if(this.form.offer_price==1){
               this.price="";

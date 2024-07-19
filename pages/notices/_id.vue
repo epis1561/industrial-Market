@@ -31,21 +31,21 @@
                     <editor-content :description="notice.description"/>
                 </div>
 
-                <!--
+
                 <div class="btm-wrap col-group">
-                    <a href="/notice_detail.html" class="btn prev-btn">
-                        <i class="xi-long-arrow-left"></i>
+                    <nuxt-link to="/notice_detail.html" class="btn prev-btn">
+                        <i class="xi-long-arrow-left"></i>
                         이전글
-                    </a>
-                    <a href="/notice.html" class="list-btn">
-                        <i class="xi-bars"></i>
-                    </a>
-                    <a href="/notice_detail.html" class="btn next-btn">
+                    </nuxt-link>
+                    <nuxt-link to="/notice.html" class="list-btn">
+                        <i class="xi-bars"></i>
+                    </nuxt-link>
+                    <nuxt-link to="/notice_detail.html" class="btn next-btn">
                         다음글
-                        <i class="xi-long-arrow-right"></i>
-                    </a>
+                        <i class="xi-long-arrow-right"></i>
+                    </nuxt-link>
                 </div>
-                -->
+
             </div>
         </main>
 

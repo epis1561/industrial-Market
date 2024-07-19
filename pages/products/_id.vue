@@ -274,7 +274,7 @@
                     <img src="/images/icon_chat_white.png" alt="" class="icon">
                     채팅 {{product.count_chat}}
                   </nuxt-link>
-                  <nuxt-link :to="/chats/" class="chat-btn" v-if="user.id == product.user.id && (product.count_chat == 0 || product.count_chat > 1)">
+                  <nuxt-link :to="`/chats/`" class="chat-btn" v-if="user.id == product.user.id && (product.count_chat == 0 || product.count_chat > 1)">
                     <img src="/images/icon_chat_white.png" alt="" class="icon">
                     채팅 {{product.count_chat}}
                   </nuxt-link>
