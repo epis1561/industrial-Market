@@ -68,6 +68,10 @@
 }
 
 /* modal */
+.Sell .modal-container{
+  background: rgba(0,0,0,0.1);
+}
+
 .modal-container .repeat{
   position:absolute;
   top: 50%;

@@ -27,7 +27,7 @@
                     숨김
                 </a>
             </div>
-            <div class="container">
+            <div class="container Sell">
                 <div class="prod-list">
                     <div class="prod-item col-group complete"  v-for="(product,index) in products.data" :key="product.id">
                         <nuxt-link to="" class="prod-item col-group" @click.stop>
@@ -53,7 +53,7 @@
                                     <p class="sub-txt">
                                         {{ product.format_created_at }}
                                     </p>
-                                  <button class="block-btn" @click="hideTransaction(product.id)" v-if="hiding==true">
+                                  <button class="block-btn" @click="hideOff(product.id)" v-if="hiding==true">
                                     숨김해제
                                   </button>
                                 </div>
@@ -93,17 +93,87 @@
                                 <nuxt-link :to="`/reviews/${product.reviewReceive.id}`" class="item-btn" v-if="product.reviewReceive && product.state_transaction == 2 && product.reviewReceive.emotion==1">받은 후기</nuxt-link>
                                 <nuxt-link :to="`/reviews/${product.reviewSend.id}`" class="item-btn" v-if="product.reviewSend && product.state_transaction == 2 && product.reviewSend.emotion==1">보낸 후기</nuxt-link>
                             </div>
-                            <button class="item-btn more-btn" @click="isReport=true,product_id = product.id">
+                            <button class="item-btn more-btn" @click="more(product.id,product.format_short_type)">
                                 <i></i>
                             </button>
                         </div>
+                      <div class="modal-container modal_chat modal_status" :class="{'active': isMore }" v-if="product">
+                        <div class="modal-select-wrap modal-wrap">
+
+                          <div class="chat-more-option-wrap row-group">
+                            <button class="chat-more-option col-group" @click.prevent="isTrade=true">
+                              <i class="icon"></i>
+                              {{ short_type }}중
+                            </button>
+                            <button class="chat-more-option col-group" @click.prevent="hideTransaction()">
+                              <i class="icon"></i>
+                              숨기기
+                            </button>
+                            <button class="chat-more-option col-group" @click.prevent="store()">
+                              <i class="icon"></i>
+                              수정
+                            </button>
+                            <button class="chat-more-option col-group" @click.prevent="isDelete=true">
+                              <i class="icon red"></i>
+                              삭제
+                            </button>
+                          </div>
+                          <div class="modal-footer col-group">
+                            <button class="modal-footer-btn close-btn" @click="isMore = false">
+                              취소
+                            </button>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="modal-container modal_trans" :class="{'active':isTrade}">
+                        <div class="modal-wrap modal-alert">
+                          <div class="modal-title-wrap">
+                            <i class="icon blue"></i>
+                          </div>
+                          <p class="modal-alert-txt">
+                            {{ product.format_short_type }}중으로 변경하면 서로 주고받은 <br>
+                            거래후기가 취소됩니다. <br>
+                            그래도 변경하시겠습니까?
+                          </p>
+
+                          <div class="modal-footer col-group">
+                            <button class="modal-footer-btn close-btn" @click="isTrade=false">
+                              취소
+                            </button>
+                            <button class="modal-footer-btn submit-btn" @click.prevent="changeTransaction(0), isTrade = false">
+                              변경하기
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                        <div class="modal-container modal_trans" :class="{'active':isDelete}">
+                          <div class="modal-wrap modal-alert">
+                            <div class="modal-title-wrap">
+                              <i class="icon blue"></i>
+                            </div>
+                            <p class="modal-alert-txt">
+                              정말 삭제하시겠습니까?
+                            </p>
+
+                            <div class="modal-footer col-group">
+                              <button class="modal-footer-btn submit-btn" @click="isDelete=false">
+                                삭제하기
+                              </button>
+                              <button class="modal-footer-btn close-btn" @click.prevent="remove, isDelete = false">
+                                취소
+                              </button>
+                            </div>
+                          </div>
+                      </div>
                     </div>
-                </div>
-              <report :is-report="isReport" :type="reportable_type" :id="product_id" @created="leave" @close="close"/>
+
+
             </div>
-            <infinite-scroll v-if="products.meta" :loading="loading" :form="form" :meta="products.meta" :target-contents="'.prod-list'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getProducts(true);}"/>
+            </div>
 
         </main>
+      <infinite-scroll v-if="products.meta" :loading="loading" :form="form" :meta="products.meta" :target-contents="'.prod-list'" :target-scroll="'.subpage'" @paginate="(data) => {form.page = data; getProducts(true);}"/>
     </div>
 </template>
 
@@ -121,6 +191,7 @@ export default {
         return {
             form: new Form(this.$axios, {
                 state_transactions: [],
+                state_transaction:"",
                 user_id: "",
                 page: 1,
                 hide:"",
@@ -133,35 +204,66 @@ export default {
                 }
             },
             isTransaction:"",
-            isReport:false,
             reportable_type : "Product",
             product_id: "",
             loading:false,
             isHide:false,
             hiding:false,
+            isMore:false,
+            isTrade:false,
+            short_type:"",
+            isDelete:false,
         };
     },
 
     methods: {
+      remove() {
+        this.form.delete("/api/products/" + this.product_id, {}).then(response => {
+          this.form.page= 1;
+          this.loading = false;
+          this.isHide=false;
+          this.form.hide="";
+          this.hiding=false;
+          return this.getProducts(false);
+        })
+      },
+      store() {
+        this.$router.push(`/products/create?id=${this.product_id}`)
+      },
+      changeTransaction() {
+        this.isTrade = false;
+        this.form.state_transaction = 0;
+        this.form.patch("/api/products/updateStateTransaction/" + this.product_id).then(() => {
+          this.isMore=false;
+          this.form.state_transactions = [2];
+          this.form.state_transaction = "";
+         this.complete();
+        })
+      },
         getProducts(loadMore = false) {
+
             this.form.user_id = this.user.id;
             this.loading = true;
-
+          console.log('트랜잭션',this.form.state_transactions);
+          console.log('페이지',this.form.page);
+          console.log('하이드여부',this.form.hide);
+          console.log('유저아이디',this.form.user_id);
+          console.log('트랜잭션',this.form.state_transaction);
             this.$store.commit("setLoading", true);
             this.$axios.get("/api/products", {
                 params: this.form.data(),
             }).then(response => {
+              console.log('결과',response.data);
                 this.loading = false;
                 if(this.isHide==true)
                   this.hiding=true;
                 if (loadMore){
                     this.products.data = [...this.products.data, ...response.data.data];
-                    console.log(this.form.page);
-                    console.log(response.data);
                     return this.products.meta = response.data.meta;
                 }
 
                 this.products = response.data;
+                console.log(this.products.meta);
             })
         },
         all() {
@@ -176,8 +278,10 @@ export default {
             return this.getProducts(false);
         },
         complete() {
+          console.log('컴플리트발동');
           $('.subpage').scrollTop(0);
             this.form.state_transactions = [2];
+
             this.isTransaction =1;
             this.form.page= 1;
             this.loading = false;
@@ -185,6 +289,7 @@ export default {
             this.form.hide="";
             this.hiding=false;
             return this.getProducts(false);
+
         },
         hide() {
           $('.subpage').scrollTop(0);
@@ -202,15 +307,45 @@ export default {
         close(){
             this.isReport=false;
         },
-        hideTransaction(id){
-          this.form.hide = 0;
-          this.form.patch("/api/products/updateHide/" + id, {}).then(response => {
-            this.form.hide =1;
-            this.getProducts(false);
+
+        hideTransaction(){
+          this.form.hide = 1;
+          this.isMore=false;
+          console.log(this.product_id);
+          this.form.patch("/api/products/updateHide/" + this.product_id, {
+
+          }).then(response => {
+            this.form.state_transactions = [2];
+            this.isTransaction =1;
+            this.form.page= 1;
+            this.loading = false;
+            this.isHide=false;
+            this.form.hide="";
+            this.hiding=false;
+            return this.getProducts(false);
 
           })
-
-        }
+        },
+      hideOff(id){
+        this.form.hide = 0;
+        console.log(id)
+        this.form.patch("/api/products/updateHide/" + id, {}).then(response => {
+          this.form.state_transactions = [];
+          this.isTransaction ="";
+          this.form.page= 1;
+          this.form.hide=1;
+          this.loading = false;
+          this.isHide=true;
+          return this.getProducts(false);
+        })
+      },
+      more(id,type){
+        this.isMore=true;
+        this.product_id=id;
+        this.short_type = type;
+        console.log(id);
+        console.log(type);
+      }
     },
 
     computed: {

@@ -131,19 +131,19 @@ export default {
             if(this.$route.query.word){
                 this.form.word =  this.$route.query.word;
             }
+          console.log('페이지',this.form.page);
             this.loading = true;
-            console.log(this.$auth.user.data);
             this.$store.commit("setLoading", true);
             this.$axios.get("/api/products", {
                 params: this.form.data(),
             }).then(response => {
+              this.loading = false;
                 if (loadMore) {
-                    this.loading = false;
                     this.products.data = [...this.products.data, ...response.data.data];
-                    return this.products.data.meta = response.data.meta;
+                    return this.products.meta = response.data.meta;
                 }
                 this.products = response.data;
-                console.log(this.products.data);
+                console.log(this.products.meta);
 
             })
         },

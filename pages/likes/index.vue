@@ -19,10 +19,10 @@
         <main class="subpage">
 
             <div class="top-tab-wrap col-group">
-                <a href="#" class="tab-item" @click.prevent="form.likeable_type='Product'" :class="{'active':form.likeable_type=='Product'}">
+                <a href="#" class="tab-item" @click.prevent="productList" :class="{'active':form.likeable_type=='Product'}">
                     관심 상품
                 </a>
-                <a href="#" class="tab-item" @click.prevent="form.likeable_type='User'" :class="{'active':form.likeable_type=='User'}">
+                <a href="#" class="tab-item" @click.prevent="userList" :class="{'active':form.likeable_type=='User'}">
                     관심 회원
                 </a>
             </div>
@@ -98,6 +98,8 @@ export default {
         getLikeUsers(loadMore = false) {
             this.form.likeable_type = "User"
             this.loading = true;
+            console.log('언제발동');
+          console.log('페이지',this.form.page);
             this.$store.commit("setLoading", true);
 
             this.$axios.get("/api/likes", {
@@ -107,7 +109,7 @@ export default {
                 },
             }).then(response => {
                 this.loading = false;
-                console.log(response.data);
+
                 if (loadMore) {
                     this.likeUsers.data = [...this.likeUsers.data, ...response.data.data];
 
@@ -115,14 +117,21 @@ export default {
                 }
 
                 this.likeUsers = response.data;
-
+              console.log(this.likeProducts.meta);
             })
         },
-
+        productList(){
+          this.form.page=1;
+          this.form.likeable_type='Product'
+        },
+      userList(){
+        this.form.page=1;
+        this.form.likeable_type='User'
+      },
         getLikeProducts(loadMore = false) {
             this.loading = true;
             this.$store.commit("setLoading", true);
-
+          console.log('페이지',this.form.page);
             this.$axios.get("/api/likes", {
                 params: {
                     ...this.form.data(),
@@ -138,7 +147,7 @@ export default {
                     return this.likeProducts.meta = response.data.meta;
                 }
                 this.likeProducts = response.data;
-
+                console.log(this.likeProducts.meta);
             })
         },
 
@@ -197,11 +206,11 @@ export default {
     mounted() {
         if(this.$route.query.type == 'User'){
             this.likeable_type='User';
-            this.getLikeUsers();
+            this.getLikeUsers(true);
         }
        else{
             this.likeable_type='Product';
-            this.getLikeProducts();
+            this.getLikeProducts(true);
         }
 
 

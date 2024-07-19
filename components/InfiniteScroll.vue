@@ -19,6 +19,7 @@ export default {
 
     methods: {
         loadMore() {
+            console.log('스크롤발동')
             let scrollTop = $(this.targetScroll).scrollTop();
 
             let innerHeight = $(this.targetScroll).innerHeight();
@@ -28,15 +29,19 @@ export default {
             let scrollEnd = scrollTop + innerHeight >= scrollHeight;
 
             let self = this;
-
+            if(this.meta.last_page >= 1){
             if (!this.finish) {
                 if(!this.loading){
                     if (this.page >= this.meta.last_page)
                         return this.finish = true;
 
                     if (scrollEnd) {
+                      console.log('페이지늘리기');
                         this.page += 1;
-
+                        console.log('라스트페이지',this.meta.last_page);
+                        console.log('인피니트페이지',this.page);
+                        console.log('로딩여부',this.loading);
+                        console.log('피니쉬여부',this.finish);
                         this.$emit("paginate", this.page);
                     }
                 }
@@ -45,18 +50,20 @@ export default {
                     self.loadMore();
                 }, 500);
             }
+            }
         },
       detect(){
 
 
-        if(this.meta.current_page==1){
-          console.log('이거발동')
+        if(this.meta && this.meta.current_page==1 && this.page==1){
+
            const observer = new IntersectionObserver(entries => {
               entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                  this.page += 1;
 
-                  this.$emit("paginate", this.page);
+                  this.page = 2;
+                  console.log('기본한번만발동');
+                  return this.$emit("paginate", this.page);
                 }
               });
             });
@@ -117,19 +124,7 @@ export default {
         // 맨처음 한번만 불러오는 부분이다.
         // 즉, 1페이지 정보가 너무 적게 들어오고 다음페이지넘어가는 수순밟기전에 이미끝인가싶을까봐
         // 2페이지분량을 뿌려주는느낌!
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    this.page += 1;
 
-                    this.$emit("paginate", this.page);
-                }
-            });
-        });
-
-        const scrollListElement = document.querySelector(this.targetContents);
-
-        observer.observe(scrollListElement);
 
         $(this.targetScroll).scroll(this.loadMore);
 
