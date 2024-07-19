@@ -4,7 +4,7 @@
         <div class="title-wrap col-group">
             <div class="main-title-wrap col-group">
                 <h2 class="main-title">
-                    예시제목
+                    공지사항
                 </h2>
                 <div class="top-btn-wrap">
                     <nuxt-link :to="`/admin/examples/create`" class="btn">
@@ -41,12 +41,10 @@
             <thead class="admin-thead">
             <tr class="admin-tr">
                 <th class="admin-th">고유번호</th>
-                <th class="admin-th">상태</th>
-                <th class="admin-th">이미지</th>
+                <th class="admin-th">카테고리</th>
                 <th class="admin-th">제목</th>
-                <th class="admin-th">등록일</th>
-                <th class="admin-th"></th>
-                <th class="admin-th"></th>
+                <th class="admin-th">생성일자</th>
+
             </tr>
             </thead>
             <tbody class="admin-tbody">
@@ -55,39 +53,13 @@
                     {{item.id}}
                 </td>
                 <td class="admin-td">
-                    <span :class="`state ${item.open == 1 ? 'blue' : ''}`">{{item.open == 1 ? 'Y' : 'N'}}</span>
+                 {{ item.noticeCategoty.title }}
                 </td>
                 <td class="admin-td">
-                    <div class="m-img type01" :style="`background-image:url(${item.img ? item.img.url : ''})`"></div>
+                  {{item.title}}
                 </td>
 
-                <td class="admin-td">{{item.title}}</td>
-
-                <td class="admin-td">{{item.created_at}}</td>
-
-                <td class="admin-td">
-                    <div class="btn-wrap col-group">
-                        <nuxt-link :to="`/admin/examples/create?id=${item.id}`" class="btn">
-                            상세
-                        </nuxt-link>
-
-                        <button type="button" class="btn del-btn" @click="remove(item)">
-                            삭제
-                        </button>
-                    </div>
-                </td>
-
-                <td class="admin-td">
-                    <div class="btn-orders">
-                        <button type="button" class="btn-order" @click="up(item)">
-                            <i class="xi-angle-up"></i>
-                        </button>
-
-                        <button type="button" class="btn-order" @click="down(item)">
-                            <i class="xi-angle-down"></i>
-                        </button>
-                    </div>
-                </td>
+                <td class="admin-td">{{ item.format_created_at }}</td>
             </tr>
             </tbody>
         </table>

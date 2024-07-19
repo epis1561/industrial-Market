@@ -3,7 +3,7 @@
 
         <div class="title-wrap col-group">
             <h2 class="main-title">
-                예시제목
+                이벤트 생성관리자
             </h2>
         </div>
 
@@ -19,43 +19,9 @@
 
             <div class="form-item row-group">
                 <p class="item-default">
-                    태그 <span class="star">*</span>
-                </p>
-                <div class="item-user">
-                    <div class="form-input-btn-wrap">
-                        <input type="text" class="form-input" placeholder="생성할 태그를 작성해주세요." v-model="tag">
-                        <button class="form-input-btn" @click.prevent="addTag">생성</button>
-                    </div>
-                    <div class="form-tag-wrap" v-if="form.tags.length > 0" style="margin-top:12px;">
-                        <div class="form-tag" v-for="(tag, index) in form.tags" :key="index">
-                            {{ tag }}
-                            <button class="form-tag-del-btn" @click.prevent="removeTag(index)">
-                                <i class="xi-close-min"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-item row-group">
-                <p class="item-default">
-                    텍스트 <span class="star">*</span>
+                    제목 <span class="star">*</span>
                 </p>
                 <input type="text" class="form-input" v-model="form.title" required>
-            </div>
-
-            <div class="form-item row-group">
-                <p class="item-default">
-                    장문텍스트 <span class="star">*</span>
-                </p>
-                <textarea class="form-textarea" placeholder="" v-model="form.description" required></textarea>
-            </div>
-
-            <div class="form-item row-group">
-                <p class="item-default">
-                    파일 <span class="star">*</span>
-                </p>
-                <input-files :default="item && item.img ? [item.img] : ''" comment="" @change="(data) => form.files = data" @removed="data => form.files_remove_ids = data" />
             </div>
 
             <div class="form-item row-group">
@@ -64,12 +30,33 @@
                 </p>
                 <input-images :default="item && item.img ? [item.img] : ''" comment="" @change="(data) => form.files = data" @removed="data => form.files_remove_ids = data" />
             </div>
+
+          <div class="form-item row-group">
+            <p class="item-default">
+              시작일자 <span class="star">*</span>
+            </p>
+            <input type="text" class="form-input" v-model="form.started_at" required>
+          </div>
+
+          <div class="form-item row-group">
+            <p class="item-default">
+              종료일자 <span class="star">*</span>
+            </p>
+            <input type="text" class="form-input" v-model="form.finished_at" required>
+          </div>
+
+          <div class="form-item row-group">
+            <p class="item-default">
+              장문텍스트 <span class="star">*</span>
+            </p>
+            <input-editor :default ="form.description" @change="data => form.description = data"/>
+          </div>
         </div>
 
         <div class="m-spaces type01 mt-40 flex-end">
             <div class="m-space-wrap">
                 <div class="m-space">
-                    <a href="/admin/examples" class="m-btn type01 bg-gray">목록</a>
+                    <a href="/admin/events" class="m-btn type01 bg-gray">목록</a>
                 </div>
             </div>
 
@@ -101,9 +88,11 @@ export default {
             tag: "",
 
             form: new Form(this.$axios, {
-                title: "",
-                type: "",
-                url: "",
+               title:"",
+               img:"",
+               started_at:"",
+               finished_at:"",
+               description:"",
                 files: [],
                 files_mobile: [],
                 files_remove_ids: [],
@@ -116,34 +105,22 @@ export default {
     methods: {
         store(){
             if(this.item)
-                return this.form.post("/api/admin/examples/" + this.item.id)
+                return this.form.post("/api/admin/events/" + this.item.id)
                     .then(response => {
-                        this.$router.push("/admin/examples");
+                        this.$router.push("/admin/events");
                     });
 
-            this.form.post("/api/admin/examples")
+            this.form.post("/api/admin/events")
                 .then(response => {
-                    this.$router.push("/admin/examples");
+                    this.$router.push("/admin/events");
                 });
         },
 
-        addTag(){
-            let alreadyHas = this.form.tags.find(tag => tag === this.tag);
-
-            if(!alreadyHas)
-                this.form.tags.push(this.tag);
-
-            this.tag = "";
-        },
-
-        removeTag(index){
-            this.form.tags.splice(index, 1);
-        },
     },
 
     mounted() {
         if(this.$route.query.id){
-            return this.$axios.get("/api/admin/examples/" + this.$route.query.id)
+            return this.$axios.get("/api/admin/events/" + this.$route.query.id)
                 .then(response => {
                     this.item = response.data.data;
 

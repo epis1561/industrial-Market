@@ -62,7 +62,6 @@
                 </td>
 
                 <td class="admin-td">{{item.title}}</td>
-
                 <td class="admin-td">{{item.created_at}}</td>
 
                 <td class="admin-td">

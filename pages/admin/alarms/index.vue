@@ -4,14 +4,14 @@
         <div class="title-wrap col-group">
             <div class="main-title-wrap col-group">
                 <h2 class="main-title">
-                    {{form.title}}
+                   알람관리자
                 </h2>
             </div>
 
             <div class="filter_wrap">
                 <div class="filter_input_wrap">
                     <select name="" id="" v-model="form.type" @change="filter">
-                        <option value="">전체보기</option>
+                        <option value="">알람</option>
                     </select>
                     <form action="" @submit.prevent="filter">
                         <div class="search-wrap col-group">
@@ -36,12 +36,10 @@
             <thead class="admin-thead">
             <tr class="admin-tr">
                 <th class="admin-th">고유번호</th>
-                <th class="admin-th">상태</th>
-                <th class="admin-th">이미지</th>
+                <th class="admin-th">닉네임</th>
+                <th class="admin-th">부제</th>
                 <th class="admin-th">제목</th>
-                <th class="admin-th">등록일</th>
-                <th class="admin-th"></th>
-                <th class="admin-th"></th>
+                <th class="admin-th">생성일자</th>
             </tr>
             </thead>
             <tbody class="admin-tbody">
@@ -49,36 +47,11 @@
                 <td class="admin-td">
                     {{item.id}}
                 </td>
-                <td class="admin-td">
-                    <span :class="`state ${item.open == 1 ? 'blue' : ''}`">{{item.open == 1 ? 'Y' : 'N'}}</span>
-                </td>
-                <td class="admin-td">
-                    <div class="m-img type01" :style="`background-image:url(${item.img ? item.img.url : ''})`"></div>
-                </td>
-
+                <td class="admin-td">{{item.user.nickname}}</td>
+                <td class="admin-td">{{item.subtitle}}</td>
                 <td class="admin-td">{{item.title}}</td>
 
-                <td class="admin-td">{{item.created_at}}</td>
-
-                <td class="admin-td">
-                    <div class="btn-wrap col-group">
-                        <nuxt-link :to="`/admin/examples/create?id=${item.id}`" class="btn">
-                            상세
-                        </nuxt-link>
-                    </div>
-                </td>
-
-                <td class="admin-td">
-                    <div class="btn-orders">
-                        <button type="button" class="btn-order" @click="up(item)">
-                            <i class="xi-angle-up"></i>
-                        </button>
-
-                        <button type="button" class="btn-order" @click="down(item)">
-                            <i class="xi-angle-down"></i>
-                        </button>
-                    </div>
-                </td>
+                <td class="admin-td">{{item.format_created_at}}</td>
             </tr>
             </tbody>
         </table>
@@ -108,11 +81,9 @@ export default {
             },
 
             form: new Form(this.$axios, {
-                id:"",
-                subtitle:"",
-                nickName:this.user.nickName,
-                title:"",
-                format_created_at:"",
+              page: 1,
+              word: "",
+              type:"",
 
               files: [],
               files_mobile: [],
@@ -123,22 +94,13 @@ export default {
 
     methods: {
         filter(){
-            this.$axios.get("/api/admin/examples", {
+            this.$axios.get("/api/admin/alarms", {
                 params: this.form.data()
             }).then(response => {
                 this.items = response.data;
             });
         },
 
-        remove(item){
-            let confirmed = window.confirm("정말로 삭제하시겠습니까?");
-
-            if(confirmed)
-                this.form.delete("/api/admin/examples/" + item.id)
-                    .then(response => {
-                        this.items.data = this.items.data.filter(itemData => itemData.id != item.id);
-                    });
-        },
 
         up(item){
             let index = this.items.data.indexOf(item);
@@ -147,7 +109,7 @@ export default {
 
             this.items.data.splice(index - 1, 0, itemToMove); // Insert the item one position ahead
 
-            this.form.patch("/api/admin/examples/" + item.id + "/up");
+            this.form.patch("/api/admin/alarms/" + item.id + "/up");
         },
 
         down(item){
@@ -157,7 +119,7 @@ export default {
 
             this.items.data.splice(index + 1, 0, itemToMove); // Insert the item one position ahead
 
-            this.form.patch("/api/admin/examples/" + item.id + "/down");
+            this.form.patch("/api/admin/alarms/" + item.id + "/down");
         }
     },
 

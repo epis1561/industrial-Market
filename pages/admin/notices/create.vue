@@ -3,7 +3,7 @@
 
         <div class="title-wrap col-group">
             <h2 class="main-title">
-                예시제목
+                공지사항 생성관리자
             </h2>
         </div>
 
@@ -39,37 +39,32 @@
 
             <div class="form-item row-group">
                 <p class="item-default">
-                    텍스트 <span class="star">*</span>
+                    카테고리 <span class="star">*</span>
                 </p>
-                <input type="text" class="form-input" v-model="form.title" required>
+                <input type="text" class="form-input" v-model="form.notice_category_id" required>
             </div>
 
             <div class="form-item row-group">
                 <p class="item-default">
-                    장문텍스트 <span class="star">*</span>
+                    제목 <span class="star">*</span>
                 </p>
-                <textarea class="form-textarea" placeholder="" v-model="form.description" required></textarea>
+                <textarea class="form-textarea" placeholder="" v-model="form.title" required></textarea>
             </div>
 
             <div class="form-item row-group">
                 <p class="item-default">
-                    파일 <span class="star">*</span>
+                  장문텍스트 <span class="star">*</span>
                 </p>
-                <input-files :default="item && item.img ? [item.img] : ''" comment="" @change="(data) => form.files = data" @removed="data => form.files_remove_ids = data" />
+              <input-editor :default ="form.description" @change="data => form.description = data"/>
             </div>
 
-            <div class="form-item row-group">
-                <p class="item-default">
-                    이미지 <span class="star">*</span>
-                </p>
-                <input-images :default="item && item.img ? [item.img] : ''" comment="" @change="(data) => form.files = data" @removed="data => form.files_remove_ids = data" />
-            </div>
+
         </div>
 
         <div class="m-spaces type01 mt-40 flex-end">
             <div class="m-space-wrap">
                 <div class="m-space">
-                    <a href="/admin/examples" class="m-btn type01 bg-gray">목록</a>
+                    <a href="/admin/notices" class="m-btn type01 bg-gray">목록</a>
                 </div>
             </div>
 
@@ -101,9 +96,9 @@ export default {
             tag: "",
 
             form: new Form(this.$axios, {
-                title: "",
-                type: "",
-                url: "",
+               notice_category_id:"",
+              title:"",
+              description:"",
                 files: [],
                 files_mobile: [],
                 files_remove_ids: [],
@@ -116,14 +111,14 @@ export default {
     methods: {
         store(){
             if(this.item)
-                return this.form.post("/api/admin/examples/" + this.item.id)
+                return this.form.post("/api/admin/notices/" + this.item.id)
                     .then(response => {
-                        this.$router.push("/admin/examples");
+                        this.$router.push("/admin/notices");
                     });
 
-            this.form.post("/api/admin/examples")
+            this.form.post("/api/admin/notices")
                 .then(response => {
-                    this.$router.push("/admin/examples");
+                    this.$router.push("/admin/notices");
                 });
         },
 
@@ -143,7 +138,7 @@ export default {
 
     mounted() {
         if(this.$route.query.id){
-            return this.$axios.get("/api/admin/examples/" + this.$route.query.id)
+            return this.$axios.get("/api/admin/notices/" + this.$route.query.id)
                 .then(response => {
                     this.item = response.data.data;
 

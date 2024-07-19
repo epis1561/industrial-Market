@@ -39,37 +39,43 @@
 
             <div class="form-item row-group">
                 <p class="item-default">
-                    텍스트 <span class="star">*</span>
+                   닉네임 <span class="star">*</span>
                 </p>
-                <input type="text" class="form-input" v-model="form.title" required>
+                <input type="text" class="form-input" v-model="form.user.nickname" disabled>
+            </div>
+          <div class="form-item row-group">
+            <p class="item-default">
+              이미지 <span class="star">*</span>
+            </p>
+            <input-images :default="item && item.img ? [item.img] : ''" comment="" @change="(data) => form.files = data" @removed="data => form.files_remove_ids = data" disabled />
+          </div>
+
+            <div class="form-item row-group">
+                <p class="item-default">
+                    제못 <span class="star">*</span>
+                </p>
+                <textarea class="form-textarea" placeholder="" v-model="form.title" required disabled></textarea>
             </div>
 
             <div class="form-item row-group">
                 <p class="item-default">
                     장문텍스트 <span class="star">*</span>
                 </p>
-                <textarea class="form-textarea" placeholder="" v-model="form.description" required></textarea>
+              <input-editor :default ="form.description" @change="data => form.description = data" disabled/>
             </div>
 
-            <div class="form-item row-group">
-                <p class="item-default">
-                    파일 <span class="star">*</span>
-                </p>
-                <input-files :default="item && item.img ? [item.img] : ''" comment="" @change="(data) => form.files = data" @removed="data => form.files_remove_ids = data" />
-            </div>
-
-            <div class="form-item row-group">
-                <p class="item-default">
-                    이미지 <span class="star">*</span>
-                </p>
-                <input-images :default="item && item.img ? [item.img] : ''" comment="" @change="(data) => form.files = data" @removed="data => form.files_remove_ids = data" />
-            </div>
+          <div class="form-item row-group">
+            <p class="item-default">
+              장문텍스트 <span class="star">*</span>
+            </p>
+            <input-editor :default ="form.answer" @change="data => form.answer = data" disabled/>
+          </div>
         </div>
 
         <div class="m-spaces type01 mt-40 flex-end">
             <div class="m-space-wrap">
                 <div class="m-space">
-                    <a href="/admin/examples" class="m-btn type01 bg-gray">목록</a>
+                    <a href="/admin/products" class="m-btn type01 bg-gray">목록</a>
                 </div>
             </div>
 
@@ -101,9 +107,8 @@ export default {
             tag: "",
 
             form: new Form(this.$axios, {
-                title: "",
-                type: "",
-                url: "",
+
+
                 files: [],
                 files_mobile: [],
                 files_remove_ids: [],
@@ -116,14 +121,14 @@ export default {
     methods: {
         store(){
             if(this.item)
-                return this.form.post("/api/admin/examples/" + this.item.id)
+                return this.form.post("/api/admin/products/" + this.item.id)
                     .then(response => {
-                        this.$router.push("/admin/examples");
+                        this.$router.push("/admin/products");
                     });
 
-            this.form.post("/api/admin/examples")
+            this.form.post("/api/admin/products")
                 .then(response => {
-                    this.$router.push("/admin/examples");
+                    this.$router.push("/admin/products");
                 });
         },
 
@@ -143,7 +148,7 @@ export default {
 
     mounted() {
         if(this.$route.query.id){
-            return this.$axios.get("/api/admin/examples/" + this.$route.query.id)
+            return this.$axios.get("/api/admin/products/" + this.$route.query.id)
                 .then(response => {
                     this.item = response.data.data;
 
