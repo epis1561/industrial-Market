@@ -860,3 +860,27 @@ main { overflow: auto; }
 .counts{
   margin-top: 10px;
 }
+.admin-wrap .file-upload-wrap
+{
+  flex-flow: nowrap;
+}
+.admin-wrap .file-upload-wrap .file-upload-btn{
+  width: 110px;
+  height: 110px;
+  background-color: transparent;
+}
+
+.admin-wrap .file-upload-wrap .icon{
+  line-height: 110px;
+}
+
+.navi .disabled{
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.admin-wrap .ql-editor{
+  min-height: 500px;
+}
+
+ql-editor

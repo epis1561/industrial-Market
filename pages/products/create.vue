@@ -66,9 +66,9 @@
               가격
             </div>
             <div class="categorybuttons">
-              <button class="category" :class="{'active':form.type == 0}" @click="form.type=0" :disabled="isOffer">판매
+              <button class="category" :class="{'active':form.type == 0}" @click="form.type=0,form.offer_price=0" >판매
               </button>
-              <button class="category" :class="{'active':form.type == 1}" @click="form.type=1" :disabled="isOffer">찾습니다
+              <button class="category" :class="{'active':form.type == 1}" @click="form.type=1, price=0, isOffer=true,form.offer_price=1">찾습니다
               </button>
               <button class="category" :class="{'active':form.type == 2}" @click="form.type=2, price=0, isOffer=false, form.price=0">
                 나눔
@@ -77,10 +77,10 @@
             <div class="item-user row-group">
               <div class="form-input-wrap col-group">
                 <input type="number" class="form-input" placeholder="가격을 입력해주세요" v-model="price"
-                       v-if="form.offer_price == 1 && form.type !=2" disabled @wheel="preventScroll">
+                       v-if="form.offer_price == 1 && (form.type !=2 && form.type !=1)" disabled @wheel="preventScroll">
                 <input type="number" class="form-input" placeholder="가격을 입력해주세요" v-model="price"
-                       v-if="form.offer_price == 0 && form.type !=2" @wheel="preventScroll">
-                <p class="sticker" v-if="form.type !=2">원</p>
+                       v-if="form.offer_price == 0 && (form.type==0)" @wheel="preventScroll">
+                <p class="sticker" v-if="form.type !== 2 && form.type !== 1">원</p>
               </div>
               <div class="m-input-checkbox type01" v-if="form.type!=2">
                 <input type="checkbox" id="check1" v-model="form.offer_price">

@@ -6,17 +6,7 @@
                 이벤트 생성관리자
             </h2>
         </div>
-
         <div class="form-wrap col-group">
-            <div class="form-item row-group">
-                <p class="item-default">
-                    선택 <span class="star">*</span>
-                </p>
-                <select name="" id="" class="form-select" v-model="form.type" required>
-                    <option value="" disabled>선택</option>
-                </select>
-            </div>
-
             <div class="form-item row-group">
                 <p class="item-default">
                     제목 <span class="star">*</span>
@@ -28,9 +18,23 @@
                 <p class="item-default">
                     이미지 <span class="star">*</span>
                 </p>
-                <input-images :default="item && item.img ? [item.img] : ''" comment="" @change="(data) => form.files = data" @removed="data => form.files_remove_ids = data" />
-            </div>
 
+            </div>
+          <div class="item-user">
+            <div class="file-upload-wrap col-group">
+              <label class="file-upload-btn" for="imgs" @click="activeFiles=true">
+                <i class="icon"></i>
+              </label>
+              <div class="file-preview-scroll-wrap">
+                <div class="file-preview-wrap col-group">
+                  <input-images :multiple="false" @change="(data) => {form.imgs = data;}"
+                                @removed="(data) => {form.imgs_remove_ids = data}"
+                                :default="item && item.img ? [item.img] : ''"/>
+                </div>
+
+              </div>
+            </div>
+          </div>
           <div class="form-item row-group">
             <p class="item-default">
               시작일자 <span class="star">*</span>

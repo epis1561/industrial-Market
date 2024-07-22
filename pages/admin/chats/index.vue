@@ -4,15 +4,12 @@
         <div class="title-wrap col-group">
             <div class="main-title-wrap col-group">
                 <h2 class="main-title">
-                   알람관리자
+                   채팅관리자
                 </h2>
             </div>
 
             <div class="filter_wrap">
                 <div class="filter_input_wrap">
-                    <select name="" id="" v-model="form.type" @change="filter">
-                        <option value="">알람</option>
-                    </select>
                     <form action="" @submit.prevent="filter">
                         <div class="search-wrap col-group">
                             <input type="text" class="search-input" placeholder="검색어를 입력하세요." v-model="form.word">
@@ -37,9 +34,9 @@
             <tr class="admin-tr">
                 <th class="admin-th">고유번호</th>
                 <th class="admin-th">닉네임</th>
-                <th class="admin-th">부제</th>
                 <th class="admin-th">제목</th>
                 <th class="admin-th">생성일자</th>
+              <th class="admin-th">상세보기</th>
             </tr>
             </thead>
             <tbody class="admin-tbody">
@@ -48,9 +45,15 @@
                     {{item.id}}
                 </td>
                 <td class="admin-td">{{user.nickname}}</td>
-                <td class="admin-td">{{item.subtitle}}</td>
                 <td class="admin-td">{{item.title}}</td>
                 <td class="admin-td">{{item.format_created_at}}</td>
+              <td class="admin-td">
+                <div class="btn-wrap col-group">
+                  <nuxt-link :to="`/admin/chats/${item.id}`" class="btn">
+                    상세
+                  </nuxt-link>
+                </div>
+              </td>
             </tr>
             </tbody>
         </table>
