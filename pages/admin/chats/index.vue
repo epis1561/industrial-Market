@@ -33,8 +33,8 @@
             <thead class="admin-thead">
             <tr class="admin-tr">
                 <th class="admin-th">고유번호</th>
-                <th class="admin-th">닉네임</th>
-                <th class="admin-th">제목</th>
+                <th class="admin-th">글쓴이</th>
+                <th class="admin-th">제품명</th>
                 <th class="admin-th">생성일자</th>
               <th class="admin-th">상세보기</th>
             </tr>
@@ -44,14 +44,14 @@
                 <td class="admin-td">
                     {{item.id}}
                 </td>
-                <td class="admin-td">{{user.nickname}}</td>
-                <td class="admin-td">{{item.title}}</td>
-                <td class="admin-td">{{item.format_created_at}}</td>
+                <td class="admin-td">{{item.owner.nickname || item.owner.name}}</td>
+                <td class="admin-td">{{item.product.title}}</td>
+                <td class="admin-td">{{item.updated_at}}</td>
               <td class="admin-td">
                 <div class="btn-wrap col-group">
-                  <nuxt-link :to="`/admin/chats/${item.id}`" class="btn">
+                  <button class="btn" @click="openChat(item.id)">
                     상세
-                  </nuxt-link>
+                  </button>
                 </div>
               </td>
             </tr>
@@ -86,7 +86,7 @@ export default {
               page: 1,
               word: "",
               type:"",
-
+              product_id:"",
               files: [],
               files_mobile: [],
               files_remove_ids: [],
@@ -96,12 +96,12 @@ export default {
 
     methods: {
         filter(){
-            this.$axios.get("/api/admin/alarms", {
+            this.$axios.get("/api/admin/chats", {
                 params: this.form.data()
             }).then(response => {
-              console.log('발동')
+
                 this.items = response.data;
-                console.log('결과',response.data);
+                console.log(this.items);
             });
         },
 
@@ -113,7 +113,7 @@ export default {
 
             this.items.data.splice(index - 1, 0, itemToMove); // Insert the item one position ahead
 
-            this.form.patch("/api/admin/alarms/" + item.id + "/up");
+            this.form.patch("/api/admin/chats/" + item.id + "/up");
         },
 
         down(item){
@@ -123,8 +123,11 @@ export default {
 
             this.items.data.splice(index + 1, 0, itemToMove); // Insert the item one position ahead
 
-            this.form.patch("/api/admin/alarms/" + item.id + "/down");
-        }
+            this.form.patch("/api/admin/chats/" + item.id + "/down");
+        },
+      openChat(id) {
+        window.open(`/admin/chats/${id}`, '_blank', 'width=1000,height=900');
+      }
     },
 
     computed: {
