@@ -57,8 +57,6 @@
                 </p>
               <input-editor :default ="form.description" @change="data => form.description = data"/>
             </div>
-
-
         </div>
 
         <div class="m-spaces type01 mt-40 flex-end">
