@@ -1,6 +1,6 @@
 <template>
     <body>
-    <div id="wrap">
+    <div id="wrap" class="navi">
 
         <!-- header Start -->
         <header id="header" class="sub-header">
@@ -36,14 +36,14 @@
                 </div>
 
                 <div class="btm-wrap col-group">
-                    <nuxt-link to="/event_detail.html" class="btn prev-btn">
+                    <nuxt-link :to="event.prev ? `/events/${event.prev.id}` : ''" class="btn prev-btn" :class="{disabled : !event.prev}">
                         <i class="xi-long-arrow-left"></i>
                         이전글
                     </nuxt-link>
-                    <nuxt-link to="/event.html" class="list-btn">
+                    <nuxt-link to="/events/" class="list-btn">
                         <i class="xi-bars"></i>
                     </nuxt-link>
-                    <nuxt-link to="/event_detail.html" class="btn next-btn">
+                    <nuxt-link :to="event.next ? `/events/${event.next.id}` : ''" class="btn next-btn" :class="{disabled : !event.next}">
                         다음글
                         <i class="xi-long-arrow-right"></i>
                     </nuxt-link>

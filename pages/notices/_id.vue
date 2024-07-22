@@ -1,6 +1,6 @@
 <template>
     <body>
-    <div id="wrap">
+    <div id="wrap" class="navi">
 
         <!-- header Start -->
         <header id="header" class="sub-header">
@@ -33,17 +33,17 @@
 
 
                 <div class="btm-wrap col-group">
-                    <nuxt-link to="/notice_detail.html" class="btn prev-btn">
-                        <i class="xi-long-arrow-left"></i>
-                        이전글
-                    </nuxt-link>
-                    <nuxt-link to="/notice.html" class="list-btn">
-                        <i class="xi-bars"></i>
-                    </nuxt-link>
-                    <nuxt-link to="/notice_detail.html" class="btn next-btn">
-                        다음글
-                        <i class="xi-long-arrow-right"></i>
-                    </nuxt-link>
+                  <nuxt-link :to="notice.prev ? `/notices/${notice.prev.id}` : ''" class="btn prev-btn" :class="{disabled : !notice.prev}">
+                    <i class="xi-long-arrow-left"></i>
+                    이전글
+                  </nuxt-link>
+                  <nuxt-link to="/notices/" class="list-btn">
+                    <i class="xi-bars"></i>
+                  </nuxt-link>
+                  <nuxt-link :to="notice.next ? `/notices/${notice.next.id}` : ''" class="btn next-btn" :class="{disabled : !notice.next}">
+                    다음글
+                    <i class="xi-long-arrow-right"></i>
+                  </nuxt-link>
                 </div>
 
             </div>
