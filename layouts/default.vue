@@ -108,12 +108,7 @@ export default {
         getPushToken() {
             let self = this;
 
-            webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify({
-                "action": "getpushid",
-                "callback": "get_pushid"
-            }));
-
-            this.$store.commit("setPushToken", localStorage.getItem('pushid'));
+            this.$store.commit("setPushToken", localStorage.getItem('push_token'));
 
             if (this.$store.state.push_token) {
 
@@ -231,7 +226,11 @@ export default {
         this.settingPrice();
         this.$store.dispatch("getCoords");
 
-        console.log(this.$auth.user.data);
+        if (!/WEBVIEW/.test(navigator.userAgent)) {
+            location.href = "industrialmarket://" + location.pathname;
+
+            return this.$router.push("/intro");
+        }
 
         /*   this.$store.dispatch("getCenterTypes");
          //아래처럼 푸시id 가져오는 구문 사용(웹페이지가 로딩되자마자 가져오는 방법사용)

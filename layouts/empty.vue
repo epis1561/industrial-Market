@@ -41,6 +41,11 @@ export default {
         this.$store.dispatch("getCoords");
         this.getCities();
 
+        if (!/WEBVIEW/.test(navigator.userAgent)) {
+            location.href = "industrialmarket://" + location.pathname;
+
+            return this.$router.push("/intro");
+        }
     }
 }
 </script>

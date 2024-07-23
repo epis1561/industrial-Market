@@ -570,16 +570,6 @@ export default {
 
 
     methods: {
-        redirect() {
-            try {
-                location.href = `industrialmarket://products/${this.product.id}`;
-            } catch (error) {
-                this.$router.push('/intro');
-            }
-        },
-        console() {
-            console.log(this.product_id);
-        },
         copy() {
 
             if (/WEBVIEW/.test(navigator.userAgent)) {
@@ -632,7 +622,6 @@ export default {
                 this.getMap();
                 this.getMap2();
                 this.$nextTick(() => {
-                    this.redirect();
                     this.initSwiper();
                     this.detailSwiper();
                 });
