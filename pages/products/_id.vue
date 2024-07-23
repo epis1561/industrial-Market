@@ -29,7 +29,7 @@
             <div class="detail-img-wrap">
                 <div class="swiper detail-img-slide">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="img in product.imgs" :key="img.id" @click="isImg=true" v-if="product.imgs.length!=0">
+                        <div class="swiper-slide" v-for="img in product.imgs" :key="img.id" @click="openImg" v-if="product.imgs.length!=0">
                             <div class="img-container">
                                 <img :src="img ? img.url :'/images/notification_icon_bg.png'"/>
                             </div>
@@ -922,9 +922,23 @@ export default {
         this.product_id = this.product.id;
         console.log(this.product_id);
         this.isReport=true;
-      }
+      },
+        openImg(){
+            this.isImg = true;
+            history.pushState(null, '', '');
+            window.addEventListener('popstate', this.closeModalOnPopState);
+        },
+        closeModal() {
+            this.isImg = false;
+            window.removeEventListener('popstate', this.closeModalOnPopState);
+        },
+        closeModalOnPopState() {
+            this.closeModal();
+        }
     },
-
+    beforeUnmount() {
+        window.removeEventListener('popstate', this.closeModalOnPopState);
+    },
 
     computed: {
 

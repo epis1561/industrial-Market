@@ -101,22 +101,22 @@
                         이용약관
                     </p>
                     <div class="mypage-menu-list row-group">
-                        <a href="" class="mypage-menu-item col-group">
+                        <nuxt-link to="/contents/servicePolicy" class="mypage-menu-item col-group">
                             <p class="title">
                                 이용약관
                             </p>
                             <div class="more-btn col-group">
                                 <i class="icon"></i>
                             </div>
-                        </a>
-                        <a href="" class="mypage-menu-item col-group">
+                        </nuxt-link>
+                        <nuxt-link to="/contents/privacyPolicy" class="mypage-menu-item col-group">
                             <p class="title">
                                 개인정보처리방침
                             </p>
                             <div class="more-btn col-group">
                                 <i class="icon"></i>
                             </div>
-                        </a>
+                        </nuxt-link>
                         <a href="" class="mypage-menu-item col-group">
                             <p class="title">
                                 위치기반 서비스 이용약관
