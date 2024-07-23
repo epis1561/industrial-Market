@@ -20,6 +20,18 @@
 
                     <div class="gnb-item">
                         <div class="item-default">
+                            <nuxt-link to="/admin/users" class="sub-gnb-item">
+                                유저
+                            </nuxt-link>
+                        </div>
+                        <div class="sub-gnb row-group">
+
+                        </div>
+                    </div>
+
+
+                    <div class="gnb-item">
+                        <div class="item-default">
                             <nuxt-link to="/admin/alarms" class="sub-gnb-item">
                                 알람
                             </nuxt-link>

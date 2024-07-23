@@ -656,7 +656,7 @@ export default {
       this.$axios.get("api/products/" + this.$route.query.id, {})
           .then(response => {
             this.product = response.data.data;
-            console.log(this.product);
+
             this.form.offer_price = this.product.offer_price;
             this.form.title = this.product.title;
             this.form.product_category_id = this.product.product_category_id;
@@ -687,8 +687,7 @@ export default {
     },
     store() {
       this.ongoing = true;
-      console.log(this.form.imgs);
-      return;
+
       if (this.ongoing == true) {
         if (this.$route.query.id) {
 

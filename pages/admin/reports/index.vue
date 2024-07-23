@@ -66,7 +66,7 @@
                 </td>
 
                 <td class="admin-td">
-                    <a :href="`/admin/products/${item.reportable_id}`" v-if="item.format_reportable_type=='상품'" target="_blank">신고상품확인</a>
+                    <a :href="`/products/${item.reportable_id}`" v-if="item.format_reportable_type=='상품'" target="_blank">신고상품확인</a>
                     <a :href="`/admin/chats/${item.reportable_id}`" v-if="item.format_reportable_type=='채팅'" target="_blank">신고채팅확인</a>
                     <a :href="`/admin/users/${item.reportable_id}`" v-if="item.format_reportable_type=='유저'" target="_blank">신고유저확인</a>
                 </td>
