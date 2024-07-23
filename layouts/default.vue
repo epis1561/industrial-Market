@@ -210,6 +210,7 @@ export default {
 
     mounted() {
         window.postMessage(JSON.stringify({key: 'DEVICE_TOKEN'}));
+
         // if(/WEBVIEW/.test(navigator.userAgent)){
         //     this.$router.push("/intro");
         // }
@@ -226,17 +227,18 @@ export default {
         this.settingPrice();
         this.$store.dispatch("getCoords");
 
-        if (!/WEBVIEW/.test(navigator.userAgent)) {
-            let url = "industrialmarket:/" + location.pathname;
+        if(!this.$route.query.WEBVIEW){
+            if (!/WEBVIEW/.test(navigator.userAgent)) {
+                let url = "industrialmarket:/" + location.pathname;
 
-            location.href = url;
+                location.href = url;
 
-            return this.$router.push("/intro");
+                return this.$router.push("/intro");
+            }
+
+            if (/WEBVIEW/.test(navigator.userAgent) && location.pathname === "/intro")
+                return this.$router.push("/products");
         }
-
-        if (/WEBVIEW/.test(navigator.userAgent) && location.pathname === "/intro")
-            return this.$router.push("/products");
-
 
         /*   this.$store.dispatch("getCenterTypes");
          //아래처럼 푸시id 가져오는 구문 사용(웹페이지가 로딩되자마자 가져오는 방법사용)
