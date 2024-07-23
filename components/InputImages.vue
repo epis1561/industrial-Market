@@ -12,8 +12,8 @@
 
         <div class="m-files-wrap" v-if="defaultFiles.length > 0 || files.length > 0">
             <div class="m-files">
-                <div class="m-file-wrap" v-for="(file, index) in defaultFiles" :key="index" v-if="camera">
-                    <div class="file-preview-label">
+                <div class="m-file-wrap" v-for="(file, index) in defaultFiles" :key="index" v-if="!camera">
+                    <div class="file-preview-label" v-if="!camera">
                         대표
                     </div>
                     <div class="m-file" :style="`background-image:url(${file.url})`">
@@ -23,8 +23,8 @@
                     </div>
                 </div>
 
-                <div class="m-file-wrap" v-for="(file, index) in files" :key="index" v-if="!camera">
-                    <div class="file-preview-label">
+                <div class="m-file-wrap" v-for="(file, index) in files" :key="index" v-if="camera">
+                    <div class="file-preview-label" v-if="!camera">
                         대표
                     </div>
                     <div class="m-file" :style="`background-image:url(${file.url})`">
