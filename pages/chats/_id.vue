@@ -105,13 +105,13 @@
 
             <div class="chat-footer">
                 <!-- 사진 한장 이상 첨부 시 -->
-                <div class="file-preview-scroll-wrap" v-if="activeFiles || activeCamera || appCamera">
+                <div class="file-preview-scroll-wrap" v-if="activeFiles || activeCamera">
                     <div class="file-preview-wrap col-group">
                         <input-images id="imgs" :multiple="true" v-if="activeFiles"
                                       @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }"
                                       @max="isMax=true"/>
-                        <input-images  id="camera" :camera="true" :default="form.imgs" v-if="appCamera"
-                                      @change="(data) => {form.imgs = data; appCamera = false; isImg = false; }"
+                        <input-images  id="camera" :camera="true" :default="form.imgs" v-if="activeCamera"
+                                      @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"
                                       @max="isMax=true"/>
                     </div>
                 </div>
@@ -378,7 +378,6 @@ export default {
             isAlarmActive: false,
             activeAlarm: false,
             selectImg: "",
-            appCamera: false,
             files: {},
             onlyShow: {
                 default: false,
@@ -438,7 +437,6 @@ export default {
 
 
         reportCreated() {
-            console.log(this.isReport);
             this.isMore = false;
             this.isReport = false;
             this.$store.commit("setPop", {
@@ -499,7 +497,6 @@ export default {
 
                 this.messages.data = response.data.data.reverse();
                 this.messages.meta = response.data.meta;
-                console.log('채팅배열', response.data);
                 this.$nextTick(() => {
                     this.scrollEnd();
                     this.detailSwiper();
@@ -630,17 +627,11 @@ export default {
         },
         cameraOn() {
             if (/WEBVIEW/.test(navigator.userAgent)) {
-                this.appCamera = true;
-                this.activeCamera =false;
-                this.activefiles =false;
+                this.activeCamera = true;
+                this.activeFiles = false;
                 this.form.imgs = [];
                 window.postMessage(JSON.stringify({key: "CAMERA"}))
-            } else {
-
             }
-        },
-        console() {
-            console.log(this.files.url);
         },
 
         async listen(event) {
