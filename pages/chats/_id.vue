@@ -662,7 +662,8 @@ export default {
             // base64 문자열을 파일 객체로 변환 (프라미스 사용)
             this.base64ToFile(result.value, 'camera_image.jpg')
                 .then(imageFile => {
-                  if (imageFile) {
+                    alert(`imageFile 객체 정보:\n${JSON.stringify(imageFile)}`);g
+                    if (imageFile) {
                     this.form.imgs.push
                     ({
                           name: imageFile.name,
