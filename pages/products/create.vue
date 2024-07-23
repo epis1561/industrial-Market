@@ -31,7 +31,7 @@
                   <div class="file-preview-wrap col-group">
                     <input-images :multiple="true" @change="(data) => {form.imgs = data;}"
                                   @removed="(data) => {form.imgs_remove_ids = data}"
-                                  v-if="activeFiles" :default="product ? product.imgs:[]"  @updateTotalCount="updateTotalImagesCount" />
+                                  v-if="activeFiles" :default="product ? product.imgs:[]"  @updateTotalCount="updateTotalImagesCount" @max="isMax=true"/>
                   </div>
 
                 </div>
@@ -57,7 +57,7 @@
             </div>
             <div class="item-user">
               <input type="text" class="form-input" placeholder="제목을 입력해주세요" v-model="form.title">
-              <error :form="form" name="title"/>
+                <div class="m-input-error" v-if="isTitle==true" > 제목은 100자를 초과해 입력할 수 없습니다.</div>
 
             </div>
           </div>
@@ -210,8 +210,21 @@
           </button>
         </div>
       </div>
-
     </div>
+      <div class="modal-container modal_alert" :class="{'active':isMax}">
+          <div class="modal-wrap modal-alert">
+
+              <p class="modal-alert-txt">
+                  등록 가능한 사진은 최대 10장 입니다.
+              </p>
+
+              <div class="modal-footer col-group">
+                  <button class="modal-footer-btn close-btn" @click="isMax=false">
+                      확인
+                  </button>
+              </div>
+          </div>
+      </div>
     <!-- //선택 완료 시 나타나는 select -->
   </div>
   </body>
@@ -314,6 +327,7 @@ export default {
 
         offer_price: 0,
       }),
+        isMax:false,
       mapNull: false,
       isMap: false,
       detailMap: false,
@@ -337,7 +351,8 @@ export default {
       description: "",
       ongoing: false,
         maxKeywords:5,
-        maxKeywordLength: 15
+        maxKeywordLength: 15,
+        isTitle:false,
     }
 
   },
@@ -700,6 +715,7 @@ export default {
       let isNullPrice = !this.price;
       let isNullLocation = !this.fullAddress;
       let isNullType = !this.form.type;
+      let isFullTitle = this.form.title;
 
       if (isNullCategory) {
         this.nullCategory = true;
@@ -712,6 +728,10 @@ export default {
       }
       if (isNullType) {
         this.nullType = true;
+      }
+      if(isFullTitle.length > 100){
+          this.isTitle=true;
+
       }
     },
     //     현재 위치권한 없을 시 지도 안보이게 하는 부분

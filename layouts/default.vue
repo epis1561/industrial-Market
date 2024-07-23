@@ -199,9 +199,7 @@ export default {
                     this.$store.commit("setPrice", response.data.data[0].min_price_for_show);
             })
         },
-        open(){
-            window.location = 'industrialmarket://products/92';
-        }
+
 
     },
 
@@ -220,7 +218,7 @@ export default {
         // if(/WEBVIEW/.test(navigator.userAgent)){
         //     this.$router.push("/intro");
         // }
-        this.open();
+
         this.setChannel();
         this.getProductCategories();
         this.getNoticeCategories();
