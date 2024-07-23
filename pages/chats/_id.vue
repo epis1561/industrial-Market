@@ -715,7 +715,7 @@ export default {
             file: file,
             url: imageUrl,
         };
-        alert(`변형데이터: ${this.files}`);
+        alert(`변형데이터: ${JSON.stringify(this.files)}`);
         return this.files;
 
 
