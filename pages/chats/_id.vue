@@ -678,28 +678,28 @@ export default {
             }
         }
     },
-    base64ToFile(string) {
-        const byteCharacters = atob(string);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const fileName = 'example_image.jpg';
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], {type: 'image/png'});
-        const file = new File([blob], fileName, {type: 'image/jpeg'});
-// Blob 객체를 이용하여 Blob URL 생성
-        const imageUrl = URL.createObjectURL(blob);
+      async base64ToFile(string) {
+          return new Promise((resolve, reject) => {
+              const byteCharacters = atob(string);
+              const byteNumbers = new Array(byteCharacters.length);
+              for (let i = 0; i < byteCharacters.length; i++) {
+                  byteNumbers[i] = byteCharacters.charCodeAt(i);
+              }
+              const fileName = 'example_image.jpg';
+              const byteArray = new Uint8Array(byteNumbers);
+              const blob = new Blob([byteArray], { type: 'image/png' });
+              const file = new File([blob], fileName, { type: 'image/jpeg' });
+              const imageUrl = URL.createObjectURL(blob);
 
-        this.files = {
-            name: file.name,
-            url: imageUrl,
-        };
-        alert(`변형데이터: ${JSON.stringify(this.files)}`);
-        return this.files;
+              this.files = {
+                  name: file.name,
+                  url: imageUrl,
+              };
 
-
-    },
+              alert(`변형데이터: ${JSON.stringify(this.files)}`);
+              resolve(this.files); // Promise를 resolve하여 파일 정보를 반환
+          });
+      },
 
     remove(file, index) {
       // 기존 업로드된 파일 목록 중 삭제
