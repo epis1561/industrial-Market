@@ -268,7 +268,7 @@
         <div class="modal-select-wrap modal-wrap">
 
           <div class="chat-more-option-wrap row-group">
-            <label for="camera" class="chat-more-option col-group">
+            <label for="camera" class="chat-more-option col-group" @clic="cameraOn">
               <i class="icon"></i>
               사진 찍기
             </label>
