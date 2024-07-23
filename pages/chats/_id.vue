@@ -268,7 +268,7 @@
         <div class="modal-select-wrap modal-wrap">
 
           <div class="chat-more-option-wrap row-group">
-            <label for="camera" class="chat-more-option col-group" @clic="cameraOn">
+            <label for="camera" class="chat-more-option col-group" @click="cameraOn">
               <i class="icon"></i>
               사진 찍기
             </label>
@@ -697,37 +697,24 @@ export default {
       }
 
     },
-    base64ToFile(string, filename) {
-      return new Promise((resolve, reject) => {
-        try {
-          alert('try');
-          // base64 문자열을 Blob 객체로 변환
-          const byteCharacters = atob(string);
-          const byteNumbers = new Array(byteCharacters.length);
-          for (let i = 0; i < byteCharacters.length; i++) {
+    base64ToFile(string) {
+        const byteCharacters = atob(string);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
             byteNumbers[i] = byteCharacters.charCodeAt(i);
-          }
-          const byteArray = new Uint8Array(byteNumbers);
-          const blob = new Blob([byteArray], {type: 'image/jpeg'});
+        }
+        const fileName = 'example_image.jpg';
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], {type: 'image/png'});
+        const file = new File([blob], fileName, {type: 'image/jpeg'});
+// Blob 객체를 이용하여 Blob URL 생성
+        const imageUrl = URL.createObjectURL(blob);
 
-          // Blob 객체를 File 객체로 변환
-          const file = new File([blob], filename, {type: 'image/jpeg'});
-
-          // URL 생성
-          const fileUrl = URL.createObjectURL(file);
-
-          // 이름, 파일 객체, URL을 포함하는 객체로 Promise 해결
-          resolve({
-
+        this.files = {
             name: file.name,
             file: file,
-            url: fileUrl
-          });
-        } catch (error) {
-          alert(123);
-          reject(error);
-        }
-      });
+            url: imageUrl,
+        };
     },
 
     remove(file, index) {
