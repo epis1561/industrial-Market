@@ -379,6 +379,7 @@ export default {
   },
 
   methods: {
+
       console(){
         console.log(this.form.imgs);
       },
@@ -686,6 +687,8 @@ export default {
     },
     store() {
       this.ongoing = true;
+      console.log(this.form.imgs);
+      return;
       if (this.ongoing == true) {
         if (this.$route.query.id) {
 
@@ -708,8 +711,6 @@ export default {
           this.$store.commit("setLoading", true);
           this.form.post("/api/products").then(response => {
               this.isSuccess=true;
-
-
           }).then(response => {
             this.$auth.fetchUser();
             this.ongoing = false;
@@ -761,11 +762,17 @@ export default {
     //     현재 위치권한 없을 시 지도 안보이게 하는 부분
     isMapOpen() {
       // 현재위치가없을때
-
-
       this.isMap = true;
-
+        history.pushState(null, '', '');
+        window.addEventListener('popstate', this.closeModalOnPopState);
     },
+      closeImg() {
+          this.isMap = false;
+          window.removeEventListener('popstate', this.closeModalOnPopState);
+      },
+      closeModalOnPopState() {
+          this.closeImg();
+      },
     preventScroll(event) {
       if (event.deltaY !== 0) {
         event.preventDefault();
@@ -815,7 +822,9 @@ export default {
 
   },
 
-
+    beforeUnmount() {
+        window.removeEventListener('popstate', this.closeModalOnPopState);
+    },
   computed: {
     checkInputAll() {
       let exceptColumns

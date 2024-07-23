@@ -933,7 +933,7 @@ export default {
             window.removeEventListener('popstate', this.closeModalOnPopState);
         },
         closeModalOnPopState() {
-            this.closeModal();
+            this.closeImg();
         }
     },
     beforeUnmount() {
