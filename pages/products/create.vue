@@ -695,7 +695,7 @@ export default {
           return this.form.patch("/api/products/" + this.$route.query.id)
 
               .then(response => {
-                this.isSuccess=true;
+                 this.isSuccess=true;
                 this.ongoing = false;
                 this.$auth.fetchUser();
 
@@ -816,7 +816,7 @@ export default {
 
       },
       out(){
-          this.$router.back();
+          this.$router.push('/products');
       }
 
   },

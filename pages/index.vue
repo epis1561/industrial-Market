@@ -7,7 +7,7 @@
 <script>
 
 import Form from "@/utils/Form";
-import AppSchemeHandler from '/components/AppSchemeHandler.vue';
+// import AppSchemeHandler from '/components/AppSchemeHandler.vue';
 export default {
    name: 'Login',
    auth: "guest",
