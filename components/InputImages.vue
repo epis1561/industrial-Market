@@ -3,6 +3,7 @@
         <div class="m-input" v-if="!onlyShow">
             <input type="file" :id="id" @change="changeFile" accept="image/*" :multiple="multiple" capture="camera"
                    v-if="camera">
+
             <input type="file" :id="id" @change="changeFile" accept="image/*" :multiple="multiple" v-else>
 
             <!--            <label class="m-btn" :for="id">-->
