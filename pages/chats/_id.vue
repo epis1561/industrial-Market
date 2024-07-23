@@ -660,7 +660,11 @@ export default {
             case 'CAMERA': {
                 if (result.value && typeof result.value === 'string') {
                     try {
-                        this.form.imgs = await this.base64ToFile(result.value);
+                        const imageFile = await this.base64ToFile(result.value);
+                        this.form.imgs.push({
+                            name: imageFile.name,
+                            url: imageFile.url,
+                        });
                         alert(`최종데이터: ${JSON.stringify(this.form.imgs)}`);
                     }catch (error) {
                         console.error('Failed to convert base64 to file:', error);
@@ -686,14 +690,13 @@ export default {
               const blob = new Blob([byteArray], { type: 'image/png' });
               const file = new File([blob], fileName, { type: 'image/jpeg' });
               const imageUrl = URL.createObjectURL(blob);
-
-              this.files = {
+              const imageFile = {
                   name: file.name,
                   url: imageUrl,
               };
 
               alert(`변형데이터: ${JSON.stringify(this.files)}`);
-              resolve(this.files); // Promise를 resolve하여 파일 정보를 반환
+              resolve(imageFile); // Promise를 resolve하여 파일 정보를 반환
           });
       },
 
