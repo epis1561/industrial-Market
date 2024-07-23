@@ -660,11 +660,7 @@ export default {
             case 'CAMERA': {
                 if (result.value && typeof result.value === 'string') {
                     try {
-                        const imageFile = await this.base64ToFile(result.value);
-                        this.form.imgs.push({
-                            name: imageFile.name,
-                            url: imageFile.url,
-                        });
+                        this.form.imgs = await this.base64ToFile(result.value);
                         alert(`최종데이터: ${JSON.stringify(this.form.imgs)}`);
                     }catch (error) {
                         console.error('Failed to convert base64 to file:', error);
