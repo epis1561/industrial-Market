@@ -666,6 +666,8 @@ export default {
                             url: imageFile.url,
                         });
                         alert(`최종데이터: ${JSON.stringify(this.form.imgs)}`);
+                    }catch (error) {
+                        console.error('Failed to convert base64 to file:', error);
                     }
                 }
                 break;
