@@ -693,9 +693,6 @@ export default {
           return this.form.patch("/api/products/" + this.$route.query.id)
 
               .then(response => {
-                  this.$store.commit("setPop", {
-                      description: "신고내용이 정상 접수 되었습니다."
-                  });
                   this.isSuccess=true;
                 this.ongoing = false;
                 this.$auth.fetchUser();

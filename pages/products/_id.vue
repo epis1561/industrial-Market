@@ -293,7 +293,7 @@
         <!-- 이미지 슬라이드 클릭시 나타나는 팝업 -->
         <div class="modal-container modal_slide" :class="{active:isImg}" v-if="product">
             <div class="modal-wrap modal-slide-wrap">
-                <i class="xi-close close-btn" @click="isImg=false"></i>
+                <i class="xi-close close-btn" @click="closeImg"></i>
                 <div class="swiper slide_popup">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide" v-for="img in product.imgs" :key="img.id">
@@ -928,7 +928,7 @@ export default {
             history.pushState(null, '', '');
             window.addEventListener('popstate', this.closeModalOnPopState);
         },
-        closeModal() {
+        closeImg() {
             this.isImg = false;
             window.removeEventListener('popstate', this.closeModalOnPopState);
         },
