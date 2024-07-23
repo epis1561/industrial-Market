@@ -663,6 +663,7 @@ export default {
                         const imageFile = await this.base64ToFile(result.value);
                         this.form.imgs.push({
                             name: imageFile.name,
+                            file:imageFile.file,
                             url: imageFile.url,
                         });
                         alert(`최종데이터: ${JSON.stringify(this.form.imgs)}`);
@@ -692,6 +693,7 @@ export default {
               const imageUrl = URL.createObjectURL(blob);
               const imageFile = {
                   name: file.name,
+                  file:file,
                   url: imageUrl,
               };
 
