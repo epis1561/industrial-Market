@@ -110,7 +110,7 @@
                         <input-images :multiple="true" v-if="activeFiles"
                                       @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }"
                                       @max="isMax=true"/>
-                        <input-images v-if="activeCamera" id="camera" :camera="true" :default="files ? form.files:[]"
+                        <input-images v-if="appCamera" id="camera" :camera="true" :default="files ? form.files:[]"
                                       @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"
                                       @max="isMax=true"/>
 
@@ -649,6 +649,7 @@ export default {
             if (/WEBVIEW/.test(navigator.userAgent)) {
                 this.appCamera = true;
                 this.form.imgs = [];
+
                 window.postMessage(JSON.stringify({key: "CAMERA"}))
             } else {
 
