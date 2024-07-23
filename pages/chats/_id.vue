@@ -663,19 +663,12 @@ export default {
             this.base64ToFile(result.value, 'camera_image.jpg')
                 .then(imageFile => {
                   if (imageFile) {
-                    this.form.imgs.push(
-                        {
-
+                    this.form.imgs.push
+                    ({
                           name: imageFile.name,
                           url: imageFile.url,
-                        },
-                        this.files.push({
-                          name: imageFile.name,
-                          url: imageFile.url,
-                        })
-
-                    ); // 이미지 파일을 form.imgs 배열에 추가
-                      alert(`최종데이터ㅎ: ${JSON.stringify(this.form.imgs)}`);
+                    }); // 이미지 파일을 form.imgs 배열에 추가
+                      alert(`최종데이터: ${JSON.stringify(this.form.imgs)}`);
                   } else {
 
                   }
