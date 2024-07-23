@@ -23,7 +23,7 @@
                     </div>
                 </div>
 
-                <div class="m-file-wrap" v-for="(file, index) in files" :key="index">
+                <div class="m-file-wrap" v-for="(file, index) in files" :key="index" v-if="!camera">
                     <div class="file-preview-label">
                         대표
                     </div>
