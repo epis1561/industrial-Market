@@ -626,6 +626,7 @@ export default {
             });
         },
         cameraOn() {
+            alert("두번호출확인");
             if (/WEBVIEW/.test(navigator.userAgent)) {
                 this.activeCamera = true;
                 this.activeFiles = false;

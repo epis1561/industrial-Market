@@ -226,8 +226,10 @@ export default {
         this.getBadManners();
         this.settingPrice();
         this.$store.dispatch("getCoords");
+        alert("두번 호출 확인");
 
         if(!this.$route.query.WEBVIEW){
+
             if (!/WEBVIEW/.test(navigator.userAgent)) {
                 let url = "industrialmarket:/" + location.pathname;
 
