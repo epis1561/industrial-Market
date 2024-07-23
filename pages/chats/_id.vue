@@ -716,6 +716,8 @@ export default {
             url: imageUrl,
         };
         alert(`변형데이터: ${this.files}`);
+        return this.files;
+
 
     },
 
