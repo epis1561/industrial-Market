@@ -107,17 +107,10 @@
                 <!-- 사진 한장 이상 첨부 시 -->
                 <div class="file-preview-scroll-wrap" v-if="activeFiles || activeCamera">
                     <div class="file-preview-wrap col-group">
-<<<<<<< HEAD
+
                         <input-images id="imgs" :multiple="true" v-if="activeFiles" @change="(data) => {form.imgs = data; activeCamera = false;  activeFiles = false; isImg = false; }" @max="isMax=true"/>
                         <input-images  id="camera" :camera="true" :default="form.imgs" @change="(data) => {form.imgs = data; activeFiles = false; activeCamera = false; isImg = false; }" @max="isMax=true"/>
-=======
-                        <input-images id="imgs" :multiple="true" v-if="activeFiles"
-                                      @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }"
-                                      @max="isMax=true"/>
-                        <input-images :camera="true" v-if="activeCamera" :default="form.imgs"
-                                      @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"
-                                      @max="isMax=true"/>
->>>>>>> 23c1a56be0073620b38bfc5a73037c207c332eec
+
                     </div>
                 </div>
                 <!-- //사진 한장 이상 첨부 시 -->
