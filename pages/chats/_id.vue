@@ -671,21 +671,20 @@ export default {
 
                         const imageFile = await this.base64ToFile(result.value);
 
+                        alert(result.value);
                         alert("테스트 기존");
                         alert(JSON.stringify(imageFile));
 
-                        const test = this.test(result.value);
+                        const test = this.test(base64String);
                         alert("테스트 신규");
                         alert(JSON.stringify(test));
 
 
-                        alert(`최종데이터1: ${JSON.stringify(imageFile)}`);
                         this.form.imgs.push({
                             name: imageFile.name,
                             file: imageFile.file,
                             url: imageFile.url,
                         });
-                        alert(`최종데이터2: ${JSON.stringify(this.form.imgs)}`);
                     }
                     break;
                 }
@@ -713,7 +712,6 @@ export default {
                     url: imageUrl,
                 };
 
-                alert(`변형데이터: ${JSON.stringify(this.files)}`);
                 resolve(imageFile); // Promise를 resolve하여 파일 정보를 반환
 
             });
