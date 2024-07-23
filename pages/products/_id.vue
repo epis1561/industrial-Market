@@ -547,6 +547,7 @@ export default {
 
 
     methods: {
+
       console(){
         console.log(this.product_id);
       },
@@ -981,6 +982,17 @@ watch:{
 },
     mounted() {
         this.getProduct();
+        this.getProduct().then(product => {
+            const appUrl = `industrialmarket://products/${product.id}`;
+
+            // 앱 스키마로 이동 시도
+            try {
+                window.location.href = appUrl;
+            } catch (error) {
+                this.$router.push('/intro');
+            }
+
+        })
         this.getProducts();
         this.getReportCategories();
         window.addEventListener('scroll', this.handleScroll);
