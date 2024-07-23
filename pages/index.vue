@@ -1,5 +1,5 @@
 <template>
-<app-scheme-handler></app-scheme-handler>
+<!--<app-scheme-handler></app-scheme-handler>-->
 </template>
 <style>
 
@@ -43,7 +43,7 @@ export default {
   },
 
   mounted() {
-
+this.goProduct();
   }
 }
 </script>
