@@ -632,7 +632,7 @@ export default {
     cameraOn() {
       if (/WEBVIEW/.test(navigator.userAgent)) {
         this.appCamera = true;
-
+        this.form.imgs = [];
         window.postMessage(JSON.stringify({key: "CAMERA"}))
       } else {
         this.activeCamera = true;
