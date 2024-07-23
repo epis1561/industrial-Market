@@ -675,7 +675,7 @@ export default {
                         })
 
                     ); // 이미지 파일을 form.imgs 배열에 추가
-                      alert(JSON.stringify('이미지정보',this.form.imgs));
+                      alert(`최종데이터ㅎ: ${JSON.stringify(this.form.imgs)}`);
                   } else {
 
                   }
@@ -712,7 +712,6 @@ export default {
 
         this.files = {
             name: file.name,
-            file: file,
             url: imageUrl,
         };
         alert(`변형데이터: ${JSON.stringify(this.files)}`);
