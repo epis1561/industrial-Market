@@ -161,6 +161,7 @@ export default {
         let newFiles = [];
           if(this.defaultFiles.length > 0){
             newFiles = [...this.defaultFiles];
+
         }
         else{
             newFiles = [...this.files];
@@ -203,7 +204,13 @@ export default {
               countResize++;
 
               if (length === countResize)
+                  if (this.appcamera === true) {
+                      newFiles = [...this.defaultFiles]; // 새 배열을 만들어 반응성 보장
+                  } else {
+                      newFiles = [...newFiles]; // 앨범에서 선택한 경우 newFiles 사용
+                  }
                 self.$emit("change", newFiles);
+
               console.log('디폴트뿌려진느거',newFiles);
             };
 
