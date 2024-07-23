@@ -109,7 +109,7 @@
                     <div class="file-preview-wrap col-group">
 
                         <input-images id="imgs" :multiple="true" v-if="activeFiles" @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }" @max="isMax=true"/>
-                        <input-images  id="camera" :camera="true" :default="form.imgs" @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }" @max="isMax=true"/>
+                        <input-images  id="camera" :camera="true" :default="form.imgs" @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }" @max="isMax=true" v-if="activeCamera"/>
 
                     </div>
                 </div>
