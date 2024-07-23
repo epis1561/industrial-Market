@@ -1,7 +1,7 @@
 <template>
     <div :class="`m-input-images type01 ${hide ? 'hide' : ''}`">
         <div class="m-input" v-if="!onlyShow">
-            <input type="file" :id="id" @change="changeFile" accept="image/*"  v-if="camera">
+            <input type="file" :id="id" @change="changeFile" accept="image/*"  v-if="appcamera">
             <input type="file" :id="id" @change="changeFile" accept="image/*" :multiple="multiple" v-else >
 
 <!--            <label class="m-btn" :for="id">-->
@@ -13,7 +13,7 @@
         <div class="m-files-wrap" v-if="defaultFiles.length > 0 || files.length > 0">
             <div class="m-files">
                 <div class="m-file-wrap" v-for="(file, index) in defaultFiles" :key="index">
-                    <div class="file-preview-label" v-if="!camera">
+                    <div class="file-preview-label" v-if="!appcamera">
                         대표
                     </div>
                     <div class="m-file" :style="`background-image:url(${file.url})`">
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="m-file-wrap" v-for="(file, index) in files" :key="index">
-                    <div class="file-preview-label" v-if="!camera">
+                    <div class="file-preview-label" v-if="!appcamera">
                         대표
                     </div>
                     <div class="m-file" :style="`background-image:url(${file.url})`">
