@@ -149,7 +149,14 @@ export default {
         let self = this;
         let readers = [];
         let images = [];
-        let newFiles = [...this.files];
+        let newFiles = [];
+          if(this.defaultFiles.length > 0){
+            newFiles = [...this.defaultFiles];
+        }
+        else{
+            newFiles = [...this.files];
+        }
+
 
         let length = event.target.files.length;
         let countResize = 0;

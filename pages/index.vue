@@ -43,7 +43,15 @@ export default {
   },
 
   mounted() {
-       this.goProduct();
+      if(/WEBVIEW/.test(navigator.userAgent)){
+
+          console.log('프로덕트이동')
+          this.goProduct();
+      }
+      else{
+          this.$router.push("/intro");
+      }
+
   }
 }
 </script>

@@ -134,6 +134,9 @@
                         <button class="like-btn" :class="{'active':product.user.like==1}"
                                 @click="toggleLike(product,'User')" v-if="product.user.id !=$auth.user.data.id"></button>
                         <div class="profile-img">
+                            <nuxt-link :to="`/users/${product.user.id}`" v-if="this.$auth.user.data.id != product.user.id">
+                                <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'" alt="" v-if="product.user.img">
+                            </nuxt-link>
                             <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'" alt="" v-if="product.user.img">
                         </div>
                         <div class="txt-wrap row-group">
@@ -531,7 +534,7 @@ export default {
               value: {
                 title: this.product.title,
                 message: this.product.description,
-                url: `https://industrialmarket.biz/products/${this.product.id}`,
+                url: `industrialmarket://products/${this.product.id}`,
               }
             }))
           }
@@ -558,7 +561,7 @@ export default {
 
 
                 this.product = response.data.data;
-                console.log(this.product);
+                console.log('물건',this.product);
                 // this.form.product_category_id = response.data.data.product_category_id;
                 this.form.user_id = response.data.data.user.id;
                 this.form.likeable_id = response.data.data.like;

@@ -52,6 +52,7 @@ export default {
             {src: "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"},
             {src: "https://gcore.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"},
             {src: "https://gcore.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"},
+
             // {src: "/js/common.js"},
         ],
         link: [

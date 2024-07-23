@@ -35,7 +35,9 @@ export default {
 
     mounted() {
         window.postMessage(JSON.stringify({key: 'DEVICE_TOKEN'}));
-
+        if(/WEBVIEW/.test(navigator.userAgent)){
+            this.$router.push("/intro");
+        }
         this.$store.dispatch("getCoords");
         this.getCities();
 
