@@ -220,3 +220,12 @@ i { font-family: 'xeicon'; font-style: normal; }
     background-color: #484848;
     color: #fff;
 }
+
+/* footer */
+#footer { background: #f5f5f5; padding: 24px 0; }
+.footer-title { font-size: 14px; font-weight: 600; color: #202020; opacity: .6; margin-bottom: 16px; }
+.footer-txt-group { gap: 4px; margin-bottom: 8px; }
+.footer-txt { font-size: 12px; color: #202020; opacity: .6; line-height: 1.4; }
+.footer-txt.col-group { gap: 2px; }
+.footer-txt p { line-height: 1.4; }
+.footer-copy-txt { font-size: 11px; font-weight: 500; opacity: .4; }
