@@ -12,7 +12,7 @@
 
         <div class="m-files-wrap" v-if="defaultFiles.length > 0 || files.length > 0">
             <div class="m-files">
-                <div class="m-file-wrap" v-for="(file, index) in defaultFiles" :key="index">
+                <div class="m-file-wrap" v-for="(file, index) in defaultFiles" :key="index" v-if="camera">
                     <div class="file-preview-label">
                         대표
                     </div>

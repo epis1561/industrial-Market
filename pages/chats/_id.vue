@@ -110,7 +110,7 @@
                         <input-images :multiple="true" v-if="activeFiles"
                                       @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }"
                                       @max="isMax=true"/>
-                        <input-images v-if="activeCamera" :multiple="true" id="camera" :camera="true" :default="files ? files:[]"
+                        <input-images v-if="activeCamera" id="camera" :camera="true" :default="files ? files:[]"
                                       @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"
                                       @max="isMax=true"/>
 
@@ -545,7 +545,7 @@ export default {
                     .then(response => {
                         this.form.description = "";
                         this.form.imgs = [];
-
+                        this.files = [];
                         this.activeCamera = false;
                         this.activeFiles = false;
 
