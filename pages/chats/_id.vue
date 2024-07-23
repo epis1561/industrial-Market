@@ -110,26 +110,11 @@
                         <input-images :multiple="true" v-if="activeFiles"
                                       @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }"
                                       @max="isMax=true"/>
-                        <input-images v-if="activeCamera" :multiple="true" id="camera" :camera="true"
+                        <input-images v-if="activeCamera" :multiple="true" id="camera" :camera="true" :default="files ? files:[]"
                                       @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"
                                       @max="isMax=true"/>
 
-<<<<<<< HEAD
-                        <div class="m-files-wrap" v-if="form.imgs.length > 0">
-                            <div class="m-files">
-                                <div class="m-file-wrap" v-for="(img, index) in form.imgs" :key="index">
-                                    <div class="file-preview-label">
-                                        대표
-                                    </div>
-                                    <div class="m-file" :style="{ 'background-image': 'url(' + img.url + ')' }">
-                                        <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(img, index)" type="button">
-                                            <i class="xi-close"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-=======
+
                                     <div class="m-files-wrap" v-if="form.imgs.length > 0">
                                       <div class="m-files">
                                         <div class="m-file-wrap" v-for="(img, index) in form.imgs" :key="index">
@@ -144,7 +129,6 @@
                                         </div>
                                       </div>
                                     </div>
->>>>>>> 2deb40ffb6b2c5dc5bb64fb38ceefb59258d1893
 
                     </div>
                 </div>
@@ -436,8 +420,9 @@ export default {
 
 
     methods: {
-        test(data = null) {
-            const base64String = data || "iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAAQlBMVEVHcEzy9//////z+f/x9v/z9//y9//v9f/x9v/x9v/x9v/x9v/x9v/1/f/x9v96pO/f6vy80fiDq/DQ4PqUtvOnw/WGtJKMAAAADnRSTlMATAkq7zxh+8Xbm4CwFiT0p3oAAAMQSURBVGjexVrblqsgDK2KBkQREP//V4/ttB1vhIthzn6ZtcauBJLskBAejzg0lew5F0wpJjjvZdU8yDBWkoM6gXFZjfel1x1XCHhX3xLf9EwFwPp8Y7WDisLQZomvuIoGr9KNkyD+pSLNUKMElQqZ4O5GqAyI6E1kLP8FkHHmGVQuYBhLmSfeTBVTt8ACnOhA3QR0qHxFAERDRSFfgZfWLSgaDR4/NEwRKWCXsTQKRQZxxYeBTv7KuEIBhITSyGgVsKORekWM/hChihy7WK0FvQJR0MNnP4sSCgR1DjrhNyfxMgp4wRDaBxLGAeMmN/s+6sXaRQe5UCMkdtMTxiPfvr7OfjrXoRg10w80on2yITcPoQ34tjCh6l9l8ctCkKlAfxT4bQR1IIYWdAf2/RXwOJLnf8+wX6RDPbRgFfEly/RXIszPVTqNxcACONfOLgC7WZWejd/EShuj8bOzvnCBwx2XSubu2rJWU+Vs6Qk+R6NAnmj2CX1ffkg+mofr5LAaiaSQHI5Rar8KaLbAD6fl/CsfS2Ip5ybzWGgFSQH22FkadgoInACwV7DbAYmJ4GAi2Dh5IWkVDgq2YappnCw8R8D5nAKt9bxi/aMTFJyytXlZaZ+i15zq7Nb/k1uMjuPBxYm8rhN2OdlNl7DLHMFkGfiFT/pbh4FQssMLa2OnEBaNp2vszNdh8aF4brGqJVI+puFZt/Bg0RKGxgpsf+kbLd9/gku0+9hZyDqzcuynlpnNso8tgxWnY4SJ3JlVYBYbzLswov3Nx8neQPwE8YL3OH4mzO5JVx3iiQk0mlgDooPJAPvFuwGhv0Y4XicUbwKLt7HlG/EyW+ClL0N2t5u87Aborkw3WaL52ys1lM5Z9dBp4NIW4thmsEIp/3LYwktFEP3ltRjLXr+zpuwAAdr/N2IpPyRaM/dNDRCcy7a3PM3asqPAuHlpnZ34+tiJb5dlJpYwFs+ZyA5pbyDaRE+I5IcDdZegQuQ9r4h9l5DxJuEbskOQd9DffOXS9oiphGwfBBi74SJu2dCNDzpkP//5ByIXjfhGyGtPAAAAAElFTkSuQmCC";
+        test() {
+            this.activeCamera=true;
+            const base64String ="iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAAQlBMVEVHcEzy9//////z+f/x9v/z9//y9//v9f/x9v/x9v/x9v/x9v/x9v/1/f/x9v96pO/f6vy80fiDq/DQ4PqUtvOnw/WGtJKMAAAADnRSTlMATAkq7zxh+8Xbm4CwFiT0p3oAAAMQSURBVGjexVrblqsgDK2KBkQREP//V4/ttB1vhIthzn6ZtcauBJLskBAejzg0lew5F0wpJjjvZdU8yDBWkoM6gXFZjfel1x1XCHhX3xLf9EwFwPp8Y7WDisLQZomvuIoGr9KNkyD+pSLNUKMElQqZ4O5GqAyI6E1kLP8FkHHmGVQuYBhLmSfeTBVTt8ACnOhA3QR0qHxFAERDRSFfgZfWLSgaDR4/NEwRKWCXsTQKRQZxxYeBTv7KuEIBhITSyGgVsKORekWM/hChihy7WK0FvQJR0MNnP4sSCgR1DjrhNyfxMgp4wRDaBxLGAeMmN/s+6sXaRQe5UCMkdtMTxiPfvr7OfjrXoRg10w80on2yITcPoQ34tjCh6l9l8ctCkKlAfxT4bQR1IIYWdAf2/RXwOJLnf8+wX6RDPbRgFfEly/RXIszPVTqNxcACONfOLgC7WZWejd/EShuj8bOzvnCBwx2XSubu2rJWU+Vs6Qk+R6NAnmj2CX1ffkg+mofr5LAaiaSQHI5Rar8KaLbAD6fl/CsfS2Ip5ybzWGgFSQH22FkadgoInACwV7DbAYmJ4GAi2Dh5IWkVDgq2YappnCw8R8D5nAKt9bxi/aMTFJyytXlZaZ+i15zq7Nb/k1uMjuPBxYm8rhN2OdlNl7DLHMFkGfiFT/pbh4FQssMLa2OnEBaNp2vszNdh8aF4brGqJVI+puFZt/Bg0RKGxgpsf+kbLd9/gku0+9hZyDqzcuynlpnNso8tgxWnY4SJ3JlVYBYbzLswov3Nx8neQPwE8YL3OH4mzO5JVx3iiQk0mlgDooPJAPvFuwGhv0Y4XicUbwKLt7HlG/EyW+ClL0N2t5u87Aborkw3WaL52ys1lM5Z9dBp4NIW4thmsEIp/3LYwktFEP3ltRjLXr+zpuwAAdr/N2IpPyRaM/dNDRCcy7a3PM3asqPAuHlpnZ34+tiJb5dlJpYwFs+ZyA5pbyDaRE+I5IcDdZegQuQ9r4h9l5DxJuEbskOQd9DffOXS9oiphGwfBBi74SJu2dCNDzpkP//5ByIXjfhGyGtPAAAAAElFTkSuQmCC";
 
             // base64 문자열을 Blob 객체로 변환
             const byteCharacters = atob(base64String);
@@ -463,8 +448,9 @@ export default {
             };
 
             this.form.imgs = this.files;
-
-            return file;
+            console.log(`최종데이터1: name: ${this.form.imgs.name}, file: ${this.form.imgs.file ? '파일 있음 (크기: ' + this.files.file.size + ' 바이트)' : '파일 없음'}, url: ${this.form.imgs.url}`);
+            console.log('나와라',this.form.imgs);
+            console.log('디폴트파일',this.files);
         },
 
 
@@ -680,7 +666,6 @@ export default {
                 try {
                     result = JSON.parse(event.data);
 
-
                 } catch (e) {
                     console.error("Invalid JSON data:", e);
                 }
@@ -692,14 +677,15 @@ export default {
                         const base64String = "iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAAQlBMVEVHcEzy9//////z+f/x9v/z9//y9//v9f/x9v/x9v/x9v/x9v/x9v/1/f/x9v96pO/f6vy80fiDq/DQ4PqUtvOnw/WGtJKMAAAADnRSTlMATAkq7zxh+8Xbm4CwFiT0p3oAAAMQSURBVGjexVrblqsgDK2KBkQREP//V4/ttB1vhIthzn6ZtcauBJLskBAejzg0lew5F0wpJjjvZdU8yDBWkoM6gXFZjfel1x1XCHhX3xLf9EwFwPp8Y7WDisLQZomvuIoGr9KNkyD+pSLNUKMElQqZ4O5GqAyI6E1kLP8FkHHmGVQuYBhLmSfeTBVTt8ACnOhA3QR0qHxFAERDRSFfgZfWLSgaDR4/NEwRKWCXsTQKRQZxxYeBTv7KuEIBhITSyGgVsKORekWM/hChihy7WK0FvQJR0MNnP4sSCgR1DjrhNyfxMgp4wRDaBxLGAeMmN/s+6sXaRQe5UCMkdtMTxiPfvr7OfjrXoRg10w80on2yITcPoQ34tjCh6l9l8ctCkKlAfxT4bQR1IIYWdAf2/RXwOJLnf8+wX6RDPbRgFfEly/RXIszPVTqNxcACONfOLgC7WZWejd/EShuj8bOzvnCBwx2XSubu2rJWU+Vs6Qk+R6NAnmj2CX1ffkg+mofr5LAaiaSQHI5Rar8KaLbAD6fl/CsfS2Ip5ybzWGgFSQH22FkadgoInACwV7DbAYmJ4GAi2Dh5IWkVDgq2YappnCw8R8D5nAKt9bxi/aMTFJyytXlZaZ+i15zq7Nb/k1uMjuPBxYm8rhN2OdlNl7DLHMFkGfiFT/pbh4FQssMLa2OnEBaNp2vszNdh8aF4brGqJVI+puFZt/Bg0RKGxgpsf+kbLd9/gku0+9hZyDqzcuynlpnNso8tgxWnY4SJ3JlVYBYbzLswov3Nx8neQPwE8YL3OH4mzO5JVx3iiQk0mlgDooPJAPvFuwGhv0Y4XicUbwKLt7HlG/EyW+ClL0N2t5u87Aborkw3WaL52ys1lM5Z9dBp4NIW4thmsEIp/3LYwktFEP3ltRjLXr+zpuwAAdr/N2IpPyRaM/dNDRCcy7a3PM3asqPAuHlpnZ34+tiJb5dlJpYwFs+ZyA5pbyDaRE+I5IcDdZegQuQ9r4h9l5DxJuEbskOQd9DffOXS9oiphGwfBBi74SJu2dCNDzpkP//5ByIXjfhGyGtPAAAAAElFTkSuQmCC";
 
                         const imageFile = await this.base64ToFile(result.value);
-                        alert(`최종데이터1: name: ${imageFile.name}, file: ${imageFile.file ? '파일 있음 (크기: ' + imageFile.file.size + ' 바이트)' : '파일 없음'}, url: ${imageFile.url}`);
                         const test = this.test(base64String);
 
                         this.form.imgs.push({
-                            name: imageFile.name,
-                            file: imageFile.file,
-                            url: imageFile.url,
+                            name: test.name,
+                            file: test.file,
+                            url: test.url,
                         });
+                        alert(`최종데이터1: name: ${test.name}, file: ${test.file ? '파일 있음 (크기: ' + test.file.size + ' 바이트)' : '파일 없음'}, url: ${imageFile.url}`);
+
                     }
                     break;
                 }
