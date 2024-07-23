@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button @click="openApp">앱 열기 또는 설치</button>
+        <!-- 필요한 경우 여기에 UI 요소를 추가할 수 있습니다 -->
     </div>
 </template>
 
@@ -9,46 +9,41 @@ export default {
     name: 'AppSchemeHandler',
     data() {
         return {
-            scheme: 'myapp',
-            iosId: '1234567',
-            androidPackage: 'my.app.id',
+            scheme: 'your-app-scheme', // 실제 앱 스키마로 변경하세요
+            iosId: '1234567', // 실제 iOS 앱 ID로 변경하세요
+            androidPackage: 'your.app.package', // 실제 안드로이드 패키지 이름으로 변경하세요
             isIOS: false,
             isAndroid: false,
-            isMobile: false
         }
     },
     mounted() {
         this.detectPlatform()
+        this.handleAppRedirection()
     },
     methods: {
         detectPlatform() {
             const userAgent = navigator.userAgent.toLowerCase()
             this.isIOS = /ipad|iphone|ipod/.test(userAgent) && !window.MSStream
             this.isAndroid = /android/.test(userAgent)
-            this.isMobile = this.isIOS || this.isAndroid
         },
-        openApp() {
-            if (this.isIOS) {
-                this.openIOSApp()
-            } else if (this.isAndroid) {
-                this.openAndroidApp()
+        handleAppRedirection() {
+            if (this.isIOS || this.isAndroid) {
+                this.openApp()
             } else {
+                this.$router.push("/intro")
             }
         },
-        openIOSApp() {
-            const appUrl = `${this.scheme}://view?id=123`
-            const storeUrl = `https://itunes.apple.com/app/id${this.iosId}`
+        openApp() {
+            const appUrl = this.isIOS ? `${this.scheme}://` : `intent://#Intent;package=${this.androidPackage};scheme=${this.scheme};end;`
 
             window.location = appUrl
+
+            // 짧은 지연 후 앱이 열리지 않으면 /intro로 리다이렉트
             setTimeout(() => {
                 if (!document.hidden) {
-                    window.location = storeUrl
+                    this.$router.push("/intro")
                 }
-            }, 25)
-        },
-        openAndroidApp() {
-            const intentUrl = `intent://view?id=123#Intent;package=${this.androidPackage};scheme=${this.scheme};launchFlags=268435456;end;`
-            window.location = intentUrl
+            }, 2000) // 2초 후 체크
         }
     }
 }

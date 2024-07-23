@@ -1,5 +1,5 @@
 <template>
-
+<app-scheme-handler></app-scheme-handler>
 </template>
 <style>
 
@@ -7,7 +7,7 @@
 <script>
 
 import Form from "@/utils/Form";
-
+import AppSchemeHandler from '/components/AppSchemeHandler.vue';
 export default {
    name: 'Login',
    auth: "guest",
@@ -43,15 +43,7 @@ export default {
   },
 
   mounted() {
-      // if(/WEBVIEW/.test(navigator.userAgent)){
-      //
-      //     console.log('프로덕트이동')
-      //     this.goProduct();
-      // }
-      // else{
-      //     this.$router.push("/intro");
-      // }
-      this.goProduct();
+
   }
 }
 </script>
