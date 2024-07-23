@@ -420,7 +420,7 @@ export default {
 
     methods: {
         test(data = null) {
-            const base64String =  data || "iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAAQlBMVEVHcEzy9//////z+f/x9v/z9//y9//v9f/x9v/x9v/x9v/x9v/x9v/1/f/x9v96pO/f6vy80fiDq/DQ4PqUtvOnw/WGtJKMAAAADnRSTlMATAkq7zxh+8Xbm4CwFiT0p3oAAAMQSURBVGjexVrblqsgDK2KBkQREP//V4/ttB1vhIthzn6ZtcauBJLskBAejzg0lew5F0wpJjjvZdU8yDBWkoM6gXFZjfel1x1XCHhX3xLf9EwFwPp8Y7WDisLQZomvuIoGr9KNkyD+pSLNUKMElQqZ4O5GqAyI6E1kLP8FkHHmGVQuYBhLmSfeTBVTt8ACnOhA3QR0qHxFAERDRSFfgZfWLSgaDR4/NEwRKWCXsTQKRQZxxYeBTv7KuEIBhITSyGgVsKORekWM/hChihy7WK0FvQJR0MNnP4sSCgR1DjrhNyfxMgp4wRDaBxLGAeMmN/s+6sXaRQe5UCMkdtMTxiPfvr7OfjrXoRg10w80on2yITcPoQ34tjCh6l9l8ctCkKlAfxT4bQR1IIYWdAf2/RXwOJLnf8+wX6RDPbRgFfEly/RXIszPVTqNxcACONfOLgC7WZWejd/EShuj8bOzvnCBwx2XSubu2rJWU+Vs6Qk+R6NAnmj2CX1ffkg+mofr5LAaiaSQHI5Rar8KaLbAD6fl/CsfS2Ip5ybzWGgFSQH22FkadgoInACwV7DbAYmJ4GAi2Dh5IWkVDgq2YappnCw8R8D5nAKt9bxi/aMTFJyytXlZaZ+i15zq7Nb/k1uMjuPBxYm8rhN2OdlNl7DLHMFkGfiFT/pbh4FQssMLa2OnEBaNp2vszNdh8aF4brGqJVI+puFZt/Bg0RKGxgpsf+kbLd9/gku0+9hZyDqzcuynlpnNso8tgxWnY4SJ3JlVYBYbzLswov3Nx8neQPwE8YL3OH4mzO5JVx3iiQk0mlgDooPJAPvFuwGhv0Y4XicUbwKLt7HlG/EyW+ClL0N2t5u87Aborkw3WaL52ys1lM5Z9dBp4NIW4thmsEIp/3LYwktFEP3ltRjLXr+zpuwAAdr/N2IpPyRaM/dNDRCcy7a3PM3asqPAuHlpnZ34+tiJb5dlJpYwFs+ZyA5pbyDaRE+I5IcDdZegQuQ9r4h9l5DxJuEbskOQd9DffOXS9oiphGwfBBi74SJu2dCNDzpkP//5ByIXjfhGyGtPAAAAAElFTkSuQmCC";
+            const base64String = data || "iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAAAQlBMVEVHcEzy9//////z+f/x9v/z9//y9//v9f/x9v/x9v/x9v/x9v/x9v/1/f/x9v96pO/f6vy80fiDq/DQ4PqUtvOnw/WGtJKMAAAADnRSTlMATAkq7zxh+8Xbm4CwFiT0p3oAAAMQSURBVGjexVrblqsgDK2KBkQREP//V4/ttB1vhIthzn6ZtcauBJLskBAejzg0lew5F0wpJjjvZdU8yDBWkoM6gXFZjfel1x1XCHhX3xLf9EwFwPp8Y7WDisLQZomvuIoGr9KNkyD+pSLNUKMElQqZ4O5GqAyI6E1kLP8FkHHmGVQuYBhLmSfeTBVTt8ACnOhA3QR0qHxFAERDRSFfgZfWLSgaDR4/NEwRKWCXsTQKRQZxxYeBTv7KuEIBhITSyGgVsKORekWM/hChihy7WK0FvQJR0MNnP4sSCgR1DjrhNyfxMgp4wRDaBxLGAeMmN/s+6sXaRQe5UCMkdtMTxiPfvr7OfjrXoRg10w80on2yITcPoQ34tjCh6l9l8ctCkKlAfxT4bQR1IIYWdAf2/RXwOJLnf8+wX6RDPbRgFfEly/RXIszPVTqNxcACONfOLgC7WZWejd/EShuj8bOzvnCBwx2XSubu2rJWU+Vs6Qk+R6NAnmj2CX1ffkg+mofr5LAaiaSQHI5Rar8KaLbAD6fl/CsfS2Ip5ybzWGgFSQH22FkadgoInACwV7DbAYmJ4GAi2Dh5IWkVDgq2YappnCw8R8D5nAKt9bxi/aMTFJyytXlZaZ+i15zq7Nb/k1uMjuPBxYm8rhN2OdlNl7DLHMFkGfiFT/pbh4FQssMLa2OnEBaNp2vszNdh8aF4brGqJVI+puFZt/Bg0RKGxgpsf+kbLd9/gku0+9hZyDqzcuynlpnNso8tgxWnY4SJ3JlVYBYbzLswov3Nx8neQPwE8YL3OH4mzO5JVx3iiQk0mlgDooPJAPvFuwGhv0Y4XicUbwKLt7HlG/EyW+ClL0N2t5u87Aborkw3WaL52ys1lM5Z9dBp4NIW4thmsEIp/3LYwktFEP3ltRjLXr+zpuwAAdr/N2IpPyRaM/dNDRCcy7a3PM3asqPAuHlpnZ34+tiJb5dlJpYwFs+ZyA5pbyDaRE+I5IcDdZegQuQ9r4h9l5DxJuEbskOQd9DffOXS9oiphGwfBBi74SJu2dCNDzpkP//5ByIXjfhGyGtPAAAAAElFTkSuQmCC";
 
             // base64 문자열을 Blob 객체로 변환
             const byteCharacters = atob(base64String);
@@ -715,54 +715,7 @@ export default {
 
                 alert(`변형데이터: ${JSON.stringify(this.files)}`);
                 resolve(imageFile); // Promise를 resolve하여 파일 정보를 반환
-              alert(`변형데이터: ${JSON.stringify(this.files)}`);
-              return imageFile; // Promise를 resolve하여 파일 정보를 반환
-          });
-      },
 
-    remove(file, index) {
-      // 기존 업로드된 파일 목록 중 삭제
-      this.files.splice(index, 1);
-
-      this.$emit("change", this.files);
-    },
-    addEventListeners() {
-      document.addEventListener('message', this.listen);
-      window.addEventListener('message', this.listen);
-      alert('Event listeners added');
-    },
-
-
-  },
-
-  computed: {
-    targetUser() {
-      if (this.chat != null) {
-        if (this.chat.asker && this.chat.asker.id == this.$auth.user.data.id) {
-          return this.chat.owner;
-        } else if (this.chat.owner && this.chat.owner.id == this.$auth.user.data.id) {
-          return this.chat.asker;
-        }
-
-      }
-    }
-    ,
-
-    user() {
-      return this.$auth.user.data;
-    }
-    ,
-    flattenedImages() {
-      let flattened = [];
-      this.messages.data.forEach((message, messageIndex) => {
-        if (message.imgs && message.imgs.length > 0) {
-          message.imgs.forEach((img, imgIndex) => {
-            flattened.push({
-              ...img,
-              messageIndex,
-              imgIndex,
-              uniqueId: `${messageIndex}-${imgIndex}`
->>>>>>> 5b53296ed17ad53871a077d5645274b017b8336d
             });
         },
 
@@ -791,13 +744,12 @@ export default {
                 }
 
             }
-        }
-        ,
+        },
 
         user() {
             return this.$auth.user.data;
-        }
-        ,
+        },
+
         flattenedImages() {
             let flattened = [];
             this.messages.data.forEach((message, messageIndex) => {
@@ -821,25 +773,20 @@ export default {
     beforeDestroy() {
         if (this.channel)
             this.channel.unsubscribe(); // Pusher 연결 해제
-    }
-    ,
+    },
 
     watch: {
-
         'messages.data':
                 {
                     handler(newMessagesData) {
                         // messages.data가 변경될 때마다 호출됩니다.
                         this.updateIsNull(newMessagesData);
 
-                    }
-                    ,
+                    },
                     immediate: false,
                 }
+    },
 
-
-    }
-    ,
     mounted() {
         this.test();
         this.getChat();
