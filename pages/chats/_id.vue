@@ -646,7 +646,7 @@ export default {
       let result = null;
 
       if (event.data) {
-          alert('이벤트데이터',event.data);
+          alert(`이벤트 데이터: ${event.data}`);
         try {
           result = JSON.parse(event.data);
 
