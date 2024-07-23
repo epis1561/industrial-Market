@@ -107,8 +107,12 @@
                 <!-- 사진 한장 이상 첨부 시 -->
                 <div class="file-preview-scroll-wrap" v-if="activeFiles || activeCamera">
                     <div class="file-preview-wrap col-group">
-                        <input-images id="imgs" :multiple="true" v-if="activeFiles" @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }" @max="isMax=true"/>
-                        <input-images  id="camera" :camera="true" v-if="activeCamera" :default="form.imgs" @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }" @max="isMax=true"/>
+                        <input-images id="imgs" :multiple="true" v-if="activeFiles"
+                                      @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }"
+                                      @max="isMax=true"/>
+                        <input-images :camera="true" v-if="activeCamera" :default="form.imgs"
+                                      @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"
+                                      @max="isMax=true"/>
                     </div>
                 </div>
                 <!-- //사진 한장 이상 첨부 시 -->
@@ -254,7 +258,7 @@
                 <div class="modal-select-wrap modal-wrap">
 
                     <div class="chat-more-option-wrap row-group">
-                        <label for="camera" class="chat-more-option col-group" @click="cameraOn">
+                        <label class="chat-more-option col-group" @click="cameraOn">
                             <i class="icon"></i>
                             사진 찍기
                         </label>
@@ -691,8 +695,8 @@ export default {
         },
 
         addEventListeners() {
-            window.addEventListener('message', this.listen, { once: true });
-            document.addEventListener('message', this.listen, { once: true });
+            window.addEventListener('message', this.listen, {once: true});
+            document.addEventListener('message', this.listen, {once: true});
         },
 
 
