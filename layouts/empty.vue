@@ -41,10 +41,17 @@ export default {
         this.$store.dispatch("getCoords");
         this.getCities();
 
-        if (!/WEBVIEW/.test(navigator.userAgent)) {
-            location.href = "industrialmarket://" + location.pathname;
+        if(!this.$route.query.WEBVIEW){
+            if (!/WEBVIEW/.test(navigator.userAgent)) {
+                let url = "industrialmarket:/" + location.pathname;
 
-            return this.$router.push("/intro");
+                location.href = url;
+
+                return this.$router.push("/intro");
+            }
+
+            if (/WEBVIEW/.test(navigator.userAgent) && location.pathname === "/intro")
+                return this.$router.push("/products");
         }
     }
 }
