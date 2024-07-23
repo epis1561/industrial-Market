@@ -660,7 +660,7 @@ export default {
         case 'CAMERA': {
           if (result.value && typeof result.value === 'string') {
             // base64 문자열을 파일 객체로 변환 (프라미스 사용)
-              alert(JSON.stringify('정보값',result.value))
+              alert('정보값',result.value)
             this.base64ToFile(result.value, 'camera_image.jpg')
                 .then(imageFile => {
                   if (imageFile) {
