@@ -40,7 +40,6 @@ export default {
         // }
         this.$store.dispatch("getCoords");
         this.getCities();
-        alert("두번 호출 확인2");
 
         if(!this.$route.query.WEBVIEW){
             if (!/WEBVIEW/.test(navigator.userAgent)) {
