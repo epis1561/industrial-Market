@@ -257,7 +257,7 @@
                             @click="toggleLike(product, 'Product')"></button>
                     <div class="price" v-if="product.type!=2">
                         <p :class="'label label' + product.type"> <!-- 삽니다 상태에서 buy 클래스 -->
-                            {{ product.format_short_type }}
+                            {{ product.format_short_state }}
                         </p>
                         <div v-if="product.offer_price ==0 && product.type!=2">
                             {{ product.format_price }}
@@ -269,7 +269,7 @@
                     </div>
                     <div class="price" v-if="product.type==2">
                         <p :class="'label label' + product.type"> <!-- 삽니다 상태에서 buy 클래스 -->
-                            {{ product.format_short_type }}
+                            {{ product.format_short_state }}
                         </p>
                         나눔합니다
                     </div>
