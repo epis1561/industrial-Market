@@ -1,6 +1,38 @@
-<template>
-    <body>
+<?
 
+// Settings
+$scheme = 'myapp';
+$ios_id = 1234567;
+$android_package = 'my.app.id';
+$auto = false;
+
+// No trailing slash after path, conform to http://x-callback-url.com/specifications/
+$REQUEST_URI = preg_replace('@/(?:\?|$)@', '', $_SERVER['REQUEST_URI']);
+
+// Detection
+$HTTP_USER_AGENT = strtolower($_SERVER['HTTP_USER_AGENT']);
+$android = (bool) strpos($HTTP_USER_AGENT, 'android');
+$iphone = !$android && ((bool) strpos($HTTP_USER_AGENT, 'iphone') || (bool) strpos($HTTP_USER_AGENT, 'ipod'));
+$ipad = !$android && !$iphone && (bool) strpos($HTTP_USER_AGENT, 'ipad');
+$ios = $iphone || $ipad;
+$mobile = $android || $ios;
+
+// Install
+$ios_install = 'http://itunes.apple.com/app/id' . $ios_id;
+$android_install = 'http://play.google.com/store/apps/details?id=' . $android_package;
+
+// Open
+if ($ios) {
+    $open = $scheme . ':/' . $REQUEST_URI;
+}
+if ($android) {
+    $open = 'intent:/' . $REQUEST_URI . '#Intent;package=' . $android_package . ';scheme=' . $scheme . ';launchFlags=268435456;end;';
+}
+
+?>
+<template>
+
+    <body>
     <div id="wrap">
 
         <!-- header Start -->
@@ -534,7 +566,7 @@ export default {
               value: {
                 title: this.product.title,
                 message: this.product.description,
-                url:`industrialmarket://products/${this.product.id}`,
+                url:`https://industrialmarket.biz/products/${this.product.id}`,
               }
             }))
           }

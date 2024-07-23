@@ -13,14 +13,14 @@
             </div>
             <div class="btn-wrap col-group">
                 <a href="" class="btn">
-                    <img src="images/app_store_google.png" alt="">
+                    <img src="/images/app_store_google.png" alt="">
                 </a>
                 <a href="" class="btn">
-                    <img src="images/app_store_apple.png" alt="">
+                    <img src="/images/app_store_apple.png" alt="">
                 </a>
             </div>
             <div class="footer">
-                <img src="images/app_qrcode.png" alt="" class="qr-code">
+                <img src="/images/app_qrcode.png" alt="" class="qr-code">
 
                 <div class="footer-txt-wrap row-group">
                     <div class="footer-txt-group col-group">
