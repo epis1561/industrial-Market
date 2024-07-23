@@ -164,6 +164,7 @@ export default {
         }
           else if(this.appcamera == true){
               newFiles = [...this.camera_img];
+              alert('이부분걸렸다.');
           }
         else{
             newFiles = [...this.files];
