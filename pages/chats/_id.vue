@@ -643,54 +643,40 @@ export default {
     },
 
     listen(event) {
-      let result = null;
+        let result = null;
 
-      if (event.data) {
+        if (event.data) {
 
-        try {
-          result = JSON.parse(event.data);
+            try {
+                result = JSON.parse(event.data);
 
 
-        } catch (e) {
-          console.error("Invalid JSON data:", e);
-        }
-      }
-
-      switch (result?.key) {
-        case 'CAMERA': {
-          if (result.value && typeof result.value === 'string') {
-            // base64 문자열을 파일 객체로 변환 (프라미스 사용)
-              alert(`result나옴:${result.value}`);
-            this.base64ToFile(result.value)
-                .then(imageFile => {
-                    alert(`imageFile 객체 정보:\n${JSON.stringify(imageFile)}`);g
-                    if (imageFile) {
-                    this.form.imgs.push
-                    ({
-                          name: imageFile.name,
-                          url: imageFile.url,
-                    }); // 이미지 파일을 form.imgs 배열에 추가
-                      alert(`최종데이터: ${JSON.stringify(this.form.imgs)}`);
-                  } else {
-
-                  }
-                })
-                .catch(error => {
-                  console.error('Failed to convert base64 to file:', error);
-                });
-          } else {
-            console.error('Invalid image data:', result.value);
-          }
-          break;
+            } catch (e) {
+                console.error("Invalid JSON data:", e);
+            }
         }
 
-
-        default: {
-          // ...
-          break;
+        switch (result?.key) {
+            case 'CAMERA': {
+                if (result.value && typeof result.value === 'string') {
+                    // base64 문자열을 파일 객체로 변환 (프라미스 사용)
+                    alert(`result나옴:${result.value}`);
+                    this.base64ToFile(result.value)
+                            .then(() => {
+                                this.form.imgs.push(...this.files);
+                                alert(`최종데이터: ${JSON.stringify(this.form.imgs)}`);
+                            })
+                            .catch(error => {
+                                console.error('Failed to convert base64 to file:', error);
+                            });
+                }
+                break;
+            }
+            default: {
+                // 기본적으로 할 일이 없을 경우에는 break만 설정하면 됩니다.
+                break;
+            }
         }
-      }
-
     },
     base64ToFile(string) {
         const byteCharacters = atob(string);
