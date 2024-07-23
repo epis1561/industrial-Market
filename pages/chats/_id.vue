@@ -706,9 +706,11 @@ export default {
             this.$emit("change", this.files);
         },
         addEventListeners() {
+            $(document).unbind("message");
+            $(window).unbind("message");
+
             document.removeEventListener("message").addEventListener('message', this.listen);
             window.removeEventListener("message").addEventListener('message', this.listen);
-
         },
 
 

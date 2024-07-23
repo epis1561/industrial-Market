@@ -122,6 +122,8 @@ export default {
                 if(pushToken){
                     this.form.push_token = pushToken;
 
+                    alert(this.form.push_token);
+
                     this.form.patch("/api/users/updatePushToken")
                             .then(response => {
 
