@@ -71,7 +71,7 @@
                                 </p>
                             </div>
                         </div>
-                        <h2 class="detail-title state" @click="console">
+                        <h2 class="detail-title state">
                             {{ product.title }}
                             <div :class="'label label' + product.state">
                                 {{ product.format_state }}
@@ -613,8 +613,7 @@ export default {
                 this.randomForm.product_category_id = response.data.data.product_category_id;
                 this.similarForm.except_user_id = response.data.data.user.id;
                 this.form.state_transaction = response.data.data.state_transaction;
-                console.log(response.data.data.user.id);
-                console.log(this.similarForm.except_user_id);
+
 
                 this.getSimilarProducts();
                 this.getOtherProducts();
@@ -665,7 +664,7 @@ export default {
 
             }).then(response => {
                 this.otherProducts = response.data
-                console.log(this.otherProducts.data);
+
                 this.otherProducts.data = this.otherProducts.data.filter(products => {
                     return products.id != this.product_id;
                 })
@@ -937,7 +936,7 @@ export default {
         },
         goReport() {
             this.product_id = this.product.id;
-            console.log(this.product_id);
+
             this.isReport = true;
         },
         openImg() {

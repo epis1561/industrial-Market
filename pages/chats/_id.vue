@@ -107,8 +107,17 @@
                 <!-- 사진 한장 이상 첨부 시 -->
                 <div class="file-preview-scroll-wrap" v-if="activeFiles || activeCamera">
                     <div class="file-preview-wrap col-group">
+<<<<<<< HEAD
                         <input-images id="imgs" :multiple="true" v-if="activeFiles" @change="(data) => {form.imgs = data; activeCamera = false;  activeFiles = false; isImg = false; }" @max="isMax=true"/>
                         <input-images  id="camera" :camera="true" :default="form.imgs" @change="(data) => {form.imgs = data; activeFiles = false; activeCamera = false; isImg = false; }" @max="isMax=true"/>
+=======
+                        <input-images id="imgs" :multiple="true" v-if="activeFiles"
+                                      @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }"
+                                      @max="isMax=true"/>
+                        <input-images :camera="true" v-if="activeCamera" :default="form.imgs"
+                                      @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"
+                                      @max="isMax=true"/>
+>>>>>>> 23c1a56be0073620b38bfc5a73037c207c332eec
                     </div>
                 </div>
                 <!-- //사진 한장 이상 첨부 시 -->
@@ -254,7 +263,7 @@
                 <div class="modal-select-wrap modal-wrap">
 
                     <div class="chat-more-option-wrap row-group">
-                        <label for="camera" class="chat-more-option col-group" @click="cameraOn">
+                        <label class="chat-more-option col-group" @click="cameraOn">
                             <i class="icon"></i>
                             사진 찍기
                         </label>
@@ -622,7 +631,6 @@ export default {
             });
         },
         cameraOn() {
-            alert("두번호출확인");
             if (/WEBVIEW/.test(navigator.userAgent)) {
                 this.activeCamera = true;
                 this.activeFiles = false;
@@ -656,6 +664,7 @@ export default {
                             url: imageFile.url,
                         });
 
+                        this.isImg = false;
 
                         // alert(`최종데이터1: name: ${test.name}, file: ${test.file ? '파일 있음 (크기: ' + test.file.size + ' 바이트)' : '파일 없음'}, url: ${imageFile.url}`);
 
@@ -692,8 +701,8 @@ export default {
         },
 
         addEventListeners() {
-            window.addEventListener('message', this.listen, { once: true });
-            document.addEventListener('message', this.listen, { once: true });
+            window.addEventListener('message', this.listen, {once: true});
+            document.addEventListener('message', this.listen, {once: true});
         },
 
 

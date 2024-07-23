@@ -1,10 +1,7 @@
 <template>
     <div :class="`m-input-images type01 ${hide ? 'hide' : ''}`">
         <div class="m-input" v-if="!onlyShow">
-            <input type="file" :id="id" @change="changeFile" accept="image/*" :multiple="multiple" capture="camera"
-                   v-if="camera">
-
-            <input type="file" :id="id" @change="changeFile" accept="image/*" :multiple="multiple" v-else>
+            <input type="file" :id="id" @change="changeFile" accept="image/*" :multiple="multiple">
 
             <!--            <label class="m-btn" :for="id">-->
             <!--                <i class="xi-plus"></i>-->
