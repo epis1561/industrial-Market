@@ -1,35 +1,4 @@
-<?
 
-// Settings
-$scheme = 'myapp';
-$ios_id = 1234567;
-$android_package = 'my.app.id';
-$auto = false;
-
-// No trailing slash after path, conform to http://x-callback-url.com/specifications/
-$REQUEST_URI = preg_replace('@/(?:\?|$)@', '', $_SERVER['REQUEST_URI']);
-
-// Detection
-$HTTP_USER_AGENT = strtolower($_SERVER['HTTP_USER_AGENT']);
-$android = (bool) strpos($HTTP_USER_AGENT, 'android');
-$iphone = !$android && ((bool) strpos($HTTP_USER_AGENT, 'iphone') || (bool) strpos($HTTP_USER_AGENT, 'ipod'));
-$ipad = !$android && !$iphone && (bool) strpos($HTTP_USER_AGENT, 'ipad');
-$ios = $iphone || $ipad;
-$mobile = $android || $ios;
-
-// Install
-$ios_install = 'http://itunes.apple.com/app/id' . $ios_id;
-$android_install = 'http://play.google.com/store/apps/details?id=' . $android_package;
-
-// Open
-if ($ios) {
-    $open = $scheme . ':/' . $REQUEST_URI;
-}
-if ($android) {
-    $open = 'intent:/' . $REQUEST_URI . '#Intent;package=' . $android_package . ';scheme=' . $scheme . ';launchFlags=268435456;end;';
-}
-
-?>
 <template>
 
     <body>
@@ -169,7 +138,7 @@ if ($android) {
                             <nuxt-link :to="`/users/${product.user.id}`" v-if="this.$auth.user.data.id != product.user.id">
                                 <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'" alt="" v-if="product.user.img">
                             </nuxt-link>
-                            <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'" alt="" v-if="product.user.img">
+                            <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'" alt="" v-if="this.$auth.user.data.id == product.user.id && product.user.img">
                         </div>
                         <div class="txt-wrap row-group">
                             <p class="title">
@@ -373,7 +342,7 @@ if ($android) {
                         <i class="icon"></i>
                         게시글 수정
                     </button>
-                    <button class="chat-more-option col-group red" @click="remove()">
+                    <button class="chat-more-option col-group red" @click="isRemove=true">
                         <i class="icon red"></i>
                         삭제
                     </button>
@@ -440,6 +409,25 @@ if ($android) {
                 </div>
             </div>
         </div>
+        <div class="modal-container modal_trans" :class="{'active':isRemove}">
+            <div class="modal-wrap modal-alert">
+                <div class="modal-title-wrap">
+                    <i class="icon blue"></i>
+                </div>
+                <p class="modal-alert-txt">
+                    정말 삭제하시겠습니까?
+                </p>
+
+                <div class="modal-footer col-group">
+                    <button class="modal-footer-btn submit-btn" @click="remove">
+                        삭제하기
+                    </button>
+                    <button class="modal-footer-btn close-btn" @click.prevent="isRemove=false">
+                        취소
+                    </button>
+                </div>
+            </div>
+        </div>
         <!-- //거래중 버튼 클릭 시 팝업 -->
     </div>
 
@@ -498,6 +486,7 @@ export default {
                 product_category_id:"",
                 random:1,
             }),
+            isRemove:false,
             isDisabled: true,
             count_like: "",
             isLikeProduct: "",

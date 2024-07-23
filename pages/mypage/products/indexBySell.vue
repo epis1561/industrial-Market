@@ -29,9 +29,8 @@
             </div>
             <div class="container Sell">
                 <div class="prod-list">
-                    <div class="prod-item col-group complete"  v-for="(product,index) in products.data" :key="product.id">
-                        <nuxt-link to="" class="prod-item col-group" @click.stop>
-                          <nuxt-link :to="`/products/${product.id}`">
+                    <div class="prod-item col-group complete relatived"  v-for="(product,index) in products.data" :key="product.id">
+                        <nuxt-link :to="`/products/${product.id}`" class="prod-item col-group" >
                             <div class="item-img">
                                 <div class="complete-box" v-if="product.state_transaction==2">
                                     {{ product.format_short_type }}완료
@@ -41,7 +40,6 @@
                                     거래중
                                 </div>
                             </div>
-                          </nuxt-link>
                             <div class="item-txt-wrap">
                                 <p class="title">
                                     {{ product.title }}
@@ -53,9 +51,6 @@
                                     <p class="sub-txt">
                                         {{ product.format_created_at }}
                                     </p>
-                                  <button class="block-btn" @click="hideOff(product.id)" v-if="hiding==true">
-                                    숨김해제
-                                  </button>
                                 </div>
                                 <div class="price">
                                     <p :class="`label label${product.type}`" v-if="product.hide==0">
@@ -82,9 +77,11 @@
                                         <p class="txt">{{ product.count_like }}</p>
                                     </div>
                                 </div>
-
                             </div>
                         </nuxt-link>
+                        <button class="block-btn" @click="hideOff(product.id); stopPropagation($event)" v-if="hiding==true">
+                            숨김해제
+                        </button>
                         <div class="item-btn-wrap col-group" v-if="product.state_transaction == 2">
                             <div class="item-btn-group col-group">
                                 <nuxt-link :to="`/reviews/create/?id=${product.id}`" class="item-btn active"
@@ -345,7 +342,10 @@ export default {
         this.short_type = type;
         console.log(id);
         console.log(type);
-      }
+      },
+        stopPropagation(event) {
+            event.stopPropagation(); // 이벤트 전파 중지
+        }
     },
 
     computed: {

@@ -61,7 +61,7 @@
 
                                 <div class="file-preview-scroll-wrap">
                                     <div class="file-preview-wrap col-group">
-                                        <input-images :max="max" :multiple="true" :default="qna ? qna.imgs : []" @removed="(data) => {form.imgs_remove_ids = data;}" @change="(data) => {form.imgs = data;}"/>
+                                        <input-images :max="max" :multiple="true" :default="qna ? qna.imgs : []" @removed="(data) => {form.imgs_remove_ids = data;}" @change="(data) => {form.imgs = data;}" @max="isMax=true" />
                                         <!--                                        <div class="file-preview">-->
                                         <!--                                            <img class="file-preview-img" src="/images/biz_program_01.png">-->
                                         <!--                                            <i class="xi-close"></i>-->
@@ -108,6 +108,20 @@
                             </button>
                             <button class="modal-footer-btn close-btn" @click="isCreate=false">
                                 아니오
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-container modal_alert" :class="{'active':isMax}">
+                    <div class="modal-wrap modal-alert">
+
+                        <p class="modal-alert-txt">
+                            등록 가능한 사진은 최대 5장 입니다.
+                        </p>
+
+                        <div class="modal-footer col-group">
+                            <button class="modal-footer-btn close-btn" @click="isMax=false">
+                                확인
                             </button>
                         </div>
                     </div>
@@ -231,6 +245,7 @@ export default {
             qna: null,
             isCreate:false,
             enough:false,
+            isMax:false,
         }
 
     },

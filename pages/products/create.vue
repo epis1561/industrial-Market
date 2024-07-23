@@ -49,7 +49,7 @@
                 {{ productCategory.title }}
               </button>
             </div>
-            <error :form="form" name="카테고리"/>
+              <div class="m-input-error" v-if="nullCategory" >카테고리를 선택해주세요.</div>
           </div>
           <div class="form-item row-group">
             <div class="item-default">
@@ -58,7 +58,7 @@
             <div class="item-user">
               <input type="text" class="form-input" placeholder="제목을 입력해주세요" v-model="form.title">
                 <div class="m-input-error" v-if="isTitle==true" > 제목은 100자를 초과해 입력할 수 없습니다.</div>
-
+                <error :form="form" name="title"/>
             </div>
           </div>
           <div class="form-item row-group">
@@ -86,9 +86,9 @@
                 <input type="checkbox" id="check1" v-model="form.offer_price">
                 <label for="check1" @click.prevent="offer">가격협의&nbsp;<span class="guide-txt" style="font-size:12px;">체크 시, 가격은 표시되지 않고 가격협의로만 노출됩니다.</span> </label>
               </div>
-              <!--                            <div class="m-input-error" v-if="!form.price && nullPrice && this.form.type !=2">가격을-->
-              <!--                                입력해주세요.-->
-              <!--                            </div>-->
+                                          <div class="m-input-error" v-if="!form.price && nullPrice && this.form.type !=2 && form.offer_price==0">가격을
+                                              입력해주세요.
+                                          </div>
             </div>
           </div>
           <div class="form-item row-group">
@@ -118,9 +118,9 @@
                 <!--                                <div class="m-input-error" v-if="!fullAddress && nullLocation">희망장소를 선택해주세요.</div>-->
                 <i class="sticker" @click="isMapOpen"></i>
               </div>
-              <!--                            <div class="m-input-error" v-if="form.county&&!form.address_detail">-->
-              <!--                               상세주소를 입력해주세요.-->
-              <!--                            </div>-->
+                                          <div class="m-input-error" v-if="form.county&&!form.address_detail">
+                                             상세주소를 입력해주세요.
+                                          </div>
             </div>
           </div>
           <div class="form-item row-group">
@@ -227,6 +227,26 @@
       </div>
     <!-- //선택 완료 시 나타나는 select -->
   </div>
+  <div class="modal-container modal_leave" :class="{'active':isSuccess}">
+      <div class="modal-wrap modal-alert">
+          <div class="modal-title-wrap">
+              <i class="icon red"></i>
+              <h3 class="modal-title">
+                 상품등록
+              </h3>
+          </div>
+          <p class="modal-alert-txt">
+              등록이 완료되었습니다.
+          </p>
+
+          <div class="modal-footer col-group">
+              <button class="modal-footer-btn submit-btn" @click="out">
+                  확인
+              </button>
+
+          </div>
+      </div>
+  </div>
   </body>
 </template>
 <style>
@@ -327,6 +347,7 @@ export default {
 
         offer_price: 0,
       }),
+        isSuccess:false,
         isMax:false,
       mapNull: false,
       isMap: false,
@@ -672,9 +693,14 @@ export default {
           return this.form.patch("/api/products/" + this.$route.query.id)
 
               .then(response => {
+                  this.$store.commit("setPop", {
+                      description: "신고내용이 정상 접수 되었습니다."
+                  });
+                  this.isSuccess=true;
                 this.ongoing = false;
                 this.$auth.fetchUser();
-                this.$router.push("/products");
+
+
               }).catch(error => {
                 this.isError();
                 this.ongoing = false;
@@ -684,8 +710,9 @@ export default {
 
           this.$store.commit("setLoading", true);
           this.form.post("/api/products").then(response => {
+              this.isSuccess=true;
 
-            this.$router.back();
+
           }).then(response => {
             this.$auth.fetchUser();
             this.ongoing = false;
@@ -713,7 +740,7 @@ export default {
     isError() {
       let isNullCategory = !this.form.product_category_id;
       let isNullPrice = !this.price;
-      let isNullLocation = !this.fullAddress;
+      let isNullLocation = !this.form.address_detail;
       let isNullType = !this.form.type;
       let isFullTitle = this.form.title;
 
@@ -784,6 +811,9 @@ export default {
 
           // 유효한 키워드를 다시 문자열로 조합하여 form 데이터에 저장
 
+      },
+      out(){
+          this.$router.back();
       }
 
   },
