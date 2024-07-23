@@ -632,7 +632,7 @@ export default {
     cameraOn() {
       if (/WEBVIEW/.test(navigator.userAgent)) {
         this.appCamera = true;
-        alert('카메라작동');
+
         window.postMessage(JSON.stringify({key: "CAMERA"}))
       } else {
         this.activeCamera = true;
@@ -646,7 +646,7 @@ export default {
       let result = null;
 
       if (event.data) {
-          alert(`이벤트 데이터: ${event.data}`);
+
         try {
           result = JSON.parse(event.data);
 
@@ -715,6 +715,8 @@ export default {
             file: file,
             url: imageUrl,
         };
+        alert(`변형데이터: ${this.files}`);
+
     },
 
     remove(file, index) {
