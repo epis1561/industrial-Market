@@ -51,7 +51,7 @@ export default {
       // else{
       //     this.$router.push("/intro");
       // }
-      this.$router.push("/intro");
+      this.goProduct();
   }
 }
 </script>
