@@ -114,6 +114,7 @@
                                       @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"
                                       @max="isMax=true"/>
 
+<<<<<<< HEAD
                         <div class="m-files-wrap" v-if="form.imgs.length > 0">
                             <div class="m-files">
                                 <div class="m-file-wrap" v-for="(img, index) in form.imgs" :key="index">
@@ -128,6 +129,22 @@
                                 </div>
                             </div>
                         </div>
+=======
+                                    <div class="m-files-wrap" v-if="form.imgs.length > 0">
+                                      <div class="m-files">
+                                        <div class="m-file-wrap" v-for="(img, index) in form.imgs" :key="index">
+                                          <div class="file-preview-label">
+                                            대표
+                                          </div>
+                                          <div class="m-file" :style="{ 'background-image': 'url(' + img.url + ')' }">
+                                            <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(img, index)" type="button">
+                                              <i class="xi-close"></i>
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+>>>>>>> 2deb40ffb6b2c5dc5bb64fb38ceefb59258d1893
 
                     </div>
                 </div>
