@@ -715,6 +715,54 @@ export default {
 
                 alert(`변형데이터: ${JSON.stringify(this.files)}`);
                 resolve(imageFile); // Promise를 resolve하여 파일 정보를 반환
+              alert(`변형데이터: ${JSON.stringify(this.files)}`);
+              return imageFile; // Promise를 resolve하여 파일 정보를 반환
+          });
+      },
+
+    remove(file, index) {
+      // 기존 업로드된 파일 목록 중 삭제
+      this.files.splice(index, 1);
+
+      this.$emit("change", this.files);
+    },
+    addEventListeners() {
+      document.addEventListener('message', this.listen);
+      window.addEventListener('message', this.listen);
+      alert('Event listeners added');
+    },
+
+
+  },
+
+  computed: {
+    targetUser() {
+      if (this.chat != null) {
+        if (this.chat.asker && this.chat.asker.id == this.$auth.user.data.id) {
+          return this.chat.owner;
+        } else if (this.chat.owner && this.chat.owner.id == this.$auth.user.data.id) {
+          return this.chat.asker;
+        }
+
+      }
+    }
+    ,
+
+    user() {
+      return this.$auth.user.data;
+    }
+    ,
+    flattenedImages() {
+      let flattened = [];
+      this.messages.data.forEach((message, messageIndex) => {
+        if (message.imgs && message.imgs.length > 0) {
+          message.imgs.forEach((img, imgIndex) => {
+            flattened.push({
+              ...img,
+              messageIndex,
+              imgIndex,
+              uniqueId: `${messageIndex}-${imgIndex}`
+>>>>>>> 5b53296ed17ad53871a077d5645274b017b8336d
             });
         },
 
