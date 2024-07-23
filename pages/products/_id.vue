@@ -534,7 +534,7 @@ export default {
               value: {
                 title: this.product.title,
                 message: this.product.description,
-                url: "`industrialmarket://products/${this.product.id}`",
+                url:`industrialmarket://products/${this.product.id}`,
               }
             }))
           }
