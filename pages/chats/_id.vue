@@ -114,20 +114,20 @@
                                       @change="(data) => {form.imgs = data; activeFiles = false; isImg = false; }"
                                       @max="isMax=true"/>
 
-                        <!--            <div class="m-files-wrap" v-if="files.length > 0">-->
-                        <!--              <div class="m-files">-->
-                        <!--                <div class="m-file-wrap" v-for="(file, index) in files" :key="index">-->
-                        <!--                  <div class="file-preview-label">-->
-                        <!--                    대표-->
-                        <!--                  </div>-->
-                        <!--                  <div class="m-file" :style="{ 'background-image': 'url(' + file.url + ')' }">-->
-                        <!--                    <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(file, index)" type="button">-->
-                        <!--                      <i class="xi-close"></i>-->
-                        <!--                    </button>-->
-                        <!--                  </div>-->
-                        <!--                </div>-->
-                        <!--              </div>-->
-                        <!--            </div>-->
+                                    <div class="m-files-wrap" v-if="form.imgs.length > 0">
+                                      <div class="m-files">
+                                        <div class="m-file-wrap" v-for="(img, index) in form.imgs" :key="index">
+                                          <div class="file-preview-label">
+                                            대표
+                                          </div>
+                                          <div class="m-file" :style="{ 'background-image': 'url(' + img.url + ')' }">
+                                            <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(img, index)" type="button">
+                                              <i class="xi-close"></i>
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
 
                     </div>
                 </div>
