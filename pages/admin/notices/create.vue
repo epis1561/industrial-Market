@@ -13,7 +13,24 @@
                 <p class="item-default">
                     카테고리 <span class="star">*</span>
                 </p>
-                <input type="text" class="form-input" v-model="form.notice_category_id" required>
+                <div class="categoryBtns">
+                    <div class="categorybuttons">
+                        <button class="category" @click="form.notice_category_id = 1" :class="{'active':form.notice_category_id === 1}">
+                            서비스
+                        </button>
+                    </div>
+                    <div class="categorybuttons">
+                        <button class="category" @click="form.notice_category_id = 2" :class="{'active':form.notice_category_id === 2}">
+                            안내
+                        </button>
+                    </div>
+                    <div class="categorybuttons">
+                        <button class="category" @click="form.notice_category_id = 3" :class="{'active':form.notice_category_id === 3}">
+                            기타
+                        </button>
+                    </div>
+                </div>
+
             </div>
 
             <div class="form-item row-group">

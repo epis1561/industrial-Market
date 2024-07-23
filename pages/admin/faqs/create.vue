@@ -13,7 +13,29 @@
                 <p class="item-default">
                     카테고리 <span class="star">*</span>
                 </p>
-                <input type="text" class="form-input" v-model="form.faq_category_id" required>
+                <div class="categoryBtns">
+                    <div class="categorybuttons">
+                        <button class="category" @click="form.faq_category_id = 3" :class="{'active':form.faq_category_id=== 3}">
+                            서비스
+                        </button>
+                    </div>
+                    <div class="categorybuttons">
+                        <button class="category" @click="form.faq_category_id = 1" :class="{'active':form.faq_category_id === 1}">
+                            환불
+                        </button>
+                    </div>
+                    <div class="categorybuttons">
+                        <button class="category" @click="form.faq_category_id = 2" :class="{'active':form.faq_category_id === 2}">
+                            결제
+                        </button>
+                    </div>
+                    <div class="categorybuttons">
+                        <button class="category" @click="form.faq_category_id = 4" :class="{'active':form.faq_category_id === 4}">
+                            기타
+                        </button>
+                    </div>
+
+                </div>
             </div>
           <div class="form-item row-group">
             <p class="item-default">

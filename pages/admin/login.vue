@@ -44,7 +44,7 @@ export default {
             this.$auth.loginWith('laravelSanctum', {
                 data: this.form.data(),
             }).then(response => {
-                this.$router.push("/admin/banners");
+                this.$router.push("/admin/products/");
             }).catch(error => {
                 this.form.onFail(error.response.data);
             });

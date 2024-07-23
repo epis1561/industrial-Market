@@ -229,3 +229,8 @@ i { font-family: 'xeicon'; font-style: normal; }
 .footer-txt.col-group { gap: 2px; }
 .footer-txt p { line-height: 1.4; }
 .footer-copy-txt { font-size: 11px; font-weight: 500; opacity: .4; }
+
+.categoryBtns{
+    display: flex;
+    gap: 8px;
+}

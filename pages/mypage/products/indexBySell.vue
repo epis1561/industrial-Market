@@ -87,8 +87,8 @@
                                 <nuxt-link :to="`/reviews/create/?id=${product.id}`" class="item-btn active"
                                            v-if="!product.reviewSend && product.state_transaction == 2">후기 보내기
                                 </nuxt-link>
-                                <nuxt-link :to="`/reviews/${product.reviewReceive.id}`" class="item-btn" v-if="product.reviewReceive && product.state_transaction == 2 && product.reviewReceive.emotion==1">받은 후기</nuxt-link>
-                                <nuxt-link :to="`/reviews/${product.reviewSend.id}`" class="item-btn" v-if="product.reviewSend && product.state_transaction == 2 && product.reviewSend.emotion==1">보낸 후기</nuxt-link>
+                                <nuxt-link :to="`/reviews/${product.reviewReceive.id}`" class="item-btn active" v-if="product.reviewReceive && product.state_transaction == 2 && product.reviewReceive.emotion==1">받은 후기</nuxt-link>
+                                <nuxt-link :to="`/reviews/${product.reviewSend.id}`" class="item-btn active" v-if="product.reviewSend && product.state_transaction == 2 && product.reviewSend.emotion==1">보낸 후기</nuxt-link>
                             </div>
                             <button class="item-btn more-btn" @click="more(product.id,product.format_short_type)">
                                 <i></i>

@@ -143,6 +143,22 @@
                         후기 보내기
                     </button>
                 </div>
+                <div class="modal-container modal_leave" :class="{'active':isSuccess}">
+                    <div class="modal-wrap modal-alert">
+                        <div class="modal-title-wrap">
+
+                            <h3 class="modal-title">
+                                후기보내기
+                            </h3>
+                        </div>
+                        <p class="modal-alert-txt">
+                            후기를 성공적으로 보냈습니다.
+                        </p>
+
+                        <div class="modal-footer col-group">
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
@@ -161,6 +177,7 @@ export default {
             }),
             product: "",
             good:"",
+            isSuccess:false,
         };
     },
 
@@ -177,15 +194,21 @@ export default {
                 params:this.form.data(),
             }).then(response =>{
                 if(this.good ==true){
-
-                    this.$router.push(`/reviews/${response.data.id}`);
+                    this.isSuccess=true;
+                    setTimeout(() => {
+                        this.$router.push(`/reviews/${response.data.id}`);
+                    }, 2500);
                 }
                 else{
+                    this.isSuccess=true;
+                    setTimeout(() => {
                     this.$router.back();
+                }, 2500);
                 }
             })
 
-        }
+        },
+
 
     },
 

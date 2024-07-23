@@ -112,6 +112,7 @@ export default {
                 params: this.form.data()
             }).then(response => {
                 this.items = response.data;
+                console.log(this.items);
             });
         },
 
