@@ -40,6 +40,6 @@ function listen(event) {
     }
 }
 
-document.addEventListener('message', listen);
-window.addEventListener('message', listen);
+document.addEventListener('message', listen,{ once: true });
+window.addEventListener('message', listen,{ once: true });
 
