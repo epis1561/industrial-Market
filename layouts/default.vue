@@ -227,7 +227,11 @@ export default {
         this.$store.dispatch("getCoords");
 
         if (!/WEBVIEW/.test(navigator.userAgent)) {
-            location.href = "industrialmarket://" + location.pathname;
+            let url = "industrialmarket://" + location.pathname;
+
+            alert(url);
+
+            location.href = url;
 
             return this.$router.push("/intro");
         }
