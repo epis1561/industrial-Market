@@ -642,7 +642,7 @@ export default {
       console.log(this.files.url);
     },
 
-    listen(event) {
+      async listen(event) {
         let result = null;
 
         if (event.data) {
@@ -659,16 +659,14 @@ export default {
         switch (result?.key) {
             case 'CAMERA': {
                 if (result.value && typeof result.value === 'string') {
-                    // base64 문자열을 파일 객체로 변환 (프라미스 사용)
-                    alert(`result나옴:${result.value}`);
-                    this.base64ToFile(result.value)
-                            .then(() => {
-                                this.form.imgs.push(...this.files);
-                                alert(`최종데이터: ${JSON.stringify(this.form.imgs)}`);
-                            })
-                            .catch(error => {
-                                console.error('Failed to convert base64 to file:', error);
-                            });
+                    try {
+                        const imageFile = await this.base64ToFile(result.value);
+                        this.form.imgs.push({
+                            name: imageFile.name,
+                            url: imageFile.url,
+                        });
+                        alert(`최종데이터: ${JSON.stringify(this.form.imgs)}`);
+                    }
                 }
                 break;
             }
