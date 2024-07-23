@@ -47,7 +47,7 @@
                 <td class="admin-td">
                     {{item.id}}
                 </td>
-                <td class="admin-td">{{user.nickname}}</td>
+                <td class="admin-td">{{item.user.nickname}}</td>
                 <td class="admin-td">{{item.subtitle}}</td>
                 <td class="admin-td">{{item.title}}</td>
                 <td class="admin-td">{{item.format_created_at}}</td>

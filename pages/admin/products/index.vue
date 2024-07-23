@@ -41,7 +41,7 @@
                 <th class="admin-th">제품카테고리</th>
                 <th class="admin-th">제목</th>
                 <th class="admin-th">생성일자</th>
-                <th class="admin-th"></th>
+              
             </tr>
             </thead>
             <tbody class="admin-tbody">
@@ -61,17 +61,7 @@
                 <td class="admin-td">{{item.title}}</td>
 
               <td class="admin-td">{{item.format_created_at}}</td>
-                <td class="admin-td">
-                    <div class="btn-orders">
-                        <button type="button" class="btn-order" @click="up(item)">
-                            <i class="xi-angle-up"></i>
-                        </button>
 
-                        <button type="button" class="btn-order" @click="down(item)">
-                            <i class="xi-angle-down"></i>
-                        </button>
-                    </div>
-                </td>
             </tr>
             </tbody>
         </table>

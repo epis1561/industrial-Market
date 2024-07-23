@@ -9,7 +9,7 @@ export default {
     name: 'AppSchemeHandler',
     data() {
         return {
-            scheme: 'your-app-scheme', // 실제 앱 스키마로 변경하세요
+            scheme: 'industrialmarket', // 실제 앱 스키마로 변경하세요
             iosId: '1234567', // 실제 iOS 앱 ID로 변경하세요
             androidPackage: 'your.app.package', // 실제 안드로이드 패키지 이름으로 변경하세요
             isIOS: false,

@@ -39,14 +39,14 @@
             <p class="item-default">
               시작일자 <span class="star">*</span>
             </p>
-            <input type="text" class="form-input" v-model="form.started_at" required>
+            <input type="date" class="form-input" v-model="form.started_at" required>
           </div>
 
           <div class="form-item row-group">
             <p class="item-default">
               종료일자 <span class="star">*</span>
             </p>
-            <input type="text" class="form-input" v-model="form.finished_at" required>
+            <input type="date" class="form-input" v-model="form.finished_at" required>
           </div>
 
           <div class="form-item row-group">

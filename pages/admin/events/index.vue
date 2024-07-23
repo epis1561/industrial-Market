@@ -74,18 +74,6 @@
                         </button>
                     </div>
                 </td>
-
-                <td class="admin-td">
-                    <div class="btn-orders">
-                        <button type="button" class="btn-order" @click="up(item)">
-                            <i class="xi-angle-up"></i>
-                        </button>
-
-                        <button type="button" class="btn-order" @click="down(item)">
-                            <i class="xi-angle-down"></i>
-                        </button>
-                    </div>
-                </td>
             </tr>
             </tbody>
         </table>
