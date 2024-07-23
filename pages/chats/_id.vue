@@ -659,6 +659,7 @@ export default {
                             url: imageFile.url,
                         });
 
+                        this.isImg = false;
 
                         // alert(`최종데이터1: name: ${test.name}, file: ${test.file ? '파일 있음 (크기: ' + test.file.size + ' 바이트)' : '파일 없음'}, url: ${imageFile.url}`);
 
