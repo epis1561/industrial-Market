@@ -699,7 +699,7 @@ export default {
               };
 
               alert(`변형데이터: ${JSON.stringify(this.files)}`);
-              resolve(imageFile); // Promise를 resolve하여 파일 정보를 반환
+              return imageFile; // Promise를 resolve하여 파일 정보를 반환
           });
       },
 
