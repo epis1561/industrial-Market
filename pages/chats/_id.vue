@@ -627,10 +627,8 @@ export default {
         },
         cameraOn() {
             if (/WEBVIEW/.test(navigator.userAgent)) {
-                alert("호출횟수 테스트");
-
-                this.activeCamera =false;
-                this.activeFiles =false;
+                this.activeCamera = true;
+                this.activeFiles = false;
                 this.form.imgs = [];
                 window.postMessage(JSON.stringify({key: "CAMERA"}))
             }
