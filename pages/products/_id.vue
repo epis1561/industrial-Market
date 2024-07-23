@@ -1,4 +1,3 @@
-
 <template>
 
     <body>
@@ -14,7 +13,8 @@
                 </div>
                 <div class="sub-header-btn-wrap col-group">
                     <button class="sub-header-btn share-btn" @click.prevent="copy"></button>
-                    <button class="sub-header-btn report-btn" @click="goReport" v-if="user.id != product.user.id"></button>
+                    <button class="sub-header-btn report-btn" @click="goReport"
+                            v-if="user.id != product.user.id"></button>
                     <!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
                     <button class="sub-header-btn more-btn" v-if="user.id == product.user.id" @click="isMore=true">
                         <!-- 본인의 상품 확인 시 보이는 버튼 -->
@@ -29,19 +29,20 @@
             <div class="detail-img-wrap">
                 <div class="swiper detail-img-slide">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="img in product.imgs" :key="img.id" @click="openImg" v-if="product.imgs.length!=0">
+                        <div class="swiper-slide" v-for="img in product.imgs" :key="img.id" @click="openImg"
+                             v-if="product.imgs.length!=0">
                             <div class="img-container">
                                 <img :src="img ? img.url :'/images/notification_icon_bg.png'"/>
                             </div>
                         </div>
                     </div>
-                  <div class="swiper-wrapper">
-                    <div class="swiper-slide" v-if="product.imgs.length==0">
-                      <div class="img-container">
-                        <img src="/images/notification_icon_bg.png"/>
-                      </div>
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" v-if="product.imgs.length==0">
+                            <div class="img-container">
+                                <img src="/images/notification_icon_bg.png"/>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                     <div class="swiper-pagination detail-img-pagination"></div>
                 </div>
             </div>
@@ -51,12 +52,13 @@
                     <div class="detail-txt-wrap">
 
                         <!-- 본인의 상품 확인 시 보이는 섹션 -->
-                                              <div class="detail-status-select col-group" v-if="this.$auth.user.data.id == product.user.id"  @click="isSelect = true">
-                                                  <div class="txt">
-                                                      {{ product.format_state }}
-                                                  </div>
-                                                  <i class="icon"></i>
-                                              </div>
+                        <div class="detail-status-select col-group" v-if="this.$auth.user.data.id == product.user.id"
+                             @click="isSelect = true">
+                            <div class="txt">
+                                {{ product.format_state }}
+                            </div>
+                            <i class="icon"></i>
+                        </div>
                         <!-- //본인의 상품 확인 시 보이는 섹션 -->
 
                         <div class="detail-sub-title-wrap col-group">
@@ -80,7 +82,8 @@
                             <editor-content :description="product.description"/>
                         </p>
                         <div class="detail-prod-list col-group">
-                            <div class="detail-prod-item" v-for="(item,index) in this.product.keywords" :key="item.id" v-if="index < 5">
+                            <div class="detail-prod-item" v-for="(item,index) in this.product.keywords" :key="item.id"
+                                 v-if="index < 5">
                                 {{ item.title }}
                             </div>
                         </div>
@@ -96,7 +99,8 @@
                             <div class="modal-wrap">
                                 <i class="xi-close close-btn" @click="showMap=false"></i>
                                 <div class="map-wrap">
-                                    <div id="map1" class="root_daum_roughmap root_daum_roughmap_landing"></div> <!-- 구글지도 변경 필요 -->
+                                    <div id="map1" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+                                    <!-- 구글지도 변경 필요 -->
                                 </div>
                             </div>
                         </div>
@@ -108,40 +112,43 @@
                         <div id="map" class="root_daum_roughmap root_daum_roughmap_landing" @click="showMap=true"></div>
 
                     </div>
-                  <div class="prod-btn-wrap col-group counts">
-                    <div class="prod-btn col-group">
-                      <!--                      <img src="/images/icon_chat_gray.png" alt="" class="icon">-->
-                      <p class="txt">채팅</p>
-                      <p class="txt">{{ product.count_chat }}</p>
-                    </div>
-                    <div class="prod-btn col-group">
-                      <!--                      <img src="/images/icon_like_gray.png" alt="" class="icon">-->
-                      <p class="txt">관심</p>
-                      <p class="txt">{{ count_like }}</p>
-                    </div>
-                    <div class="prod-btn col-group">
-<!--                      <img src="/images/icon_view_gray.png" alt="" class="icon">-->
-                      <p class="txt">조회</p>
-                      <p class="txt">{{ product.count_view }}</p>
-                    </div>
+                    <div class="prod-btn-wrap col-group counts">
+                        <div class="prod-btn col-group">
+                            <!--                      <img src="/images/icon_chat_gray.png" alt="" class="icon">-->
+                            <p class="txt">채팅</p>
+                            <p class="txt">{{ product.count_chat }}</p>
+                        </div>
+                        <div class="prod-btn col-group">
+                            <!--                      <img src="/images/icon_like_gray.png" alt="" class="icon">-->
+                            <p class="txt">관심</p>
+                            <p class="txt">{{ count_like }}</p>
+                        </div>
+                        <div class="prod-btn col-group">
+                            <!--                      <img src="/images/icon_view_gray.png" alt="" class="icon">-->
+                            <p class="txt">조회</p>
+                            <p class="txt">{{ product.count_view }}</p>
+                        </div>
 
 
-                  </div>
+                    </div>
                 </div>
 
                 <!-- 다른 유저의 상품 확인 시 보이는 섹션 -->
                 <div class="product-detail-section container">
                     <div class="detail-profile-wrap col-group">
                         <button class="like-btn" :class="{'active':product.user.like==1}"
-                                @click="toggleLike(product,'User')" v-if="product.user.id !=$auth.user.data.id"></button>
+                                @click="toggleLike(product,'User')"
+                                v-if="product.user.id !=$auth.user.data.id"></button>
                         <nuxt-link :to="`/users/${product.user.id}`" v-if="this.$auth.user.data.id != product.user.id">
-                        <div class="profile-img">
-                                <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'" alt="" v-if="product.user.img">
-                        </div>
+                            <div class="profile-img">
+                                <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'"
+                                     alt="" v-if="product.user.img">
+                            </div>
                         </nuxt-link>
                         <nuxt-link to="" v-if="this.$auth.user.data.id == product.user.id" @click.prevent="">
                             <div class="profile-img">
-                                <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'" alt="" v-if="product.user.img">
+                                <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'"
+                                     alt="" v-if="product.user.img">
                             </div>
                         </nuxt-link>
                         <div class="txt-wrap row-group">
@@ -149,7 +156,9 @@
                                 {{ product.user.nickname || product.user.name }}
                             </p>
                             <p class="txt">
-                                {{  $auth.user.data.activeCounty ? $auth.user.data.activeCounty.city.title  + " " + $auth.user.data.activeCounty.title: ''   }}
+                                {{
+                                    $auth.user.data.activeCounty ? $auth.user.data.activeCounty.city.title + " " + $auth.user.data.activeCounty.title : ''
+                                }}
                             </p>
                         </div>
                     </div>
@@ -165,7 +174,8 @@
                                     {{ otherItem.title }}
                                 </p>
                                 <div class="price">
-                                    <p :class="'label label' + otherItem.type" v-if="otherItem.type !=0 && otherItem.type==1">
+                                    <p :class="'label label' + otherItem.type"
+                                       v-if="otherItem.type !=0 && otherItem.type==1">
                                         {{ otherItem.format_type }}
                                     </p>
                                     <p :class="'label label' + otherItem.type" v-if="otherItem.type ==2">
@@ -188,7 +198,9 @@
                         이런 상품은 어떠세요?
                     </h4>
                     <div class="prod-list prod-half-list col-group" v-if="randomProducts">
-                        <nuxt-link :to="`/products/${randomItem.id}`" class="prod-item row-group" v-if="index < 4" v-for="(randomItem,index) in randomProducts.data.filter(randomProduct => randomProduct.id != product.id)" :key="randomItem.id">
+                        <nuxt-link :to="`/products/${randomItem.id}`" class="prod-item row-group" v-if="index < 4"
+                                   v-for="(randomItem,index) in randomProducts.data.filter(randomProduct => randomProduct.id != product.id)"
+                                   :key="randomItem.id">
                             <div class="item-img">
                                 <img :src="randomItem.img.url ? randomItem.img.url : '/images/notification_icon_bg.png'"/>
                             </div>
@@ -197,7 +209,8 @@
                                     {{ randomItem.title }}
                                 </p>
                                 <div class="price">
-                                    <p :class="'label label' + randomItem.type" v-if="randomItem.type !=0 && randomItem.type==1">
+                                    <p :class="'label label' + randomItem.type"
+                                       v-if="randomItem.type !=0 && randomItem.type==1">
                                         {{ randomItem.format_type }}
                                     </p>
                                     <p :class="'label label' + randomItem.type" v-if="randomItem.type ==2">
@@ -217,37 +230,40 @@
                 <!-- //다른 유저의 상품 확인 시 보이는 섹션 -->
 
                 <!-- 본인의 상품 확인 시 보이는 섹션 -->
-                              <div class="product-detail-section container" v-if="$auth.user.data.id == product.user.id">
-                                  <h4 class="product-detail-title">
-                                      내가 등록한 상품과 비슷한 상품이에요
-                                  </h4>
-                                  <div class="prod-list prod-half-list col-group" v-if="similarProducts">
-                                      <nuxt-link :to="`/products/${similarProduct.id}`" class="prod-item row-group" v-for="(similarProduct,index) in similarProducts.data" :key="similarProduct.id" v-if="index < 4">
-                                          <div class="item-img">
-                                              <img :src="similarProduct.img.url ? similarProduct.img.url : '/images/notification_icon_bg.png'" />
-                                          </div>
-                                          <div class="item-txt-wrap">
-                                              <p class="title">
-                                                  {{ similarProduct.title }}
-                                              </p>
-                                              <div class="price">
-                                                  <p :class="'label label' + similarProduct.type" v-if="similarProduct.type !=0 && similarProduct.type==1">
-                                                      {{ similarProduct.format_type }}
-                                                  </p>
-                                                  <p :class="'label label' + similarProduct.type" v-if="similarProduct.type ==2">
-                                                      {{ similarProduct.format_short_type }}
-                                                  </p>
-                                                  <div v-if="similarProduct.offer_price ==0 && similarProduct.type!=2">
-                                                      {{ similarProduct.format_price }}
-                                                  </div>
-                                                  <div v-if="similarProduct.offer_price ==1 && similarProduct.type!=2">
-                                                      가격협의
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </nuxt-link>
-                                  </div>
-                              </div>
+                <div class="product-detail-section container" v-if="$auth.user.data.id == product.user.id">
+                    <h4 class="product-detail-title">
+                        내가 등록한 상품과 비슷한 상품이에요
+                    </h4>
+                    <div class="prod-list prod-half-list col-group" v-if="similarProducts">
+                        <nuxt-link :to="`/products/${similarProduct.id}`" class="prod-item row-group"
+                                   v-for="(similarProduct,index) in similarProducts.data" :key="similarProduct.id"
+                                   v-if="index < 4">
+                            <div class="item-img">
+                                <img :src="similarProduct.img.url ? similarProduct.img.url : '/images/notification_icon_bg.png'"/>
+                            </div>
+                            <div class="item-txt-wrap">
+                                <p class="title">
+                                    {{ similarProduct.title }}
+                                </p>
+                                <div class="price">
+                                    <p :class="'label label' + similarProduct.type"
+                                       v-if="similarProduct.type !=0 && similarProduct.type==1">
+                                        {{ similarProduct.format_type }}
+                                    </p>
+                                    <p :class="'label label' + similarProduct.type" v-if="similarProduct.type ==2">
+                                        {{ similarProduct.format_short_type }}
+                                    </p>
+                                    <div v-if="similarProduct.offer_price ==0 && similarProduct.type!=2">
+                                        {{ similarProduct.format_price }}
+                                    </div>
+                                    <div v-if="similarProduct.offer_price ==1 && similarProduct.type!=2">
+                                        가격협의
+                                    </div>
+                                </div>
+                            </div>
+                        </nuxt-link>
+                    </div>
+                </div>
                 <!-- //본인의 상품 확인 시 보이는 섹션 -->
             </div>
 
@@ -273,23 +289,26 @@
                         </p>
                         나눔합니다
                     </div>
-                    <button type="button" class="chat-btn" @click.prevent="storeChat" v-if="user.id != product.user.id"><!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
+                    <button type="button" class="chat-btn" @click.prevent="storeChat" v-if="user.id != product.user.id">
+                        <!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
                         <img src="/images/icon_chat_white.png" alt="" class="icon">
                         채팅하기
                     </button>
                     <!-- 본인의 상품 확인 시 보이는 버튼-->
-                  <nuxt-link :to="`/chats?product_id=${product.id}`" class="chat-btn" v-if="user.id == product.user.id && product.count_chat == 1">
-                    <img src="/images/icon_chat_white.png" alt="" class="icon">
-                    채팅 {{product.count_chat}}
-                  </nuxt-link>
-                  <nuxt-link :to="`/chats/`" class="chat-btn" v-if="user.id == product.user.id && (product.count_chat == 0 || product.count_chat > 1)">
-                    <img src="/images/icon_chat_white.png" alt="" class="icon">
-                    채팅 {{product.count_chat}}
-                  </nuxt-link>
+                    <nuxt-link :to="`/chats?product_id=${product.id}`" class="chat-btn"
+                               v-if="user.id == product.user.id && product.count_chat == 1">
+                        <img src="/images/icon_chat_white.png" alt="" class="icon">
+                        채팅 {{ product.count_chat }}
+                    </nuxt-link>
+                    <nuxt-link :to="`/chats/`" class="chat-btn"
+                               v-if="user.id == product.user.id && (product.count_chat == 0 || product.count_chat > 1)">
+                        <img src="/images/icon_chat_white.png" alt="" class="icon">
+                        채팅 {{ product.count_chat }}
+                    </nuxt-link>
                 </div>
             </div>
         </main>
-      <report :is-report="isReport" :type="reportable_type" :id="product_id" @created="leave" @close="close"/>
+        <report :is-report="isReport" :type="reportable_type" :id="product_id" @created="leave" @close="close"/>
         <!-- 이미지 슬라이드 클릭시 나타나는 팝업 -->
         <div class="modal-container modal_slide" :class="{active:isImg}" v-if="product">
             <div class="modal-wrap modal-slide-wrap">
@@ -308,28 +327,27 @@
         <!-- 신고하기 버튼 클릭시 나타나는 팝업 -->
 
 
-
         <!-- 헤더 버튼 클릭시 나타나는 팝업 -->
         <div class="modal-container modal_chat" :class="{'active': isMore}" v-if="product" @click="isMore=false">
             <div class="modal-select-wrap modal-wrap">
 
                 <div class="chat-more-option-wrap row-group">
-<!--                    <button class="chat-more-option col-group" v-if="product.state_transaction!=0"-->
-<!--                            @click.prevent="changeTransaction(0)">-->
-<!--                        <i class="icon"></i>-->
-<!--                        {{ product.format_short_type }}대기-->
-<!--                    </button>-->
-<!--                    <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1"-->
-<!--                            @click="isTrade=true">-->
+                    <!--                    <button class="chat-more-option col-group" v-if="product.state_transaction!=0"-->
+                    <!--                            @click.prevent="changeTransaction(0)">-->
+                    <!--                        <i class="icon"></i>-->
+                    <!--                        {{ product.format_short_type }}대기-->
+                    <!--                    </button>-->
+                    <!--                    <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1"-->
+                    <!--                            @click="isTrade=true">-->
 
-<!--                        <i class="icon"></i>-->
-<!--                        거래중-->
-<!--                    </button>-->
-<!--                    <a href="#" class="chat-more-option col-group trans-btn"-->
-<!--                       v-if="product.state_transaction!=2" @click.prevent="changeTransaction(2)">-->
-<!--                        <i class="icon"></i>-->
-<!--                        {{ product.format_short_type }}완료-->
-<!--                    </a>-->
+                    <!--                        <i class="icon"></i>-->
+                    <!--                        거래중-->
+                    <!--                    </button>-->
+                    <!--                    <a href="#" class="chat-more-option col-group trans-btn"-->
+                    <!--                       v-if="product.state_transaction!=2" @click.prevent="changeTransaction(2)">-->
+                    <!--                        <i class="icon"></i>-->
+                    <!--                        {{ product.format_short_type }}완료-->
+                    <!--                    </a>-->
                     <button class="chat-more-option col-group" @click="hideTransaction(product.hide)"
                             v-if="product.hide==0">
                         <i class="icon"></i>
@@ -367,15 +385,18 @@
             <div class="modal-select-wrap modal-wrap">
 
                 <div class="chat-more-option-wrap row-group">
-                    <button class="chat-more-option col-group" v-if="product.state_transaction!=0" @click.prevent="changeTransaction(0),isSelect = false">
+                    <button class="chat-more-option col-group" v-if="product.state_transaction!=0"
+                            @click.prevent="changeTransaction(0),isSelect = false">
                         <i class="icon"></i>
                         {{ product.format_short_type }}중
                     </button>
-                    <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1" @click="trading(1)">
+                    <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1"
+                            @click="trading(1)">
                         <i class="icon"></i>
                         거래중
                     </button>
-                    <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2" @click.prevent="changeTransaction(2),isSelect = false">
+                    <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2"
+                       @click.prevent="changeTransaction(2),isSelect = false">
                         <i class="icon"></i>
                         {{ product.format_short_type }}완료
                     </a>
@@ -438,16 +459,18 @@
     </body>
 </template>
 <style>
-    .product .modal-wrap{
-        padding: 0;
-    }
-    .modal_addr .map-wrap{
-        height: 100%;
-    }
-    .detail-txt .ql-editor > *{
-        line-height: 1.5;
-        padding: 0;
-    }
+.product .modal-wrap {
+    padding: 0;
+}
+
+.modal_addr .map-wrap {
+    height: 100%;
+}
+
+.detail-txt .ql-editor > * {
+    line-height: 1.5;
+    padding: 0;
+}
 </style>
 <script>
 
@@ -486,11 +509,11 @@ export default {
                 report_category_id: "",
                 description: "",
             }),
-            randomForm: new Form(this.$axios,{
-                product_category_id:"",
-                random:1,
+            randomForm: new Form(this.$axios, {
+                product_category_id: "",
+                random: 1,
             }),
-            isRemove:false,
+            isRemove: false,
             isDisabled: true,
             count_like: "",
             isLikeProduct: "",
@@ -502,10 +525,10 @@ export default {
             isTrade: false,
             showMap: false,
             isSelect: false,
-            isScroll:false,
-            isReportEmpty:false,
+            isScroll: false,
+            isReportEmpty: false,
             product_id: "",
-          reportable_type : "Product",
+            reportable_type: "Product",
             products: {
                 data: [],
                 meta: {
@@ -547,39 +570,43 @@ export default {
 
 
     methods: {
+        redirect() {
+            try {
+                location.href = `industrialmarket://products/${this.product.id}`;
+            } catch (error) {
+                this.$router.push('/intro');
+            }
+        },
+        console() {
+            console.log(this.product_id);
+        },
+        copy() {
 
-      console(){
-        console.log(this.product_id);
-      },
-        copy(){
+            if (/WEBVIEW/.test(navigator.userAgent)) {
 
-          if(/WEBVIEW/.test(navigator.userAgent)) {
+                window.postMessage(JSON.stringify({
+                    key: "SHARE",
+                    value: {
+                        title: this.product.title,
+                        message: this.product.description,
+                        url: `https://industrialmarket.biz/products/${this.product.id}`,
+                    }
+                }))
+            } else {
+                // 기존 url복사부분
+                var url = '';
+                var textarea = document.createElement("textarea");
+                document.body.appendChild(textarea);
+                url = window.document.location.href;
+                textarea.value = url;
+                textarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textarea);
 
-            window.postMessage(JSON.stringify({
-              key: "SHARE",
-              value: {
-                title: this.product.title,
-                message: this.product.description,
-                url:`https://industrialmarket.biz/products/${this.product.id}`,
-              }
-            }))
-          }
-          else
-          {
-            // 기존 url복사부분
-            var url = '';
-            var textarea = document.createElement("textarea");
-            document.body.appendChild(textarea);
-            url = window.document.location.href;
-            textarea.value = url;
-            textarea.select();
-            document.execCommand("copy");
-            document.body.removeChild(textarea);
-
-            this.$store.commit("setPop", {
-              description: "URL이 복사되었습니다."
-            })
-          }
+                this.$store.commit("setPop", {
+                    description: "URL이 복사되었습니다."
+                })
+            }
         },
 
         getProduct() {
@@ -587,7 +614,7 @@ export default {
 
 
                 this.product = response.data.data;
-                console.log('물건',this.product);
+                console.log('물건', this.product);
                 // this.form.product_category_id = response.data.data.product_category_id;
                 this.form.user_id = response.data.data.user.id;
                 this.form.likeable_id = response.data.data.like;
@@ -598,12 +625,14 @@ export default {
                 this.form.state_transaction = response.data.data.state_transaction;
                 console.log(response.data.data.user.id);
                 console.log(this.similarForm.except_user_id);
+
                 this.getSimilarProducts();
                 this.getOtherProducts();
                 this.getRandomProducts();
                 this.getMap();
                 this.getMap2();
                 this.$nextTick(() => {
+                    this.redirect();
                     this.initSwiper();
                     this.detailSwiper();
                 });
@@ -632,7 +661,7 @@ export default {
         },
         getRandomProducts() {
             this.$axios.get("/api/products/", {
-                params:this.randomForm.data(),
+                params: this.randomForm.data(),
             }).then(response => {
 
                 this.randomProducts = response.data;
@@ -648,7 +677,7 @@ export default {
             }).then(response => {
                 this.otherProducts = response.data
                 console.log(this.otherProducts.data);
-                this.otherProducts.data =this.otherProducts.data.filter(products =>{
+                this.otherProducts.data = this.otherProducts.data.filter(products => {
                     return products.id != this.product_id;
                 })
             })
@@ -828,16 +857,15 @@ export default {
         submitReport(id, type) {
             this.reportForm.reportable_id = id;
             this.reportForm.reportable_type = type;
-            if(!this.reportForm.reportable_type){
-                this.isReportEmpty=true;
-            }
-            else{
+            if (!this.reportForm.reportable_type) {
+                this.isReportEmpty = true;
+            } else {
                 this.reportForm.post("/api/reports").then(response => {
                     this.$store.commit("setPop", {
                         description: "신고가 접수되었습니다."
                     });
-                    this.isReport=false;
-                    this.isReportEmpty=false;
+                    this.isReport = false;
+                    this.isReportEmpty = false;
                 })
             }
 
@@ -890,7 +918,7 @@ export default {
 
                     })
         },
-        handleScroll(){
+        handleScroll() {
             // 스크롤 위치가 일정 값 이상이면 isScroll을 true로 설정
             if (window.scrollY > 100) { // 예시로 100px 이상 스크롤 시 true로 설정
                 this.isScroll = true;
@@ -901,9 +929,8 @@ export default {
         trading(num) {
             if (this.form.state_transaction == 2) {
                 this.isTrade = true;
-            }
-            else{
-                this.isSelect=false;
+            } else {
+                this.isSelect = false;
                 this.form.state_transaction = 1;
                 this.form.patch("/api/products/updateStateTransaction/" + this.$route.params.id).then(response => {
 
@@ -913,18 +940,18 @@ export default {
             }
 
         },
-      leave(){
-        this.$router.back();
-      },
-      close(){
-        this.isReport=false;
-      },
-      goReport(){
-        this.product_id = this.product.id;
-        console.log(this.product_id);
-        this.isReport=true;
-      },
-        openImg(){
+        leave() {
+            this.$router.back();
+        },
+        close() {
+            this.isReport = false;
+        },
+        goReport() {
+            this.product_id = this.product.id;
+            console.log(this.product_id);
+            this.isReport = true;
+        },
+        openImg() {
             this.isImg = true;
             history.pushState(null, '', '');
             window.addEventListener('popstate', this.closeModalOnPopState);
@@ -946,16 +973,16 @@ export default {
         user() {
             return this.$auth.user.data;
         },
-        locate(){
-            let locations= [this.product.city,this.product.county,this.product.town,this.product.town2];
+        locate() {
+            let locations = [this.product.city, this.product.county, this.product.town, this.product.town2];
 
-            let items=[];
+            let items = [];
 
-            for(let i = 0; i<locations.length; i++){
-                if(items.length==2)
+            for (let i = 0; i < locations.length; i++) {
+                if (items.length == 2)
                     return items.join(' ');
 
-                if(locations[i])
+                if (locations[i])
                     items.push(locations[i]);
             }
 
@@ -963,36 +990,23 @@ export default {
         },
 
 
-
-
     },
-watch:{
-    'isLikeProduct': function(newValue, oldValue) {
-        if (newValue === 1) {
-            this.count_like+=1;
-        } else {
-            if(this.count_like ===0){
-                return;
+    watch: {
+        'isLikeProduct': function (newValue, oldValue) {
+            if (newValue === 1) {
+                this.count_like += 1;
+            } else {
+                if (this.count_like === 0) {
+                    return;
+                }
+                this.count_like -= 1;
             }
-            this.count_like-=1;
-        }
+        },
+
+
     },
-
-
-},
     mounted() {
         this.getProduct();
-        this.getProduct().then(product => {
-            const appUrl = `industrialmarket://products/${product.id}`;
-
-            // 앱 스키마로 이동 시도
-            try {
-                window.location.href = appUrl;
-            } catch (error) {
-                this.$router.push('/intro');
-            }
-
-        })
         this.getProducts();
         this.getReportCategories();
         window.addEventListener('scroll', this.handleScroll);
