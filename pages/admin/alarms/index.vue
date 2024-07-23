@@ -36,7 +36,6 @@
             <thead class="admin-thead">
             <tr class="admin-tr">
                 <th class="admin-th">고유번호</th>
-                <th class="admin-th">닉네임</th>
                 <th class="admin-th">부제</th>
                 <th class="admin-th">제목</th>
                 <th class="admin-th">생성일자</th>
@@ -47,7 +46,7 @@
                 <td class="admin-td">
                     {{item.id}}
                 </td>
-                <td class="admin-td">{{item.user.nickname}}</td>
+<!--                <td class="admin-td">{{item.user.nickname}}</td>-->
                 <td class="admin-td">{{item.subtitle}}</td>
                 <td class="admin-td">{{item.title}}</td>
                 <td class="admin-td">{{item.format_created_at}}</td>
