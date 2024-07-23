@@ -651,7 +651,7 @@ export default {
                 this.form.imgs = [];
                 window.postMessage(JSON.stringify({key: "CAMERA"}))
             } else {
-                this.activeCamera = true;
+
             }
         },
         console() {
