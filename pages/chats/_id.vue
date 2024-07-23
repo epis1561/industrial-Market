@@ -665,13 +665,12 @@ export default {
                   if (imageFile) {
                     this.form.imgs.push(
                         {
+
                           name: imageFile.name,
-                          file: imageFile,
                           url: imageFile.url,
                         },
                         this.files.push({
                           name: imageFile.name,
-                          file: imageFile,
                           url: imageFile.url,
                         })
 
