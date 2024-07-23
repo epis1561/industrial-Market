@@ -18,8 +18,7 @@
                         대표
                     </div>
                     <div class="m-file" :style="`background-image:url(${file.url})`">
-                        <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(file, index)"
-                                type="button">
+                        <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(file, index)" type="button">
                             <i class="xi-close"></i>
                         </button>
                     </div>
@@ -30,8 +29,7 @@
                         대표
                     </div>
                     <div class="m-file" :style="`background-image:url(${file.url})`">
-                        <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(file, index)"
-                                type="button">
+                        <button v-if="!onlyShow && canRemove" class="m-btn-remove" @click="remove(file, index)" type="button">
                             <i class="xi-close"></i>
                         </button>
                     </div>
