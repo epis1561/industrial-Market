@@ -44,6 +44,7 @@
                 <th class="admin-th">카테고리</th>
                 <th class="admin-th">제목</th>
                 <th class="admin-th">생성일자</th>
+                <th class="admin-th">상세보기</th>
             </tr>
             </thead>
             <tbody class="admin-tbody">
@@ -59,7 +60,16 @@
                 </td>
 
                 <td class="admin-td">{{item.format_created_at}}</td>
-
+                <td class="admin-td">
+                    <div class="btn-wrap col-group">
+                        <nuxt-link :to="`/admin/faqs/create?id=${item.id}`" class="btn">
+                            상세
+                        </nuxt-link>
+                        <button type="button" class="btn del-btn" @click="remove(item)">
+                            삭제
+                        </button>
+                    </div>
+                </td>
             </tr>
             </tbody>
         </table>

@@ -4,10 +4,10 @@
         <div class="title-wrap col-group">
             <div class="main-title-wrap col-group">
                 <h2 class="main-title">
-                    QnA관리자
+                    최소금액세팅
                 </h2>
                 <div class="top-btn-wrap">
-                    <nuxt-link :to="`/admin/qnas/create`" class="btn">
+                    <nuxt-link :to="`/admin/settings/create`" class="btn" v-if="items.data.length < 0">
                         등록
                     </nuxt-link>
                 </div>
@@ -41,10 +41,7 @@
             <thead class="admin-thead">
             <tr class="admin-tr">
                 <th class="admin-th">고유번호</th>
-                <th class="admin-th">닉네임</th>
-                <th class="admin-th">제목</th>
-                <th class="admin-th">생성일자</th>
-                <th class="admin-th"></th>
+                <th class="admin-th">최소금액</th>
                 <th class="admin-th"></th>
             </tr>
             </thead>
@@ -54,37 +51,19 @@
                     {{item.id}}
                 </td>
                 <td class="admin-td">
-                    {{ item.user.nickname }}
+                    {{item.min_price_for_show}}
                 </td>
-                <td class="admin-td">
-                    {{ item.title }}
-                </td>
-
-                <td class="admin-td">{{item.format_created_at}}</td>
-
                 <td class="admin-td">
                     <div class="btn-wrap col-group">
-                        <nuxt-link :to="`/admin/qnas/create?id=${item.id}`" class="btn">
+                        <nuxt-link :to="`/admin/settings/create?id=${item.id}`" class="btn">
                             상세
                         </nuxt-link>
-
                         <button type="button" class="btn del-btn" @click="remove(item)">
                             삭제
                         </button>
                     </div>
                 </td>
 
-                <td class="admin-td">
-                    <div class="btn-orders">
-                        <button type="button" class="btn-order" @click="up(item)">
-                            <i class="xi-angle-up"></i>
-                        </button>
-
-                        <button type="button" class="btn-order" @click="down(item)">
-                            <i class="xi-angle-down"></i>
-                        </button>
-                    </div>
-                </td>
             </tr>
             </tbody>
         </table>
@@ -123,10 +102,11 @@ export default {
 
     methods: {
         filter(){
-            this.$axios.get("/api/admin/qnas", {
+            this.$axios.get("/api/admin/settings", {
                 params: this.form.data()
             }).then(response => {
                 this.items = response.data;
+                console.log(this.items);
             });
         },
 
@@ -134,7 +114,7 @@ export default {
             let confirmed = window.confirm("정말로 삭제하시겠습니까?");
 
             if(confirmed)
-                this.form.delete("/api/admin/qnas/" + item.id)
+                this.form.delete("/api/admin/settings/" + item.id)
                     .then(response => {
                         this.items.data = this.items.data.filter(itemData => itemData.id != item.id);
                     });
@@ -147,7 +127,7 @@ export default {
 
             this.items.data.splice(index - 1, 0, itemToMove); // Insert the item one position ahead
 
-            this.form.patch("/api/admin/qnas/" + item.id + "/up");
+            this.form.patch("/api/admin/settings/" + item.id + "/up");
         },
 
         down(item){
@@ -157,7 +137,7 @@ export default {
 
             this.items.data.splice(index + 1, 0, itemToMove); // Insert the item one position ahead
 
-            this.form.patch("/api/admin/qnas/" + item.id + "/down");
+            this.form.patch("/api/admin/settings/" + item.id + "/down");
         }
     },
 

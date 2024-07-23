@@ -9,101 +9,90 @@
                 <div class="gnb">
                     <div class="gnb-item">
                         <div class="item-default">
-                            <i class="xi-home"></i>
-                            홈페이지 관리
-                            <i class="xi-angle-down-thin"></i>
+                            <nuxt-link to="/admin/products" class="sub-gnb-item">
+                                제품
+                            </nuxt-link>
                         </div>
                         <div class="sub-gnb row-group">
-                            <nuxt-link to="/admin/banners" class="sub-gnb-item">
-                                메인배너
-                            </nuxt-link>
-                            <nuxt-link to="/admin/groups" class="sub-gnb-item">
-                                추천 캠페인
+
+                        </div>
+                    </div>
+
+                    <div class="gnb-item">
+                        <div class="item-default">
+                            <nuxt-link to="/admin/alarms" class="sub-gnb-item">
+                                알람
                             </nuxt-link>
                         </div>
                     </div>
 
                     <div class="gnb-item">
                         <div class="item-default">
-                            <i class="xi-user"></i>
-                            회원 관리
-                            <i class="xi-angle-down-thin"></i>
-                        </div>
-                        <div class="sub-gnb row-group">
-                            <nuxt-link to="/admin/influencers" class="sub-gnb-item">
-                                인플루언서
-                            </nuxt-link>
-                            <nuxt-link to="/admin/companies" class="sub-gnb-item">
-                                광고주
+                            <nuxt-link to="/admin/events" class="sub-gnb-item">
+                                이벤트
                             </nuxt-link>
                         </div>
                     </div>
 
                     <div class="gnb-item">
                         <div class="item-default">
-                            <i class="xi-cart"></i>
-                            캠페인 관리
-                            <i class="xi-angle-down-thin"></i>
-                        </div>
-                        <div class="sub-gnb row-group">
-                            <nuxt-link to="/admin/campaigns" class="sub-gnb-item">
-                                캠페인
-                            </nuxt-link>
-                            <nuxt-link to="/admin/applications" class="sub-gnb-item">
-                                지원내역
-                            </nuxt-link>
-                            <nuxt-link to="/admin/reviews" class="sub-gnb-item">
-                                후기
+                            <nuxt-link to="/admin/faqs" class="sub-gnb-item">
+                                자주묻는질문
                             </nuxt-link>
                         </div>
+
                     </div>
 
                     <div class="gnb-item">
                         <div class="item-default">
-                            <i class="xi-money"></i>
-                            주문/결제 관리
-                            <i class="xi-angle-down-thin"></i>
-                        </div>
-                        <div class="sub-gnb row-group">
-                            <nuxt-link to="/admin/orders" class="sub-gnb-item">
-                                구매내역
-                            </nuxt-link>
-                            <nuxt-link to="/admin/requestMonies" class="sub-gnb-item">
-                                출금신청
-                            </nuxt-link>
-                        </div>
-                    </div>
-
-                    <div class="gnb-item">
-                        <div class="item-default">
-                            <i class="xi-forum"></i>
-                            고객센터 관리
-                            <i class="xi-angle-down-thin"></i>
-                        </div>
-                        <div class="sub-gnb row-group">
                             <nuxt-link to="/admin/notices" class="sub-gnb-item">
                                 공지사항
                             </nuxt-link>
-                            <nuxt-link to="/admin/communities" class="sub-gnb-item">
-                                커뮤니티
-                            </nuxt-link>
-                            <nuxt-link to="/admin/faqs" class="sub-gnb-item">
-                                FAQ
-                            </nuxt-link>
+
+                        </div>
+                    </div>
+
+                    <div class="gnb-item">
+                        <div class="item-default">
                             <nuxt-link to="/admin/qnas" class="sub-gnb-item">
-                                1:1 문의
+                                QNA
                             </nuxt-link>
-                            <nuxt-link to="/admin/penalties" class="sub-gnb-item">
-                                패널티
+
+                        </div>
+                    </div>
+                    <div class="gnb-item">
+                        <div class="item-default">
+                            <nuxt-link to="/admin/chats" class="sub-gnb-item">
+                                채팅내역
                             </nuxt-link>
+
+                        </div>
+                    </div>
+                    <div class="gnb-item">
+                        <div class="item-default">
                             <nuxt-link to="/admin/reports" class="sub-gnb-item">
                                 신고내역
                             </nuxt-link>
-                            <nuxt-link to="/admin/requestPremiums" class="sub-gnb-item">
-                                프리미어 신청
-                            </nuxt-link>
-                        </div>
 
+                        </div>
+                    </div>
+
+                    <div class="gnb-item">
+                        <div class="item-default">
+                            <nuxt-link to="/admin/settings" class="sub-gnb-item">
+                                최소금액세팅
+                            </nuxt-link>
+
+                        </div>
+                    </div>
+
+                    <div class="gnb-item">
+                        <div class="item-default">
+                            <nuxt-link to="/admin/dashboard" class="sub-gnb-item">
+                                대시보드
+                            </nuxt-link>
+
+                        </div>
                     </div>
 
                 </div>

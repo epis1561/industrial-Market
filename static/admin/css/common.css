@@ -143,13 +143,15 @@ body {
 .header-wrap .menu-wrap { height: calc( 100vh - 165px - 164px ); overflow: scroll; justify-content: space-between; }
 .header-wrap .menu-wrap::-webkit-scrollbar { display: none; }
 .header-wrap .gnb { padding-bottom: 80px; }
-.header-wrap .gnb-item .item-default { height: 52px; color: #c2c2c2; font-size: 16px; gap: 16px; transition: .2s; display: flex; align-items: center; padding: 0 16px; cursor: pointer; position: relative; }
+.header-wrap .gnb-item .item-default {
+    width: 100%; height: 52px; color: #c2c2c2; font-size: 16px; gap: 16px; transition: .2s; display: flex; align-items: center; padding: 0 16px; cursor: pointer; position: relative; }
 .header-wrap .gnb-item .item-default i { font-size: 20px; color: #c2c2c2; display: inline-block; transition: .2s; }
 .header-wrap .gnb-item .item-default .xi-angle-down-thin { position: absolute; right: 16px; }
 .header-wrap .gnb-item .item-default:hover { background: #000; color: #fff; }
 .header-wrap .gnb-item .item-default:hover i { color: #fff; }
 .header-wrap .sub-gnb { display: none; }
-.header-wrap .sub-gnb-item { height: 40px; color: #c2c2c2; font-size: 14px; padding-left: 52px; line-height: 40px; transition: .2s; }
+.header-wrap .sub-gnb-item {
+    width: 100%; height: 40px; color: #c2c2c2; font-size: 14px; line-height: 40px; transition: .2s; }
 .header-wrap .sub-gnb-item:hover { background: #000; color: #fff; }
 .coworkerweb_logo_Wrap { width: 164px; height: 42px; }
 .coworkerweb_logo_Wrap img { width: 100%; height: 100%; object-fit: contain; object-position: center; }

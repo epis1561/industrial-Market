@@ -883,4 +883,20 @@ main { overflow: auto; }
   min-height: 500px;
 }
 
-ql-editor
+.admin-chat .new-message-box.send .profile-img{
+  display: block;
+}
+.admin-chat .send .profile-flex{
+  display: flex;
+justify-content: end;
+  align-items: center;
+}
+.admin-chat .profile-flex{
+  margin-bottom: 5px;
+}
+.admin-chat .receive .profile-flex{
+  display: flex;
+  align-items: center;
+justify-content: start;
+margin-bottom: 10px;
+}
