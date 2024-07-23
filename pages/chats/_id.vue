@@ -661,13 +661,19 @@ export default {
                 if (result.value && typeof result.value === 'string') {
                     try {
                         const imageFile = await this.base64ToFile(result.value);
-                        alert(`최종데이터1: ${JSON.stringify(imageFile)}`);
+                        alert(`최종데이터1:
+  name: ${imageFile.name},
+  file: ${imageFile.file ? '파일 있음 (크기: ' + imageFile.file.size + ' 바이트)' : '파일 없음'},
+  url: ${imageFile.url}`);
                         this.form.imgs.push({
                             name: imageFile.name,
                             file:imageFile.file,
                             url: imageFile.url,
                         });
-                        alert(`최종데이터2: ${JSON.stringify(this.form.imgs)}`);
+                        alert(`최종데이터2: ${this.form.imgs.map(img =>
+                                `name: ${img.name},
+  file: ${img.file ? '파일 있음 (크기: ' + img.file.size + ' 바이트)' : '파일 없음'},
+  url: ${img.url}`).join('\n')}`);
                     }catch (error) {
                         console.error('Failed to convert base64 to file:', error);
                     }
@@ -698,8 +704,13 @@ export default {
                   url: imageUrl,
               };
 
-              alert(`변형데이터: ${JSON.stringify(this.files)}`);
-              return imageFile; // Promise를 resolve하여 파일 정보를 반환
+
+              alert(`변형데이터:
+        name: ${imageFile.name},
+        file: ${imageFile.file ? '파일 있음 (크기: ' + imageFile.file.size + ' 바이트)' : '파일 없음'},
+        url: ${imageFile.url}`);
+
+              resolve(imageFile); // Promise를 resolve하여 파일 정보를 반환
           });
       },
 
@@ -735,23 +746,7 @@ export default {
       return this.$auth.user.data;
     }
     ,
-    flattenedImages() {
-      let flattened = [];
-      this.messages.data.forEach((message, messageIndex) => {
-        if (message.imgs && message.imgs.length > 0) {
-          message.imgs.forEach((img, imgIndex) => {
-            flattened.push({
-              ...img,
-              messageIndex,
-              imgIndex,
-              uniqueId: `${messageIndex}-${imgIndex}`
-            });
-          });
-        }
-      });
-      console.log('', flattened);
-      return flattened;
-    }
+
   }
   ,
 
