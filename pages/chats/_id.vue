@@ -706,8 +706,8 @@ export default {
             this.$emit("change", this.files);
         },
         addEventListeners() {
-            document.addEventListener('message', this.listen);
-            window.addEventListener('message', this.listen);
+            document.removeEventListener("message").addEventListener('message', this.listen);
+            window.removeEventListener("message").addEventListener('message', this.listen);
 
         },
 
