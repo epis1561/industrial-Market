@@ -7,7 +7,7 @@
                     공지사항
                 </h2>
                 <div class="top-btn-wrap">
-                    <nuxt-link :to="`/admin/examples/create`" class="btn">
+                    <nuxt-link :to="`/admin/notices/create`" class="btn">
                         등록
                     </nuxt-link>
                 </div>
@@ -44,6 +44,7 @@
                 <th class="admin-th">카테고리</th>
                 <th class="admin-th">제목</th>
                 <th class="admin-th">생성일자</th>
+                <th class="admin-th">상세보기</th>
 
             </tr>
             </thead>
@@ -53,13 +54,23 @@
                     {{item.id}}
                 </td>
                 <td class="admin-td">
-                 {{ item.noticeCategoty.title }}
+                 {{ item.noticeCategory.title }}
                 </td>
                 <td class="admin-td">
                   {{item.title}}
                 </td>
 
                 <td class="admin-td">{{ item.format_created_at }}</td>
+                <td class="admin-td">
+                    <div class="btn-wrap col-group">
+                        <nuxt-link :to="`/admin/notices/create?id=${item.id}`" class="btn">
+                            상세
+                        </nuxt-link>
+                        <button type="button" class="btn del-btn" @click="remove(item)">
+                            삭제
+                        </button>
+                    </div>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -98,10 +109,12 @@ export default {
 
     methods: {
         filter(){
-            this.$axios.get("/api/admin/examples", {
+            this.$axios.get("/api/admin/notices", {
                 params: this.form.data()
             }).then(response => {
                 this.items = response.data;
+
+                console.log(this.items);
             });
         },
 
@@ -109,7 +122,7 @@ export default {
             let confirmed = window.confirm("정말로 삭제하시겠습니까?");
 
             if(confirmed)
-                this.form.delete("/api/admin/examples/" + item.id)
+                this.form.delete("/api/admin/notices/" + item.id)
                     .then(response => {
                         this.items.data = this.items.data.filter(itemData => itemData.id != item.id);
                     });
@@ -122,7 +135,7 @@ export default {
 
             this.items.data.splice(index - 1, 0, itemToMove); // Insert the item one position ahead
 
-            this.form.patch("/api/admin/examples/" + item.id + "/up");
+            this.form.patch("/api/admin/notices/" + item.id + "/up");
         },
 
         down(item){
@@ -132,12 +145,11 @@ export default {
 
             this.items.data.splice(index + 1, 0, itemToMove); // Insert the item one position ahead
 
-            this.form.patch("/api/admin/examples/" + item.id + "/down");
+            this.form.patch("/api/admin/notices/" + item.id + "/down");
         }
     },
 
     computed: {
-
 
     },
 

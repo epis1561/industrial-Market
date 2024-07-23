@@ -4,7 +4,7 @@
         <div class="title-wrap col-group">
             <div class="main-title-wrap col-group">
                 <h2 class="main-title">
-                    예시제목
+                    제품관리자
                 </h2>
             </div>
 

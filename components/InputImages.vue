@@ -149,7 +149,14 @@ export default {
         let self = this;
         let readers = [];
         let images = [];
-        let newFiles = [...this.files];
+        let newFiles = [];
+          if(this.defaultFiles.length > 0){
+            newFiles = [...this.defaultFiles];
+        }
+        else{
+            newFiles = [...this.files];
+        }
+
 
         let length = event.target.files.length;
         let countResize = 0;
@@ -165,7 +172,7 @@ export default {
         // Check if adding new files exceeds the max limit
         if (this.max && this.max < this.files.length + length) {
           const remainingSpace = this.max - this.files.length;
-          return alert(`등록 가능한 사진은 최대 ${this.max}장 입니다.`);
+          return this.$emit("max");
         }
 
         Array.from(event.target.files).forEach((file, index) => {

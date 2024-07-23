@@ -198,7 +198,8 @@ export default {
                 if(response.data.data.length > 0)
                     this.$store.commit("setPrice", response.data.data[0].min_price_for_show);
             })
-        }
+        },
+
 
     },
 
@@ -214,6 +215,9 @@ export default {
 
     mounted() {
         window.postMessage(JSON.stringify({key: 'DEVICE_TOKEN'}));
+        // if(/WEBVIEW/.test(navigator.userAgent)){
+        //     this.$router.push("/intro");
+        // }
 
         this.setChannel();
         this.getProductCategories();

@@ -1,6 +1,38 @@
-<template>
-    <body>
+<?
 
+// Settings
+$scheme = 'myapp';
+$ios_id = 1234567;
+$android_package = 'my.app.id';
+$auto = false;
+
+// No trailing slash after path, conform to http://x-callback-url.com/specifications/
+$REQUEST_URI = preg_replace('@/(?:\?|$)@', '', $_SERVER['REQUEST_URI']);
+
+// Detection
+$HTTP_USER_AGENT = strtolower($_SERVER['HTTP_USER_AGENT']);
+$android = (bool) strpos($HTTP_USER_AGENT, 'android');
+$iphone = !$android && ((bool) strpos($HTTP_USER_AGENT, 'iphone') || (bool) strpos($HTTP_USER_AGENT, 'ipod'));
+$ipad = !$android && !$iphone && (bool) strpos($HTTP_USER_AGENT, 'ipad');
+$ios = $iphone || $ipad;
+$mobile = $android || $ios;
+
+// Install
+$ios_install = 'http://itunes.apple.com/app/id' . $ios_id;
+$android_install = 'http://play.google.com/store/apps/details?id=' . $android_package;
+
+// Open
+if ($ios) {
+    $open = $scheme . ':/' . $REQUEST_URI;
+}
+if ($android) {
+    $open = 'intent:/' . $REQUEST_URI . '#Intent;package=' . $android_package . ';scheme=' . $scheme . ';launchFlags=268435456;end;';
+}
+
+?>
+<template>
+
+    <body>
     <div id="wrap">
 
         <!-- header Start -->
@@ -134,6 +166,9 @@
                         <button class="like-btn" :class="{'active':product.user.like==1}"
                                 @click="toggleLike(product,'User')" v-if="product.user.id !=$auth.user.data.id"></button>
                         <div class="profile-img">
+                            <nuxt-link :to="`/users/${product.user.id}`" v-if="this.$auth.user.data.id != product.user.id">
+                                <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'" alt="" v-if="product.user.img">
+                            </nuxt-link>
                             <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'" alt="" v-if="product.user.img">
                         </div>
                         <div class="txt-wrap row-group">
@@ -531,7 +566,7 @@ export default {
               value: {
                 title: this.product.title,
                 message: this.product.description,
-                url: `https://industrialmarket.biz/products/${this.product.id}`,
+                url:`https://industrialmarket.biz/products/${this.product.id}`,
               }
             }))
           }
@@ -558,7 +593,7 @@ export default {
 
 
                 this.product = response.data.data;
-                console.log(this.product);
+                console.log('물건',this.product);
                 // this.form.product_category_id = response.data.data.product_category_id;
                 this.form.user_id = response.data.data.user.id;
                 this.form.likeable_id = response.data.data.like;

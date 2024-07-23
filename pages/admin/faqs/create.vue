@@ -8,34 +8,6 @@
         </div>
 
         <div class="form-wrap col-group">
-            <div class="form-item row-group">
-                <p class="item-default">
-                    선택 <span class="star">*</span>
-                </p>
-                <select name="" id="" class="form-select" v-model="form.type" required>
-                    <option value="" disabled>선택</option>
-                </select>
-            </div>
-
-            <div class="form-item row-group">
-                <p class="item-default">
-                    태그 <span class="star">*</span>
-                </p>
-                <div class="item-user">
-                    <div class="form-input-btn-wrap">
-                        <input type="text" class="form-input" placeholder="생성할 태그를 작성해주세요." v-model="tag">
-                        <button class="form-input-btn" @click.prevent="addTag">생성</button>
-                    </div>
-                    <div class="form-tag-wrap" v-if="form.tags.length > 0" style="margin-top:12px;">
-                        <div class="form-tag" v-for="(tag, index) in form.tags" :key="index">
-                            {{ tag }}
-                            <button class="form-tag-del-btn" @click.prevent="removeTag(index)">
-                                <i class="xi-close-min"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div class="form-item row-group">
                 <p class="item-default">
@@ -63,7 +35,7 @@
         <div class="m-spaces type01 mt-40 flex-end">
             <div class="m-space-wrap">
                 <div class="m-space">
-                    <a href="/admin/faqs" class="m-btn type01 bg-gray">목록</a>
+                    <nuxt-link to="/admin/faqs" class="m-btn type01 bg-gray">목록</nuxt-link>
                 </div>
             </div>
 

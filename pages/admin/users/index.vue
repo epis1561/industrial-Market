@@ -20,48 +20,33 @@
 
         <table class="admin-table">
             <colgroup>
-                <col style="width:10%">
-
                 <col>
                 <col>
                 <col>
                 <col>
                 <col>
-
-                <col style="width:15%;">
+                <col>
+                <col>
             </colgroup>
             <thead class="admin-thead">
             <tr class="admin-tr">
                 <th class="admin-th">고유번호</th>
-
-                <th class="admin-th">유형</th>
-                <th class="admin-th">아이디</th>
-                <th class="admin-th">회원명(업체명)</th>
+                <th class="admin-th">이름</th>
+                <th class="admin-th">닉네임</th>
+                <th class="admin-th">이메일</th>
                 <th class="admin-th">연락처</th>
-                <th class="admin-th">월결제 가능여부</th>
-                <th class="admin-th">가입일</th>
-
-                <th class="admin-th"></th>
+                <th class="admin-th">거주국</th>
             </tr>
             </thead>
             <tbody class="admin-tbody">
             <tr class="admin-tr" v-for="item in items.data" :key="item.id">
                 <td class="admin-td">{{item.id}}</td>
-
-                <td class="admin-td">{{item.format_type}}</td>
-                <td class="admin-td">{{item.ids}}</td>
                 <td class="admin-td">{{item.name}}</td>
+                <td class="admin-td">{{item.nickname}}</td>
+                <td class="admin-td">{{item.email}}</td>
                 <td class="admin-td">{{item.contact}}</td>
-                <td class="admin-td">
-                    <span :class="`state ${item.can_calculate == 1 ? 'blue' : ''}`">{{item.can_calculate == 1 ? 'Y' : 'N'}}</span>
-                </td>
-                <td class="admin-td">{{item.created_at}}</td>
+                <td class="admin-td">{{item.country}}</td>
 
-                <td class="admin-td">
-                    <nuxt-link :to="`/admin/users/create?id=${item.id}`" class="btn">
-                        상세
-                    </nuxt-link>
-                </td>
             </tr>
             </tbody>
         </table>

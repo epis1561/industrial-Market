@@ -3,38 +3,23 @@
 
         <div class="title-wrap col-group">
             <h2 class="main-title">
-                공지사항 생성관리자
+                세팅관리자
             </h2>
         </div>
 
         <div class="form-wrap col-group">
-
             <div class="form-item row-group">
                 <p class="item-default">
-                    카테고리 <span class="star">*</span>
+                    최소금액설정 <span class="star">*</span>
                 </p>
-                <input type="text" class="form-input" v-model="form.notice_category_id" required>
-            </div>
-
-            <div class="form-item row-group">
-                <p class="item-default">
-                    제목 <span class="star">*</span>
-                </p>
-                <textarea class="form-textarea" placeholder="" v-model="form.title" required></textarea>
-            </div>
-
-            <div class="form-item row-group">
-                <p class="item-default">
-                  장문텍스트 <span class="star">*</span>
-                </p>
-              <input-editor :default ="form.description" @change="data => form.description = data"/>
+                <input type="number" class="form-input" v-model="form.min_price_for_show" required>
             </div>
         </div>
 
         <div class="m-spaces type01 mt-40 flex-end">
             <div class="m-space-wrap">
                 <div class="m-space">
-                    <a href="/admin/notices" class="m-btn type01 bg-gray">목록</a>
+                    <a href="/admin/settings" class="m-btn type01 bg-gray">목록</a>
                 </div>
             </div>
 
@@ -66,9 +51,7 @@ export default {
             tag: "",
 
             form: new Form(this.$axios, {
-               notice_category_id:"",
-              title:"",
-              description:"",
+               min_price_for_show:"",
                 files: [],
                 files_mobile: [],
                 files_remove_ids: [],
@@ -81,14 +64,14 @@ export default {
     methods: {
         store(){
             if(this.item)
-                return this.form.post("/api/admin/notices/" + this.item.id)
+                return this.form.post("/api/admin/settings/" + this.item.id)
                     .then(response => {
-                        this.$router.push("/admin/notices");
+                        this.$router.push("/admin/settings");
                     });
 
-            this.form.post("/api/admin/notices")
+            this.form.post("/api/admin/settings")
                 .then(response => {
-                    this.$router.push("/admin/notices");
+                    this.$router.push("/admin/settings");
                 });
         },
 
@@ -108,13 +91,12 @@ export default {
 
     mounted() {
         if(this.$route.query.id){
-            return this.$axios.get("/api/admin/notices/" + this.$route.query.id)
+            return this.$axios.get("/api/admin/settings/" + this.$route.query.id)
                 .then(response => {
                     this.item = response.data.data;
 
                     this.form.set({...this.form, ...this.item});
-                    this.form.notice_category_id = response.data.data.noticeCategory.id;
-                    console.log(this.form);
+
                     this.loading = false;
 
                     $("html,body").scrollTop(0);

@@ -9,7 +9,7 @@
         <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
           <img src="/images/icon_prev.png" alt="">
         </a>
-        <h2 class="title">
+        <h2 class="title" @click="console">
           등록하기
         </h2>
       </div>
@@ -31,7 +31,7 @@
                   <div class="file-preview-wrap col-group">
                     <input-images :multiple="true" @change="(data) => {form.imgs = data;}"
                                   @removed="(data) => {form.imgs_remove_ids = data}"
-                                  v-if="activeFiles" :default="product ? product.imgs:[]"/>
+                                  v-if="activeFiles" :default="product ? product.imgs:[]"  @updateTotalCount="updateTotalImagesCount" @max="isMax=true"/>
                   </div>
 
                 </div>
@@ -57,7 +57,7 @@
             </div>
             <div class="item-user">
               <input type="text" class="form-input" placeholder="제목을 입력해주세요" v-model="form.title">
-              <error :form="form" name="title"/>
+                <div class="m-input-error" v-if="isTitle==true" > 제목은 100자를 초과해 입력할 수 없습니다.</div>
 
             </div>
           </div>
@@ -133,7 +133,7 @@
             </div>
             <div class="item-user">
               <input type="text" class="form-input" placeholder="컴마(,)로 구분 / 최대 15자 / 5개까지 등록가능"
-                     v-model="form.keywords_origin">
+                     v-model="form.keywords_origin" @input="checkKeywordValidity">
             </div>
 
           </div>
@@ -210,8 +210,21 @@
           </button>
         </div>
       </div>
-
     </div>
+      <div class="modal-container modal_alert" :class="{'active':isMax}">
+          <div class="modal-wrap modal-alert">
+
+              <p class="modal-alert-txt">
+                  등록 가능한 사진은 최대 10장 입니다.
+              </p>
+
+              <div class="modal-footer col-group">
+                  <button class="modal-footer-btn close-btn" @click="isMax=false">
+                      확인
+                  </button>
+              </div>
+          </div>
+      </div>
     <!-- //선택 완료 시 나타나는 select -->
   </div>
   </body>
@@ -314,6 +327,7 @@ export default {
 
         offer_price: 0,
       }),
+        isMax:false,
       mapNull: false,
       isMap: false,
       detailMap: false,
@@ -336,11 +350,17 @@ export default {
       isOffer: false,
       description: "",
       ongoing: false,
+        maxKeywords:5,
+        maxKeywordLength: 15,
+        isTitle:false,
     }
 
   },
 
   methods: {
+      console(){
+        console.log(this.form.imgs);
+      },
     changeDescription(e) {
       this.description = e.target.value;
     },
@@ -695,6 +715,7 @@ export default {
       let isNullPrice = !this.price;
       let isNullLocation = !this.fullAddress;
       let isNullType = !this.form.type;
+      let isFullTitle = this.form.title;
 
       if (isNullCategory) {
         this.nullCategory = true;
@@ -707,6 +728,10 @@ export default {
       }
       if (isNullType) {
         this.nullType = true;
+      }
+      if(isFullTitle.length > 100){
+          this.isTitle=true;
+
       }
     },
     //     현재 위치권한 없을 시 지도 안보이게 하는 부분
@@ -722,7 +747,44 @@ export default {
         event.preventDefault();
       }
     },
+      updateTotalImagesCount(count) {
+          this.totalImagesCount = count;
+      },
+      checkKeywordValidity() {
+          // 입력된 키워드를 콤마(,)로 나눔
+          let keywords = this.form.keywords_origin.split(',').map(keyword => keyword.trim());
 
+          // 키워드 개수 및 각 키워드의 길이를 검사
+          let validKeywords = [];
+          let tooLongKeywords = false; // 15자를 초과한 키워드가 있는지 여부
+
+          for (let keyword of keywords) {
+              if (keyword.length > 0) {
+                  if (keyword.length > this.maxKeywordLength) {
+                      tooLongKeywords = true;
+                      this.form.keywords_origin = validKeywords.join(', ');
+                  } else {
+                      validKeywords.push(keyword);
+                  }
+              }
+          }
+
+          // 키워드 길이가 15자를 초과한 경우 경고 표시
+          if (tooLongKeywords) {
+              alert(`각 키워드는 최대 ${this.maxKeywordLength}자를 초과할 수 없습니다.`);
+
+          }
+
+          // 유효한 키워드 개수가 최대 허용 개수를 초과한 경우
+          if (validKeywords.length > this.maxKeywords) {
+              alert(`키워드는 최대 ${this.maxKeywords}개까지 입력 가능합니다.`);
+              validKeywords = validKeywords.slice(0, this.maxKeywords);
+              this.form.keywords_origin = validKeywords.join(', ');// 초과된 부분을 제거
+          }
+
+          // 유효한 키워드를 다시 문자열로 조합하여 form 데이터에 저장
+
+      }
 
   },
 

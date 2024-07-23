@@ -883,4 +883,55 @@ main { overflow: auto; }
   min-height: 500px;
 }
 
-ql-editor
+.admin-chat .new-message-box.send .profile-img{
+  display: block;
+}
+.admin-chat .send .profile-flex{
+  display: flex;
+justify-content: end;
+  align-items: center;
+}
+.admin-chat .profile-flex{
+  margin-bottom: 5px;
+}
+.admin-chat .receive .profile-flex{
+  display: flex;
+  align-items: center;
+justify-content: start;
+margin-bottom: 10px;
+}
+
+/* app store */
+.app-store { width: 100%; height: 100vh; padding: 10.5vh 5.625vw 6vh; background-image: url(../images/app_bg_pc.png); background-repeat: no-repeat; background-size: cover; background-position: center; gap: 7.8vh; position: relative; }
+.app-store .logo-icon { width: 108px; height: 94px; margin-bottom: 42px; background-image: url(../images/logo_icon_white.png); background-repeat: no-repeat; background-size: contain; background-position: center; }
+.app-store .title-wrap .title { font-size: 32px; font-weight: 500; color: #fff; margin-bottom: 30px; }
+.app-store .logo-txt { width: 350px; height: 78px; margin-bottom: 50px; background-image: url(../images/logo_txt_white.png); background-repeat: no-repeat; background-size: contain; background-position: center; }
+.app-store .title-wrap .txt { font-size: 25px; color: #fff; opacity: .65; line-height: 1.4; }
+.app-store .btn-wrap { gap: 20px; }
+.app-store .btn-wrap .btn { width: 288px; height: 85px; }
+.app-store .qr-code { position: absolute; top: 56px; right: 56px; width: 204px; }
+.app-store .footer { margin-top: auto; }
+.app-store .footer-txt-wrap { gap: 16px; }
+.app-store .footer-txt-group { gap: 40px; }
+.app-store .footer-txt { font-size: 14px; color: #fff; opacity: .68; font-weight: 300; position: relative; line-height: 1.2; }
+.app-store .footer-txt:not(:last-child)::after { content: ''; display: block; position: absolute; width: 1px; height: 12px; background: #fff; right: -20px; top: 1px; }
+.app-store .footer-txt.bold { font-weight: 600; }
+.app-store .footer-copy-txt { margin-top: 8px; font-size: 14px; font-weight: 500; opacity: .4; color: #fff; }
+
+@media screen and (max-width: 860px) {
+  .app-store { padding: 40px 30px; background-image: url(../images/app_bg_mb.png); gap: 64px; }
+  .app-store .logo-icon { width: 75px; height: 66px; margin-bottom: 24px; background-image: url(../images/logo_icon_blue.png); }
+  .app-store .title-wrap .title { font-size: 20px; color: #202020; margin-bottom: 16px; }
+  .app-store .logo-txt { width: 210px; height: 47px; margin-bottom: 30px; background-image: url(../images/logo_txt_blue.png); }
+  .app-store .title-wrap .txt { font-size: 17px; color: #202020; }
+  .app-store .title-wrap .txt .mb { display: block; }
+  .app-store .btn-wrap { gap: 16px; flex-flow: wrap; margin-top: -40px; }
+  .app-store .btn-wrap .btn { width: 240px; height: 70px; }
+  .app-store .qr-code { position: static; width: 96px; margin-bottom: 40px; }
+  .app-store .footer-txt-wrap { gap: 8px; }
+  .app-store .footer-txt-group { gap: 8px; flex-flow: column; }
+  .app-store .footer-txt { font-size: 12px; }
+  .app-store .footer-txt:not(:last-child)::after { display: none; }
+  .app-store .footer-txt.bold { font-size: 14px; margin-bottom: 8px; }
+  .app-store .footer-copy-txt { margin-top: 0; font-size: 10px; }
+}
