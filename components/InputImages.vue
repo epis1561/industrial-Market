@@ -1,7 +1,7 @@
 <template>
     <div :class="`m-input-images type01 ${hide ? 'hide' : ''}`">
         <div class="m-input" v-if="!onlyShow">
-            <input type="file" :id="id" @change="changeFile" accept="image/*"  v-if="appcamera">
+            <input type="file" :id="id" @change="changeFile" accept="image/*" :multiple="multiple" capture="camera" v-if="camera">
             <input type="file" :id="id" @change="changeFile" accept="image/*" :multiple="multiple" v-else >
 
 <!--            <label class="m-btn" :for="id">-->
@@ -13,7 +13,7 @@
         <div class="m-files-wrap" v-if="defaultFiles.length > 0 || files.length > 0">
             <div class="m-files">
                 <div class="m-file-wrap" v-for="(file, index) in defaultFiles" :key="index">
-                    <div class="file-preview-label" v-if="!appcamera">
+                    <div class="file-preview-label">
                         대표
                     </div>
                     <div class="m-file" :style="`background-image:url(${file.url})`">
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="m-file-wrap" v-for="(file, index) in files" :key="index">
-                    <div class="file-preview-label" v-if="!appcamera">
+                    <div class="file-preview-label">
                         대표
                     </div>
                     <div class="m-file" :style="`background-image:url(${file.url})`">
@@ -131,14 +131,6 @@ export default {
         canAdd: {
             default: false
         },
-        appcamera:{
-            default: false
-        },
-        camera_img: {
-            default() {
-                return []
-            }
-        },
         /*maxHeight: {
             default: 2000,
         }*/
@@ -161,7 +153,6 @@ export default {
         let newFiles = [];
           if(this.defaultFiles.length > 0){
             newFiles = [...this.defaultFiles];
-
         }
         else{
             newFiles = [...this.files];
@@ -204,13 +195,7 @@ export default {
               countResize++;
 
               if (length === countResize)
-                  if (this.appcamera === true) {
-                      newFiles = [...this.defaultFiles]; // 새 배열을 만들어 반응성 보장
-                  } else {
-                      newFiles = [...newFiles]; // 앨범에서 선택한 경우 newFiles 사용
-                  }
                 self.$emit("change", newFiles);
-
               console.log('디폴트뿌려진느거',newFiles);
             };
 

@@ -110,7 +110,7 @@
                         <input-images :multiple="true" v-if="activeFiles"
                                       @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }"
                                       @max="isMax=true"/>
-                        <input-images  id="camera" :camera="false" :default="files ? form.files:[]" :appcamera="appCamera"
+                        <input-images  id="camera" :camera="true" :default="files ? form.files:[]" v-if="appCamera"
                                       @change="(data) => {form.imgs = data; activeFiles = false; appCamera = false; isImg = false; }"
                                       @max="isMax=true"/>
                     </div>
