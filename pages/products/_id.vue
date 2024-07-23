@@ -134,12 +134,16 @@
                     <div class="detail-profile-wrap col-group">
                         <button class="like-btn" :class="{'active':product.user.like==1}"
                                 @click="toggleLike(product,'User')" v-if="product.user.id !=$auth.user.data.id"></button>
+                        <nuxt-link :to="`/users/${product.user.id}`" v-if="this.$auth.user.data.id != product.user.id">
                         <div class="profile-img">
-                            <nuxt-link :to="`/users/${product.user.id}`" v-if="this.$auth.user.data.id != product.user.id">
                                 <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'" alt="" v-if="product.user.img">
-                            </nuxt-link>
-                            <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'" alt="" v-if="this.$auth.user.data.id == product.user.id && product.user.img">
                         </div>
+                        </nuxt-link>
+                        <nuxt-link to="" v-if="this.$auth.user.data.id == product.user.id" @click.prevent="">
+                            <div class="profile-img">
+                                <img :src="product.user.img ? product.user.img.url : '/images/notification_icon_bg.png'" alt="" v-if="product.user.img">
+                            </div>
+                        </nuxt-link>
                         <div class="txt-wrap row-group">
                             <p class="title">
                                 {{ product.user.nickname || product.user.name }}
