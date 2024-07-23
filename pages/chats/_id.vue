@@ -107,11 +107,11 @@
                 <!-- 사진 한장 이상 첨부 시 -->
                 <div class="file-preview-scroll-wrap" v-if="activeFiles || activeCamera || appCamera">
                     <div class="file-preview-wrap col-group">
-                        <input-images :multiple="true" v-if="activeFiles"
+                        <input-images id="imgs" :multiple="true" v-if="activeFiles"
                                       @change="(data) => {form.imgs = data; activeCamera = false; isImg = false; }"
                                       @max="isMax=true"/>
-                        <input-images  id="camera" :camera="true" :default="files ? form.files:[]" v-if="appCamera"
-                                      @change="(data) => {form.imgs = data; activeFiles = false; appCamera = false; isImg = false; }"
+                        <input-images  id="camera" :camera="true" :default="form.imgs" v-if="appCamera"
+                                      @change="(data) => {form.imgs = data; appCamera = false; isImg = false; }"
                                       @max="isMax=true"/>
                     </div>
                 </div>
@@ -661,17 +661,20 @@ export default {
                     if (result.value && typeof result.value === 'string') {
 
                         const imageFile = await this.base64ToFile(result.value);
+
                         this.form.imgs.push({
                             name: imageFile.name,
                             file: imageFile.file,
                             url: imageFile.url,
                         });
+
                         this.files.push({
                             name: imageFile.name,
                             file: imageFile.file,
                             url: imageFile.url,
                         });
-                        alert(`최종데이터1: name: ${test.name}, file: ${test.file ? '파일 있음 (크기: ' + test.file.size + ' 바이트)' : '파일 없음'}, url: ${imageFile.url}`);
+
+                        // alert(`최종데이터1: name: ${test.name}, file: ${test.file ? '파일 있음 (크기: ' + test.file.size + ' 바이트)' : '파일 없음'}, url: ${imageFile.url}`);
 
                     }
                     break;
