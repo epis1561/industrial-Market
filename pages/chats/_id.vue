@@ -661,17 +661,20 @@ export default {
                     if (result.value && typeof result.value === 'string') {
 
                         const imageFile = await this.base64ToFile(result.value);
+
                         this.form.imgs.push({
                             name: imageFile.name,
                             file: imageFile.file,
                             url: imageFile.url,
                         });
+
                         this.files.push({
                             name: imageFile.name,
                             file: imageFile.file,
                             url: imageFile.url,
                         });
-                        alert(`최종데이터1: name: ${test.name}, file: ${test.file ? '파일 있음 (크기: ' + test.file.size + ' 바이트)' : '파일 없음'}, url: ${imageFile.url}`);
+
+                        // alert(`최종데이터1: name: ${test.name}, file: ${test.file ? '파일 있음 (크기: ' + test.file.size + ' 바이트)' : '파일 없음'}, url: ${imageFile.url}`);
 
                     }
                     break;
