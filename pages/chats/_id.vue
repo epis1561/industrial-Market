@@ -655,11 +655,6 @@ export default {
                             url: imageFile.url,
                         });
 
-                        this.files.push({
-                            name: imageFile.name,
-                            file: imageFile.file,
-                            url: imageFile.url,
-                        });
 
                         // alert(`최종데이터1: name: ${test.name}, file: ${test.file ? '파일 있음 (크기: ' + test.file.size + ' 바이트)' : '파일 없음'}, url: ${imageFile.url}`);
 
@@ -695,12 +690,6 @@ export default {
             });
         },
 
-        remove(file, index) {
-            // 기존 업로드된 파일 목록 중 삭제
-            this.files.splice(index, 1);
-
-            this.$emit("change", this.files);
-        },
         addEventListeners() {
             window.addEventListener('message', this.listen, { once: true });
             document.addEventListener('message', this.listen, { once: true });
