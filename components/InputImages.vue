@@ -131,6 +131,14 @@ export default {
         canAdd: {
             default: false
         },
+        appcamera:{
+            default: false
+        },
+        camera_img: {
+            default() {
+                return []
+            }
+        },
         /*maxHeight: {
             default: 2000,
         }*/
@@ -154,6 +162,9 @@ export default {
           if(this.defaultFiles.length > 0){
             newFiles = [...this.defaultFiles];
         }
+          else if(this.appcamera == true){
+              newFiles = [...this.camera_img];
+          }
         else{
             newFiles = [...this.files];
         }
