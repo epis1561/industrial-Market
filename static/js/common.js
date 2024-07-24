@@ -34,6 +34,7 @@ function listen(event) {
             break;
         }
         case 'LINK_DATA': {
+            alert(JSON.stringify(result.value));
             if(result.value)
                 location.href = result.value;
 
