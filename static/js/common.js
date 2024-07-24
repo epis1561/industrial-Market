@@ -33,6 +33,12 @@ function listen(event) {
 
             break;
         }
+        case 'LINK_DATA': {
+            if(result.value)
+                location.href = result.value;
+
+            break;
+        }
         default: {
             // ...
             break;
