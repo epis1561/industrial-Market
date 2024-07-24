@@ -694,8 +694,8 @@ export default {
         },
 
         addEventListeners() {
-            window.addEventListener('message', this.listen, {once: true});
-            document.addEventListener('message', this.listen, {once: true});
+            window.addEventListener('message', this.listen);
+            document.addEventListener('message', this.listen);
         },
 
 
