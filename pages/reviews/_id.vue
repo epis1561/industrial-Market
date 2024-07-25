@@ -104,27 +104,18 @@ export default {
                         console.log(this.review);
 
                     })
-        },goBack() {
-            const pages = window.history.length;
-            const currentPageIndex = pages - 2;
+        }, goBack() {
+            // 이전 페이지 경로 가져오기
+            const fromPath = this.$route.meta.fromPath;
 
-            // 이전 두 페이지의 URL을 가져옵니다.
-            let prevTwoPageUrl;
-            if (currentPageIndex >= 2 && window.history.state && window.history.state.pathStack) {
-                prevTwoPageUrl = window.history.state.pathStack[currentPageIndex - 2];
-            }
-
-            // 이전 두 페이지의 URL이 '/mypage'인지 확인합니다.
-            if (prevTwoPageUrl === '/mypage') {
-                console.log('한칸')
-                // '/mypage'일 경우 한 페이지 앞으로 이동합니다.
-                window.history.go(-1);
+            // '/reviews/create' 페이지일 때 두 칸 뒤로 이동
+            if (fromPath === '/reviews/create') {
+                this.$router.go(-2); // 두 칸 뒤로 이동
             } else {
-                console.log('두칸')
-                // '/mypage'가 아닐 경우 한 페이지 뒤로 이동합니다.
-                window.history.go(-2);
+                this.$router.go(-1); // 한 칸 뒤로 이동
             }
         }
+
     },
 
 

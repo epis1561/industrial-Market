@@ -86,6 +86,7 @@
                     </button>
                 </div>
             </div>
+
         </main>
 
 <!--        &lt;!&ndash; 헤더 버튼 클릭시 나타나는 팝업 &ndash;&gt;-->
@@ -274,6 +275,22 @@
 <!--            채팅 알람이 꺼졌습니다.-->
 <!--            &lt;!&ndash; 채팅 알람이 켜졌습니다. &ndash;&gt;-->
 <!--        </div>-->
+        <div class="modal-container modal_block" :class="{'active':isNull==true}">
+            <div class="modal-wrap modal-alert">
+                <div class="modal-title-wrap">
+                    <i class="icon red"></i>
+                </div>
+                <p class="modal-alert-txt">
+                    판매/구매자를 선택해주세요.
+                </p>
+
+                <div class="modal-footer col-group">
+                    <button class="modal-footer-btn close-btn" @click="isNull=false">
+                        확인
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     </body>
@@ -302,7 +319,8 @@ export default {
                     current_page:1,
                     last_page:1,
                 }
-            }
+            },
+            isNull:false,
         }
 
     },
@@ -330,6 +348,11 @@ export default {
             });
         },
         store(){
+                if(!this.form.buyer_id){
+                    return this.isNull=true;
+
+                }
+
             this.$store.commit("setLoading", true);
             this.form.patch("/api/products/updateStateTransaction/" + this.$route.query.id,{
 
