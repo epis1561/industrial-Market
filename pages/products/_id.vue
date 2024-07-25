@@ -90,7 +90,7 @@
                     </div>
 
                     <h4 class="product-detail-title col-group">
-                        git
+                        {{ product.user.nickname || product.user.name }}
                         <a href="" class="more-btn col-group" @click.prevent="showMap=true">
                             {{ product.address_detail }} <i></i>
                         </a>

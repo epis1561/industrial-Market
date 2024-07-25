@@ -108,13 +108,13 @@
             </div>
           </div>
           <div class="form-item row-group">
-            <div class="item-default">
+            <div class="item-default" @click="console">
               거래 희망 장소
             </div>
             <div class="item-user">
               <div class="form-input-wrap relative">
-                <input type="text" class="form-input modal_addr_btn" placeholder="위치 선택" readonly
-                       @click="isMapOpen" :value="form.address_detail">
+
+                  <input type="text" id="inputId" class="form-input modal_addr_btn" :placeholder="((form.town || form.county || '') + (form.address_detail || '')) || '지역선택'" readonly @click="isMapOpen">
                 <!--                                <div class="m-input-error" v-if="!fullAddress && nullLocation">희망장소를 선택해주세요.</div>-->
                 <i class="sticker" @click="isMapOpen"></i>
               </div>
@@ -379,7 +379,9 @@ export default {
   },
 
   methods: {
-
+console(){
+    console.log(this.addressPlaceholder);
+      },
     changeDescription(e) {
       this.description = e.target.value;
     },
@@ -801,6 +803,12 @@ export default {
         window.removeEventListener('popstate', this.closeModalOnPopState);
     },
   computed: {
+      addressPlaceholder() {
+          const location = this.form.town || this.form.county || '';
+          const detail = this.form.address_detail || '';
+          return (location + detail) || '지역선택';
+      },
+
     checkInputAll() {
       let exceptColumns
       if (this.isOffer == 1) {
@@ -901,9 +909,15 @@ export default {
     if (this.$route.query.id) {
       return this.getProduct();
 
-      return this.load = true;
     }
-
+    else if(this.$auth.user.data.latestProduct){
+        this.form.country = this.$auth.user.data.latestProduct.country;
+        this.form.city = this.$auth.user.data.latestProduct.city.title;
+        this.form.county = this.$auth.user.data.latestProduct.county.title;
+        this.form.town = this.$auth.user.data.latestProduct.town.title;
+        this.form.address_detail = this.$auth.user.data.latestProduct.address_detail;
+    }
+        console.log(this.$auth.user.data);
   },
 
 };
