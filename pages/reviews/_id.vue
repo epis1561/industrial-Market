@@ -5,9 +5,9 @@
         <header id="header" class="sub-header">
             <div id="search"></div> <!-- 검색창 -->
             <div class="container col-group">
-                <a href="javascript:void(0);" @click="goBackTwoPages" class="sub-header-btn prev-btn">
-                    <img src="/images/icon_prev.png" alt="">
-                </a>
+                <button @click="goBack" class="sub-header-btn prev-btn">
+                    <img src="/images/icon_prev.png" alt="뒤로 가기">
+                </button>
                 <h2 class="title" v-if="review && review.user.id != $auth.user.data.id">
                     받은 후기 보기
                 </h2>
@@ -104,12 +104,32 @@ export default {
                         console.log(this.review);
 
                     })
-        },
-        goBackTwoPages() {
-            window.history.go(-2);
-        },
+        },goBack() {
+            const pages = window.history.length;
+            const currentPageIndex = pages - 2;
 
+            // 이전 두 페이지의 URL을 가져옵니다.
+            let prevTwoPageUrl;
+            if (currentPageIndex >= 2 && window.history.state && window.history.state.pathStack) {
+                prevTwoPageUrl = window.history.state.pathStack[currentPageIndex - 2];
+            }
+
+            // 이전 두 페이지의 URL이 '/mypage'인지 확인합니다.
+            if (prevTwoPageUrl === '/mypage') {
+                console.log('한칸')
+                // '/mypage'일 경우 한 페이지 앞으로 이동합니다.
+                window.history.go(-1);
+            } else {
+                console.log('두칸')
+                // '/mypage'가 아닐 경우 한 페이지 뒤로 이동합니다.
+                window.history.go(-2);
+            }
+        }
     },
+
+
+
+
 
     computed: {
 

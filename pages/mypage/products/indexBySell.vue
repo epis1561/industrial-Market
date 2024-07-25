@@ -110,7 +110,7 @@
                               <i class="icon"></i>
                               수정
                             </button>
-                            <button class="chat-more-option col-group" @click.prevent="isDelete=true">
+                            <button class="chat-more-option col-group" @click.prevent="deleteProducts(product.id)">
                               <i class="icon red"></i>
                               삭제
                             </button>
@@ -154,10 +154,10 @@
                             </p>
 
                             <div class="modal-footer col-group">
-                              <button class="modal-footer-btn submit-btn" @click="isDelete=false">
+                              <button class="modal-footer-btn submit-btn" @click.prevent="remove">
                                 삭제하기
                               </button>
-                              <button class="modal-footer-btn close-btn" @click.prevent="remove, isDelete = false">
+                              <button class="modal-footer-btn close-btn"@click="isDelete=false">
                                 취소
                               </button>
                             </div>
@@ -210,15 +210,20 @@ export default {
             isTrade:false,
             short_type:"",
             isDelete:false,
+            delete_id:"",
         };
     },
 
     methods: {
       remove() {
-        this.form.delete("/api/products/" + this.product_id, {}).then(response => {
+          console.log('삭제')
+          console.log(this.delete_id);
+        this.form.delete("/api/products/" + this.delete_id,
+        ).then(response => {
           this.form.page= 1;
           this.loading = false;
           this.isHide=false;
+          this.isDelete = false;
           this.form.hide="";
           this.hiding=false;
           return this.getProducts(false);
@@ -345,8 +350,13 @@ export default {
       },
         stopPropagation(event) {
             event.stopPropagation(); // 이벤트 전파 중지
+        },
+        deleteProducts(id){
+          this.delete_id = id;
+          this.isDelete = true;
         }
     },
+
 
     computed: {
         user(){
