@@ -90,7 +90,7 @@
                     </div>
 
                     <h4 class="product-detail-title col-group">
-                        희망 거래 장소
+                        git
                         <a href="" class="more-btn col-group" @click.prevent="showMap=true">
                             {{ product.address_detail }} <i></i>
                         </a>

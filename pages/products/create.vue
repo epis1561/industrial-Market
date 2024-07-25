@@ -9,7 +9,7 @@
         <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
           <img src="/images/icon_prev.png" alt="">
         </a>
-        <h2 class="title" @click="console">
+        <h2 class="title">
           등록하기
         </h2>
       </div>
@@ -118,8 +118,8 @@
                 <!--                                <div class="m-input-error" v-if="!fullAddress && nullLocation">희망장소를 선택해주세요.</div>-->
                 <i class="sticker" @click="isMapOpen"></i>
               </div>
-                                          <div class="m-input-error" v-if="form.county&&!form.address_detail">
-                                             상세주소를 입력해주세요.
+                                          <div class="m-input-error" v-if="nullLocation==true">
+                                             거래희망장소 입력은 필수입니다.
                                           </div>
             </div>
           </div>
@@ -380,15 +380,12 @@ export default {
 
   methods: {
 
-      console(){
-        console.log(this.form.imgs);
-      },
     changeDescription(e) {
       this.description = e.target.value;
     },
 
     async getMap() {
-
+        console.log('폼',this.form);
       if (this.$route.query.id) {
         var getlat = this.product.lat;
         var getlon = this.product.lon;
@@ -416,8 +413,6 @@ export default {
           var getlon = this.$store.state.coords.x;
           this.form.lat = this.$store.state.coords.y;
           this.form.lon = this.$store.state.coords.x;
-          this.form.real_lat = this.$store.state.coords.y;
-          this.form.real_lon = this.$store.state.coords.x;
         }
       }
 
@@ -471,26 +466,6 @@ export default {
             this.getCountry = component.short_name.toUpperCase();
           }
         });
-      } else {
-        this.address.forEach(component => {
-          const types = component.types;
-          if (types.includes("administrative_area_level_1")) {
-            this.form.real_city = component.long_name;
-            this.getCity = component.long_name;
-          } else if (types.includes("locality") || types.includes("sublocality_level_1")) {
-            this.form.real_county = component.long_name;
-            this.getCounty = component.long_name;
-          } else if (types.includes("sublocality_level_2")) {
-            this.form.real_town = component.long_name;
-            this.getTown = component.long_name;
-          } else if (types.includes("sublocality_level_3") || types.includes("sublocality_level_4")) {
-            this.form.real_town2 = component.long_name;
-            this.getTown2 = component.long_name;
-          } else if (types.includes("country")) {
-            this.form.real_country = component.short_name.toUpperCase();
-            this.getCountry = component.short_name.toUpperCase();
-          }
-        });
       }
 
 
@@ -501,8 +476,7 @@ export default {
         const geocodeResult = await reverseGeocode(newLat, newLng);
         getlat = newLat;
         getlon = newLng;
-        console.log(getlat)
-        console.log(getlon)
+
         this.form.lat = getlat;
         this.form.lon = getlon;
         // Extract address components
@@ -641,7 +615,7 @@ export default {
 
 
         this.detailMap = true;
-
+        console.log('맵입력후폼',this.form);
       }
 
     },
@@ -757,6 +731,7 @@ export default {
           this.isTitle=true;
 
       }
+      console.log('널 로케이션',this.nullLocation)
     },
     //     현재 위치권한 없을 시 지도 안보이게 하는 부분
     isMapOpen() {
@@ -767,6 +742,7 @@ export default {
     },
       closeImg() {
           this.isMap = false;
+          this.detailMap=false;
           window.removeEventListener('popstate', this.closeModalOnPopState);
       },
       closeModalOnPopState() {
@@ -927,7 +903,7 @@ export default {
 
       return this.load = true;
     }
-    console.log(this.$auth.user.data);
+
   },
 
 };

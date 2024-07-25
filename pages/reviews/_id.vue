@@ -5,7 +5,7 @@
         <header id="header" class="sub-header">
             <div id="search"></div> <!-- 검색창 -->
             <div class="container col-group">
-                <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
+                <a href="javascript:void(0);" @click="goBackTwoPages" class="sub-header-btn prev-btn">
                     <img src="/images/icon_prev.png" alt="">
                 </a>
                 <h2 class="title" v-if="review && review.user.id != $auth.user.data.id">
@@ -104,6 +104,9 @@ export default {
                         console.log(this.review);
 
                     })
+        },
+        goBackTwoPages() {
+            window.history.go(-2);
         },
 
     },

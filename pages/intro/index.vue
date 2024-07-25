@@ -36,7 +36,7 @@
                     </div>
                     <div class="footer-txt-group col-group">
                         <p class="footer-txt">
-                            사업자등록번호 : 123-45-67890
+                            사업자등록번호 : 264-88-03201
                         </p>
                         <p class="footer-txt">
                             통신판매업신고번호 : 2015-경기시흥-789
@@ -47,14 +47,14 @@
                             FAX : 080-1544-1544
                         </p>
                         <p class="footer-txt">
-                            TEL : 1544-1544
+                            TEL : 031-499-8899
                         </p>
                         <p class="footer-txt">
-                            E-mail : helpdesk@hhcompany.com
+                            E-mail : shkim@industrialmarket.biz
                         </p>
                     </div>
                     <p class="footer-copy-txt">
-                        Copyright 2024 HHCOMPANY Co.,LTD All rights reserved.
+                        Copyright(C) 2024 Industrial Market Co.,Ltd.All rights reserved.
                     </p>
                 </div>
             </div>

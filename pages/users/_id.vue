@@ -30,7 +30,7 @@
                             <button class="like-btn" :class="{'active':user.like==1}" @click="toggleLike"></button>
                         </div>
                         <p class="txt">
-                          {{ (user.activeCounty && user.activeCounty.city.title === user.activeCounty.title) ? user.activeCounty.city.title + ' ' + user.activeCounty.title : (user.city.title === user.county.title) ? user.city.title: user.city.title + ' ' + user.county.title }}
+                            {{(user.activeCounty && user.activeCounty.city.title !== user.activeCounty.title) ? user.activeCounty.city.title + ' ' + user.activeCounty.title : (user.activeCounty &&user.activeCounty.city.title === user.activeCounty.title) ? user.activeCounty.title : user.city.title + ' ' + user.county.title}}
                         </p>
                     </div>
                     <div class="container">

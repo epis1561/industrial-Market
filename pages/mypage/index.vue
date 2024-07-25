@@ -209,7 +209,7 @@ export default {
     watch: {},
     mounted() {
         this.getProducts();
-
+        console.log(this.user);
     }
 }
 </script>
