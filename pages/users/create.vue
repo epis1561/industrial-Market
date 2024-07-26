@@ -51,7 +51,7 @@
                             <error :form="form" name="nickname" />
                         </div>
                     </div>
-                    <div class="form-item row-group">
+                    <div class="form-item row-group" v-if="!socialUser && !socialUser.email">
                         <div class="item-default">
                             이메일(필수)
                         </div>
@@ -153,6 +153,7 @@ export default {
             active_county: "",
             isLocationCurrent: false,
             activeCities:false,
+            socialUser: null,
 
         };
     },
