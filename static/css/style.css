@@ -944,3 +944,8 @@ margin-bottom: 10px;
 .relatived{
   position: relative;
 }
+.sticker-title{
+  font-size: 14px;
+  color: #e2e2e2;
+  margin-top: 5px;
+}

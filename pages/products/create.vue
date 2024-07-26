@@ -56,9 +56,13 @@
               제목
             </div>
             <div class="item-user">
-              <input type="text" class="form-input" placeholder="제목을 입력해주세요" v-model="form.title">
-                <div class="m-input-error" v-if="isTitle==true" > 제목은 100자를 초과해 입력할 수 없습니다.</div>
-                <error :form="form" name="title"/>
+              <input type="text" class="form-input" maxlength="100" placeholder="제목을 입력해주세요" v-model="form.title">
+                <div class="m-input-error" v-if="form.title.length==100" > 제목은 100자를 초과해 입력할 수 없습니다.</div>
+                <div class="m-input-error" v-if="isTitleNull" > 제목을 입력해 주세요.</div>
+
+                <p class="sticker-title">
+                    <span>{{ form.title.length }}</span> / 100
+                </p>
             </div>
           </div>
           <div class="form-item row-group">
@@ -370,10 +374,12 @@ export default {
       keywords: '',
       isOffer: false,
       description: "",
+        title:"",
       ongoing: false,
         maxKeywords:5,
         maxKeywordLength: 15,
         isTitle:false,
+        isTitleNull:false,
     }
 
   },
@@ -381,6 +387,9 @@ export default {
   methods: {
 console(){
     console.log(this.addressPlaceholder);
+      },
+      changeTitle(e) {
+          this.title = e.target.value;
       },
     changeDescription(e) {
       this.description = e.target.value;
@@ -663,7 +672,8 @@ console(){
     },
     store() {
       this.ongoing = true;
-
+      if(!this.form.title)
+          this.isTitleNull= true;
       if (this.ongoing == true) {
         if (this.$route.query.id) {
 
@@ -894,7 +904,25 @@ console(){
         // 값이 정수형인지 판단 후 정수형이면 * 10000
         // getproduct쪽에서 price를 parseInt로 해서 정수형으로 변환해주기. 숫자인지를 확실히 하는것.
 
-      }
+      },
+        'form.product_category_id': {
+            handler(newValue, oldValue) {
+                if (newValue !== null) {
+                    this.isNullCategory = false; // form.product_category_id가 null이 아닐 때
+                }
+            },
+            immediate: true // 초기 값으로도 즉시 실행
+        },
+        'form.title': {
+            handler(newValue, oldValue) {
+                if (newValue !== null && newValue.trim() !== '') {
+                    this.isTitleNull = false; // form.title이 null이 아니고 공백이 아닐 때
+                } else {
+                    this.isTitleNull = true; // form.title이 null이거나 공백일 때
+                }
+            },
+            immediate: true // 초기 값으로도 즉시 실행
+        }
     },
 
   },
