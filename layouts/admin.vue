@@ -30,7 +30,20 @@ export default {
     },
 
     components: {},
-
+methods:{
+    getFaqCategories() {
+        this.$axios.get("/api/faqCategories")
+                .then(response => {
+                    this.$store.commit("setFaqCategories", response.data);
+                });
+    },
+    getNoticeCategories() {
+        this.$axios.get("/api/noticeCategories")
+                .then(response => {
+                    this.$store.commit("setNoticeCategories", response.data);
+                });
+    },
+},
     watch: {
         '$route'(to, from) {
             this.activeHeader = this.$route.path === "/admin/login" ? false : true;
@@ -41,7 +54,8 @@ export default {
     },
 
     mounted() {
-
+        this.getNoticeCategories();
+        this.getFaqCategories();
         if(this.$route.path !== "/admin/login" && (!this.$auth.user || !this.$auth.user.data.admin))
             return this.$router.push("/admin/login");
     }

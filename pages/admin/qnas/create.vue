@@ -3,7 +3,7 @@
 
         <div class="title-wrap col-group">
             <h2 class="main-title">
-                QnA관리자생성
+                QnA 답변생성
             </h2>
         </div>
 

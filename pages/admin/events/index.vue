@@ -56,7 +56,7 @@
                    {{item.title}}
                 </td>
                 <td class="admin-td">
-                    <div class="m-img type01" :style="`background-image:url(${item.img ? item.img.url : ''})`"></div>
+                    <div class="m-img type01 admin-events-img" :style="`background-image:url(${item.img ? item.img.url : ''})`"></div>
                 </td>
 
                 <td class="admin-td">{{item.started_at}}</td>
@@ -116,6 +116,7 @@ export default {
                 params: this.form.data()
             }).then(response => {
                 this.items = response.data;
+                console.log('결과',response.data);
             });
         },
 

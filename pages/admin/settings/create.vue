@@ -3,7 +3,7 @@
 
         <div class="title-wrap col-group">
             <h2 class="main-title">
-                세팅관리자
+                금액설정
             </h2>
         </div>
 

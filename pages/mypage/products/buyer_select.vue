@@ -89,192 +89,6 @@
 
         </main>
 
-<!--        &lt;!&ndash; 헤더 버튼 클릭시 나타나는 팝업 &ndash;&gt;-->
-<!--        <div class="modal-container modal_chat">-->
-<!--            <div class="modal-select-wrap modal-wrap">-->
-
-<!--                <div class="chat-more-option-wrap row-group">-->
-<!--                    <button class="chat-more-option col-group modal_block_btn">-->
-<!--                        <i class="icon"></i>-->
-<!--                        차단하기-->
-<!--                    </button>-->
-<!--                    <button class="chat-more-option col-group modal_report_btn">-->
-<!--                        <i class="icon"></i>-->
-<!--                        신고하기-->
-<!--                    </button>-->
-<!--                    <button class="chat-more-option col-group modal_notice_btn">-->
-<!--                        <i class="icon"></i>-->
-<!--                        알림끄기-->
-<!--                    </button>-->
-<!--                    &lt;!&ndash; 알림끄기 상태일 때 나타나는 버튼-->
-<!--                    <button class="chat-more-option col-group modal_notice_btn">-->
-<!--                        <i class="icon"></i>-->
-<!--                        알림켜기-->
-<!--                    </button>-->
-<!--                    &ndash;&gt;-->
-<!--                    <button class="chat-more-option col-group modal_leave_btn">-->
-<!--                        <i class="icon"></i>-->
-<!--                        채팅방 나가기-->
-<!--                    </button>-->
-<!--                </div>-->
-
-
-<!--                <div class="modal-footer col-group">-->
-<!--                    <button class="modal-footer-btn close-btn">-->
-<!--                        취소-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--        </div>-->
-<!--        &lt;!&ndash; //헤더 버튼 클릭시 나타나는 팝업 &ndash;&gt;-->
-
-<!--        &lt;!&ndash; 차단하기 버튼 클릭 시 팝업 &ndash;&gt;-->
-<!--        <div class="modal-container modal_block">-->
-<!--            <div class="modal-wrap modal-alert">-->
-<!--                <div class="modal-title-wrap">-->
-<!--                    <i class="icon red"></i>-->
-<!--                    <h3 class="modal-title">-->
-<!--                        차단하기-->
-<!--                    </h3>-->
-<!--                </div>-->
-<!--                <p class="modal-alert-txt">-->
-<!--                    회원사 가공제품 페이지는 <br>-->
-<!--                    <strong>사업자 정보 등록 후</strong> 작성 가능합니다. <br>-->
-<!--                    지금 사업자 정보를 등록하시겠습니까?-->
-<!--                </p>-->
-
-<!--                <div class="modal-footer col-group">-->
-<!--                    <button class="modal-footer-btn close-btn">-->
-<!--                        취소-->
-<!--                    </button>-->
-<!--                    <button class="modal-footer-btn submit-btn">-->
-<!--                        차단하기-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        &lt;!&ndash; //차단하기 버튼 클릭 시 팝업 &ndash;&gt;-->
-
-<!--        &lt;!&ndash; 채팅방 나가기 버튼 클릭 시 팝업 &ndash;&gt;-->
-<!--        <div class="modal-container modal_leave">-->
-<!--            <div class="modal-wrap modal-alert">-->
-<!--                <div class="modal-title-wrap">-->
-<!--                    <i class="icon red"></i>-->
-<!--                    <h3 class="modal-title">-->
-<!--                        채팅방 나가기-->
-<!--                    </h3>-->
-<!--                </div>-->
-<!--                <p class="modal-alert-txt">-->
-<!--                    채팅방을 나가면 채팅 목록 및 대화 <br>-->
-<!--                    내용이 삭제되고 복구할 수 없습니다. <br>-->
-<!--                    채팅방을 나가시겠습니까?-->
-<!--                </p>-->
-
-<!--                <div class="modal-footer col-group">-->
-<!--                    <button class="modal-footer-btn close-btn">-->
-<!--                        취소-->
-<!--                    </button>-->
-<!--                    <button class="modal-footer-btn submit-btn">-->
-<!--                        나가기-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        &lt;!&ndash; //채팅방 나가기 버튼 클릭 시 팝업 &ndash;&gt;-->
-
-<!--        &lt;!&ndash; 신고하기 버튼 클릭시 나타나는 팝업 &ndash;&gt;-->
-<!--        <div class="modal-container modal_report">-->
-<!--            <div class="modal-wrap">-->
-<!--                <i class="xi-close close-btn"></i>-->
-<!--                <div class="modal-title-wrap border">-->
-<!--                    <p class="modal-title">-->
-<!--                        신고하기-->
-<!--                    </p>-->
-<!--                    <p class="modal-sub-title">-->
-<!--                        아래의 목록에서 신고 사유를 선택해 주세요-->
-<!--                    </p>-->
-<!--                </div>-->
-
-<!--                <div class="form-item row-group">-->
-<!--                    <div class="form-label-wrap row-group">-->
-<!--                        <label for="type_1">-->
-<!--                            <input type="radio" class="form-radio" id="type_1" name="type">-->
-<!--                            <div class="checked-item col-group">-->
-<!--                                <div class="icon">-->
-<!--                                    <i class="xi-check"></i>-->
-<!--                                </div>-->
-<!--                                <p class="txt">-->
-<!--                                    허위 내용-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                        </label>-->
-<!--                        <label for="type_2">-->
-<!--                            <input type="radio" class="form-radio" id="type_2" name="type">-->
-<!--                            <div class="checked-item col-group">-->
-<!--                                <div class="icon">-->
-<!--                                    <i class="xi-check"></i>-->
-<!--                                </div>-->
-<!--                                <p class="txt">-->
-<!--                                    동일 내용 반복 게시 (도배)-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                        </label>-->
-<!--                        <label for="type_3">-->
-<!--                            <input type="radio" class="form-radio" id="type_3" name="type">-->
-<!--                            <div class="checked-item col-group">-->
-<!--                                <div class="icon">-->
-<!--                                    <i class="xi-check"></i>-->
-<!--                                </div>-->
-<!--                                <p class="txt">-->
-<!--                                    음란 / 선정성 / 비방-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                        </label>-->
-<!--                        <label for="type_4">-->
-<!--                            <input type="radio" class="form-radio" id="type_4" name="type">-->
-<!--                            <div class="checked-item col-group">-->
-<!--                                <div class="icon">-->
-<!--                                    <i class="xi-check"></i>-->
-<!--                                </div>-->
-<!--                                <p class="txt">-->
-<!--                                    광고/홍보-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                        </label>-->
-<!--                        <label for="type_5">-->
-<!--                            <input type="radio" class="form-radio" id="type_5" name="type">-->
-<!--                            <div class="checked-item col-group">-->
-<!--                                <div class="icon">-->
-<!--                                    <i class="xi-check"></i>-->
-<!--                                </div>-->
-<!--                                <div class="txt-wrap row-group">-->
-<!--                                    <p class="txt">-->
-<!--                                        기타-->
-<!--                                    </p>-->
-<!--                                    &lt;!&ndash; 기타 선택 시 input 활성화 (disable 클래스 삭제) &ndash;&gt;-->
-<!--                                    <input type="text" class="form-input disable" disabled="" placeholder="간단한 사유 입력">-->
-<!--                                </div>-->
-
-<!--                            </div>-->
-<!--                        </label>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="modal-footer col-group">-->
-<!--                    <button class="modal-footer-btn submit-btn">-->
-<!--                        신고하기-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        &lt;!&ndash; //신고하기 버튼 클릭시 나타나는 팝업 &ndash;&gt;-->
-
-<!--        &lt;!&ndash; 알림끄기/켜기 버튼 클릭 시 팝업 &ndash;&gt;-->
-<!--        <div class="modal-notice-txt">-->
-<!--            채팅 알람이 꺼졌습니다.-->
-<!--            &lt;!&ndash; 채팅 알람이 켜졌습니다. &ndash;&gt;-->
-<!--        </div>-->
         <div class="modal-container modal_block" :class="{'active':isNull==true}">
             <div class="modal-wrap modal-alert">
                 <div class="modal-title-wrap">
@@ -343,14 +157,29 @@ export default {
                this.chats = response.data;
                this.chats.data = this.chats.data.filter(data =>{
                    return data.latestMessage.length!=0;
-               } )
-               console.log(this.chats);
+               });
+
+               if(this.chats.data.length==1){
+                   console.log('채팅데이터',this.chats.data[0]);
+                   console.log(this.user);
+                   console.log(this.chats.data[0].asker);
+                   if(this.chats.data[0].asker && this.chats.data[0].asker.id != this.user.id){
+                       this.form.buyer_id = this.chats.data[0].asker.id;
+                       console.log('발동')
+                       return this.store();
+                   }
+                   else if(this.chats.data[0].owner && this.chats.data[0].owner.id != this.user.id){
+                       this.form.buyer_id = this.chats.data[0].owner.id;
+                       console.log('발동2')
+                       return this.store();
+                   }
+               }
+               console.log('채팅',this.chats);
             });
         },
         store(){
                 if(!this.form.buyer_id){
                     return this.isNull=true;
-
                 }
 
             this.$store.commit("setLoading", true);

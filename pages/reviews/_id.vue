@@ -105,23 +105,30 @@ export default {
                         console.log(this.review);
 
                     })
-        },goBack() {
-            // 현재 라우트의 이름이나 경로를 확인
-            const currentRoute = this.$route.name || this.$route.path;
+        },   goBack() {
+            // 현재 라우트의 전체 경로 가져오기
+            const currentRoute = this.$nuxt.$route.fullPath;
 
-            // 현재 페이지가 특정 페이지일 때만 특별한 로직 적용
-            if (currentRoute === 'specificPageName' || currentRoute === '/specific-page-path') {
-                // 브라우저의 히스토리를 확인
-                const previousPage = window.history.state?.back;
+            // 이전 페이지 경로 가져오기
+            const lastRoute = process.client ? sessionStorage.getItem('lastRoute') : null;
 
-                if (previousPage === '/reviews/create') {
-                    this.$router.go(-2);
-                } else {
-                    this.$router.go(-1);
-                }
+            const isFromCreate = lastRoute && lastRoute.startsWith('/reviews/create');
+
+            console.log('Current route:', currentRoute);
+            console.log('Last route:', lastRoute);
+            console.log('Is from create:', isFromCreate);
+
+            if (isFromCreate) {
+                console.log('Attempting to go back 2 steps');
+                this.$nuxt.$router.go(-2);
             } else {
-                // 다른 모든 페이지에서는 그냥 한 칸 뒤로
-                this.$router.go(-1);
+                console.log('Going back 1 step');
+                this.$nuxt.$router.back();
+            }
+
+            // 현재 라우트를 sessionStorage에 저장 (클라이언트 사이드에서만)
+            if (process.client) {
+                sessionStorage.setItem('lastRoute', currentRoute);
             }
         }
 

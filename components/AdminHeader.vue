@@ -98,14 +98,6 @@
                         </div>
                     </div>
 
-                    <div class="gnb-item">
-                        <div class="item-default">
-                            <nuxt-link to="/admin/dashboard" class="sub-gnb-item">
-                                대시보드
-                            </nuxt-link>
-
-                        </div>
-                    </div>
 
                 </div>
 

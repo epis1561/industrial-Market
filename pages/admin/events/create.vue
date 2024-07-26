@@ -27,9 +27,9 @@
               </label>
               <div class="file-preview-scroll-wrap">
                 <div class="file-preview-wrap col-group">
-                  <input-images :multiple="false" @change="(data) => {form.imgs = data;}"
-                                @removed="(data) => {form.imgs_remove_ids = data}"
-                                :default="item && item.img ? [item.img] : ''"/>
+                  <input-images :multiple="false" @change="(data) => {form.files = data;}"
+                                @removed="(data) => {form.files_remove_ids = data}"
+                                :default="item && item.img ? [item.img] : ''" :max="1"/>
                 </div>
 
               </div>
@@ -39,14 +39,14 @@
             <p class="item-default">
               시작일자 <span class="star">*</span>
             </p>
-            <input type="date" class="form-input" v-model="form.started_at" required>
+            <input type="date" class="form-input" v-model="form.started_at" required style="width:230px">
           </div>
 
           <div class="form-item row-group">
             <p class="item-default">
               종료일자 <span class="star">*</span>
             </p>
-            <input type="date" class="form-input" v-model="form.finished_at" required>
+            <input type="date" class="form-input" v-model="form.finished_at" required style="width:230px">
           </div>
 
           <div class="form-item row-group">
@@ -100,7 +100,6 @@ export default {
                 files: [],
                 files_mobile: [],
                 files_remove_ids: [],
-
                 tags:[],
             }),
         }
@@ -109,8 +108,9 @@ export default {
     methods: {
         store(){
             if(this.item)
-                return this.form.post("/api/admin/events/" + this.item.id)
+            return this.form.post("/api/admin/events/" + this.item.id)
                     .then(response => {
+                        console.log('여기발동')
                         this.$router.push("/admin/events");
                     });
 

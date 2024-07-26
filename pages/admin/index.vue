@@ -1,61 +1,130 @@
 <template>
-    <div class="admin-wrap">
+    <div id="wrap">
+        <div class="admin-container">
+
+
+            <div class="admin-wrap">
+
+                <div class="title-wrap col-group">
+                    <div class="main-title-wrap col-group">
+                        <h2 class="main-title">
+                            산업마켓 관리자
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="dashboard-wrap">
+                    <div class="dashboard-group">
+                        <div class="dashboard-item">
+                            <div class="dashboard-title-wrap">
+                                <h3 class="title">
+                                    월별 가입자수
+                                </h3>
+                            </div>
+
+                            <div class="dashboard-chart">
+                                <canvas id="chart_1" style="min-height:350px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-group">
+                        <div class="dashboard-item flex-2">
+                            <div class="dashboard-title-wrap">
+                                <h3 class="title">
+                                    관심키워드 TOP 10
+                                </h3>
+                            </div>
+
+                            <div class="dashboard-chart">
+                                <canvas id="chart_2" style="min-height:350px;"></canvas>
+                            </div>
+                        </div>
+                        <div class="dashboard-item flex-1">
+                            <div class="dashboard-title-wrap">
+                                <h3 class="title">
+                                    등록상품수
+                                </h3>
+                            </div>
+
+                            <div class="dashboard-chart">
+                                <canvas id="chart_3"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <empty v-if="items.data.length === 0" />
+
 
     </div>
-
 </template>
 
+<style>
+.admin-container .dashboard-group {
+    display: flex; gap:40px;
+    width: 100%;
+    margin-bottom:40px;
+}
+.admin-container .dashboard-item {
+    flex:1;
+    padding:40px;
+    border:1px solid #e1e1e1; border-radius:5px;
+}
+.admin-container .dashboard-item .title {
+    margin-bottom:8px;
+    font-size:24px; font-weight:bold;
+}
+.admin-container .flex-2 {
+    flex:2 !important;
+}
+.admin-container .flex-1 {
+    flex:1 !important;
+}
+</style>
 <script>
 import Form from "@/utils/Form";
 export default {
     middleware: ["admin"],
-
     layout: "admin",
 
-    data(){
+    components: {},
+
+    data() {
         return {
-            counts : {
-                deliveries : [],
-                categories : {
-                    count_quick : 0,
-                    count_truck: 0,
-                },
-                orders: [],
-            }
+            items: {
+                data: [],
+                meta: {
+                    current_page: 1,
+                    last_page: 1
+                }
+            },
+
+            form: new Form(this.$axios, {
+                page: 1,
+                word: "",
+                type: "",
+            }),
         }
     },
+
     methods: {
-        getDashboard(){
-            this.$axios.get("/api/admin/dashboard")
-                .then(response => {
-                    this.counts = response.data.data;
-
-                    this.drawChart();
-                })
-        },
-
-        drawChart(){
+        chart() {
             const chart_1 = document.getElementById('chart_1').getContext('2d');
-
+            const labels = this.items.data.countUserByMonths.map(item => item.title);
+            const data = this.items.data.countUserByMonths.map(item => item.count);
             new Chart(chart_1, {
                 plugins: [ChartDataLabels],
                 type: 'bar',
+
                 data: {
-                    labels: this.counts.deliveries.map(delivery => delivery.month),
+                    labels: labels,
                     datasets: [
                         {
-                            label: '화물',
-                            backgroundColor: '#E94F35',
-                            data: this.counts.deliveries.map(delivery => delivery.count_truck),
-                            datalabels: {
-                                anchor: 'center',
-                                align: 'center',
-                            }
-                        },
-                        {
-                            label: '퀵',
-                            backgroundColor: '#231D4C',
-                            data: this.counts.deliveries.map(delivery => delivery.count_quick),
+                            label: '가입자수',
+                            backgroundColor: '#FFD500',
+                            data:data,
                             datalabels: {
                                 align: 'center',
                                 anchor: 'center'
@@ -114,29 +183,21 @@ export default {
             });
 
             const chart_2 = document.getElementById('chart_2').getContext('2d');
-
+            const keyword_labels = this.items.data.countKeywords.map(item => item.title);
+            const keyword_data = this.items.data.countKeywords.map(item => item.count);
             new Chart(chart_2, {
                 plugins: [ChartDataLabels],
                 type: 'bar',
                 data: {
-                    labels: this.counts.orders.map(order => order.month),
+                    labels: keyword_labels,
                     datasets: [
                         {
-                            label: '월결제',
-                            backgroundColor: '#E94F35',
-                            data: this.counts.orders.map(order => order.count_calculate),
+                            label: '키워드',
+                            backgroundColor: '#2f83f7',
+                            data: keyword_data,
                             datalabels: {
                                 anchor: 'center',
                                 align: 'center',
-                            }
-                        },
-                        {
-                            label: '선결제',
-                            backgroundColor: '#231D4C',
-                            data: this.counts.orders.map(order => order.count_uncalculate),
-                            datalabels: {
-                                align: 'center',
-                                anchor: 'center'
                             }
                         },
                     ]
@@ -194,17 +255,18 @@ export default {
             });
 
             const chart_3 = document.getElementById('chart_3').getContext('2d');
-
+            const products_labels = this.items.data.countProducts.map(item => item.title);
+            const products_data = this.items.data.countProducts.map(item => item.count);
             new Chart(chart_3, {
                 plugins: [ChartDataLabels],
                 type: 'pie',
                 data: {
-                    labels: ['화물', '퀵'],
+                    labels: products_labels,
                     datasets: [
                         {
-                            label: ['배송요청 건'],
-                            backgroundColor: ['#E94F35', '#231D4C'],
-                            data: [this.counts.categories.count_truck, this.counts.categories.count_quick],
+                            label: ['상품수'],
+                            backgroundColor: ['#484848','#2f83f7','#FFD500'],
+                            data: products_data,
                             datalabels: {
                                 anchor: 'center',
                                 align: 'center',
@@ -248,13 +310,26 @@ export default {
                     },
                 },
             });
+        },
+        filter(){
+            this.$axios.get("/api/admin/dashboard", {
+                params: this.form.data()
+            }).then(response => {
+                this.items = response.data;
+                this.chart();
+                console.log(this.items);
+            });
+        },
+    },
 
-        }
+
+    computed: {
+
+
     },
 
     mounted() {
-
-        // this.getDashboard();
+        this.filter();
 
     }
 }

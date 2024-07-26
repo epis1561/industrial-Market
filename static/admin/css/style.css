@@ -290,3 +290,15 @@ strong{font-weight: bold !important;}
     position: fixed; top:50% !important; left:50% !important;
     transform:translate(-50%, -50%);
 }
+.admin-product-img{
+    height: 150px;
+    background-repeat: no-repeat;
+    background-position: unset;
+    background-size: contain;
+}
+.admin-events-img{
+    height: 250px;
+    background-repeat: no-repeat;
+    background-position: unset;
+    background-size: contain;
+}

@@ -3,7 +3,7 @@
 
         <div class="title-wrap col-group">
             <h2 class="main-title">
-                자주묻는질문생성관리자
+                자주묻는질문 생성
             </h2>
         </div>
 
@@ -14,27 +14,11 @@
                     카테고리 <span class="star">*</span>
                 </p>
                 <div class="categoryBtns">
-                    <div class="categorybuttons">
-                        <button class="category" @click="form.faq_category_id = 3" :class="{'active':form.faq_category_id=== 3}">
-                            서비스
+                    <div class="categorybuttons" v-for="category in faqCategories.data" :key="category.id">
+                        <button class="category" :class="{'active':form.faq_category_id == category.id}" @click="form.faq_category_id = category.id">
+                            {{category.title}}
                         </button>
                     </div>
-                    <div class="categorybuttons">
-                        <button class="category" @click="form.faq_category_id = 1" :class="{'active':form.faq_category_id === 1}">
-                            환불
-                        </button>
-                    </div>
-                    <div class="categorybuttons">
-                        <button class="category" @click="form.faq_category_id = 2" :class="{'active':form.faq_category_id === 2}">
-                            결제
-                        </button>
-                    </div>
-                    <div class="categorybuttons">
-                        <button class="category" @click="form.faq_category_id = 4" :class="{'active':form.faq_category_id === 4}">
-                            기타
-                        </button>
-                    </div>
-
                 </div>
             </div>
           <div class="form-item row-group">
@@ -106,6 +90,7 @@ export default {
             if(this.item)
                 return this.form.post("/api/admin/faqs/" + this.item.id)
                     .then(response => {
+
                         this.$router.push("/admin/faqs");
                     });
 
@@ -127,8 +112,13 @@ export default {
         removeTag(index){
             this.form.tags.splice(index, 1);
         },
-    },
 
+    },
+    computed:{
+        faqCategories() {
+            return this.$store.state.faqCategories;
+        }
+    },
     mounted() {
         if(this.$route.query.id){
             return this.$axios.get("/api/admin/faqs/" + this.$route.query.id)
@@ -136,7 +126,8 @@ export default {
                     this.item = response.data.data;
 
                     this.form.set({...this.form, ...this.item});
-
+                    this.form.faq_category_id=this.form.faqCategory.id
+                    console.log(this.form);
                     this.loading = false;
 
                     $("html,body").scrollTop(0);

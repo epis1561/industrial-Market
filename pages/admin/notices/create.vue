@@ -3,7 +3,7 @@
 
         <div class="title-wrap col-group">
             <h2 class="main-title">
-                공지사항 생성관리자
+                공지사항 생성
             </h2>
         </div>
 
@@ -14,21 +14,12 @@
                     카테고리 <span class="star">*</span>
                 </p>
                 <div class="categoryBtns">
-                    <div class="categorybuttons">
-                        <button class="category" @click="form.notice_category_id = 1" :class="{'active':form.notice_category_id === 1}">
-                            서비스
+                    <div class="categorybuttons" v-for="category in noticeCategories.data" :key="category.id">
+                        <button class="category" @click="form.notice_category_id = category.id" :class="{'active':form.notice_category_id === category.id}">
+                            {{ category.title }}
                         </button>
                     </div>
-                    <div class="categorybuttons">
-                        <button class="category" @click="form.notice_category_id = 2" :class="{'active':form.notice_category_id === 2}">
-                            안내
-                        </button>
-                    </div>
-                    <div class="categorybuttons">
-                        <button class="category" @click="form.notice_category_id = 3" :class="{'active':form.notice_category_id === 3}">
-                            기타
-                        </button>
-                    </div>
+
                 </div>
 
             </div>
@@ -121,6 +112,14 @@ export default {
         removeTag(index){
             this.form.tags.splice(index, 1);
         },
+        console(){
+            console.log(this.noticeCategories.data);
+        }
+    },
+    computed:{
+        noticeCategories() {
+            return this.$store.state.noticeCategories;
+        }
     },
 
     mounted() {
@@ -130,7 +129,7 @@ export default {
                     this.item = response.data.data;
 
                     this.form.set({...this.form, ...this.item});
-                    this.form.notice_category_id = response.data.data.noticeCategory.id;
+                     this.form.notice_category_id = this.form.noticeCategory.id;
                     console.log(this.form);
                     this.loading = false;
 

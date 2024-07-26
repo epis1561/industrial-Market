@@ -25,10 +25,10 @@
                     전체
                 </div>
                 <div class="label-item" :class="{'active': url==='/api/chats/indexByOwner'}" @click="url = '/api/chats/indexByOwner'">
-                    판매
+                    내 제품
                 </div>
                 <div class="label-item" :class="{'active': url==='/api/chats/indexByAsker'}" @click="url = '/api/chats/indexByAsker'">
-                    구매
+                    상대 제품
                 </div>
             </div>
             <div class="container">

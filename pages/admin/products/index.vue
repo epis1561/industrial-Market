@@ -4,7 +4,7 @@
         <div class="title-wrap col-group">
             <div class="main-title-wrap col-group">
                 <h2 class="main-title">
-                    제품관리자
+                    제품목록
                 </h2>
             </div>
 
@@ -53,7 +53,7 @@
                    {{ item.user.nickname }}
                 </td>
                 <td class="admin-td">
-                    <div class="m-img type01" :style="`background-image:url(${item.img ? item.img.url : ''})`"></div>
+                    <div class="m-img type01 admin-product-img" :style="`background-image:url(${item.img ? item.img.url : '/images/notification_icon_bg.png'})`"></div>
                 </td>
 
                 <td class="admin-td">{{item.productCategory.title}}</td>
@@ -104,6 +104,7 @@ export default {
                 params: this.form.data()
             }).then(response => {
                 this.items = response.data;
+                console.log('결과',response.data);
             });
         },
 

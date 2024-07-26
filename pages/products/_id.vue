@@ -54,7 +54,13 @@
                         <!-- 본인의 상품 확인 시 보이는 섹션 -->
                         <div class="detail-status-select col-group" v-if="this.$auth.user.data.id == product.user.id"
                              @click="isSelect = true">
-                            <div class="txt">
+                            <div class="txt" v-if="product.type==1 && product.format_short_state==='구매'">
+                                찾습니다
+                            </div>
+                            <div class="txt" v-if="product.type==1 && product.format_short_state!=='구매'">
+                                {{ product.format_short_state }}
+                            </div>
+                            <div class="txt" v-if="product.type!=1">
                                 {{ product.format_state }}
                             </div>
                             <i class="icon"></i>
@@ -393,7 +399,7 @@
                     <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1"
                             @click="trading(1)">
                         <i class="icon"></i>
-                        거래중
+                        진행중
                     </button>
                     <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2"
                        @click.prevent="changeTransaction(2),isSelect = false">

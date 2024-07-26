@@ -4,7 +4,7 @@
         <div class="title-wrap col-group">
             <div class="main-title-wrap col-group">
                 <h2 class="main-title">
-                    최소금액세팅
+                    최소금액
                 </h2>
                 <div class="top-btn-wrap">
                     <nuxt-link :to="`/admin/settings/create`" class="btn" v-if="items.data.length < 0">
