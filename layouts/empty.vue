@@ -41,7 +41,12 @@ export default {
         this.$store.dispatch("getCoords");
         this.getCities();
 
-        if(!this.$route.query.WEBVIEW){
+        if(this.$route.query.WEBVIEW)
+            localStorage.setItem("WEBVIEW", this.$route.query.WEBVIEW);
+
+        let webview = localStorage.getItem("WEBVIEW");
+
+        if(!webview){
             if (!/WEBVIEW/.test(navigator.userAgent)) {
                 let url = "industrialmarket:/" + location.pathname;
 

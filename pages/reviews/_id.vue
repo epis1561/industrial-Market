@@ -105,7 +105,8 @@ export default {
                         console.log(this.review);
 
                     })
-        },   goBack() {
+        },
+        goBack() {
             // 현재 라우트의 전체 경로 가져오기
             const currentRoute = this.$nuxt.$route.fullPath;
 
