@@ -49,7 +49,7 @@
                 {{ productCategory.title }}
               </button>
             </div>
-              <div class="m-input-error" v-if="nullCategory" >카테고리를 선택해주세요.</div>
+              <div class="m-input-error" v-if="nullCategory" >중고기계,부품,공구,기타 중 하나를 선택해 주세요.</div>
           </div>
           <div class="form-item row-group">
             <div class="item-default">

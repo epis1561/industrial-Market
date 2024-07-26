@@ -399,11 +399,17 @@
                     <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1"
                             @click="trading(1)">
                         <i class="icon"></i>
-                        진행중
+                        거래중
                     </button>
-                    <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2"
+                    <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2 && product.type!=0"
                        @click.prevent="changeTransaction(2),isSelect = false">
                         <i class="icon"></i>
+                        거래완료
+                    </a>
+                    <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2 && product.type==0"
+                       @click.prevent="changeTransaction(2),isSelect = false">
+                        <i class="icon"></i>
+                        거래완료
                         {{ product.format_short_type }}완료
                     </a>
                 </div>

@@ -117,14 +117,14 @@
                                 <i class="icon"></i>
                             </div>
                         </nuxt-link>
-                        <a href="" class="mypage-menu-item col-group">
+                        <nuxt-link to="/contents/locationPolicy" class="mypage-menu-item col-group">
                             <p class="title">
                                 위치기반 서비스 이용약관
                             </p>
                             <div class="more-btn col-group">
                                 <i class="icon"></i>
                             </div>
-                        </a>
+                        </nuxt-link>
                     </div>
                 </div>
             </div>
