@@ -93,6 +93,7 @@ export default {
 
             }),
             review:"",
+            previousPath:"",
         };
     },
 
@@ -104,17 +105,26 @@ export default {
                         console.log(this.review);
 
                     })
-        }, goBack() {
-            // 이전 페이지 경로 가져오기
-            const fromPath = this.$route.meta.fromPath;
+        },goBack() {
+            // 현재 라우트의 이름이나 경로를 확인
+            const currentRoute = this.$route.name || this.$route.path;
 
-            // '/reviews/create' 페이지일 때 두 칸 뒤로 이동
-            if (fromPath === '/reviews/create') {
-                this.$router.go(-2); // 두 칸 뒤로 이동
+            // 현재 페이지가 특정 페이지일 때만 특별한 로직 적용
+            if (currentRoute === 'specificPageName' || currentRoute === '/specific-page-path') {
+                // 브라우저의 히스토리를 확인
+                const previousPage = window.history.state?.back;
+
+                if (previousPage === '/reviews/create') {
+                    this.$router.go(-2);
+                } else {
+                    this.$router.go(-1);
+                }
             } else {
-                this.$router.go(-1); // 한 칸 뒤로 이동
+                // 다른 모든 페이지에서는 그냥 한 칸 뒤로
+                this.$router.go(-1);
             }
         }
+
 
     },
 
@@ -128,7 +138,9 @@ export default {
     watch: {
 
     },
+
     mounted() {
+
         this.getReview();
     }
 }
