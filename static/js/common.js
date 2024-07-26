@@ -16,14 +16,14 @@ function listen(event) {
 
     switch(result?.key) {
         case 'GOOGLE_LOGIN': {
-            location.href= `https://api.industrialmarket.biz/login/app?platform=google&id=${result.value.user.id}&name=${result.value.user.name}&email=${result.value.user.email}`;
+            location.href= `https://api.e-box.kr/login/app?platform=google&id=${result.value.user.id}&name=${result.value.user.name}&email=${result.value.user.email}`;
 
             break;
         }
         case 'APPLE_LOGIN': {
             // alert(`https://api.industrialmarket.biz/login/app?platform=apple&id=${result.value.user}&name=${result.value.user.fullName.familyName}${result.value.user.fullName.givenName}&email=${result.value.user.email}`);
             // location.href = `https://api.industrialmarket.biz/login/app?platform=apple&id=${result.value.user}&name=${result.value.user.fullName.familyName}${result.value.user.fullName.givenName}&email=${result.value.user.email}`;
-            location.href = `https://api.industrialmarket.biz/login/app?platform=apple&id_token=${result.value.id_token}`;
+            location.href = `https://api.e-box.kr/login/app?platform=apple&id_token=${result.value.id_token}`;
 
             break;
         }
