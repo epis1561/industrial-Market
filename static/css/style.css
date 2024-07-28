@@ -271,11 +271,11 @@ main { overflow: auto; }
   color: #fff;
   border-radius: 4px; }
 
-.prod-item .title { font-size: 18px; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc( 100% - 28px ); }
+.prod-item .title { font-size: 18px; font-weight:bold; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: calc( 100% - 28px ); }
 .prod-item .sub-txt-group { gap: 12px; margin-bottom: 12px; }
 .prod-item .sub-txt { font-size: 15px; color: #9c9c9c; position: relative; }
 .prod-item .sub-txt:not(:last-child)::after { content: ''; display: block; position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #aeaeae; right: -7px; top: 50%;  transform: translateY(-50%); }
-.prod-item .price { font-size: 15px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+.prod-item .price { font-size: 15px; display: flex; align-items: center; gap: 8px; }
 .prod-item .prod-btn-wrap { position: absolute; bottom: 0; right: 0; align-items: center; }
 .prod-btn-wrap { gap: 12px; align-items: center; }
 .prod-btn-wrap .prod-btn { gap: 4px; align-items: center; }
