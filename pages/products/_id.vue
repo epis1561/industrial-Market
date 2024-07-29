@@ -93,7 +93,7 @@
                     <h4 class="product-detail-title col-group">
                         {{ product.user.nickname || product.user.name }}
                         <a href="" class="more-btn col-group" @click.prevent="showMap=true">
-                            {{ product.address_detail }} <i></i>
+                            {{product.city ? product.city.title : ''}} {{product.county ? product.county.title : ''}} <i></i>
                         </a>
                         <!--큰지도-->
                         <div class="modal-container modal_addr" :class="{'active':showMap==true}">
