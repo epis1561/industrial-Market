@@ -896,6 +896,7 @@ main { overflow: auto; }
   display: flex;
 justify-content: end;
   align-items: center;
+  gap:12px;
 }
 .admin-chat .profile-flex{
   margin-bottom: 5px;
