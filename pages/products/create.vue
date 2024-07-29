@@ -92,7 +92,7 @@
                                        v-if="form.offer_price == 0 && (form.type==0)" @wheel="preventScroll">
                                 <p class="sticker" v-if="form.type !== 2 && form.type !== 1">원</p>
                             </div>
-                            <div class="m-input-checkbox type01" v-if="form.type!=2">
+                            <div class="m-input-checkbox type01" v-if="form.type!=2 && form.type !=1">
                                 <input type="checkbox" id="check1" v-model="form.offer_price">
                                 <label for="check1" @click.prevent="offer">가격협의&nbsp;<span class="guide-txt"
                                                                                            style="font-size:12px;">체크 시, 가격은 표시되지 않고 가격협의로만 노출됩니다.</span>
