@@ -9,7 +9,8 @@
                 <a href="javascript:window.history.back();" class="sub-header-btn prev-btn">
                     <img src="/images/icon_prev.png" alt="">
                 </a>
-                <h2 class="title"  v-if="product && $auth.user.data.id == product.user.id && (product.type == 0 || product.type == 2)">
+                <h2 class="title"
+                    v-if="product && $auth.user.data.id == product.user.id && (product.type == 0 || product.type == 2)">
                     판매자 선택
                 </h2>
                 <h2 class="title" v-if="product && $auth.user.data.id == product.user.id && product.type == 1">
@@ -19,7 +20,7 @@
         </header>
         <!-- header End -->
 
-        <main class="subpage buyer_select chats" v-if="product" >
+        <main class="subpage buyer_select chats" v-if="product">
             <div class="chat-prod prod-item ">
                 <div class="container col-group">
                     <div class="item-img">
@@ -40,9 +41,14 @@
             </div>
 
             <div class="chat-list" v-if="chats">
-                <label class="chat-item col-group" :id="'buyer_' + buyer.id" v-for="buyer in chats.data" :key="buyer.id" v-if="chats">
-                    <input type="radio" class="form-radio" :id="'buyer_' + buyer.id" name="buyer" v-if="buyer.asker && buyer.asker.id != user.id" :value="buyer.asker.id" v-model="form.buyer_id">
-                    <input type="radio" class="form-radio" :id="'buyer_' + buyer.id" name="buyer" v-if="buyer.owner && buyer.owner.id != user.id" :value="buyer.owner.id" v-model="form.buyer_id">
+                <label class="chat-item col-group" :id="'buyer_' + buyer.id" v-for="buyer in chats.data" :key="buyer.id"
+                       v-if="chats">
+                    <input type="radio" class="form-radio" :id="'buyer_' + buyer.id" name="buyer"
+                           v-if="buyer.asker && buyer.asker.id != user.id" :value="buyer.asker.id"
+                           v-model="form.buyer_id">
+                    <input type="radio" class="form-radio" :id="'buyer_' + buyer.id" name="buyer"
+                           v-if="buyer.owner && buyer.owner.id != user.id" :value="buyer.owner.id"
+                           v-model="form.buyer_id">
                     <div class="checked-item col-group">
                         <div class="icon">
                             <i class="xi-check"></i>
@@ -67,19 +73,19 @@
                             </p>
                         </div>
                         <p class="txt">
-                           {{ buyer.latestMessage.description }}
+                            {{ buyer.latestMessage.description }}
                         </p>
                     </div>
                 </label>
 
             </div>
-<!--            {{ buyer.asker.nickname || buyer.asker.name }}-->
+            <!--            {{ buyer.asker.nickname || buyer.asker.name }}-->
 
             <div class="buyer-select-footer">
                 <div class="container row-group">
-                        <p class="txt" @click="otherStore">
-                            다른 곳에서 판매했어요
-                        </p>
+                    <p class="txt" @click="otherStore">
+                        다른 곳에서 판매했어요
+                    </p>
 
                     <button class="modal-footer-btn submit-btn" @click="store">
                         거래완료
@@ -122,80 +128,68 @@ export default {
     data() {
         return {
             form: new Form(this.$axios, {
-                product_id : this.$route.query.id,
-                buyer_id:"",
-                state_transaction:2,
+                product_id: this.$route.query.id,
+                buyer_id: "",
+                state_transaction: 2,
             }),
-            product:"",
-            chats:{
-                data:[],
-                meta:{
-                    current_page:1,
-                    last_page:1,
+            product: "",
+            chats: {
+                data: [],
+                meta: {
+                    current_page: 1,
+                    last_page: 1,
                 }
             },
-            isNull:false,
+            isNull: false,
         }
 
     },
 
     methods: {
-            getProduct() {
-                this.$store.commit("setLoading", true);
-                this.$axios.get("/api/products/" + this.$route.query.id, {
-                }).then(response => {
+        getProduct() {
+            this.$store.commit("setLoading", true);
+            this.$axios.get("/api/products/" + this.$route.query.id, {}).then(response => {
                 this.product = response.data.data;
 
-                });
-            },
-        getChats(){
-            this.$store.commit("setLoading", true);
-            console.log(this.form.product_id);
-            this.$axios.get("/api/chats",{
-                params: this.form.data(),
-            }).then(response => {
-               this.chats = response.data;
-               this.chats.data = this.chats.data.filter(data =>{
-                   return data.latestMessage.length!=0;
-               });
-
-               if(this.chats.data.length==1){
-                   console.log('채팅데이터',this.chats.data[0]);
-                   console.log(this.user);
-                   console.log(this.chats.data[0].asker);
-                   if(this.chats.data[0].asker && this.chats.data[0].asker.id != this.user.id){
-                       this.form.buyer_id = this.chats.data[0].asker.id;
-                       console.log('발동')
-                       return this.store();
-                   }
-                   else if(this.chats.data[0].owner && this.chats.data[0].owner.id != this.user.id){
-                       this.form.buyer_id = this.chats.data[0].owner.id;
-                       console.log('발동2')
-                       return this.store();
-                   }
-               }
-               console.log('채팅',this.chats);
             });
         },
-        store(){
-                if(!this.form.buyer_id){
-                    return this.isNull=true;
+        getChats() {
+            this.$store.commit("setLoading", true);
+            console.log(this.form.product_id);
+            this.$axios.get("/api/chats", {
+                params: this.form.data(),
+            }).then(response => {
+                this.chats = response.data;
+                this.chats.data = this.chats.data.filter(data => {
+                    return data.latestMessage.length != 0;
+                });
+
+                if (this.chats.data.length == 1) {
+                    if (this.chats.data[0].asker && this.chats.data[0].asker.id != this.user.id) {
+                        this.form.buyer_id = this.chats.data[0].asker.id;
+                        // return this.store();
+                    } else if (this.chats.data[0].owner && this.chats.data[0].owner.id != this.user.id) {
+                        this.form.buyer_id = this.chats.data[0].owner.id;
+                        // return this.store();
+                    }
                 }
+            });
+        },
+        store() {
+            if (!this.form.buyer_id) {
+                return this.isNull = true;
+            }
 
             this.$store.commit("setLoading", true);
-            this.form.patch("/api/products/updateStateTransaction/" + this.$route.query.id,{
-
-            }).then(response =>{
+            this.form.patch("/api/products/updateStateTransaction/" + this.$route.query.id, {}).then(response => {
                 console.log('성공했습니다');
                 this.$router.push(`/mypage/products/indexBySell?id=${2}`)
             })
         },
-        otherStore(){
-            this.form.buyer_id="";
+        otherStore() {
+            this.form.buyer_id = "";
             this.$store.commit("setLoading", true);
-            this.form.patch("/api/products/updateStateTransaction/" + this.$route.query.id,{
-
-            }).then(response =>{
+            this.form.patch("/api/products/updateStateTransaction/" + this.$route.query.id, {}).then(response => {
                 console.log('성공했습니다');
                 this.$router.push(`/products/${this.$route.query.id}`)
             })
@@ -204,15 +198,15 @@ export default {
     },
 
     computed: {
-                user(){
-                   return this.$auth.user.data;
-                },
+        user() {
+            return this.$auth.user.data;
+        },
 
     },
 
     mounted() {
-    this.getProduct();
-    this.getChats();
+        this.getProduct();
+        this.getChats();
     },
 
 };
