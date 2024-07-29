@@ -272,24 +272,23 @@
                 <div class="container col-group">
                     <button class="like-btn" :class="{'active':product.like==1}"
                             @click="toggleLike(product, 'Product')"></button>
-                    <div class="price" v-if="product.type!=2">
+                    <div class="price">
                         <p :class="'label label' + product.type"> <!-- 삽니다 상태에서 buy 클래스 -->
                             {{ product.format_short_state }}
                         </p>
+
                         <div v-if="product.type == 1">
                             찾습니다
                         </div>
-                        <div v-else-if="product.offer_price ==0 && product.type!=2">
+                        <div v-else-if="product.type == 2">
+                            나눔합니다
+                        </div>
+                        <div v-else-if="product.offer_price == 1">
+                            가격협의
+                        </div>
+                        <div v-else>
                             {{ product.format_price }}
                         </div>
-
-
-                    </div>
-                    <div class="price" v-if="product.type==2">
-                        <p :class="'label label' + product.type"> <!-- 삽니다 상태에서 buy 클래스 -->
-                            {{ product.format_short_state }}
-                        </p>
-                        나눔합니다
                     </div>
                     <button type="button" class="chat-btn" @click.prevent="storeChat" v-if="user.id != product.user.id">
                         <!-- 다른 유저의 상품 확인 시 보이는 버튼 -->
