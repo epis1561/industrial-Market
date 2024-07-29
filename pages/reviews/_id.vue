@@ -107,7 +107,8 @@ export default {
                     })
         },
         goBack() {
-            // 현재 라우트의 전체 경로 가져오기
+            this.$router.back();
+            /*// 현재 라우트의 전체 경로 가져오기
             const currentRoute = this.$nuxt.$route.fullPath;
 
             // 이전 페이지 경로 가져오기
@@ -130,7 +131,7 @@ export default {
             // 현재 라우트를 sessionStorage에 저장 (클라이언트 사이드에서만)
             if (process.client) {
                 sessionStorage.setItem('lastRoute', currentRoute);
-            }
+            }*/
         }
 
 

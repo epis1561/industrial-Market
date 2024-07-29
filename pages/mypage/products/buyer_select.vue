@@ -183,7 +183,7 @@ export default {
             this.$store.commit("setLoading", true);
             this.form.patch("/api/products/updateStateTransaction/" + this.$route.query.id, {}).then(response => {
                 console.log('성공했습니다');
-                this.$router.push(`/mypage/products/indexBySell?id=${2}`)
+                this.$router.replace(`/mypage/products/indexBySell?id=${2}`)
             })
         },
         otherStore() {
@@ -191,7 +191,7 @@ export default {
             this.$store.commit("setLoading", true);
             this.form.patch("/api/products/updateStateTransaction/" + this.$route.query.id, {}).then(response => {
                 console.log('성공했습니다');
-                this.$router.push(`/products/${this.$route.query.id}`)
+                this.$router.replace(`/products/${this.$route.query.id}`)
             })
         },
 

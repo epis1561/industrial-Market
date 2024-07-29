@@ -196,7 +196,7 @@ export default {
                 if(this.good ==true){
                     this.isSuccess=true;
                     setTimeout(() => {
-                        this.$router.push(`/reviews/${response.data.id}`);
+                        this.$router.replace(`/reviews/${response.data.id}`);
                     }, 2500);
                 }
                 else{
