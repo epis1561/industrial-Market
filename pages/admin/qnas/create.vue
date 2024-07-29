@@ -18,7 +18,7 @@
                 <p class="item-default">
                     이미지 <span class="star">*</span>
                 </p>
-                <input-images :default="item && item.imgs ? [item.imgs] : []" comment="" @change="(data) => form.files = data" @removed="data => form.files_remove_ids = data" disabled />
+                <input-images :default="item && item.imgs ? item.imgs : []" comment="" @change="(data) => form.files = data" @removed="data => form.files_remove_ids = data" disabled />
             </div>
             <div class="form-item row-group">
                 <p class="item-default">
