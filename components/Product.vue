@@ -28,15 +28,16 @@
                 <p :class="'label label' + item.type" v-if="item.type !=0 && item.type==1">
                     {{ item.format_type }}
                 </p>
-                <p :class="'label label' + item.type" v-if="item.type ==2">
+                <p :class="'label label' + item.type" v-else-if="item.type ==2">
                     {{ item.format_short_type }}
                 </p>
-                <div v-if="item.offer_price ==0 && item.type!=2">
+                <div v-else-if="item.offer_price == 1">
+                    가격협의
+                </div>
+                <div v-else>
                     {{ item.format_price }}
                 </div>
-<!--                <div v-if="item.offer_price ==1 && item.type!=2">
-                    가격협의
-                </div>-->
+
             </div>
             <div class="prod-btn-wrap col-group">
                 <div class="prod-btn col-group">
