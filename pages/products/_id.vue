@@ -7,12 +7,8 @@
         <header id="header" class="detail-header" v-if="product" :class="{'active':isScroll, 'black':product.imgs.length  === 0}">
             <div class="container col-group">
                 <div class="sub-header-btn-wrap col-group">
-                    <a href="javascript:window.history.back();" class="sub-header-btn">
-                        <i class="xi-angle-left"></i>
-                    </a>
-                    <nuxt-link to="/" class="sub-header-btn">
-                        <i class="xi-home"></i>
-                    </nuxt-link>
+                    <a href="javascript:window.history.back();" class="sub-header-btn prev-btn"></a>
+                    <nuxt-link to="/" class="sub-header-btn home-btn"></nuxt-link>
                     <!--  인덱스로가는게 맞음. 일단 지금 인덱스는 로그인페이지라 놔두자.-->
                 </div>
                 <div class="sub-header-btn-wrap col-group">

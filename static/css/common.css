@@ -206,6 +206,14 @@ i { font-family: 'xeicon'; font-style: normal; }
 .detail-header.active .report-btn { background-image: url(../images/icon_report.png); }
 .detail-header .setting-btn { background-image: url(../images/icon_setting_white.png); }
 .detail-header.active .setting-btn { background-image: url(../images/icon_setting.png); }
+
+
+.detail-header.black .prev-btn { background-image: url(../images/icon_prev.png); }
+.detail-header.black .home-btn { background-image: url(../images/icon_home.png); }
+.detail-header.black .share-btn { background-image: url(../images/icon_share.png); }
+.detail-header.black .report-btn { background-image: url(../images/icon_report.png); }
+.detail-header.black .setting-btn { background-image: url(../images/icon_setting.png); }
+
 .detail-header.active .sub-header-btn i { color: #202020; }
 
 .form-item.row-group .categorybuttons{
