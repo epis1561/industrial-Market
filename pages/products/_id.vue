@@ -392,7 +392,7 @@
 
                 <div class="chat-more-option-wrap row-group">
                     <button class="chat-more-option col-group" v-if="product.state_transaction!=0"
-                            @click.prevent="changeTransaction(0),isSelect = false">
+                            @click.prevent="() => {changeTransaction(0); isSelect = false}">
                         <i class="icon"></i>
                         {{ product.format_short_type }}중
                     </button>
@@ -402,14 +402,14 @@
                         거래중
                     </button>
                     <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2 && product.type!=0"
-                       @click.prevent="changeTransaction(2),isSelect = false">
+                       @click.prevent="() => {changeTransaction(2); isSelect = false}">
                         <i class="icon"></i>
                         거래완료
                     </a>
                     <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2 && product.type==0"
-                       @click.prevent="changeTransaction(2),isSelect = false">
+                       @click.prevent="() => {changeTransaction(2); isSelect = false;}">
                         <i class="icon"></i>
-                        거래완료
+<!--                        거래완료-->
                         {{ product.format_short_type }}완료
                     </a>
                 </div>
