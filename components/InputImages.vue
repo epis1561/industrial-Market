@@ -214,7 +214,6 @@ export default {
 
                         if (length === countResize)
                             self.$emit("change", newFiles);
-                        console.log('디폴트뿌려진느거', newFiles);
                     };
 
                     images[index].src = readerEvent.target.result;
@@ -283,7 +282,6 @@ export default {
     },
 
     mounted() {
-        console.log('받은디폴트', this.defaultFiles);
     }
 }
 </script>

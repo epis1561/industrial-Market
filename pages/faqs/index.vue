@@ -102,12 +102,10 @@ export default {
                 if (loadMore) {
 
                     this.faqs.data = [...this.faqs.data, ...response.data.data];
-                    console.log(this.faqs.meta);
                     return this.faqs.meta = response.data.meta;
                 }
 
                 this.faqs = response.data;
-                console.log(this.faqs);
             })
         },
 
@@ -120,7 +118,6 @@ export default {
                 this.form.faq_category_id = null;
             }
             this.form.page=1;
-            console.log(this.form.page);
             this.loading = false;
           $('.subpage').scrollTop(0);
             return this.getFaqs(false)

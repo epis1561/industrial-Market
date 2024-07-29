@@ -113,7 +113,6 @@ export default {
             this.form.tags.splice(index, 1);
         },
         console(){
-            console.log(this.noticeCategories.data);
         }
     },
     computed:{
@@ -130,7 +129,6 @@ export default {
 
                     this.form.set({...this.form, ...this.item});
                      this.form.notice_category_id = this.form.noticeCategory.id;
-                    console.log(this.form);
                     this.loading = false;
 
                     $("html,body").scrollTop(0);

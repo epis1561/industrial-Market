@@ -52,16 +52,9 @@
                     <div class="detail-txt-wrap">
 
                         <!-- 본인의 상품 확인 시 보이는 섹션 -->
-                        <div class="detail-status-select col-group" v-if="this.$auth.user.data.id == product.user.id"
-                             @click="isSelect = true">
-                            <div class="txt" v-if="product.type==1 && product.format_short_state==='구매'">
-                                찾습니다
-                            </div>
-                            <div class="txt" v-if="product.type==1 && product.format_short_state!=='구매'">
-                                {{ product.format_short_state }}
-                            </div>
-                            <div class="txt" v-if="product.type!=1">
-                                {{ product.format_state }}
+                        <div class="detail-status-select col-group" v-if="this.$auth.user.data.id == product.user.id" @click="isSelect = true">
+                            <div class="txt">
+                                {{product.format_short_state}}
                             </div>
                             <i class="icon"></i>
                         </div>
@@ -281,12 +274,13 @@
                         <p :class="'label label' + product.type"> <!-- 삽니다 상태에서 buy 클래스 -->
                             {{ product.format_short_state }}
                         </p>
-                        <div v-if="product.offer_price ==0 && product.type!=2">
+                        <div v-if="product.type == 1">
+                            찾습니다
+                        </div>
+                        <div v-else-if="product.offer_price ==0 && product.type!=2">
                             {{ product.format_price }}
                         </div>
-                        <div v-if="product.offer_price ==1 && product.type!=2">
-                            가격협의
-                        </div>
+
 
                     </div>
                     <div class="price" v-if="product.type==2">
@@ -394,7 +388,10 @@
                     <button class="chat-more-option col-group" v-if="product.state_transaction!=0"
                             @click.prevent="() => {changeTransaction(0); isSelect = false}">
                         <i class="icon"></i>
-                        {{ product.format_short_type }}중
+<!--                        {{ product.format_short_type }}중-->
+                        <template v-if="product.type == 0">판매중</template>
+                        <template v-if="product.type == 1">찾는중</template>
+                        <template v-if="product.type == 2">나눔중</template>
                     </button>
                     <button class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=1"
                             @click="trading(1)">
@@ -404,7 +401,9 @@
                     <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2 && product.type!=0"
                        @click.prevent="() => {changeTransaction(2); isSelect = false}">
                         <i class="icon"></i>
-                        거래완료
+                        <template v-if="product.type == 0">판매완료</template>
+                        <template v-if="product.type == 1">구매완료</template>
+                        <template v-if="product.type == 2">나눔완료</template>
                     </a>
                     <a href="#" class="chat-more-option col-group trans-btn" v-if="product.state_transaction!=2 && product.type==0"
                        @click.prevent="() => {changeTransaction(2); isSelect = false;}">
@@ -616,7 +615,6 @@ export default {
 
 
                 this.product = response.data.data;
-                console.log('물건', this.product);
                 // this.form.product_category_id = response.data.data.product_category_id;
                 this.form.user_id = response.data.data.user.id;
                 this.form.likeable_id = response.data.data.like;

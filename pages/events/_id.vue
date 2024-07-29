@@ -83,7 +83,6 @@ export default {
             this.$store.commit("setLoading");
             this.$axios.get("/api/events/"+this.$route.params.id, {}).then(response => {
                 this.event = response.data.data;
-                console.log(this.event);
             })
         },
 

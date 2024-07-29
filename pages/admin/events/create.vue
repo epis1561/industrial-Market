@@ -110,7 +110,6 @@ export default {
             if(this.item)
             return this.form.post("/api/admin/events/" + this.item.id)
                     .then(response => {
-                        console.log('여기발동')
                         this.$router.push("/admin/events");
                     });
 

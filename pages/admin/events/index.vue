@@ -116,7 +116,6 @@ export default {
                 params: this.form.data()
             }).then(response => {
                 this.items = response.data;
-                console.log('결과',response.data);
             });
         },
 

@@ -127,7 +127,6 @@ export default {
                         this.item = response.data.data;
 
                         this.form.set({...this.form, ...this.item});
-                        console.log(this.form);
                         this.loading = false;
 
                         $("html,body").scrollTop(0);

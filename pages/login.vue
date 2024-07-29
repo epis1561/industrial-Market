@@ -144,7 +144,6 @@ export default {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
                     // 사용자의 정확한 위치 정보(latitude, longitude 등)을 얻을 수 있음
-                    console.log('성공');
                 },
                 error => {
                     console.error('Error fetching geolocation', error);

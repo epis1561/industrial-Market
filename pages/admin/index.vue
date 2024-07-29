@@ -317,7 +317,6 @@ export default {
             }).then(response => {
                 this.items = response.data;
                 this.chart();
-                console.log(this.items);
             });
         },
     },

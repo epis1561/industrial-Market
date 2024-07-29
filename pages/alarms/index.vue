@@ -107,12 +107,10 @@ export default {
 
                     this.alarms.data = [...this.alarms.data, ...response.data.data];
 
-                    console.log(this.alarms.data.length);
 
                     return this.alarms.meta = response.data.meta;
                 }
 
-                console.log(response.data);
 
                 return this.alarms = response.data;
             })

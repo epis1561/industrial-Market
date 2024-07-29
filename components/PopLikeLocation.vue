@@ -75,7 +75,6 @@ props:["active"],
     methods: {
         show(){
             if(this.selectedLocation=== "전국"){
-                console.log('발동');
                 this.$emit('showAll');
             }
             else if(this.selectedLocation === "내위치"){
@@ -96,7 +95,6 @@ props:["active"],
           this.$emit('close');
         },
         console(){
-            console.log(this.selectedLocation);
         }
 
 

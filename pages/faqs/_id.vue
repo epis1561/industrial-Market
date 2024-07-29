@@ -81,7 +81,6 @@ export default {
                 params: this.form.data(),
             }).then(response => {
                 this.faq = response.data.data;
-                console.log(this.faq);
             })
         },
 

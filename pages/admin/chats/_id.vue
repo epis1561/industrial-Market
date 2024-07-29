@@ -223,7 +223,6 @@ export default {
 
             this.$axios.get("/api/admin/chats/" + this.$route.params.id, {}).then(response => {
                 this.chat = response.data.data;
-                console.log('챗', this.chat)
             }).catch(error => {
                 return alert("삭제된 채팅입니다.");
             })
@@ -238,7 +237,6 @@ export default {
 
                 this.messages.data = response.data.data.reverse();
                 this.messages.meta = response.data.meta;
-                console.log('채팅배열', response.data);
                 this.$nextTick(() => {
                     this.detailSwiper();
                 });
@@ -316,7 +314,6 @@ export default {
                     });
                 }
             });
-            console.log('', flattened);
             return flattened;
         }
     }

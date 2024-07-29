@@ -101,7 +101,6 @@ export default {
             }).then(response => {
 
                 this.items = response.data;
-                console.log(this.items);
             });
         },
 

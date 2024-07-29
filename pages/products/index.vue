@@ -131,7 +131,6 @@ export default {
             if(this.$route.query.word){
                 this.form.word =  this.$route.query.word;
             }
-          console.log('페이지',this.form.page);
             this.loading = true;
             this.$store.commit("setLoading", true);
             this.$axios.get("/api/products", {
@@ -143,7 +142,6 @@ export default {
                     return this.products.meta = response.data.meta;
                 }
                 this.products = response.data;
-                console.log(this.products.meta);
 
             })
         },

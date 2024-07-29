@@ -105,7 +105,6 @@ export default {
                   return this.notices.meta = response.data.meta;
                 }
                 this.notices = response.data;
-                console.log(this.notices.meta);
             })
         },
 

@@ -476,7 +476,6 @@ export default {
 
             this.$axios.get("/api/chats/" + this.$route.params.id, {}).then(response => {
                 this.chat = response.data.data;
-                console.log(this.chat);
                 this.alarmForm.alarm = this.chat.alarm;
                 if (this.chat.alarm == 1) {
                     this.isAlarm = "알림끄기";
@@ -495,7 +494,6 @@ export default {
                 this.$auth.fetchUser();
 
                 this.messages.data = response.data.data.reverse();
-                console.log(this.messages.data);
                 this.messages.meta = response.data.meta;
                 this.$nextTick(() => {
                     this.scrollEnd();

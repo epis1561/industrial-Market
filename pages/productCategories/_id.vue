@@ -149,7 +149,6 @@ export default {
             $('.index').scroll(this.loadMore);
         },
         showAll(){
-            console.log('전국발동')
             this.form.county_id= "";
             this.form.price = this.min_price;
             this.county_title = "";
@@ -157,7 +156,6 @@ export default {
             this.getProducts();
         },
         showReal(){
-            console.log('현재위치발동')
             this.form.county_id = this.$auth.user.data.county.id;
             this.form.price = "";
             this.county_title = this.$auth.user.data.county.title;
@@ -166,7 +164,6 @@ export default {
             this.getProducts();
         },
         showPrefer(){
-            console.log('선호발동')
             this.form.county_id = this.$auth.user.data.activeCounty.id;
             this.form.price = "";
             this.county_title = this.$auth.user.data.activeCounty.title;

@@ -85,7 +85,6 @@ export default {
                     return this.events.meta = response.data.meta;
                 }
                 this.events = response.data;
-                console.log(this.events.data);
             })
         },
 

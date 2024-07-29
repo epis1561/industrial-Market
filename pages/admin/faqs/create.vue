@@ -127,7 +127,6 @@ export default {
 
                     this.form.set({...this.form, ...this.item});
                     this.form.faq_category_id=this.form.faqCategory.id
-                    console.log(this.form);
                     this.loading = false;
 
                     $("html,body").scrollTop(0);

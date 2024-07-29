@@ -98,8 +98,6 @@ export default {
         getLikeUsers(loadMore = false) {
             this.form.likeable_type = "User"
             this.loading = true;
-            console.log('언제발동');
-          console.log('페이지',this.form.page);
             this.$store.commit("setLoading", true);
 
             this.$axios.get("/api/likes", {
@@ -117,7 +115,6 @@ export default {
                 }
 
                 this.likeUsers = response.data;
-              console.log(this.likeProducts.meta);
             })
         },
         productList(){
@@ -131,14 +128,12 @@ export default {
         getLikeProducts(loadMore = false) {
             this.loading = true;
             this.$store.commit("setLoading", true);
-          console.log('페이지',this.form.page);
             this.$axios.get("/api/likes", {
                 params: {
                     ...this.form.data(),
                     likeable_type: "Product",
                 },
             }).then(response => {
-                console.log(response.data);
                 this.loading = false;
 
                 if (loadMore) {
@@ -147,15 +142,12 @@ export default {
                     return this.likeProducts.meta = response.data.meta;
                 }
                 this.likeProducts = response.data;
-                console.log(this.likeProducts.meta);
             })
         },
 
         removeProduct(id) {
             this.form.likeable_id = id;
             this.form.likeable_type = "Product";
-            console.log(this.form.likeable_id);
-            console.log(this.form.likeable_type);
             this.form.delete("/api/likes")
                     .then(response => {
                         this.likeProducts.data = this.likeProducts.data.filter(likeProduct => {
@@ -167,8 +159,6 @@ export default {
         removeUser(id) {
             this.form.likeable_id = id;
             this.form.likeable_type = "User";
-            console.log(this.form.likeable_id);
-            console.log(this.form.likeable_type);
             this.form.delete("/api/likes")
                     .then(response => {
                         this.likeUsers.data = this.likeUsers.data.filter(likeUser => {

@@ -34,9 +34,9 @@
                 <div v-if="item.offer_price ==0 && item.type!=2">
                     {{ item.format_price }}
                 </div>
-                <div v-if="item.offer_price ==1 && item.type!=2">
+<!--                <div v-if="item.offer_price ==1 && item.type!=2">
                     가격협의
-                </div>
+                </div>-->
             </div>
             <div class="prod-btn-wrap col-group">
                 <div class="prod-btn col-group">
