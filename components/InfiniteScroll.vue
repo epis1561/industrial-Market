@@ -19,7 +19,6 @@ export default {
 
     methods: {
         loadMore() {
-            console.log('스크롤발동')
             let scrollTop = $(this.targetScroll).scrollTop();
 
             let innerHeight = $(this.targetScroll).innerHeight();

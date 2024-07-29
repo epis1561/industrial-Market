@@ -188,6 +188,9 @@ i { font-family: 'xeicon'; font-style: normal; }
 
 /* prod-detail-header */
 .detail-header { height: 64px; padding-top: 24px; transition: .2s; border-bottom: 1px solid transparent; }
+.detail-header.black i {
+    color:#000 !important;
+}
 .detail-header.active { background: #fff; border-bottom: 1px solid #e4e4e4; }
 .detail-header .container { justify-content: space-between; }
 .detail-header .sub-header-btn-wrap { gap: 16px; }

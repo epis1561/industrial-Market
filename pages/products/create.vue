@@ -673,6 +673,10 @@ export default {
         },
         store() {
             this.ongoing = true;
+
+            if(!this.form.price)
+                this.form.price = 0;
+
             if (!this.form.title)
                 this.isTitleNull = true;
             if (this.ongoing == true) {
@@ -829,8 +833,9 @@ export default {
             let result = true;
 
             keys.some(key => {
-                if (exceptColumns.includes(key))
+                if (exceptColumns.includes(key)) {
                     return false;
+                }
 
                 if (Array.isArray(this.form[key]) && this.form[key].length === 0) {
                     result = false;

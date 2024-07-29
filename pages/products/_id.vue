@@ -4,11 +4,15 @@
     <div id="wrap">
 
         <!-- header Start -->
-        <header id="header" class="detail-header" v-if="product" :class="{'active':isScroll}">
+        <header id="header" class="detail-header" v-if="product" :class="{'active':isScroll, 'black':product.imgs.length  === 0}">
             <div class="container col-group">
                 <div class="sub-header-btn-wrap col-group">
-                    <a href="javascript:window.history.back();" class="sub-header-btn prev-btn"></a>
-                    <nuxt-link to="/" class="sub-header-btn home-btn"></nuxt-link>
+                    <a href="javascript:window.history.back();" class="sub-header-btn">
+                        <i class="xi-angle-left"></i>
+                    </a>
+                    <nuxt-link to="/" class="sub-header-btn">
+                        <i class="xi-home"></i>
+                    </nuxt-link>
                     <!--  인덱스로가는게 맞음. 일단 지금 인덱스는 로그인페이지라 놔두자.-->
                 </div>
                 <div class="sub-header-btn-wrap col-group">
@@ -27,7 +31,7 @@
 
         <main class="products_detail product" v-if="product">
             <div class="detail-img-wrap">
-                <div class="swiper detail-img-slide">
+                <div class="swiper detail-img-slide" v-if="product.imgs.length > 0">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide" v-for="img in product.imgs" :key="img.id" @click="openImg"
                              v-if="product.imgs.length!=0">
@@ -45,6 +49,8 @@
                     </div>
                     <div class="swiper-pagination detail-img-pagination"></div>
                 </div>
+
+                <div class="empty" style="width:100%; height:60px; content:''; background-color:#fff;" v-else></div>
             </div>
 
             <div class="product-detail-section-wrap row-group">
