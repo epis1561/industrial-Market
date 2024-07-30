@@ -50,7 +50,7 @@
                 <td class="admin-td">{{item.user.nickname}}</td>
                 <td class="admin-td">{{item.subtitle}}</td>
                 <td class="admin-td">{{item.title}}</td>
-                <td class="admin-td">{{item.format_created_at}}</td>
+                <td class="admin-td">{{item.created_at}}</td>
             </tr>
             </tbody>
         </table>

@@ -53,7 +53,7 @@
 .search-btn:hover { background: #606060; }
 
 .admin-wrap .btn-wrap { gap: 16px; align-items: center; }
-.admin-wrap .btn-wrap .btn { font-size: 14px; color: #1890ff; position: relative; }
+.admin-wrap .btn-wrap .btn { line-height:24px; font-size: 14px; color: #1890ff; position: relative; text-decoration: none; }
 .admin-wrap .btn-wrap .btn:not(:last-child)::after { content: ''; display: block; position: absolute; width: 1px; height: 12px; background: #1890ff; right: -8px; top: 50%; transform: translateY(-50%); }
 .admin-wrap .btn-wrap .btn:hover { text-decoration: underline; }
 
@@ -138,9 +138,7 @@
 .admin-tbody .admin-tr { border-bottom: 1px solid #e4e4e4; }
 .admin-td { padding: 16px 0; padding-left: 16px; font-size: 14px; text-align: left; word-break: break-all; }
 .admin-td input { display: unset; }
-.admin-td a {
-    text-decoration: underline; font-size:14px; color:blue;
-}
+
 
 .admin-td .order_wrap { display: inline-flex; gap: 4px; }
 .admin-td .order_wrap i { font-size: 24px; color: #a4a4a4; }
@@ -291,13 +289,13 @@ strong{font-weight: bold !important;}
     transform:translate(-50%, -50%);
 }
 .admin-product-img{
-    height: 150px;
+    height: 80px;
     background-repeat: no-repeat;
     background-position: unset;
     background-size: contain;
 }
 .admin-events-img{
-    height: 250px;
+    height: 80px;
     background-repeat: no-repeat;
     background-position: unset;
     background-size: contain;

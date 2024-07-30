@@ -36,6 +36,7 @@
                 <th class="admin-th">이메일</th>
                 <th class="admin-th">연락처</th>
                 <th class="admin-th">거주국</th>
+                <th class="admin-th"></th>
             </tr>
             </thead>
             <tbody class="admin-tbody">
@@ -46,7 +47,13 @@
                 <td class="admin-td">{{item.email}}</td>
                 <td class="admin-td">{{item.contact}}</td>
                 <td class="admin-td">{{item.country}}</td>
-
+                <td class="admin-td">
+                    <div class="btn-wrap col-group">
+                        <nuxt-link :to="`/admin/users/create?id=${item.id}`" class="btn">
+                            상세
+                        </nuxt-link>
+                    </div>
+                </td>
             </tr>
             </tbody>
         </table>

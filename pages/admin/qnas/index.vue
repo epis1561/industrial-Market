@@ -59,7 +59,7 @@
                     {{ item.title }}
                 </td>
 
-                <td class="admin-td">{{item.format_created_at}}</td>
+                <td class="admin-td">{{item.created_at}}</td>
 
                 <td class="admin-td">
                     <div class="btn-wrap col-group">

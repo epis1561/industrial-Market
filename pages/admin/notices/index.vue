@@ -60,7 +60,7 @@
                   {{item.title}}
                 </td>
 
-                <td class="admin-td">{{ item.format_created_at }}</td>
+                <td class="admin-td">{{ item.created_at }}</td>
                 <td class="admin-td">
                     <div class="btn-wrap col-group">
                         <nuxt-link :to="`/admin/notices/create?id=${item.id}`" class="btn">

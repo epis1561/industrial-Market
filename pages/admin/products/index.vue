@@ -41,39 +41,57 @@
                 <th class="admin-th">제품카테고리</th>
                 <th class="admin-th">제목</th>
                 <th class="admin-th">생성일자</th>
-              
+                <th class="admin-th"></th>
+
             </tr>
             </thead>
             <tbody class="admin-tbody">
             <tr class="admin-tr" v-for="item in items.data" :key="item.id">
                 <td class="admin-td">
-                    {{item.id}}
+                    {{ item.id }}
                 </td>
                 <td class="admin-td">
-                   {{ item.user.nickname }}
+                    {{ item.user.nickname }}
                 </td>
                 <td class="admin-td">
-                    <div class="m-img type01 admin-product-img" :style="`background-image:url(${item.img ? item.img.url : '/images/notification_icon_bg.png'})`"></div>
+                    <div class="m-img type01 admin-product-img"
+                         :style="`background-image:url(${item.img ? item.img.url : '/images/notification_icon_bg.png'})`"></div>
                 </td>
 
-                <td class="admin-td">{{item.productCategory.title}}</td>
+                <td class="admin-td">{{ item.productCategory.title }}</td>
 
-                <td class="admin-td">{{item.title}}</td>
+                <td class="admin-td">{{ item.title }}</td>
 
-              <td class="admin-td">{{item.format_created_at}}</td>
+                <td class="admin-td">{{ item.created_at }}</td>
+
+                <td class="admin-td">
+                    <div class="btn-wrap col-group">
+                        <nuxt-link :to="`/admin/products/create?id=${item.id}`" class="btn">
+                            상세
+                        </nuxt-link>
+
+                        <button type="button" class="btn del-btn" style="color:red;" @click="start(item)" v-if="item.stop == 1">
+                            재개
+                        </button>
+                        <button type="button" class="btn del-btn" style="color:red;" @click="stop(item)" v-else>
+                            중지
+                        </button>
+                    </div>
+                </td>
 
             </tr>
             </tbody>
         </table>
 
-        <empty v-if="items.data.length === 0" />
+        <empty v-if="items.data.length === 0"/>
 
-        <pagination :meta="items.meta" @paginate="(page) => {form.page = page; filter()}" />
+        <pagination :meta="items.meta" @paginate="(page) => {form.page = page; filter()}"/>
 
     </div>
 </template>
 <script>
 import Form from "@/utils/Form";
+
 export default {
     middleware: ["admin"],
     layout: "admin",
@@ -85,21 +103,21 @@ export default {
             items: {
                 data: [],
                 meta: {
-                    current_page:1,
-                    last_page:1
+                    current_page: 1,
+                    last_page: 1
                 }
             },
 
             form: new Form(this.$axios, {
                 page: 1,
                 word: "",
-                type:"",
+                type: "",
             }),
         }
     },
 
     methods: {
-        filter(){
+        filter() {
             this.$axios.get("/api/admin/products", {
                 params: this.form.data()
             }).then(response => {
@@ -107,41 +125,44 @@ export default {
             });
         },
 
-        remove(item){
+        remove(item) {
             let confirmed = window.confirm("정말로 삭제하시겠습니까?");
 
-            if(confirmed)
+            if (confirmed)
                 this.form.delete("/api/admin/products/" + item.id)
+                        .then(response => {
+                            this.items.data = this.items.data.filter(itemData => itemData.id != item.id);
+                        });
+        },
+
+        stop(item) {
+            this.$store.commit("setLoading", true);
+            this.form.patch("/api/admin/products/stop/" + item.id)
                     .then(response => {
-                        this.items.data = this.items.data.filter(itemData => itemData.id != item.id);
+                        this.items.data = this.items.data.map(itemData => {
+                            if(itemData.id == response.data.id)
+                                return response.data;
+
+                            return itemData;
+                        })
                     });
         },
 
-        up(item){
-            let index = this.items.data.indexOf(item);
+        start(item) {
+            this.$store.commit("setLoading", true);
+            this.form.patch("/api/admin/products/start/" + item.id)
+                    .then(response => {
+                        this.items.data = this.items.data.map(itemData => {
+                            if(itemData.id == response.data.id)
+                                return response.data;
 
-            const itemToMove = this.items.data.splice(index, 1)[0]; // Remove the item from the array
-
-            this.items.data.splice(index - 1, 0, itemToMove); // Insert the item one position ahead
-
-            this.form.patch("/api/admin/products/" + item.id + "/up");
+                            return itemData;
+                        })
+                    });
         },
-
-        down(item){
-            let index = this.items.data.indexOf(item);
-
-            const itemToMove = this.items.data.splice(index, 1)[0]; // Remove the item from the array
-
-            this.items.data.splice(index + 1, 0, itemToMove); // Insert the item one position ahead
-
-            this.form.patch("/api/admin/products/" + item.id + "/down");
-        }
     },
 
-    computed: {
-
-
-    },
+    computed: {},
 
     mounted() {
         this.filter();
