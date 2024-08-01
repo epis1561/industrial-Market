@@ -6,6 +6,7 @@ $(document).ready(function(){
         });
     };
     $('#pagination').load('/components/pagination.html');
+    $('#footer').load('/components/footer.html');
 
     //header - search
     $('#header .search-btn').click(function(){
