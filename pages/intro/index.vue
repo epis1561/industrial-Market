@@ -38,9 +38,9 @@
                         <p class="footer-txt">
                             사업자등록번호 : 264-88-03201
                         </p>
-<!--                        <p class="footer-txt">
-                            통신판매업신고번호 : 2015-경기시흥-789
-                        </p>-->
+                        <p class="footer-txt">
+                            통신판매업신고번호 : 제 2024-경기시흥-1863 호
+                        </p>
                     </div>
                     <div class="footer-txt-group col-group">
 <!--                        <p class="footer-txt">

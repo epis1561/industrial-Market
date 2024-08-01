@@ -46,6 +46,43 @@
 
 
         </main>
+
+        <div class="container">
+            <p class="footer-title">
+                주식회사 산업마켓
+            </p>
+            <div class="footer-txt-group row-group">
+                <p class="footer-txt">
+                    대표 : 안선숙
+                </p>
+                <div class="footer-txt col-group">
+                    <p class="default">
+                        주소 :
+                    </p>
+                    <p class="user">
+                        경기도 시흥시 서울대학로278번길 61, 448호
+                        <br/>(배곧동 서영베니스스퀘어)
+                    </p>
+                </div>
+                <p class="footer-txt">
+                    사업자등록번호 : 264-88-03201
+                </p>
+
+                <p class="footer-txt">
+                    TEL : 031-499-8899
+                </p>
+
+                <p class="footer-txt">
+                    통신판매업신고번호 : 제 2024-경기시흥-1863 호
+                </p>
+                <p class="footer-txt">
+                    E-mail : shkim@industrialmarket.biz
+                </p>
+            </div>
+            <p class="footer-copy-txt">
+                Copyright(C) 2024 Industrial Market Co.,Ltd.All rights reserved.
+            </p>
+        </div>
     </div>
 </template>
 <style>

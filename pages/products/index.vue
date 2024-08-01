@@ -10,30 +10,34 @@
                 </h1>
 
                 <div class="header-menu-wrap col-group">
-                    <nuxt-link to="/searches" class="sub-header-btn search-btn"> <img src="/images/icon_search.png" alt=""></nuxt-link>
-                    <nuxt-link to="/alarms" class="header-menu" :class="{'active':user.has_unread_alarm}"> <!-- 알림 갯수 1개 이상일 때 active 클래스 추가 -->
+                    <nuxt-link to="/searches" class="sub-header-btn search-btn">
+                        <img src="/images/icon_search.png" alt="">
+                    </nuxt-link>
+                    <nuxt-link to="/alarms" class="header-menu" :class="{'active':user.has_unread_alarm}">
+                        <!-- 알림 갯수 1개 이상일 때 active 클래스 추가 -->
                         <img src="/images/icon_bell.png" alt="">
                     </nuxt-link>
                 </div>
             </div>
         </header>
-      <header id="header" class="sub-header product" v-if="$route.query.word">
-        <form class="container">
-          <div class="search-top col-group">
-            <button type="button" class="sub-header-btn prev-btn" @click="$router.push('/')">
-              <img src="/images/icon_prev.png" alt="">
-            </button>
 
-            <div class="search-input-wrap">
-              <div class="search-category" v-if="productCategory">
-                {{ productCategory.title }}
-                <i class="del-btn" @click="delCategory()"></i>
-              </div>
-              <input type="text" class="search-input" v-model="$route.query.word ||''" disabled>
-            </div>
-          </div>
-        </form>
-      </header>
+        <header id="header" class="sub-header product" v-if="$route.query.word">
+            <form class="container">
+                <div class="search-top col-group">
+                    <button type="button" class="sub-header-btn prev-btn" @click="$router.push('/')">
+                        <img src="/images/icon_prev.png" alt="">
+                    </button>
+
+                    <div class="search-input-wrap">
+                        <div class="search-category" v-if="productCategory">
+                            {{ productCategory.title }}
+                            <i class="del-btn" @click="delCategory()"></i>
+                        </div>
+                        <input type="text" class="search-input" v-model="$route.query.word ||''" disabled>
+                    </div>
+                </div>
+            </form>
+        </header>
         <!-- header End -->
 
         <main class="index">
@@ -55,11 +59,12 @@
 
         <!-- gnb Start -->
 
-            <gnb :home="isHome" />
+        <gnb :home="isHome"/>
 
 
-
-        <infinite-scroll v-if="products.meta" :loading="loading" :form="form" :meta="products.meta" :target-contents="'.prod-list'" :target-scroll="'.index'" @paginate="(data) => {form.page = data; getProducts(true);}"/>
+        <infinite-scroll v-if="products.meta" :loading="loading" :form="form" :meta="products.meta"
+                         :target-contents="'.prod-list'" :target-scroll="'.index'"
+                         @paginate="(data) => {form.page = data; getProducts(true);}"/>
 
     </div>
 
@@ -73,7 +78,7 @@ import Form from "@/utils/Form";
 
 export default {
 
-    middleware:["user"],
+    middleware: ["user"],
 
     load: false,
     data() {
@@ -88,19 +93,19 @@ export default {
                 state_transaction: "",
                 random: "",
             }),
-          categoryForm: new Form(this.$axios,{
-            page:1,
-            product_category_id: this.$route.query.product_category_id || "",
-            county_id: "",
-            order_by: "created_at",
-            word: "",
-            user_id:"",
-            state_transaction: "",
-            random:"",
-            price:"",
-          }),
-          productCategory:"",
-          product_category_id:"",
+            categoryForm: new Form(this.$axios, {
+                page: 1,
+                product_category_id: this.$route.query.product_category_id || "",
+                county_id: "",
+                order_by: "created_at",
+                word: "",
+                user_id: "",
+                state_transaction: "",
+                random: "",
+                price: "",
+            }),
+            productCategory: "",
+            product_category_id: "",
             products: {
                 data: [],
                 meta: {
@@ -109,34 +114,35 @@ export default {
                 },
 
             },
-          productsCategories: {
-            data: [],
-          },
-            isHome:true,
-            loading:false,
+            productsCategories: {
+                data: [],
+            },
+            isHome: true,
+            loading: false,
         }
 
     },
 
     methods: {
-      getProductCategories() {
-        this.$axios.get("/api/productCategories", {
-          params: this.categoryForm.data(),
-        }).then(response => {
-          this.productsCategories = response.data;
-          this.productCategory = this.selectedCategory;
-        })
-      },
-        getProducts(loadMore=false) {
-            if(this.$route.query.word){
-                this.form.word =  this.$route.query.word;
+        getProductCategories() {
+            this.$axios.get("/api/productCategories", {
+                params: this.categoryForm.data(),
+            }).then(response => {
+                this.productsCategories = response.data;
+                this.productCategory = this.selectedCategory;
+            })
+        },
+        getProducts(loadMore = false) {
+            if (this.$route.query.word) {
+                this.form.word = this.$route.query.word;
             }
             this.loading = true;
             this.$store.commit("setLoading", true);
+
             this.$axios.get("/api/products", {
                 params: this.form.data(),
             }).then(response => {
-              this.loading = false;
+                this.loading = false;
                 if (loadMore) {
                     this.products.data = [...this.products.data, ...response.data.data];
                     return this.products.meta = response.data.meta;
@@ -150,21 +156,21 @@ export default {
     },
 
     computed: {
-        productCategories(){
+        productCategories() {
             return this.$store.state.productCategories;
         },
 
-        user(){
+        user() {
             return this.$auth.user.data;
         },
-      selectedCategory(){
-        return this.productsCategories.data.find(category => category.id == this.product_category_id);
-      },
+        selectedCategory() {
+            return this.productsCategories.data.find(category => category.id == this.product_category_id);
+        },
     },
 
     mounted() {
-      this.getProducts();
-      this.getProductCategories();
+        this.getProducts();
+        this.getProductCategories();
     },
 
 };
