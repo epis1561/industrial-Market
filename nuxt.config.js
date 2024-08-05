@@ -4,6 +4,7 @@ export default {
     target: "client",
     server: {
         port: process.env.PORT || 3025,
+        host: process.env.SITE_NAME || "industrialmarket.biz",
     },
     ssr: false,
     head: {
